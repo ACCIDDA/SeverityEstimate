@@ -18,12 +18,12 @@ jobs:
       - name: Build Documentation
         run: |
           library(roxygen2)
-          roxygen2::roxygenise()
+          roxygen2::roxygenize()
         shell: Rscript {0}
       - name: Check For Noncommitted Documentation
         run: |
           if [[ $( git status --porcelain ) ]]; then
-            echo "Please run roxygen2::roxygenise() and commit the changes."
+            echo "Please run roxygen2::roxygenize() and commit the changes."
             exit 1
           fi
       - name: Install SeverityEstimate
