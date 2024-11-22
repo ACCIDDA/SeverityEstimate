@@ -27,7 +27,12 @@ jobs:
             exit 1
           fi
       - name: Install SeverityEstimate
-        run: R CMD Install .
+        run: |
+          library(devtools)
+          library(renv)
+          renv::status()
+          devtools::install()
+        shell: Rscript {0}
       - name: Run Lintr
         run: |
           library(SeverityEstimate)
