@@ -1,0 +1,32 @@
+Package: SeverityEstimate
+Title: Bayesian Severity Estimation
+Version: 0.0.0.9000
+Authors@R: c(
+    person(
+      given="Timothy",
+      family="Willard",
+      email="twillard@unc.edu",
+      role=c("aut", "cre")
+    ),
+    person(
+      given="Justin",
+      family="Lessler",
+      email="jlessler@unc.edu",
+      role="aut"
+    ),
+    person(
+      given="ACCIDDA",
+      role=c("cph", "fnd")
+    )
+  )
+Description: Bayesian models for severity estimation analysis with the ability
+  to perform analysis by strata as well as incorporating information obtained
+  through active and passive surveillance. Work based on
+  <doi:10.1093/aje/kwv452>.
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+Depends:
+    R (>= 4.0.0)
