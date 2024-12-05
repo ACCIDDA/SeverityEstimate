@@ -19,6 +19,8 @@ Authors@R: c(
       role=c("cph", "fnd")
     )
   )
+Author: Timothy Willard [aut, cre], Justin Lessler [aut], ACCIDDA [cph, fnd]
+Maintainer: Timothy Willard <twillard@unc.edu>
 Description: Bayesian models for severity estimation analysis with the ability
   to perform analysis by strata as well as incorporating information obtained
   through active and passive surveillance. Work based on
