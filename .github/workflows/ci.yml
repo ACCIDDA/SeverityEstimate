@@ -41,6 +41,8 @@ jobs:
           LINTR_ERROR_ON_LINT: true
       - name: Run Tests
         run: |
+          library(renv)
+          renv::install("devtools")
           library(devtools)
           devtools::test(stop_on_failure=TRUE)
         shell: Rscript {0}
