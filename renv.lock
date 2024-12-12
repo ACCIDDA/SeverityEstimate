@@ -1153,7 +1153,7 @@
     },
     "testthat": {
       "Package": "testthat",
-      "Version": "3.2.1.1",
+      "Version": "3.2.2",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -1178,11 +1178,11 @@
         "waldo",
         "withr"
       ],
-      "Hash": "3f6e7e5e2220856ff865e4834766bf2b"
+      "Hash": "6773967afbe2f74c87021e72c1bb05c0"
     },
     "textshaping": {
       "Package": "textshaping",
-      "Version": "0.4.0",
+      "Version": "0.4.1",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -1191,7 +1191,7 @@
         "lifecycle",
         "systemfonts"
       ],
-      "Hash": "5142f8bc78ed3d819d26461b641627ce"
+      "Hash": "573e0d015b7fc3e555f83e254cad7533"
     },
     "tibble": {
       "Package": "tibble",
