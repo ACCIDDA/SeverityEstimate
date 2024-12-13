@@ -11,7 +11,11 @@
 #' These functions are named to mimic their stan equivalents.
 #'
 #' @keywords internal
-logit <- function(p) log(p / (1.0 - p))
+logit <- function(p) {
+  log(p / (1.0 - p))
+}
 
 #' @rdname logit
-inv_logit <- function(x) (1.0 / (1.0 + exp(-x)))
+inv_logit <- function(x) {
+  1.0 / (1.0 + exp(-x))
+}
