@@ -2,6 +2,8 @@
 % Please edit documentation in R/format_extract_data_frame.R
 \name{format_extract_data_frame}
 \alias{format_extract_data_frame}
+\alias{format_surveillance_data_frame}
+\alias{format_outcome_data_frame}
 \title{Format And Validate A Extract \code{data.frame}s}
 \usage{
 format_extract_data_frame(
@@ -11,6 +13,10 @@ format_extract_data_frame(
   level_converter = identity,
   case_insensitive_levels = TRUE
 )
+
+format_surveillance_data_frame(df)
+
+format_outcome_data_frame(df)
 }
 \arguments{
 \item{df}{A \code{data.frame} (or \code{data.frame} extending object like a \code{tibble})

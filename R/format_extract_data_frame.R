@@ -86,3 +86,41 @@ format_extract_data_frame <- function(
   # Done
   df
 }
+
+
+#' @rdname format_extract_data_frame
+#' @keywords internal
+format_surveillance_data_frame <- function(df) {
+  format_extract_data_frame(
+    df,
+    "surveillance",
+    list(c("active", "passive", "unknown"), c("a", "p", "u")),
+    level_converter = function(x) {
+      y <- substr(x, 1, 1)
+      ifelse(y == "u", "Unknown", ifelse(y == "a", "Active", "Passive"))
+    }
+  )
+}
+
+
+#' @rdname format_extract_data_frame
+#' @keywords internal
+format_outcome_data_frame <- function(df) {
+  format_extract_data_frame(
+    df,
+    "outcome",
+    list(c("asymptomatic", "death", "symptomatic"), c("a", "d", "s")),
+    level_converter = function(x) {
+      first_letter <- substr(x, 1, 1)
+      ifelse(
+        first_letter == "a",
+        "Asymptomatic",
+        ifelse(
+          first_letter == "d",
+          "Death",
+          "Symptomatic"
+        )
+      )
+    }
+  )
+}
