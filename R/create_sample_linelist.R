@@ -17,6 +17,10 @@
 #' presenting asymptomatically through passive surveillance.
 #' @param passive_symptomatic_detection The probability of detecting a case
 #' presenting symptomatically through passive surveillance.
+#' @param case_saturation_from The lower bound on rates to draw from when
+#' initializing case saturation along the population.
+#' @param case_saturation_to The upper bound on rates to draw from when
+#' initializing case saturation along the population.
 #' @param stochastic_case_saturation A single logical indicating if the case
 #' should be stochastic in time or not.
 #' point.
@@ -36,6 +40,8 @@ create_sample_linelist <- function(
     active_detection,
     passive_asymptomatic_detection,
     passive_symptomatic_detection,
+    case_saturation_from = 500.0,
+    case_saturation_to = 500.0,
     stochastic_case_saturation = FALSE,
     seed = 1L) {
   # Input validation
@@ -67,6 +73,8 @@ create_sample_linelist <- function(
   assert_probability(active_detection)
   assert_probability(passive_asymptomatic_detection)
   assert_probability(passive_symptomatic_detection)
+  checkmate::assert_number(case_saturation_from, lower = 0.0, finite = TRUE)
+  checkmate::assert_number(case_saturation_to, lower = 0.0, finite = TRUE)
   checkmate::assert_logical(
     stochastic_case_saturation, any.missing = FALSE, len = 1L
   )
@@ -96,7 +104,11 @@ create_sample_linelist <- function(
   # Populate these matrices
   case_saturation[1L, ] <- strata[, "population"] * rexp(
     nstrata,
-    rate = seq(from = 1000.0, to = 100.0, length.out = nstrata)
+    rate = seq(
+      from = case_saturation_from,
+      to = case_saturation_to,
+      length.out = nstrata
+    )
   )
   susceptible[1L, ] <- strata[, "population"] - case_saturation[1L, ]
   for (i in 2L:ntime) {

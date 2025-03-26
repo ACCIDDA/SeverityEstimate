@@ -10,6 +10,8 @@ create_sample_linelist(
   active_detection,
   passive_asymptomatic_detection,
   passive_symptomatic_detection,
+  case_saturation_from = 500,
+  case_saturation_to = 500,
   stochastic_case_saturation = FALSE,
   seed = 1L
 )
@@ -31,6 +33,12 @@ presenting asymptomatically through passive surveillance.}
 
 \item{passive_symptomatic_detection}{The probability of detecting a case
 presenting symptomatically through passive surveillance.}
+
+\item{case_saturation_from}{The lower bound on rates to draw from when
+initializing case saturation along the population.}
+
+\item{case_saturation_to}{The upper bound on rates to draw from when
+initializing case saturation along the population.}
 
 \item{stochastic_case_saturation}{A single logical indicating if the case
 should be stochastic in time or not.
