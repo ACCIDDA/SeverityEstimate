@@ -33,9 +33,7 @@ jobs:
           fi
       - name: Install SeverityEstimate
         run: |
-          library(renv)
-          renv::install(getwd())
-        shell: Rscript {0}
+          R CMD INSTALL .
       - name: Run Lintr
         run: |
           library(SeverityEstimate)
