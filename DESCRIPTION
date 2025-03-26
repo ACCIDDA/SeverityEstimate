@@ -32,6 +32,9 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Depends:
     checkmate,
+    fs,
+    jinjar,
+    rstan,
     R (>= 4.0.0)
 Suggests: 
     devtools,
@@ -40,3 +43,4 @@ Suggests:
     roxygen2,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+StagedInstall: no
