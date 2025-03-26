@@ -34,6 +34,7 @@ Depends:
     checkmate,
     fs,
     jinjar,
+    rstan,
     R (>= 4.0.0)
 Suggests: 
     devtools,
