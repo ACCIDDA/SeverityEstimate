@@ -1,7 +1,7 @@
 #' @importFrom jinjar jinjar_config
 #' @importFrom jinjar package_loader
 config <- jinjar::jinjar_config(
-  loader = jinjar::package_loader("SeverityEstimate")
+  loader = jinjar::package_loader("SeverityEstimate", "models")
 )
 
 
@@ -15,11 +15,15 @@ config <- jinjar::jinjar_config(
 #' @returns
 #' A rendered template as a single length character.
 #'
+#' @importFrom fs path
 #' @importFrom jinjar render
 #' @keywords internal
 render_template <- function(template, data = list()) {
   if (any(c(".x", ".config") %in% names(data))) {
     stop("The names '.x' and '.config' are not allowed in `data`.")
+  }
+  if (!inherits(template, "fs_path")) {
+    template <- fs::path(template)
   }
   data[[".x"]] <- template
   data[[".config"]] <- config
