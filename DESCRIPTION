@@ -31,9 +31,12 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Depends:
+    checkmate,
     R (>= 4.0.0)
 Suggests: 
+    devtools,
     lintr,
+    lobstr,
     roxygen2,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
