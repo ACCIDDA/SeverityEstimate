@@ -32,6 +32,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Depends:
     checkmate,
+    jinjar,
     R (>= 4.0.0)
 Suggests: 
     devtools,
