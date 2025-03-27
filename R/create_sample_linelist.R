@@ -33,6 +33,10 @@
 #' @importFrom checkmate assert
 #' @importFrom checkmate check_date
 #' @importFrom checkmate check_vector
+#' @importFrom stats rexp
+#' @importFrom stats rnorm
+#' @importFrom stats rpois
+#' @importFrom stats runif
 #' @export
 create_sample_linelist <- function(
     strata,
@@ -102,7 +106,7 @@ create_sample_linelist <- function(
   case_saturation <- matrix(nrow = ntime, ncol = nstrata)
 
   # Populate these matrices
-  case_saturation[1L, ] <- strata[, "population"] * rexp(
+  case_saturation[1L, ] <- strata[, "population"] * stats::rexp(
     nstrata,
     rate = seq(
       from = case_saturation_from,
@@ -113,7 +117,7 @@ create_sample_linelist <- function(
   susceptible[1L, ] <- strata[, "population"] - case_saturation[1L, ]
   for (i in 2L:ntime) {
     if (stochastic_case_saturation) {
-      case_saturation[i, ] <- rnorm(
+      case_saturation[i, ] <- stats::rnorm(
         nstrata,
         mean = case_saturation[i - 1, ],
         sd = 0.01 * case_saturation[i - 1, ]
@@ -126,7 +130,10 @@ create_sample_linelist <- function(
   }
 
   infections_active <- matrix(
-    data = rpois(ntime * nstrata, lambda = active_detection * case_saturation),
+    data = stats::rpois(
+      ntime * nstrata,
+      lambda = active_detection * case_saturation
+    ),
     nrow = ntime,
     ncol = nstrata,
     dimnames = list(
@@ -143,7 +150,10 @@ create_sample_linelist <- function(
   passive_lambda <- passive_lambda + (passive_symptomatic_detection * xi)
   passive_lambda <- (1.0 - active_detection) * passive_lambda
   infections_passive <- matrix(
-    data = rpois(ntime * nstrata, lambda = passive_lambda * case_saturation),
+    data = stats::rpois(
+      ntime * nstrata,
+      lambda = passive_lambda * case_saturation
+    ),
     nrow = ntime,
     ncol = nstrata,
     dimnames = list(
@@ -173,9 +183,13 @@ create_sample_linelist <- function(
     if (active_ij > 0L) {
       sir <- strata[x$j, "sir"]
       ifr <- strata[x$j, "ifr"]
-      outcome <- ifelse(runif(active_ij) < sir, "symptomatic", "asymptomatic")
       outcome <- ifelse(
-        outcome == "symptomatic" & runif(active_ij) < ifr, "death", outcome
+        stats::runif(active_ij) < sir, "symptomatic", "asymptomatic"
+      )
+      outcome <- ifelse(
+        outcome == "symptomatic" & stats::runif(active_ij) < ifr,
+        "death",
+        outcome
       )
       linelist_part <- rbind(linelist_part, data.frame(
         detection = rep_len("active", active_ij),
@@ -186,9 +200,13 @@ create_sample_linelist <- function(
     if (passive_ij > 0L) {
       sir <- passive_strata[x$j, "sir"]
       ifr <- passive_strata[x$j, "ifr"]
-      outcome <- ifelse(runif(passive_ij) < sir, "symptomatic", "asymptomatic")
       outcome <- ifelse(
-        outcome == "symptomatic" & runif(passive_ij) < ifr, "death", outcome
+        stats::runif(passive_ij) < sir, "symptomatic", "asymptomatic"
+      )
+      outcome <- ifelse(
+        outcome == "symptomatic" & stats::runif(passive_ij) < ifr,
+        "death",
+        outcome
       )
       linelist_part <- rbind(linelist_part, data.frame(
         detection = rep_len("passive", passive_ij),
