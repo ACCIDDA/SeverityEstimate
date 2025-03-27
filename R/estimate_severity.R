@@ -117,8 +117,8 @@ estimate_severity <- function(
     degrees_of_freedom >= 0L
   )
 
-  # Construct the incidents array
-  arrays <- incidents_population_arrays(
+  # Construct the incidence array
+  arrays <- incidence_population_arrays(
     linelist,
     population,
     time_period,
@@ -142,7 +142,7 @@ estimate_severity <- function(
   outcome_ind <- match(
     c("Asymptomatic", "Symptomatic", "Death"), outcome_df[, outcome]
   )
-  incidents_without_outcome <- rowSums(arrays$incidents, dims = 3L)
+  incidence_without_outcome <- rowSums(arrays$incidence, dims = 3L)
   active_ind <- which(
     arrays$linelist_ind[, "surveillance", drop = TRUE] == surveillance_ind[1L]
   )
@@ -153,8 +153,8 @@ estimate_severity <- function(
   data <- list(
     strata_groups = nrow(arrays$strata),
     time_groups = nrow(arrays$time_period),
-    I_passive = incidents_without_outcome[, , surveillance_ind[2L]],
-    I_active = incidents_without_outcome[, , surveillance_ind[1L]],
+    I_passive = incidence_without_outcome[, , surveillance_ind[2L]],
+    I_active = incidence_without_outcome[, , surveillance_ind[1L]],
     population = arrays$population,
     observed_active = length(active_ind),
     observed_passive = length(passive_ind),
@@ -194,7 +194,7 @@ estimate_severity <- function(
     "SeverityEstimateFit",
     model_fit = model_fit,
     population = arrays$population,
-    incidents = arrays$incidents,
+    incidence = arrays$incidence,
     time_period = arrays$time_period,
     strata = arrays$strata,
     surveillance = surveillance_df,

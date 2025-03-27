@@ -16,20 +16,20 @@ model.}
 \item{\code{population}}{The population data used in model fitting in array form with
 dimensions corresponding to 'time_period' and 'strata'.}
 
-\item{\code{incidents}}{The line list data used in model fitting in array form
-counting incidents with dimensions corresponding to 'time_period', 'strata',
+\item{\code{incidence}}{The line list data used in model fitting in array form
+counting incidence with dimensions corresponding to 'time_period', 'strata',
 'surveillance', and 'outcome'.}
 
 \item{\code{time_period}}{A data.frame with the variables describing the
-'time_period' dimensions of \code{population} and \code{incidents}.}
+'time_period' dimensions of \code{population} and \code{incidence}.}
 
 \item{\code{strata}}{A data.frame with the variables describing the 'strata'
-dimensions of \code{population} and \code{incidents}.}
+dimensions of \code{population} and \code{incidence}.}
 
 \item{\code{surveillance}}{A data.frame with the variables describing the
-'surveillance' dimension of \code{incidents}.}
+'surveillance' dimension of \code{incidence}.}
 
 \item{\code{outcome}}{A data.frame with the variables describing the 'outcome'
-dimension of \code{incidents}.}
+dimension of \code{incidence}.}
 }}
 

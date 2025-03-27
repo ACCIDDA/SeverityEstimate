@@ -10,9 +10,9 @@ data {
   int <lower=0> observed_passive;
 
   // *Matrices of data*
-  // The number of incidents detected through active surveillance
+  // The number of incidence detected through active surveillance
   int <lower=0> I_active[time_groups,strata_groups];
-  // The number of incidents detected through passive surveillance
+  // The number of incidence detected through passive surveillance
   int <lower=0> I_passive[time_groups,strata_groups];
   // The total population
   int <lower=0> population[strata_groups];

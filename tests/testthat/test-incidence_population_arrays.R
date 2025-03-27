@@ -14,7 +14,7 @@ test_that("Input Validation", {
 
   # Basic tests
   expect_error(
-    incidents_population_arrays(
+    incidence_population_arrays(
       linelist,
       population,
       "date",
@@ -31,7 +31,7 @@ test_that("Input Validation", {
     fixed = TRUE
   )
   expect_error(
-    incidents_population_arrays(
+    incidence_population_arrays(
       linelist,
       population,
       "week",
@@ -48,7 +48,7 @@ test_that("Input Validation", {
     fixed = TRUE
   )
   expect_error( # Specifically gets `population`
-    incidents_population_arrays(
+    incidence_population_arrays(
       linelist,
       population,
       "week",
@@ -65,7 +65,7 @@ test_that("Input Validation", {
     fixed = TRUE
   )
   expect_error(
-    incidents_population_arrays(
+    incidence_population_arrays(
       linelist,
       population,
       "week",
@@ -82,7 +82,7 @@ test_that("Input Validation", {
     fixed = TRUE
   )
   expect_error(
-    incidents_population_arrays(
+    incidence_population_arrays(
       linelist,
       population,
       "week",
@@ -99,7 +99,7 @@ test_that("Input Validation", {
     fixed = TRUE
   )
   expect_error(
-    incidents_population_arrays(
+    incidence_population_arrays(
       linelist,
       population,
       "week",
@@ -116,7 +116,7 @@ test_that("Input Validation", {
     fixed = TRUE
   )
   expect_error(
-    incidents_population_arrays(
+    incidence_population_arrays(
       linelist,
       population,
       "week",
@@ -149,7 +149,7 @@ test_that("Incidents Strata Variables Not Covered By Population", {
     total = c(2000L, 1950L)
   )
   expect_error(
-    incidents_population_arrays(
+    incidence_population_arrays(
       linelist,
       population,
       "week",
@@ -186,7 +186,7 @@ test_that("Output Validation", {
     sex = c("F", "M"),
     total = c(2000L, 1950L)
   )
-  output_arrays <- incidents_population_arrays(
+  output_arrays <- incidence_population_arrays(
     linelist,
     population_without_time,
     "week",
@@ -202,11 +202,11 @@ test_that("Output Validation", {
   expect_equal(
     names(output_arrays),
     c(
-      "incidents", "population", "time_period", "strata",
+      "incidence", "population", "time_period", "strata",
       "surveillance", "outcome", "linelist_ind"
     )
   )
-  expected_incidents <- array(
+  expected_incidence <- array(
     data = c(
       1L, 0L, 0L,
       0L, 0L, 0L,
@@ -229,7 +229,7 @@ test_that("Output Validation", {
       "outcome" = c("1", "2", "3")
     )
   )
-  expect_identical(output_arrays$incidents, expected_incidents)
+  expect_identical(output_arrays$incidence, expected_incidence)
   expected_population <- array(
     data = c(2000L, 1950L),
     dimnames = list("strata" = c("1", "2"))
@@ -264,7 +264,7 @@ test_that("Output Validation", {
     age_category = c("0-17", "0-17", "18+", "18+"),
     total = c(2000L, 1950L, 8000L, 7800L)
   )
-  output_arrays <- incidents_population_arrays(
+  output_arrays <- incidence_population_arrays(
     linelist,
     population,
     c("month", "day"),
@@ -280,11 +280,11 @@ test_that("Output Validation", {
   expect_equal(
     names(output_arrays),
     c(
-      "incidents", "population", "time_period", "strata",
+      "incidence", "population", "time_period", "strata",
       "surveillance", "outcome", "linelist_ind"
     )
   )
-  expected_incidents <- array(
+  expected_incidence <- array(
     data = c(
       # 1L, 0L, 0L, 0L, 1L,
       # 0L, 0L, 0L, 0L, 1L,
@@ -320,7 +320,7 @@ test_that("Output Validation", {
       "outcome" = c("1", "2")
     )
   )
-  expect_identical(output_arrays$incidents, expected_incidents)
+  expect_identical(output_arrays$incidence, expected_incidence)
   expected_population <- array(
     data = c(2000L, 8000L, 1950L, 7800L),
     dimnames = list("strata" = c("1", "2", "3", "4"))
@@ -375,7 +375,7 @@ test_that("Output Validation When Given Reference data.frames", {
   )
   time_period_reference <- data.frame(week = 1L:4L)
   strata_reference <- data.frame(sex = c("F", "M", "NA"))
-  output_arrays <- incidents_population_arrays(
+  output_arrays <- incidence_population_arrays(
     linelist,
     population_without_time,
     "week",
@@ -392,11 +392,11 @@ test_that("Output Validation When Given Reference data.frames", {
   expect_equal(
     names(output_arrays),
     c(
-      "incidents", "population", "time_period", "strata",
+      "incidence", "population", "time_period", "strata",
       "surveillance", "outcome", "linelist_ind"
     )
   )
-  expected_incidents <- array(
+  expected_incidence <- array(
     data = c(
       1L, 0L, 0L, 0L,
       0L, 0L, 0L, 0L,
@@ -425,7 +425,7 @@ test_that("Output Validation When Given Reference data.frames", {
       "outcome" = c("1", "2", "3")
     )
   )
-  expect_identical(output_arrays$incidents, expected_incidents)
+  expect_identical(output_arrays$incidence, expected_incidence)
   expected_population <- array(
     data = c(2000L, 1950L, 0L),
     dimnames = list("strata" = c("1", "2", "3"))

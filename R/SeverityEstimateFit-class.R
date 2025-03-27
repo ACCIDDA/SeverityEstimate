@@ -8,17 +8,17 @@
 #' model.
 #' @slot population The population data used in model fitting in array form with
 #' dimensions corresponding to 'time_period' and 'strata'.
-#' @slot incidents The line list data used in model fitting in array form
-#' counting incidents with dimensions corresponding to 'time_period', 'strata',
+#' @slot incidence The line list data used in model fitting in array form
+#' counting incidence with dimensions corresponding to 'time_period', 'strata',
 #' 'surveillance', and 'outcome'.
 #' @slot time_period A data.frame with the variables describing the
-#' 'time_period' dimensions of `population` and `incidents`.
+#' 'time_period' dimensions of `population` and `incidence`.
 #' @slot strata A data.frame with the variables describing the 'strata'
-#' dimensions of `population` and `incidents`.
+#' dimensions of `population` and `incidence`.
 #' @slot surveillance A data.frame with the variables describing the
-#' 'surveillance' dimension of `incidents`.
+#' 'surveillance' dimension of `incidence`.
 #' @slot outcome A data.frame with the variables describing the 'outcome'
-#' dimension of `incidents`.
+#' dimension of `incidence`.
 #'
 #' @importFrom methods setClass
 #' @export
@@ -28,7 +28,7 @@ setClass(
   slots = c(
     "model_fit" = "stanfit",
     "population" = "array",
-    "incidents" = "array",
+    "incidence" = "array",
     "time_period" = "data.frame",
     "strata" = "data.frame",
     "surveillance" = "data.frame",

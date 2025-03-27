@@ -1,7 +1,7 @@
-#' @title Convert Incidents And Populations To Like Shaped Arrays
+#' @title Convert Incidence And Populations To Like Shaped Arrays
 #'
 #' @description
-#' Create an incidents and population arrays that are compatible in shape from
+#' Create an incidence and population arrays that are compatible in shape from
 #' a data.frame like line list and population.
 #'
 #' @param linelist A line list to convert into an array.
@@ -24,9 +24,9 @@
 #' must be in `population`.
 #'
 #' @return
-#' A list with names 'incidents', 'population', 'time_period', 'strata',
+#' A list with names 'incidence', 'population', 'time_period', 'strata',
 #' 'surveillance', and 'outcome'. These named list elements correspond to:
-#' * `incidents`: A four dimensional array with the dimensions referring to
+#' * `incidence`: A four dimensional array with the dimensions referring to
 #' `time_period`, `strata`, `surveillance`, and `outcome`.
 #' * `population`: A one dimensional array with the dimensions referring to
 #' `strata`.
@@ -43,11 +43,11 @@
 #' indicate where each line list element corresponds to in each of those
 #' dimensions.
 #'
-#' The strata dimensions of `incidents` and `population` will be the same.
+#' The strata dimensions of `incidence` and `population` will be the same.
 #'
 #' @importFrom utils tail
 #' @keywords internal
-incidents_population_arrays <- function(
+incidence_population_arrays <- function(
   linelist,
   population,
   time_period,
@@ -143,14 +143,14 @@ incidents_population_arrays <- function(
     )
   }
 
-  # Build the `incidents` and `population` arrays
+  # Build the `incidence` and `population` arrays
   population <- construct_array_from_indices(
     population_strata_ind,
     target = population[, population_value],
     dim = nrow(extract_strata),
     dimnames = "strata"
   )
-  incidents <- construct_array_from_indices(
+  incidence <- construct_array_from_indices(
     linelist_time_period_ind,
     linelist_strata_ind,
     linelist_surveillance_ind,
@@ -178,7 +178,7 @@ incidents_population_arrays <- function(
 
   # Done
   list(
-    "incidents" = incidents,
+    "incidence" = incidence,
     "population" = population,
     "time_period" = extract_time_period,
     "strata" = extract_strata,

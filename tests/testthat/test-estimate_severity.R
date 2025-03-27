@@ -450,7 +450,7 @@ test_that("Output Validation", {
   expect_equal(
     slotNames(severity_est),
     c(
-      "model_fit", "population", "incidents", "time_period",
+      "model_fit", "population", "incidence", "time_period",
       "strata", "surveillance", "outcome"
     )
   )
@@ -460,7 +460,7 @@ test_that("Output Validation", {
     dimnames = list("strata" = seq_len(2))
   )
   expect_identical(severity_est@population, expected_population)
-  expected_incidents <- array(
+  expected_incidence <- array(
     data = c(
       2L, 1L, 1L,
       0L, 0L, 0L,
@@ -483,7 +483,7 @@ test_that("Output Validation", {
       "outcome" = seq_len(3L)
     )
   )
-  expect_identical(severity_est@incidents, expected_incidents)
+  expect_identical(severity_est@incidence, expected_incidence)
   expected_time_period <- data.frame(week = 1L:3L)
   expect_identical(severity_est@time_period, expected_time_period)
   expected_strata <- data.frame(sex = c("Female", "Male"))
@@ -524,7 +524,7 @@ test_that("Output Validation", {
   expect_equal(
     slotNames(severity_est),
     c(
-      "model_fit", "population", "incidents", "time_period",
+      "model_fit", "population", "incidence", "time_period",
       "strata", "surveillance", "outcome"
     )
   )
@@ -534,7 +534,7 @@ test_that("Output Validation", {
     dimnames = list("strata" = seq_len(3L))
   )
   expect_identical(severity_est@population, expected_population)
-  expected_incidents <- array(
+  expected_incidence <- array(
     data = c(
       0L, 2L, 1L, 1L, 0L,
       0L, 0L, 0L, 0L, 0L,
@@ -563,7 +563,7 @@ test_that("Output Validation", {
       "outcome" = seq_len(3L)
     )
   )
-  expect_identical(severity_est@incidents, expected_incidents)
+  expect_identical(severity_est@incidence, expected_incidence)
   expected_time_period <- data.frame(week = 0L:4L)
   expect_identical(severity_est@time_period, expected_time_period)
   expected_strata <- data.frame(sex = c("Female", "Male", "NA"))

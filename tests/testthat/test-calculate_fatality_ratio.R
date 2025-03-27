@@ -74,7 +74,7 @@ test_that("Output validation when given a list for `x`", {
     )
   )
   incident_entries <- time_steps * unique_strata * 3L * 3L
-  incidents <- array(
+  incidence <- array(
     data = rbinom(incident_entries, 1L, 0.1) * rpois(incident_entries, 20.0),
     dim = c(time_steps, unique_strata, 3L, 3L)
   )
@@ -118,7 +118,7 @@ test_that("Output validation when given a list for `x`", {
     strata,
     naive_estimate = TRUE,
     alpha = numeric(),
-    incidents = incidents,
+    incidence = incidence,
     outcome = outcome
   )
   expected_fatality_ratios <- strata
@@ -127,10 +127,10 @@ test_that("Output validation when given a list for `x`", {
   expected_fatality_ratios$sar_mean_estimate <- apply(x$xi, 2L, mean)
   expected_fatality_ratios$sar_median_estimate <- apply(x$xi, 2L, median)
   expected_fatality_ratios$naive_ifr <- (
-    apply(incidents[, , , 2L], 2L, sum) / apply(incidents, 2L, sum)
+    apply(incidence[, , , 2L], 2L, sum) / apply(incidence, 2L, sum)
   )
   expected_fatality_ratios$naive_sar <- (
-    apply(incidents[, , , 2L:3L], 2L, sum) / apply(incidents, 2L, sum)
+    apply(incidence[, , , 2L:3L], 2L, sum) / apply(incidence, 2L, sum)
   )
   expect_identical(fatality_ratios, expected_fatality_ratios)
 })
@@ -163,7 +163,7 @@ test_that("Output validation when given a list for `x` and missing outcomes", {
     )
   )
   incident_entries <- time_steps * unique_strata * 3L * 2L
-  incidents <- array(
+  incidence <- array(
     data = rbinom(incident_entries, 1L, 0.1) * rpois(incident_entries, 20.0),
     dim = c(time_steps, unique_strata, 3L, 2L)
   )
@@ -177,7 +177,7 @@ test_that("Output validation when given a list for `x` and missing outcomes", {
     strata,
     naive_estimate = TRUE,
     alpha = numeric(),
-    incidents = incidents,
+    incidence = incidence,
     outcome = outcome
   )
   expected_fatality_ratios <- strata
@@ -187,7 +187,7 @@ test_that("Output validation when given a list for `x` and missing outcomes", {
   expected_fatality_ratios$sar_median_estimate <- apply(x$xi, 2L, median)
   expected_fatality_ratios$naive_ifr <- rep.int(0.0, unique_strata)
   expected_fatality_ratios$naive_sar <- (
-    apply(incidents[, , , 2L], 2L, sum) / apply(incidents, 2L, sum)
+    apply(incidence[, , , 2L], 2L, sum) / apply(incidence, 2L, sum)
   )
   expect_identical(fatality_ratios, expected_fatality_ratios)
 
@@ -218,7 +218,7 @@ test_that("Output validation when given a list for `x` and missing outcomes", {
     )
   )
   incident_entries <- time_steps * unique_strata * 3L * 1L
-  incidents <- array(
+  incidence <- array(
     data = rbinom(incident_entries, 1L, 0.1) * rpois(incident_entries, 20.0),
     dim = c(time_steps, unique_strata, 3L, 1L)
   )
@@ -232,7 +232,7 @@ test_that("Output validation when given a list for `x` and missing outcomes", {
     strata,
     naive_estimate = TRUE,
     alpha = numeric(),
-    incidents = incidents,
+    incidence = incidence,
     outcome = outcome
   )
   expected_fatality_ratios <- strata

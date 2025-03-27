@@ -53,7 +53,7 @@ calculate_fatality_ratio.SeverityEstimateFit <- function(
     median_estimate = median_estimate,
     naive_estimate = naive_estimate,
     alpha = alpha,
-    incidents = x@incidents,
+    incidence = x@incidence,
     outcome = x@outcome,
     ...
   )
@@ -71,7 +71,7 @@ calculate_fatality_ratio.list <- function(
   median_estimate = TRUE,
   naive_estimate = FALSE,
   alpha = 0.05,
-  incidents = NULL,
+  incidence = NULL,
   outcome = NULL,
   ...
 ) {
@@ -120,22 +120,22 @@ calculate_fatality_ratio.list <- function(
 
   # Naive estimates branch
   if (naive_estimate) {
-    reduced_incidents <- apply(incidents, c(2L, 4L), sum)
-    total_incidents <- rowSums(reduced_incidents)
-    reduced_incidents <- cbind(
-      reduced_incidents,
-      rep.int(0L, nrow(reduced_incidents))
+    reduced_incidence <- apply(incidence, c(2L, 4L), sum)
+    total_incidence <- rowSums(reduced_incidence)
+    reduced_incidence <- cbind(
+      reduced_incidence,
+      rep.int(0L, nrow(reduced_incidence))
     )
     outcome_ind <- match(
       c("Death", "Symptomatic"),
       outcome[, 1L],
-      nomatch = ncol(reduced_incidents)
+      nomatch = ncol(reduced_incidence)
     )
     fatality_ratios$naive_ifr <- (
-      reduced_incidents[, outcome_ind[1L]] / total_incidents
+      reduced_incidence[, outcome_ind[1L]] / total_incidence
     )
     fatality_ratios$naive_sar <- (
-      rowSums(reduced_incidents[, outcome_ind]) / total_incidents
+      rowSums(reduced_incidence[, outcome_ind]) / total_incidence
     )
   }
 
