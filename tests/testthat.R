@@ -9,4 +9,6 @@
 library(testthat)
 library(SeverityEstimate)
 
+options(mc.cores = 1L)
+
 test_check("SeverityEstimate")
