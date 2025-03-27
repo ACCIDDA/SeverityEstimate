@@ -6,7 +6,7 @@ test_that("Renders stan model with no templating", {
 test_that("Renders stan model with templating", {
   output <- stan_model(
     "fizzbuzz.stan.j2",
-    data = list(mean_param = "mu"),
+    template_data = list(mean_param = "mu"),
     fun = rstan::stanc,
     verbose = FALSE
   )

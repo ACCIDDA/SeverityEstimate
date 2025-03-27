@@ -10,7 +10,7 @@ config <- jinjar::jinjar_config(
 #'
 #' @param template The name of the template to render, should match a file under
 #' the `inst/` directory.
-#' @param data The data to use when rendering the template.
+#' @param template_data The data to use when rendering the template.
 #'
 #' @returns
 #' A rendered template as a single length character.
@@ -18,14 +18,14 @@ config <- jinjar::jinjar_config(
 #' @importFrom fs path
 #' @importFrom jinjar render
 #' @keywords internal
-render_template <- function(template, data = list()) {
-  if (any(c(".x", ".config") %in% names(data))) {
-    stop("The names '.x' and '.config' are not allowed in `data`.")
+render_template <- function(template, template_data = list()) {
+  if (any(c(".x", ".config") %in% names(template_data))) {
+    stop("The names '.x' and '.config' are not allowed in `template_data`.")
   }
   if (!inherits(template, "fs_path")) {
     template <- fs::path(template)
   }
-  data[[".x"]] <- template
-  data[[".config"]] <- config
-  do.call(jinjar::render, data)
+  template_data[[".x"]] <- template
+  template_data[[".config"]] <- config
+  do.call(jinjar::render, template_data)
 }

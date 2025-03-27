@@ -4,13 +4,13 @@
 \alias{stan_model}
 \title{Run A Stan Model From A Template}
 \usage{
-stan_model(template, data = list(), fun = rstan::stan, ...)
+stan_model(template, template_data = list(), fun = rstan::stan, ...)
 }
 \arguments{
 \item{template}{The name of the template to render, should match a file under
 the \verb{inst/} directory.}
 
-\item{data}{The data to use when rendering the template.}
+\item{template_data}{The data to use when rendering the template.}
 
 \item{fun}{The function to call on the rendered template, typically one of
 \code{\link[rstan:stan]{rstan::stan()}} for live use and \code{\link[rstan:stanc]{rstan::stanc()}} for unit testing.}

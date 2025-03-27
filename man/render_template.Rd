@@ -4,13 +4,13 @@
 \alias{render_template}
 \title{Find And Render A Template}
 \usage{
-render_template(template, data = list())
+render_template(template, template_data = list())
 }
 \arguments{
 \item{template}{The name of the template to render, should match a file under
 the \verb{inst/} directory.}
 
-\item{data}{The data to use when rendering the template.}
+\item{template_data}{The data to use when rendering the template.}
 }
 \value{
 A rendered template as a single length character.
