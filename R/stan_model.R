@@ -11,9 +11,17 @@
 #'
 #' @importFrom rstan stan
 #' @keywords internal
-stan_model <- function(template, data = list(), fun = rstan::stan, ...) {
+stan_model <- function(
+  template,
+  template_data = list(),
+  fun = rstan::stan,
+  ...
+) {
   args <- list(...)
-  args[["model_code"]] <- render_template(template, data = data)
+  args[["model_code"]] <- render_template(
+    template,
+    template_data = template_data
+  )
   if (!"model_name" %in% names(args)) {
     args[["model_name"]] <- template
   }
