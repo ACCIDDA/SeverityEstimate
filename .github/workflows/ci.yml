@@ -19,6 +19,15 @@ jobs:
             echo "Please run roxygen2::roxygenize() and commit the changes."
             exit 1
           fi
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup R For SeverityEstimate
+        uses: ../.github/actions/setup-r
+      - name: Run Lintr
+        run: make lint
+        env:
+          LINTR_ERROR_ON_LINT: true
   ci-all:
     runs-on: ubuntu-latest
     steps:
@@ -36,14 +45,6 @@ jobs:
       - name: Install SeverityEstimate
         run: |
           R CMD INSTALL .
-      - name: Run Lintr
-        run: |
-          library(SeverityEstimate)
-          library(lintr)
-          lintr::lint_package()
-        shell: Rscript {0}
-        env:
-          LINTR_ERROR_ON_LINT: true
       - name: Run Tests
         run: |
           library(renv)
