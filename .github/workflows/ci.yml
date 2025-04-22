@@ -9,8 +9,10 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
       - name: Setup R For SeverityEstimate
-        uses: ./../.github/actions/setup-r
+        uses: ./.github/actions/setup-r
       - name: Build Roxygen  Documentation
         run: make docs
       - name: Check For Non-Committed Documentation
@@ -22,8 +24,10 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
       - name: Setup R For SeverityEstimate
-        uses: ./../.github/actions/setup-r
+        uses: ./.github/actions/setup-r
       - name: Run Lintr
         run: make lint
         env:
