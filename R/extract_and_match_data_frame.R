@@ -33,6 +33,8 @@ extract_and_match_data_frame <- function(
     extract_x <- extract_x[
       do.call(order, extract_x[, cols, drop = FALSE]), , drop = FALSE
     ]
+  } else if (nrow(extract_x)) {
+    extract_x <- extract_x[0, ]
   }
   rownames(extract_x) <- seq_len(nrow(extract_x))
   if (length(extract_x)) {
