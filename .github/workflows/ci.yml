@@ -6,6 +6,19 @@ on:
     branches: [main]
 
 jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup R For SeverityEstimate
+        uses: ../.github/actions/setup-r
+      - name: Build Roxygen  Documentation
+        run: make docs
+      - name: Check For Non-Committed Documentation
+        run: |
+          if [[ $( git status --porcelain ) ]]; then
+            echo "Please run roxygen2::roxygenize() and commit the changes."
+            exit 1
+          fi
   ci-all:
     runs-on: ubuntu-latest
     steps:
@@ -20,17 +33,6 @@ jobs:
           library(renv)
           renv::install(dependencies="most")
         shell: Rscript {0}
-      - name: Build Documentation
-        run: |
-          library(roxygen2)
-          roxygen2::roxygenize()
-        shell: Rscript {0}
-      - name: Check For Noncommitted Documentation
-        run: |
-          if [[ $( git status --porcelain ) ]]; then
-            echo "Please run roxygen2::roxygenize() and commit the changes."
-            exit 1
-          fi
       - name: Install SeverityEstimate
         run: |
           R CMD INSTALL .
