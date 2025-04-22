@@ -2,7 +2,9 @@ PKG := SeverityEstimate
 RM := rm -f
 RMDIR := rm -rf
 
-.PHONY: clean docs lint test test-fast renv-install renv-update renv-snapshot install remove check all
+.PHONY: all clean docs lint test test-fast renv-install renv-update renv-snapshot install remove check
+
+all: clean docs lint test
 
 clean:
 	$(RMDIR) ..Rcheck/
@@ -48,5 +50,3 @@ remove:
 
 check:
 	R CMD check . --no-manual --no-tests
-
-all: clean docs lint test
