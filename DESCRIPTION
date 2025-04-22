@@ -25,8 +25,7 @@ Description: Bayesian models for severity estimation analysis with the ability
   to perform analysis by strata as well as incorporating information obtained
   through active and passive surveillance. Work based on
   <doi:10.1093/aje/kwv452>.
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
