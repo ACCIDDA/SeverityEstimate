@@ -17,3 +17,38 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(SeverityEstimate)
 ```
+
+```{r sample data}
+strata <- do.call(rbind, lapply(list(
+  list(age = "youth",   ifr = 0.05, sir = 0.10, population = 1000L),
+  list(age = "adult",   ifr = 0.10, sir = 0.25, population = 2000L),
+  list(age = "senior",  ifr = 0.40, sir = 0.60, population = 1500L),
+  list(age = "elderly", ifr = 0.80, sir = 0.90, population = 500L)
+), as.data.frame))
+times <- seq(as.Date("2024-01-01"), as.Date("2024-04-01"), "+7 days")
+linelist <- SeverityEstimate::create_sample_linelist(
+  strata, times, 0.15, 0.05, 0.95
+)
+linelist
+```
+
+```{r fit model}
+estimate <- SeverityEstimate::estimate_severity(
+  linelist,
+  strata[, c("age", "population")],
+  "detection",
+  "outcome",
+  time_period = "time",
+  strata = "age",
+  time_period_reference = times,
+  strata_reference = strata[, "age"]
+)
+```
+
+```{r underlying parameters}
+SeverityEstimate::calculate_parameter_estimates(estimate, alpha = 0.05)
+```
+
+```{r severity estimates}
+SeverityEstimate::calculate_fatality_ratio(estimate)
+```
