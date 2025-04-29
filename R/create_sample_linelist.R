@@ -17,13 +17,11 @@
 #' presenting asymptomatically through passive surveillance.
 #' @param passive_symptomatic_detection The probability of detecting a case
 #' presenting symptomatically through passive surveillance.
-#' @param case_saturation_from The lower bound on rates to draw from when
-#' initializing case saturation along the population.
-#' @param case_saturation_to The upper bound on rates to draw from when
-#' initializing case saturation along the population.
-#' @param stochastic_case_saturation A single logical indicating if the case
-#' should be stochastic in time or not.
-#' point.
+#' @param force_of_infection A matrix representing the force of infection where
+#' the row dimension corresponds to the `times` given and the column dimension
+#' corresponds to the `strata` given or `NULL` to generate a random one.
+#' @param force_of_infection_mean The mean of the initial force of infection to
+#' use. Only used when `force_of_infection` is `NULL`.
 #' @param seed The random seed to use for generating the data set.
 #'
 #' @return
@@ -32,8 +30,9 @@
 #'
 #' @importFrom checkmate assert
 #' @importFrom checkmate check_date
+#' @importFrom checkmate check_matrix
+#' @importFrom checkmate check_null
 #' @importFrom checkmate check_vector
-#' @importFrom stats rexp
 #' @importFrom stats rnorm
 #' @importFrom stats rpois
 #' @importFrom stats runif
@@ -44,9 +43,8 @@ create_sample_linelist <- function(
     active_detection,
     passive_asymptomatic_detection,
     passive_symptomatic_detection,
-    case_saturation_from = 500.0,
-    case_saturation_to = 500.0,
-    stochastic_case_saturation = FALSE,
+    force_of_infection = NULL,
+    force_of_infection_mean = -5.0,
     seed = 1L) {
   # Input validation
   set.seed(seed = seed)
@@ -77,10 +75,15 @@ create_sample_linelist <- function(
   assert_probability(active_detection)
   assert_probability(passive_asymptomatic_detection)
   assert_probability(passive_symptomatic_detection)
-  checkmate::assert_number(case_saturation_from, lower = 0.0, finite = TRUE)
-  checkmate::assert_number(case_saturation_to, lower = 0.0, finite = TRUE)
-  checkmate::assert_logical(
-    stochastic_case_saturation, any.missing = FALSE, len = 1L
+  checkmate::assert(
+    checkmate::check_matrix(
+      force_of_infection,
+      mode = "numeric",
+      any.missing = FALSE,
+      nrows = length(times),
+      ncols = nrow(strata)
+    ),
+    checkmate::check_null(force_of_infection)
   )
 
   # Wrangle `strata`
@@ -99,127 +102,91 @@ create_sample_linelist <- function(
     )
   }
 
-  # Create our matrices
-  nstrata <- nrow(strata)
-  ntime <- length(times)
-  susceptible <- matrix(nrow = ntime, ncol = nstrata)
-  case_saturation <- matrix(nrow = ntime, ncol = nstrata)
+  # Calculate force of infection if not provided
+  if (is.null(force_of_infection)) {
+    force_of_infection <- matrix(nrow = length(times), ncol = nrow(strata))
+    for (i in seq_along(times)) {
+      if (i == 1L) {
+        force_of_infection[1, ] <- stats::rnorm(
+          nrow(strata), mean = force_of_infection_mean, sd = 1.0
+        )
+      } else {
+        force_of_infection[i, ] <- stats::rnorm(
+          nrow(strata),
+          mean = force_of_infection[i - 1L, ], sd = 1.0
+        )
+      }
+    }
+    force_of_infection <- inv_logit(force_of_infection)
+  }
 
-  # Populate these matrices
-  case_saturation[1L, ] <- strata[, "population"] * stats::rexp(
-    nstrata,
-    rate = seq(
-      from = case_saturation_from,
-      to = case_saturation_to,
-      length.out = nstrata
-    )
-  )
-  susceptible[1L, ] <- strata[, "population"] - case_saturation[1L, ]
-  for (i in 2L:ntime) {
-    if (stochastic_case_saturation) {
-      case_saturation[i, ] <- stats::rnorm(
-        nstrata,
-        mean = case_saturation[i - 1, ],
-        sd = 0.01 * case_saturation[i - 1, ]
-      )
-      susceptible[i, ] <- strata[, "population"] - case_saturation[i, ]
-    } else {
-      case_saturation[i, ] <- case_saturation[i - 1, ]
-      susceptible[i, ] <- case_saturation[i - 1, ]
+  # Calculate the observed incidences
+  incidence <- array(dim = c(length(times), 2L, nrow(strata)))
+  inv_active_detection <- 1.0 - active_detection
+  for (i in seq_along(times)) {
+    for (j in seq_len(nrow(strata))) {
+      saturation <- force_of_infection[i, j] * strata[1L, "population"]
+      sir <- strata[j, "sir"]
+      sym_lambda <- inv_active_detection *
+        ((passive_asymptomatic_detection * (1.0 - sir)) +
+           (passive_symptomatic_detection * sir))
+      incidence[i, 1L, j] <- stats::rpois(1L, active_detection * saturation)
+      incidence[i, 2L, j] <- stats::rpois(1L, sym_lambda * saturation)
     }
   }
 
-  infections_active <- matrix(
-    data = stats::rpois(
-      ntime * nstrata,
-      lambda = active_detection * case_saturation
-    ),
-    nrow = ntime,
-    ncol = nstrata,
-    dimnames = list(
-      1L:ntime,
-      1L:nstrata
-    )
-  )
-  xi <- matrix(
-    data = rep(strata[, "sir"], times = rep(ntime, nstrata)),
-    nrow = ntime,
-    ncol = nstrata
-  )
-  passive_lambda <- passive_asymptomatic_detection * (1.0 * xi)
-  passive_lambda <- passive_lambda + (passive_symptomatic_detection * xi)
-  passive_lambda <- (1.0 - active_detection) * passive_lambda
-  infections_passive <- matrix(
-    data = stats::rpois(
-      ntime * nstrata,
-      lambda = passive_lambda * case_saturation
-    ),
-    nrow = ntime,
-    ncol = nstrata,
-    dimnames = list(
-      1L:ntime,
-      1L:nstrata
-    )
-  )
-
-  # Unpack the observation matrices into a data.frame
-  passive_strata <- passive_from_active_strata(
-    strata,
-    active_detection,
-    passive_asymptomatic_detection,
-    passive_symptomatic_detection
-  )
+  # Create grid to loop over
   index_grid <- apply(
-    data.frame(
-      i = rep_len(1L:ntime, ntime * nstrata),
-      j = rep_len(1L:nstrata, ntime * nstrata)
+    expand.grid(
+      time_idx = seq_along(times),
+      strata_idx = seq_len(nrow(strata)),
+      detection_idx = c(1L, 2L),
+      KEEP.OUT.ATTRS = FALSE,
+      stringsAsFactors = FALSE
     ),
     1L,
     as.list
   )
+
+  # Create a linelist
   linelist <- do.call(rbind, lapply(index_grid, function(x) {
     linelist_part <- data.frame()
-    active_ij <- infections_active[x$i, x$j]
-    if (active_ij > 0L) {
-      sir <- strata[x$j, "sir"]
-      ifr <- strata[x$j, "ifr"]
-      outcome <- ifelse(
-        stats::runif(active_ij) < sir, "symptomatic", "asymptomatic"
-      )
-      outcome <- ifelse(
-        outcome == "symptomatic" & stats::runif(active_ij) < ifr,
-        "death",
-        outcome
-      )
-      linelist_part <- rbind(linelist_part, data.frame(
-        detection = rep_len("active", active_ij),
-        outcome = outcome
-      ))
+    obs_incidence <- incidence[x$time_idx, x$detection_idx, x$strata_idx]
+    if (obs_incidence == 0L) {
+      return(data.frame())
     }
-    passive_ij <- infections_passive[x$i, x$j]
-    if (passive_ij > 0L) {
-      sir <- passive_strata[x$j, "sir"]
-      ifr <- passive_strata[x$j, "ifr"]
-      outcome <- ifelse(
-        stats::runif(passive_ij) < sir, "symptomatic", "asymptomatic"
-      )
-      outcome <- ifelse(
-        outcome == "symptomatic" & stats::runif(passive_ij) < ifr,
-        "death",
-        outcome
-      )
-      linelist_part <- rbind(linelist_part, data.frame(
-        detection = rep_len("passive", passive_ij),
-        outcome = outcome
-      ))
+    obs_sir <- sir <- strata[x$strata_idx, "sir"]
+    obs_ifr <- ifr <- strata[x$strata_idx, "ifr"]
+    if (x$detection_idx == 2L) {
+      denom <- 1.0 -
+        ((1.0 - ifr) *
+           (1.0 - ((passive_asymptomatic_detection * (1.0 - sir)) +
+                     (passive_symptomatic_detection * sir))))
+      obs_sir <- (1.0 -
+                    ((1.0 - ifr) *
+                       (1.0 - (passive_symptomatic_detection * sir)))) / denom
+      obs_ifr <- ifr / denom
     }
-    if (nrow(linelist_part) == 0L) {
-      return(linelist_part)
-    }
-    linelist_part$time <- times[x$i]
-    linelist_part[, strata_cols] <- strata[x$j, strata_cols, drop = FALSE]
+    outcome <- ifelse(
+      stats::runif(obs_incidence) < obs_sir, "symptomatic", "asymptomatic"
+    )
+    outcome <- ifelse(
+      outcome == "symptomatic" & stats::runif(obs_incidence) < obs_ifr,
+      "death",
+      outcome
+    )
+    linelist_part <- data.frame(outcome = outcome)
+    linelist_part$detection <- ifelse(
+      x$detection_idx == 1L, "active", "passive"
+    )
+    linelist_part$time <- times[x$time_idx]
+    linelist_part[, strata_cols] <- strata[
+      x$strata_idx, strata_cols, drop = FALSE
+    ]
     linelist_part
   }))
+
+  # Linelist formatting
   linelist$patient <- paste0("UID", seq_len(nrow(linelist)))
   cols <- c("patient", "time", strata_cols, "detection", "outcome")
   linelist <- linelist[, cols]
