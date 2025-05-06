@@ -12,7 +12,7 @@ calculate_parameter_estimates(x, ...)
   x,
   mean_estimate = TRUE,
   median_estimate = TRUE,
-  alpha = numeric(),
+  alpha = 0.05,
   include_description = TRUE,
   ...
 )

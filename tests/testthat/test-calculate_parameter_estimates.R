@@ -94,7 +94,7 @@ test_that("Output validation when given a list for `x`", {
     )
   )
 
-  df1 <- calculate_parameter_estimates(x1)
+  df1 <- calculate_parameter_estimates(x1, alpha = numeric())
   expect_identical(df1, expected_df1)
 
   # Test two
