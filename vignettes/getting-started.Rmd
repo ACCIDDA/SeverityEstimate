@@ -20,13 +20,24 @@ library(SeverityEstimate)
 
 ```{r sample data}
 strata <- do.call(rbind, lapply(list(
-  list(age = "youth",   ifr = 0.05, sir = 0.10, population = 1000L),
-  list(age = "adult",   ifr = 0.20, sir = 0.25, population = 2000L),
-  list(age = "senior",  ifr = 0.50, sir = 0.55, population = 1500L)
+  list(age = "youth",   ifr = 0.05, sir = 0.10, population = 10000L),
+  list(age = "adult",   ifr = 0.20, sir = 0.25, population = 20000L),
+  list(age = "senior",  ifr = 0.50, sir = 0.55, population = 15000L)
 ), as.data.frame))
-times <- seq(as.Date("2024-01-01"), as.Date("2024-04-01"), "+7 days")
+times <- seq(as.Date("2024-01-01"), as.Date("2024-12-31"), "+7 days")
+force_of_infection <- matrix(
+  data = SeverityEstimate:::inv_logit(-5.5),
+  nrow = length(times),
+  ncol = nrow(strata)
+)
 linelist <- SeverityEstimate::create_sample_linelist(
-  strata, times, 0.15, 0.05, 0.95
+  strata,
+  times,
+  0.15,
+  0.05,
+  0.95,
+  force_of_infection = force_of_infection,
+  seed = 123L
 )
 linelist
 ```

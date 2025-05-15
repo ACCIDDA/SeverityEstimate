@@ -33,9 +33,9 @@
 #' @importFrom checkmate check_matrix
 #' @importFrom checkmate check_null
 #' @importFrom checkmate check_vector
+#' @importFrom stats rmultinom
 #' @importFrom stats rnorm
 #' @importFrom stats rpois
-#' @importFrom stats runif
 #' @export
 create_sample_linelist <- function(
     strata,
@@ -120,18 +120,37 @@ create_sample_linelist <- function(
     force_of_infection <- inv_logit(force_of_infection)
   }
 
+  # Calculate the susceptible/case saturation matrices
+  susceptible <- matrix(nrow = length(times), ncol = nrow(strata))
+  case_saturation <- matrix(nrow = length(times), ncol = nrow(strata))
+  for (i in seq_along(times)) {
+    for (j in seq_len(nrow(strata))) {
+      if (i == 1L) {
+        susceptible[1L, j] <- strata[j, "population"]
+        case_saturation[1L, j] <- strata[j, "population"] *
+          force_of_infection[1L, j]
+      } else {
+        susceptible[i, j] <- susceptible[i - 1L, j] - case_saturation[i - 1L, j]
+        case_saturation[i, j] <- susceptible[i, j] * force_of_infection[i, j]
+      }
+    }
+  }
+
   # Calculate the observed incidences
   incidence <- array(dim = c(length(times), 2L, nrow(strata)))
   inv_active_detection <- 1.0 - active_detection
   for (i in seq_along(times)) {
     for (j in seq_len(nrow(strata))) {
-      saturation <- force_of_infection[i, j] * strata[1L, "population"]
       sir <- strata[j, "sir"]
+      incidence[i, 1L, j] <- stats::rpois(
+        1L, active_detection * case_saturation[i, j]
+      )
       sym_lambda <- inv_active_detection *
         ((passive_asymptomatic_detection * (1.0 - sir)) +
            (passive_symptomatic_detection * sir))
-      incidence[i, 1L, j] <- stats::rpois(1L, active_detection * saturation)
-      incidence[i, 2L, j] <- stats::rpois(1L, sym_lambda * saturation)
+      incidence[i, 2L, j] <- stats::rpois(
+        1L, sym_lambda * case_saturation[i, j]
+      )
     }
   }
 
@@ -167,13 +186,13 @@ create_sample_linelist <- function(
                        (1.0 - (passive_symptomatic_detection * sir)))) / denom
       obs_ifr <- ifr / denom
     }
-    outcome <- ifelse(
-      stats::runif(obs_incidence) < obs_sir, "symptomatic", "asymptomatic"
-    )
-    outcome <- ifelse(
-      outcome == "symptomatic" & stats::runif(obs_incidence) < obs_ifr,
-      "death",
-      outcome
+    outcome <- rep(
+      c("asymptomatic", "symptomatic", "death"),
+      times = c(
+        stats::rmultinom(
+          1L, obs_incidence, c(1.0 - obs_sir, obs_sir - obs_ifr, obs_ifr)
+        )
+      )
     )
     linelist_part <- data.frame(outcome = outcome)
     linelist_part$detection <- ifelse(
