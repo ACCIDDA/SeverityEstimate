@@ -120,36 +120,30 @@ create_sample_linelist <- function(
     force_of_infection <- inv_logit(force_of_infection)
   }
 
-  # Calculate the susceptible/case saturation matrices
-  susceptible <- matrix(nrow = length(times), ncol = nrow(strata))
-  case_saturation <- matrix(nrow = length(times), ncol = nrow(strata))
-  for (i in seq_along(times)) {
-    for (j in seq_len(nrow(strata))) {
-      if (i == 1L) {
-        susceptible[1L, j] <- strata[j, "population"]
-        case_saturation[1L, j] <- strata[j, "population"] *
-          force_of_infection[1L, j]
-      } else {
-        susceptible[i, j] <- susceptible[i - 1L, j] - case_saturation[i - 1L, j]
-        case_saturation[i, j] <- susceptible[i, j] * force_of_infection[i, j]
-      }
-    }
-  }
+  # Calculate active/passive SIR/IFR
+  active_sir <- strata[, "sir"]
+  active_ifr <- strata[, "ifr"]
+  passive_lambda <- (passive_asymptomatic_detection * (1.0 - active_sir)) +
+    (passive_symptomatic_detection * active_sir)
+  denom <- 1.0 - ((1.0 - active_ifr) * (1.0 - passive_lambda))
+  passive_sir <- (1.0 -
+                    ((1.0 - active_ifr) *
+                       (1.0 - (passive_symptomatic_detection * active_sir)))) /
+    denom
+  passive_ifr <- active_ifr / denom
 
   # Calculate the observed incidences
   incidence <- array(dim = c(length(times), 2L, nrow(strata)))
-  inv_active_detection <- 1.0 - active_detection
   for (i in seq_along(times)) {
     for (j in seq_len(nrow(strata))) {
-      sir <- strata[j, "sir"]
       incidence[i, 1L, j] <- stats::rpois(
-        1L, active_detection * case_saturation[i, j]
+        1L,
+        active_detection * force_of_infection[i, j] * strata[j, "population"]
       )
-      sym_lambda <- inv_active_detection *
-        ((passive_asymptomatic_detection * (1.0 - sir)) +
-           (passive_symptomatic_detection * sir))
       incidence[i, 2L, j] <- stats::rpois(
-        1L, sym_lambda * case_saturation[i, j]
+        1L,
+        (1.0 -  active_detection) * passive_lambda *
+          force_of_infection[i, j] * strata[j, "population"]
       )
     }
   }
@@ -174,20 +168,15 @@ create_sample_linelist <- function(
     if (obs_incidence == 0L) {
       return(data.frame())
     }
-    obs_sir <- sir <- strata[x$strata_idx, "sir"]
-    obs_ifr <- ifr <- strata[x$strata_idx, "ifr"]
-    if (x$detection_idx == 2L) {
-      denom <- 1.0 -
-        ((1.0 - ifr) *
-           (1.0 - ((passive_asymptomatic_detection * (1.0 - sir)) +
-                     (passive_symptomatic_detection * sir))))
-      obs_sir <- (1.0 -
-                    ((1.0 - ifr) *
-                       (1.0 - (passive_symptomatic_detection * sir)))) / denom
-      obs_ifr <- ifr / denom
+    if (x$detection_idx == 1L) {
+      obs_sir <- active_sir[x$strata_idx]
+      obs_ifr <- active_ifr[x$strata_idx]
+    } else {
+      obs_sir <- passive_sir[x$strata_idx]
+      obs_ifr <- passive_ifr[x$strata_idx]
     }
     outcome <- rep(
-      c("asymptomatic", "symptomatic", "death"),
+      c("Asymptomatic", "Symptomatic", "Death"),
       times = c(
         stats::rmultinom(
           1L, obs_incidence, c(1.0 - obs_sir, obs_sir - obs_ifr, obs_ifr)
@@ -196,7 +185,7 @@ create_sample_linelist <- function(
     )
     linelist_part <- data.frame(outcome = outcome)
     linelist_part$detection <- ifelse(
-      x$detection_idx == 1L, "active", "passive"
+      x$detection_idx == 1L, "Active", "Passive"
     )
     linelist_part$time <- times[x$time_idx]
     linelist_part[, strata_cols] <- strata[

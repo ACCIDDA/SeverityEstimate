@@ -15,7 +15,8 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(SeverityEstimate)
+library(devtools)
+devtools::load_all()
 ```
 
 ```{r sample data}
@@ -24,7 +25,7 @@ strata <- do.call(rbind, lapply(list(
   list(age = "adult",   ifr = 0.20, sir = 0.25, population = 20000L),
   list(age = "senior",  ifr = 0.50, sir = 0.55, population = 15000L)
 ), as.data.frame))
-times <- seq(as.Date("2024-01-01"), as.Date("2024-12-31"), "+7 days")
+times <- seq(as.Date("2024-01-01"), as.Date("2024-3-31"), "+7 days")
 force_of_infection <- matrix(
   data = SeverityEstimate:::inv_logit(-5.5),
   nrow = length(times),
@@ -33,13 +34,13 @@ force_of_infection <- matrix(
 linelist <- SeverityEstimate::create_sample_linelist(
   strata,
   times,
-  0.15,
+  0.1,
   0.05,
   0.95,
   force_of_infection = force_of_infection,
   seed = 123L
 )
-linelist
+head(linelist)
 ```
 
 ```{r fit model}
@@ -51,7 +52,8 @@ estimate <- SeverityEstimate::estimate_severity(
   time_period = "time",
   strata = "age",
   time_period_reference = times,
-  strata_reference = strata[, "age"]
+  strata_reference = strata[, "age"],
+  surveillance_reference = c("Active", "Passive")
 )
 ```
 
