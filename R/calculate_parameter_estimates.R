@@ -48,7 +48,7 @@ calculate_parameter_estimates.SeverityEstimateFit <- function(
   x,
   mean_estimate = TRUE,
   median_estimate = TRUE,
-  alpha = numeric(),
+  alpha = 0.05,
   include_description = TRUE,
   ...
 ) {
@@ -70,7 +70,7 @@ calculate_parameter_estimates.list <- function(
   x,
   mean_estimate = TRUE,
   median_estimate = TRUE,
-  alpha = numeric(),
+  alpha = 0.05,
   include_description = TRUE,
   ...
 ) {

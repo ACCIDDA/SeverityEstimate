@@ -1,0 +1,75 @@
+---
+title: "getting-started"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{getting-started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+options(mc.cores = 1L)
+library(devtools)
+devtools::load_all()
+```
+
+```{r sample data}
+strata <- do.call(rbind, lapply(list(
+  list(age = "youth",  ifr = 0.25, sir = 0.50, population = 10000L),
+  list(age = "adult",  ifr = 0.30, sir = 0.65, population = 20000L),
+  list(age = "senior", ifr = 0.35, sir = 0.80, population = 5000L)
+), as.data.frame))
+times <- seq(as.Date("2024-01-01"), as.Date("2024-3-31"), "+7 days")
+force_of_infection <- matrix(
+  data = 0.004, nrow = length(times), ncol = nrow(strata)
+)
+linelist <- SeverityEstimate::create_sample_linelist(
+  strata,
+  times,
+  0.15,
+  0.05,
+  0.95,
+  force_of_infection = force_of_infection,
+  seed = 123L
+)
+head(linelist, n = 20L)
+```
+
+```{r sample data summary}
+summary(linelist)
+```
+
+```{r fit model}
+estimate <- SeverityEstimate::estimate_severity(
+  linelist,
+  strata[, c("age", "population")],
+  "detection",
+  "outcome",
+  time_period = "time",
+  strata = "age",
+  time_period_reference = times,
+  strata_reference = strata[, "age"],
+  surveillance_reference = c("Active", "Passive"),
+  # Stan parameters
+  chains = 2L,
+  iter = 2000L
+)
+```
+
+```{r underlying parameters}
+SeverityEstimate::calculate_parameter_estimates(estimate, alpha = 0.05)
+```
+
+```{r severity estimates}
+ratios <- SeverityEstimate::calculate_fatality_ratio(
+  estimate, median_estimate = FALSE, naive_estimate = TRUE
+)
+ratios[match(c("youth", "adult", "senior"), ratios$age), ]
+```

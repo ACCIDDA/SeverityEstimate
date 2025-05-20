@@ -38,9 +38,12 @@ Depends:
     R (>= 4.0.0)
 Suggests: 
     devtools,
+    knitr,
     lintr,
     lobstr,
+    rmarkdown,
     roxygen2,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 StagedInstall: no
+VignetteBuilder: knitr

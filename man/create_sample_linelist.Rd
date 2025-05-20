@@ -10,9 +10,8 @@ create_sample_linelist(
   active_detection,
   passive_asymptomatic_detection,
   passive_symptomatic_detection,
-  case_saturation_from = 500,
-  case_saturation_to = 500,
-  stochastic_case_saturation = FALSE,
+  force_of_infection = NULL,
+  force_of_infection_mean = -5,
   seed = 1L
 )
 }
@@ -34,15 +33,12 @@ presenting asymptomatically through passive surveillance.}
 \item{passive_symptomatic_detection}{The probability of detecting a case
 presenting symptomatically through passive surveillance.}
 
-\item{case_saturation_from}{The lower bound on rates to draw from when
-initializing case saturation along the population.}
+\item{force_of_infection}{A matrix representing the force of infection where
+the row dimension corresponds to the \code{times} given and the column dimension
+corresponds to the \code{strata} given or \code{NULL} to generate a random one.}
 
-\item{case_saturation_to}{The upper bound on rates to draw from when
-initializing case saturation along the population.}
-
-\item{stochastic_case_saturation}{A single logical indicating if the case
-should be stochastic in time or not.
-point.}
+\item{force_of_infection_mean}{The mean of the initial force of infection to
+use. Only used when \code{force_of_infection} is \code{NULL}.}
 
 \item{seed}{The random seed to use for generating the data set.}
 }

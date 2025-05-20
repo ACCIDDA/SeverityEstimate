@@ -3,16 +3,15 @@ test_that("Generate a small non-stochastic sample with age covariate", {
   strata <- data.frame(
     age = c("youth", "adult", "elderly"),
     population = c(3000, 30000, 6000),
-    sir = c(0.05, 0.39, 0.88),
-    ifr = c(0.11, 0.17, 0.79)
+    sir = c(0.1, 0.4, 0.7),
+    ifr = c(0.1, 0.2, 0.3)
   )
   times <- seq(
     from = as.Date("2024-01-01"), to = as.Date("2024-01-31"), by = "+1 day"
   )
-  active_detection <- 0.122
-  passive_asymptomatic_detection <- 0.018
-  passive_symptomatic_detection <- 0.956
-  stochastic_case_saturation <- FALSE
+  active_detection <- 0.15
+  passive_asymptomatic_detection <- 0.05
+  passive_symptomatic_detection <- 0.95
   seed <- 123L
 
   # Call the sampler
@@ -22,7 +21,6 @@ test_that("Generate a small non-stochastic sample with age covariate", {
     active_detection,
     passive_asymptomatic_detection,
     passive_symptomatic_detection,
-    stochastic_case_saturation = FALSE,
     seed = seed
   )
 
