@@ -121,31 +121,23 @@ create_sample_linelist <- function(
   }
 
   # Calculate active/passive SIR/IFR
-  active_sir <- strata[, "sir"]
-  active_ifr <- strata[, "ifr"]
-  passive_lambda <- (passive_asymptomatic_detection * (1.0 - active_sir)) +
-    (passive_symptomatic_detection * active_sir)
-  denom <- 1.0 - ((1.0 - active_ifr) * (1.0 - passive_lambda))
-  passive_sir <- (1.0 -
-                    ((1.0 - active_ifr) *
-                       (1.0 - (passive_symptomatic_detection * active_sir)))) /
-    denom
-  passive_ifr <- active_ifr / denom
+  strata <- calculate_observed_ifr_sir(
+    strata,
+    passive_asymptomatic_detection,
+    passive_symptomatic_detection
+  )
 
   # Calculate the observed incidences
   incidence <- array(dim = c(length(times), 2L, nrow(strata)))
   for (i in seq_along(times)) {
-    for (j in seq_len(nrow(strata))) {
-      incidence[i, 1L, j] <- stats::rpois(
-        1L,
-        active_detection * force_of_infection[i, j] * strata[j, "population"]
-      )
-      incidence[i, 2L, j] <- stats::rpois(
-        1L,
-        (1.0 -  active_detection) * passive_lambda *
-          force_of_infection[i, j] * strata[j, "population"]
-      )
-    }
+    incidence[i, 1L, ] <- stats::rpois(
+      1L, active_detection * force_of_infection[i, ] * strata[, "population"]
+    )
+    incidence[i, 2L, ] <- stats::rpois(
+      1L,
+      (1.0 -  active_detection) * strata[, "theta"] *
+        force_of_infection[i, ] * strata[, "population"]
+    )
   }
 
   # Create grid to loop over
@@ -168,13 +160,9 @@ create_sample_linelist <- function(
     if (obs_incidence == 0L) {
       return(data.frame())
     }
-    if (x$detection_idx == 1L) {
-      obs_sir <- active_sir[x$strata_idx]
-      obs_ifr <- active_ifr[x$strata_idx]
-    } else {
-      obs_sir <- passive_sir[x$strata_idx]
-      obs_ifr <- passive_ifr[x$strata_idx]
-    }
+    obs_type <- ifelse(x$detection_idx == 1L, "active", "passive")
+    obs_sir <- strata[x$strata_idx, paste0(obs_type, "_sir")]
+    obs_ifr <- strata[x$strata_idx, paste0(obs_type, "_ifr")]
     outcome <- rep(
       c("Asymptomatic", "Symptomatic", "Death"),
       times = c(

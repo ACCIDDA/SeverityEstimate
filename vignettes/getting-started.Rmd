@@ -21,9 +21,9 @@ devtools::load_all()
 
 ```{r sample data}
 strata <- do.call(rbind, lapply(list(
-  list(age = "youth",   ifr = 0.05, sir = 0.10, population = 10000L),
-  list(age = "adult",   ifr = 0.20, sir = 0.25, population = 20000L),
-  list(age = "senior",  ifr = 0.50, sir = 0.55, population = 15000L)
+  list(age = "youth",  ifr = 0.25, sir = 0.50, population = 10000L),
+  list(age = "adult",  ifr = 0.30, sir = 0.65, population = 20000L),
+  list(age = "senior", ifr = 0.35, sir = 0.80, population = 5000L)
 ), as.data.frame))
 times <- seq(as.Date("2024-01-01"), as.Date("2024-3-31"), "+7 days")
 force_of_infection <- matrix(
@@ -34,13 +34,13 @@ force_of_infection <- matrix(
 linelist <- SeverityEstimate::create_sample_linelist(
   strata,
   times,
-  0.1,
+  0.15,
   0.05,
   0.95,
   force_of_infection = force_of_infection,
   seed = 123L
 )
-head(linelist)
+summary(linelist)
 ```
 
 ```{r fit model}
@@ -53,7 +53,10 @@ estimate <- SeverityEstimate::estimate_severity(
   strata = "age",
   time_period_reference = times,
   strata_reference = strata[, "age"],
-  surveillance_reference = c("Active", "Passive")
+  surveillance_reference = c("Active", "Passive"),
+  # Stan parameters
+  chains = 4L,
+  iter = 2000L
 )
 ```
 
