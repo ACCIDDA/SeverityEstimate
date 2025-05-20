@@ -82,13 +82,13 @@ test_that("Output validation when given a list for `x`", {
     patient_status = c("Asymptomatic", "Death", "Symptomatic")
   )
 
-  # Basic test, just mean/median IFR/SAR estimates
+  # Basic test, just mean/median IFR/SIR estimates
   fatality_ratios <- calculate_fatality_ratio(x, strata, alpha = numeric())
   expected_fatality_ratios <- strata
   expected_fatality_ratios$ifr_mean_estimate <- apply(x$mortality, 2L, mean)
   expected_fatality_ratios$ifr_median_estimate <- apply(x$mortality, 2L, median)
-  expected_fatality_ratios$sar_mean_estimate <- apply(x$xi, 2L, mean)
-  expected_fatality_ratios$sar_median_estimate <- apply(x$xi, 2L, median)
+  expected_fatality_ratios$sir_mean_estimate <- apply(x$xi, 2L, mean)
+  expected_fatality_ratios$sir_median_estimate <- apply(x$xi, 2L, median)
   expect_identical(fatality_ratios, expected_fatality_ratios)
 
   # Expanded test with intervals
@@ -102,12 +102,12 @@ test_that("Output validation when given a list for `x`", {
   expected_fatality_ratios$ifr_upper_05 <- apply(
     x$mortality, 2L, stats::quantile, probs = 0.975, names = FALSE
   )
-  expected_fatality_ratios$sar_mean_estimate <- apply(x$xi, 2L, mean)
-  expected_fatality_ratios$sar_median_estimate <- apply(x$xi, 2L, median)
-  expected_fatality_ratios$sar_lower_05 <- apply(
+  expected_fatality_ratios$sir_mean_estimate <- apply(x$xi, 2L, mean)
+  expected_fatality_ratios$sir_median_estimate <- apply(x$xi, 2L, median)
+  expected_fatality_ratios$sir_lower_05 <- apply(
     x$xi, 2L, stats::quantile, probs = 0.025, names = FALSE
   )
-  expected_fatality_ratios$sar_upper_05 <- apply(
+  expected_fatality_ratios$sir_upper_05 <- apply(
     x$xi, 2L, stats::quantile, probs = 0.975, names = FALSE
   )
   expect_identical(fatality_ratios, expected_fatality_ratios)
@@ -124,12 +124,12 @@ test_that("Output validation when given a list for `x`", {
   expected_fatality_ratios <- strata
   expected_fatality_ratios$ifr_mean_estimate <- apply(x$mortality, 2L, mean)
   expected_fatality_ratios$ifr_median_estimate <- apply(x$mortality, 2L, median)
-  expected_fatality_ratios$sar_mean_estimate <- apply(x$xi, 2L, mean)
-  expected_fatality_ratios$sar_median_estimate <- apply(x$xi, 2L, median)
+  expected_fatality_ratios$sir_mean_estimate <- apply(x$xi, 2L, mean)
+  expected_fatality_ratios$sir_median_estimate <- apply(x$xi, 2L, median)
   expected_fatality_ratios$naive_ifr <- (
     apply(incidence[, , , 2L], 2L, sum) / apply(incidence, 2L, sum)
   )
-  expected_fatality_ratios$naive_sar <- (
+  expected_fatality_ratios$naive_sir <- (
     apply(incidence[, , , 2L:3L], 2L, sum) / apply(incidence, 2L, sum)
   )
   expect_identical(fatality_ratios, expected_fatality_ratios)
@@ -183,10 +183,10 @@ test_that("Output validation when given a list for `x` and missing outcomes", {
   expected_fatality_ratios <- strata
   expected_fatality_ratios$ifr_mean_estimate <- apply(x$mortality, 2L, mean)
   expected_fatality_ratios$ifr_median_estimate <- apply(x$mortality, 2L, median)
-  expected_fatality_ratios$sar_mean_estimate <- apply(x$xi, 2L, mean)
-  expected_fatality_ratios$sar_median_estimate <- apply(x$xi, 2L, median)
+  expected_fatality_ratios$sir_mean_estimate <- apply(x$xi, 2L, mean)
+  expected_fatality_ratios$sir_median_estimate <- apply(x$xi, 2L, median)
   expected_fatality_ratios$naive_ifr <- rep.int(0.0, unique_strata)
-  expected_fatality_ratios$naive_sar <- (
+  expected_fatality_ratios$naive_sir <- (
     apply(incidence[, , , 2L], 2L, sum) / apply(incidence, 2L, sum)
   )
   expect_identical(fatality_ratios, expected_fatality_ratios)
@@ -238,9 +238,9 @@ test_that("Output validation when given a list for `x` and missing outcomes", {
   expected_fatality_ratios <- strata
   expected_fatality_ratios$ifr_mean_estimate <- apply(x$mortality, 2L, mean)
   expected_fatality_ratios$ifr_median_estimate <- apply(x$mortality, 2L, median)
-  expected_fatality_ratios$sar_mean_estimate <- apply(x$xi, 2L, mean)
-  expected_fatality_ratios$sar_median_estimate <- apply(x$xi, 2L, median)
+  expected_fatality_ratios$sir_mean_estimate <- apply(x$xi, 2L, mean)
+  expected_fatality_ratios$sir_median_estimate <- apply(x$xi, 2L, median)
   expected_fatality_ratios$naive_ifr <- rep.int(0.0, unique_strata)
-  expected_fatality_ratios$naive_sar <- rep.int(0.0, unique_strata)
+  expected_fatality_ratios$naive_sir <- rep.int(0.0, unique_strata)
   expect_identical(fatality_ratios, expected_fatality_ratios)
 })

@@ -94,7 +94,7 @@ calculate_fatality_ratio.list <- function(
 
   if (mean_estimate) {
     fatality_ratios$ifr_mean_estimate <- apply(x$mortality, 2L, mean)
-    fatality_ratios$sar_mean_estimate <- apply(x$xi, 2L, mean)
+    fatality_ratios$sir_mean_estimate <- apply(x$xi, 2L, mean)
   }
   if (median_estimate || length(alpha) > 0L) {
     probs <- c(
@@ -114,8 +114,8 @@ calculate_fatality_ratio.list <- function(
       x
     }
     ifr_quantiles <- calc_quantiles_data_frame(x$mortality, "ifr")
-    sar_quantiles <- calc_quantiles_data_frame(x$xi, "sar")
-    fatality_ratios <- cbind(fatality_ratios, ifr_quantiles, sar_quantiles)
+    sir_quantiles <- calc_quantiles_data_frame(x$xi, "sir")
+    fatality_ratios <- cbind(fatality_ratios, ifr_quantiles, sir_quantiles)
   }
 
   # Naive estimates branch
@@ -134,7 +134,7 @@ calculate_fatality_ratio.list <- function(
     fatality_ratios$naive_ifr <- (
       reduced_incidence[, outcome_ind[1L]] / total_incidence
     )
-    fatality_ratios$naive_sar <- (
+    fatality_ratios$naive_sir <- (
       rowSums(reduced_incidence[, outcome_ind]) / total_incidence
     )
   }
@@ -144,7 +144,7 @@ calculate_fatality_ratio.list <- function(
   new_colnames <- c(
     colnames(strata),
     old_colnames[grepl("^ifr\\_.*", old_colnames)],
-    old_colnames[grepl("^sar\\_.*", old_colnames)],
+    old_colnames[grepl("^sir\\_.*", old_colnames)],
     old_colnames[grepl("^naive\\_.*", old_colnames)]
   )
   fatality_ratios <- fatality_ratios[, new_colnames]
