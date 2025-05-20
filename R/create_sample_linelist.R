@@ -131,10 +131,11 @@ create_sample_linelist <- function(
   incidence <- array(dim = c(length(times), 2L, nrow(strata)))
   for (i in seq_along(times)) {
     incidence[i, 1L, ] <- stats::rpois(
-      1L, active_detection * force_of_infection[i, ] * strata[, "population"]
+      nrow(strata),
+      active_detection * force_of_infection[i, ] * strata[, "population"]
     )
     incidence[i, 2L, ] <- stats::rpois(
-      1L,
+      nrow(strata),
       (1.0 -  active_detection) * strata[, "theta"] *
         force_of_infection[i, ] * strata[, "population"]
     )
