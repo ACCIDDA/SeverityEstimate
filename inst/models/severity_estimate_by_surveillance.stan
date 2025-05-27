@@ -39,6 +39,9 @@ data {
   real <lower=0> hazard_std;
   // Spline degrees of freedom for mortality and symptom terms
   int <lower=1> degrees_of_freedom;
+  // Active detection probability prior
+  real <lower=1> phi_alpha;
+  real <lower=1> phi_beta;
 }
 
 parameters {
@@ -50,8 +53,8 @@ parameters {
   real mort_coef[1+degrees_of_freedom];
   // The hazard of infection in each time step
   real logit_hzd[time_groups,strata_groups];
-  // The logit of the probability of being active detection
-  real logit_phi;
+  // Active detection probability
+  real <lower=0, upper=1> phi;
 }
 
 transformed parameters {
@@ -59,8 +62,6 @@ transformed parameters {
   // Strata specific symptom/mortality rate
   real <lower=0, upper=1> xi[strata_groups];
   real <lower=0, upper=1> mortality[strata_groups];
-  // The probability of detection through active surveillance
-  real <lower=0, upper=1> phi;
   // Symptom specific detection probabilities
   real <lower=0, upper=1> psi[2];
   // The susceptibles/casesat at each time by strata
@@ -98,9 +99,6 @@ transformed parameters {
       C[i, j] = S[i, j] * inv_logit(logit_hzd[i, j]);
     }
   }
-
-  // Phi is as simple transform
-  phi = inv_logit(logit_phi);
 }
 
 model {
@@ -118,7 +116,7 @@ model {
   }
 
   // Relatively weak prior on being an "active" case
-  logit_phi ~ normal(-16.5, 5);
+  phi ~ beta(phi_alpha, phi_beta);
 
   // Prior for community hazard
   for (i in 1:time_groups) {
