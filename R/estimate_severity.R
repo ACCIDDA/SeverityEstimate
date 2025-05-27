@@ -35,10 +35,6 @@
 #' @param strata_reference Either `NULL`, a `data.frame`, or a vector of
 #' values to use as a reference for the strata dimension. If a vector then
 #' it is expected that `strata` is unit length.
-#' @param additional_betas_mean A single length numeric for the mean to use in
-#' the strongly symptomatic prior distribution.
-#' @param additional_betas_std A single length numeric for the standard
-#' deviation to use in the strongly symptomatic prior distribution.
 #' @param hazard_std A single length numeric greater than zero for the standard
 #' deviation to use in the community hazard prior distribution.
 #' @param degrees_of_freedom A single length integer greater than zero for the
@@ -46,6 +42,12 @@
 #' @param phi_prior The parameters for the prior beta distribution for the
 #' active detection probability. Can be specified as 'alpha'/'beta',
 #' 'mean'/'var', or 'mean'/'sd'.
+#' @param passive_asymptomatic_detection_prior The parameters for the prior beta
+#' distribution for the passive asymptomatic detection probability. Can be
+#' specified as 'alpha'/'beta', 'mean'/'var', or 'mean'/'sd'.
+#' @param passive_symptomatic_detection_prior The parameters for the prior beta
+#' distribution for the passive symptomatic detection probability. Can be
+#' specified as 'alpha'/'beta', 'mean'/'var', or 'mean'/'sd'.
 #' @param ... Further optional args that are eventually given to [rstan::stan()]
 #' related to fitting.
 #'
@@ -67,11 +69,11 @@ estimate_severity <- function(
   outcome_reference = NULL,
   time_period_reference = NULL,
   strata_reference = NULL,
-  additional_betas_mean = 0.0,
-  additional_betas_std = 5.0,
   hazard_std = 3.0,
   degrees_of_freedom = 1L,
   phi_prior = c("alpha" = 1.0, "beta" = 25.0),
+  passive_asymptomatic_detection_prior = c("alpha" = 1.0, "beta" = 2.0), # nolint: object_length_linter
+  passive_symptomatic_detection = c("alpha" = 25.0, "beta" = 1.0),
   ...
 ) {
   # Input validation
@@ -100,15 +102,6 @@ estimate_severity <- function(
     outcome %in% names(linelist),
     is.factor(linelist[, outcome]) ||
       is.character(linelist[, outcome]),
-    # Check on additional betas mean
-    is.numeric(additional_betas_mean),
-    length(additional_betas_mean) == 1L,
-    !is.na(additional_betas_mean),
-    # Check on additional betas standard deviation
-    is.numeric(additional_betas_std),
-    length(additional_betas_std) == 1L,
-    !is.na(additional_betas_std),
-    additional_betas_std > 0.0,
     # Check on hazard variance
     is.numeric(hazard_std),
     length(hazard_std) == 1L,
@@ -121,6 +114,12 @@ estimate_severity <- function(
     degrees_of_freedom >= 0L
   )
   phi_prior <- beta_parameterization(phi_prior)
+  passive_asymptomatic_detection_prior <- beta_parameterization( # nolint: object_length_linter
+    passive_asymptomatic_detection_prior
+  )
+  passive_symptomatic_detection <- beta_parameterization(
+    passive_symptomatic_detection
+  )
 
   # Construct the incidence array
   arrays <- incidence_population_arrays(
@@ -181,12 +180,14 @@ estimate_severity <- function(
       arrays$linelist_ind[passive_ind, "outcome", drop = TRUE]
       %in% outcome_ind[3L]
     ),
-    additional_betas_mean = additional_betas_mean,
-    additional_betas_std = additional_betas_std,
     hazard_std = hazard_std,
     degrees_of_freedom = degrees_of_freedom,
     phi_alpha = phi_prior["alpha"],
-    phi_beta = phi_prior["beta"]
+    phi_beta = phi_prior["beta"],
+    psi_1_alpha = passive_asymptomatic_detection_prior["alpha"],
+    psi_1_beta = passive_asymptomatic_detection_prior["beta"],
+    psi_2_alpha = passive_symptomatic_detection["alpha"],
+    psi_2_beta = passive_symptomatic_detection["beta"]
   )
 
   # Pass along everything to the model

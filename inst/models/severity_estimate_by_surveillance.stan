@@ -32,22 +32,21 @@ data {
   int <lower=0> dead_passive[observed_passive];
 
   // *Model parameters and priors*
-  // Parameters for prior normal distribution for additional betas
-  real additional_betas_mean;
-  real additional_betas_std;
   // The stdev of the community hazard brownian motion
   real <lower=0> hazard_std;
   // Spline degrees of freedom for mortality and symptom terms
   int <lower=1> degrees_of_freedom;
   // Active detection probability prior
-  real <lower=1> phi_alpha;
-  real <lower=1> phi_beta;
+  real <lower=0> phi_alpha;
+  real <lower=0> phi_beta;
+  // Passive detection probability prior
+  real <lower=0> psi_1_alpha;
+  real <lower=0> psi_1_beta;
+  real <lower=0> psi_2_alpha;
+  real <lower=0> psi_2_beta;
 }
 
 parameters {
-  // Better parameterization for psi 1/2
-  real added_betas;
-  real beta1;
    // Symtom development/mortality spline coefficients
   real alpha[1 + degrees_of_freedom];
   real mort_coef[1+degrees_of_freedom];
@@ -55,6 +54,8 @@ parameters {
   real logit_hzd[time_groups,strata_groups];
   // Active detection probability
   real <lower=0, upper=1> phi;
+  // Passive detection probabilities
+  real <lower=0, upper=1> psi[2];
 }
 
 transformed parameters {
@@ -62,8 +63,6 @@ transformed parameters {
   // Strata specific symptom/mortality rate
   real <lower=0, upper=1> xi[strata_groups];
   real <lower=0, upper=1> mortality[strata_groups];
-  // Symptom specific detection probabilities
-  real <lower=0, upper=1> psi[2];
   // The susceptibles/casesat at each time by strata
   real <lower=0> S[time_groups, strata_groups];
   real <lower=0> C[time_groups, strata_groups];
@@ -87,10 +86,6 @@ transformed parameters {
     C[1, i] = population[i] * inv_logit(logit_hzd[1, i]);
   }
 
-  // Calculate the reporting probabilities
-  psi[1] = inv_logit(beta1);
-  psi[2] = inv_logit(added_betas);
-
   // For each subsequent time step we assume the number of passive cases is
   // based on the passive hazard and the number susceptible
   for (i in 2:time_groups) {
@@ -103,20 +98,16 @@ transformed parameters {
 
 model {
   // *Model priors*
-  // Strong prior on detection of symptomatic cases
-  added_betas ~ normal(additional_betas_mean, additional_betas_std);
-
-  // Non-informative prior for beta1
-  beta1 ~ normal(0, 1000);
-
   // Spline coefficients
   for (i in 1:(degrees_of_freedom + 1)) {
     alpha[i] ~ normal(0, 10000);
     mort_coef[i] ~ normal(0, 10000);
   }
 
-  // Relatively weak prior on being an "active" case
+  // Priors for detection probabilities
   phi ~ beta(phi_alpha, phi_beta);
+  psi[1] ~ beta(psi_1_alpha, psi_1_beta);
+  psi[2] ~ beta(psi_2_alpha, psi_2_beta);
 
   // Prior for community hazard
   for (i in 1:time_groups) {
