@@ -8,6 +8,7 @@ all: clean docs lint test
 
 clean:
 	$(RMDIR) ..Rcheck/
+	$(RMDIR) .Rproj.user/
 
 docs:
 	Rscript -e "library(roxygen2); \
