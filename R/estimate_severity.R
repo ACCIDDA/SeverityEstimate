@@ -39,13 +39,13 @@
 #' deviation to use in the community hazard prior distribution.
 #' @param degrees_of_freedom A single length integer greater than zero for the
 #' degrees of freedom to use in the model.
-#' @param phi_prior The parameters for the prior beta distribution for the
+#' @param active_prior The parameters for the prior beta distribution for the
 #' active detection probability. Can be specified as 'alpha'/'beta',
 #' 'mean'/'var', or 'mean'/'sd'.
-#' @param passive_asymptomatic_detection_prior The parameters for the prior beta
+#' @param passive_asymptomatic_prior The parameters for the prior beta
 #' distribution for the passive asymptomatic detection probability. Can be
 #' specified as 'alpha'/'beta', 'mean'/'var', or 'mean'/'sd'.
-#' @param passive_symptomatic_detection_prior The parameters for the prior beta
+#' @param passive_symptomatic_prior The parameters for the prior beta
 #' distribution for the passive symptomatic detection probability. Can be
 #' specified as 'alpha'/'beta', 'mean'/'var', or 'mean'/'sd'.
 #' @param ... Further optional args that are eventually given to [rstan::stan()]
@@ -71,9 +71,9 @@ estimate_severity <- function(
   strata_reference = NULL,
   hazard_std = 3.0,
   degrees_of_freedom = 1L,
-  phi_prior = c("alpha" = 1.0, "beta" = 25.0),
-  passive_asymptomatic_detection_prior = c("alpha" = 1.0, "beta" = 2.0), # nolint: object_length_linter
-  passive_symptomatic_detection = c("alpha" = 25.0, "beta" = 1.0),
+  active_prior = c("alpha" = 1.0, "beta" = 25.0),
+  passive_asymptomatic_prior = c("alpha" = 1.0, "beta" = 2.0),
+  passive_symptomatic_prior = c("alpha" = 25.0, "beta" = 1.0),
   ...
 ) {
   # Input validation
@@ -113,13 +113,11 @@ estimate_severity <- function(
     !is.na(degrees_of_freedom),
     degrees_of_freedom >= 0L
   )
-  phi_prior <- beta_parameterization(phi_prior)
-  passive_asymptomatic_detection_prior <- beta_parameterization( # nolint: object_length_linter
-    passive_asymptomatic_detection_prior
+  active_prior <- beta_parameterization(active_prior)
+  passive_asymptomatic_prior <- beta_parameterization(
+    passive_asymptomatic_prior
   )
-  passive_symptomatic_detection <- beta_parameterization(
-    passive_symptomatic_detection
-  )
+  passive_symptomatic_prior <- beta_parameterization(passive_symptomatic_prior)
 
   # Construct the incidence array
   arrays <- incidence_population_arrays(
@@ -182,12 +180,12 @@ estimate_severity <- function(
     ),
     hazard_std = hazard_std,
     degrees_of_freedom = degrees_of_freedom,
-    phi_alpha = phi_prior["alpha"],
-    phi_beta = phi_prior["beta"],
-    psi_1_alpha = passive_asymptomatic_detection_prior["alpha"],
-    psi_1_beta = passive_asymptomatic_detection_prior["beta"],
-    psi_2_alpha = passive_symptomatic_detection["alpha"],
-    psi_2_beta = passive_symptomatic_detection["beta"]
+    phi_alpha = active_prior["alpha"],
+    phi_beta = active_prior["beta"],
+    psi_1_alpha = passive_asymptomatic_prior["alpha"],
+    psi_1_beta = passive_asymptomatic_prior["beta"],
+    psi_2_alpha = passive_symptomatic_prior["alpha"],
+    psi_2_beta = passive_symptomatic_prior["beta"]
   )
 
   # Pass along everything to the model

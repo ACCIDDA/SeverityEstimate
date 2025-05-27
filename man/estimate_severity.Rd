@@ -18,9 +18,9 @@ estimate_severity(
   strata_reference = NULL,
   hazard_std = 3,
   degrees_of_freedom = 1L,
-  phi_prior = c(alpha = 1, beta = 25),
-  passive_asymptomatic_detection_prior = c(alpha = 1, beta = 2),
-  passive_symptomatic_detection = c(alpha = 25, beta = 1),
+  active_prior = c(alpha = 1, beta = 25),
+  passive_asymptomatic_prior = c(alpha = 1, beta = 2),
+  passive_symptomatic_prior = c(alpha = 25, beta = 1),
   ...
 )
 }
@@ -71,20 +71,20 @@ deviation to use in the community hazard prior distribution.}
 \item{degrees_of_freedom}{A single length integer greater than zero for the
 degrees of freedom to use in the model.}
 
-\item{phi_prior}{The parameters for the prior beta distribution for the
+\item{active_prior}{The parameters for the prior beta distribution for the
 active detection probability. Can be specified as 'alpha'/'beta',
 'mean'/'var', or 'mean'/'sd'.}
 
-\item{passive_asymptomatic_detection_prior}{The parameters for the prior beta
+\item{passive_asymptomatic_prior}{The parameters for the prior beta
 distribution for the passive asymptomatic detection probability. Can be
+specified as 'alpha'/'beta', 'mean'/'var', or 'mean'/'sd'.}
+
+\item{passive_symptomatic_prior}{The parameters for the prior beta
+distribution for the passive symptomatic detection probability. Can be
 specified as 'alpha'/'beta', 'mean'/'var', or 'mean'/'sd'.}
 
 \item{...}{Further optional args that are eventually given to \code{\link[rstan:stan]{rstan::stan()}}
 related to fitting.}
-
-\item{passive_symptomatic_detection_prior}{The parameters for the prior beta
-distribution for the passive symptomatic detection probability. Can be
-specified as 'alpha'/'beta', 'mean'/'var', or 'mean'/'sd'.}
 }
 \value{
 A \linkS4class{SeverityEstimateFit} S4 object.
