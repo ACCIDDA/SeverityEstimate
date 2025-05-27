@@ -20,6 +20,7 @@ estimate_severity(
   additional_betas_std = 5,
   hazard_std = 3,
   degrees_of_freedom = 1L,
+  phi_prior = c(alpha = 1, beta = 25),
   ...
 )
 }
@@ -75,6 +76,10 @@ deviation to use in the community hazard prior distribution.}
 
 \item{degrees_of_freedom}{A single length integer greater than zero for the
 degrees of freedom to use in the model.}
+
+\item{phi_prior}{The parameters for the prior beta distribution for the
+active detection probability. Can be specified as 'alpha'/'beta',
+'mean'/'var', or 'mean'/'sd'.}
 
 \item{...}{Further optional args that are eventually given to \code{\link[rstan:stan]{rstan::stan()}}
 related to fitting.}

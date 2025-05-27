@@ -43,6 +43,9 @@
 #' deviation to use in the community hazard prior distribution.
 #' @param degrees_of_freedom A single length integer greater than zero for the
 #' degrees of freedom to use in the model.
+#' @param phi_prior The parameters for the prior beta distribution for the
+#' active detection probability. Can be specified as 'alpha'/'beta',
+#' 'mean'/'var', or 'mean'/'sd'.
 #' @param ... Further optional args that are eventually given to [rstan::stan()]
 #' related to fitting.
 #'
@@ -68,6 +71,7 @@ estimate_severity <- function(
   additional_betas_std = 5.0,
   hazard_std = 3.0,
   degrees_of_freedom = 1L,
+  phi_prior = c("alpha" = 1.0, "beta" = 25.0),
   ...
 ) {
   # Input validation
@@ -116,6 +120,7 @@ estimate_severity <- function(
     !is.na(degrees_of_freedom),
     degrees_of_freedom >= 0L
   )
+  phi_prior <- beta_parameterization(phi_prior)
 
   # Construct the incidence array
   arrays <- incidence_population_arrays(
@@ -179,7 +184,9 @@ estimate_severity <- function(
     additional_betas_mean = additional_betas_mean,
     additional_betas_std = additional_betas_std,
     hazard_std = hazard_std,
-    degrees_of_freedom = degrees_of_freedom
+    degrees_of_freedom = degrees_of_freedom,
+    phi_alpha = phi_prior["alpha"],
+    phi_beta = phi_prior["beta"]
   )
 
   # Pass along everything to the model
