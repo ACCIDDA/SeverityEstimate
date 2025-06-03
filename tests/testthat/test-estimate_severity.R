@@ -21,7 +21,7 @@ test_that("Input Validation", {
       time_period = "week",
       strata = "sex"
     ),
-    "is.data.frame(linelist) is not TRUE",
+    "`linelist` is not 'data.frame' like.",
     fixed = TRUE
   )
   expect_error(
@@ -33,7 +33,7 @@ test_that("Input Validation", {
       time_period = "week",
       strata = "sex"
     ),
-    "is.data.frame(linelist) is not TRUE",
+    "`linelist` is not 'data.frame' like.",
     fixed = TRUE
   )
   # population param
@@ -46,7 +46,7 @@ test_that("Input Validation", {
       time_period = "week",
       strata = "sex"
     ),
-    "is.data.frame(population) is not TRUE",
+    "`population` is not 'data.frame' like.",
     fixed = TRUE
   )
   expect_error(
@@ -58,7 +58,7 @@ test_that("Input Validation", {
       time_period = "week",
       strata = "sex"
     ),
-    "is.data.frame(population) is not TRUE",
+    "`population` is not 'data.frame' like.",
     fixed = TRUE
   )
   # surveillance param
