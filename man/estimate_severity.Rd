@@ -16,11 +16,11 @@ estimate_severity(
   outcome_reference = NULL,
   time_period_reference = NULL,
   strata_reference = NULL,
-  additional_betas_mean = 0,
-  additional_betas_std = 5,
   hazard_std = 3,
   degrees_of_freedom = 1L,
-  phi_prior = c(alpha = 1, beta = 25),
+  active_prior = c(alpha = 1, beta = 25),
+  passive_asymptomatic_prior = c(alpha = 1, beta = 2),
+  passive_symptomatic_prior = c(alpha = 25, beta = 1),
   ...
 )
 }
@@ -65,21 +65,23 @@ it is expected that \code{time_period} is unit length.}
 values to use as a reference for the strata dimension. If a vector then
 it is expected that \code{strata} is unit length.}
 
-\item{additional_betas_mean}{A single length numeric for the mean to use in
-the strongly symptomatic prior distribution.}
-
-\item{additional_betas_std}{A single length numeric for the standard
-deviation to use in the strongly symptomatic prior distribution.}
-
 \item{hazard_std}{A single length numeric greater than zero for the standard
 deviation to use in the community hazard prior distribution.}
 
 \item{degrees_of_freedom}{A single length integer greater than zero for the
 degrees of freedom to use in the model.}
 
-\item{phi_prior}{The parameters for the prior beta distribution for the
+\item{active_prior}{The parameters for the prior beta distribution for the
 active detection probability. Can be specified as 'alpha'/'beta',
 'mean'/'var', or 'mean'/'sd'.}
+
+\item{passive_asymptomatic_prior}{The parameters for the prior beta
+distribution for the passive asymptomatic detection probability. Can be
+specified as 'alpha'/'beta', 'mean'/'var', or 'mean'/'sd'.}
+
+\item{passive_symptomatic_prior}{The parameters for the prior beta
+distribution for the passive symptomatic detection probability. Can be
+specified as 'alpha'/'beta', 'mean'/'var', or 'mean'/'sd'.}
 
 \item{...}{Further optional args that are eventually given to \code{\link[rstan:stan]{rstan::stan()}}
 related to fitting.}

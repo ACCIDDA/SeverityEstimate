@@ -11,7 +11,6 @@ test_that("Input Validation", {
     sex = c("Female", "Male"),
     value = c(4000L, 3975L)
   )
-
   # linelist param
   expect_error(
     estimate_severity(
@@ -37,7 +36,6 @@ test_that("Input Validation", {
     "is.data.frame(linelist) is not TRUE",
     fixed = TRUE
   )
-
   # population param
   expect_error(
     estimate_severity(
@@ -63,7 +61,6 @@ test_that("Input Validation", {
     "is.data.frame(population) is not TRUE",
     fixed = TRUE
   )
-
   # surveillance param
   expect_error(
     estimate_severity(
@@ -128,7 +125,6 @@ test_that("Input Validation", {
     ),
     fixed = TRUE
   )
-
   # outcome param
   expect_error(
     estimate_severity(
@@ -193,102 +189,6 @@ test_that("Input Validation", {
     ),
     fixed = TRUE
   )
-
-  # additional_betas_mean param
-  expect_error(
-    estimate_severity(
-      linelist,
-      population,
-      "testing_type",
-      "patient_status",
-      time_period = "week",
-      strata = "sex",
-      additional_betas_mean = "abc"
-    ),
-    "is.numeric(additional_betas_mean) is not TRUE",
-    fixed = TRUE
-  )
-  expect_error(
-    estimate_severity(
-      linelist,
-      population,
-      "testing_type",
-      "patient_status",
-      time_period = "week",
-      strata = "sex",
-      additional_betas_mean = 1:5
-    ),
-    "length(additional_betas_mean) == 1L is not TRUE",
-    fixed = TRUE
-  )
-  expect_error(
-    estimate_severity(
-      linelist,
-      population,
-      "testing_type",
-      "patient_status",
-      time_period = "week",
-      strata = "sex",
-      additional_betas_mean = NA_real_
-    ),
-    "!is.na(additional_betas_mean) is not TRUE",
-    fixed = TRUE
-  )
-
-  # additional_betas_std param
-  expect_error(
-    estimate_severity(
-      linelist,
-      population,
-      "testing_type",
-      "patient_status",
-      time_period = "week",
-      strata = "sex",
-      additional_betas_std = "abc"
-    ),
-    "is.numeric(additional_betas_std) is not TRUE",
-    fixed = TRUE
-  )
-  expect_error(
-    estimate_severity(
-      linelist,
-      population,
-      "testing_type",
-      "patient_status",
-      time_period = "week",
-      strata = "sex",
-      additional_betas_std = 1:5
-    ),
-    "length(additional_betas_std) == 1L is not TRUE",
-    fixed = TRUE
-  )
-  expect_error(
-    estimate_severity(
-      linelist,
-      population,
-      "testing_type",
-      "patient_status",
-      time_period = "week",
-      strata = "sex",
-      additional_betas_std = NA_real_
-    ),
-    "!is.na(additional_betas_std) is not TRUE",
-    fixed = TRUE
-  )
-  expect_error(
-    estimate_severity(
-      linelist,
-      population,
-      "testing_type",
-      "patient_status",
-      time_period = "week",
-      strata = "sex",
-      additional_betas_std = -pi
-    ),
-    "additional_betas_std > 0 is not TRUE",
-    fixed = TRUE
-  )
-
   # hazard_std param
   expect_error(
     estimate_severity(
@@ -342,7 +242,6 @@ test_that("Input Validation", {
     "hazard_std > 0 is not TRUE",
     fixed = TRUE
   )
-
   # degrees_of_freedom param
   expect_error(
     estimate_severity(
@@ -370,51 +269,12 @@ test_that("Input Validation", {
     "is.integer(degrees_of_freedom) is not TRUE",
     fixed = TRUE
   )
-  expect_error(
-    estimate_severity(
-      linelist,
-      population,
-      "testing_type",
-      "patient_status",
-      time_period = "week",
-      strata = "sex",
-      additional_betas_std = 1L:5L
-    ),
-    "length(additional_betas_std) == 1L is not TRUE",
-    fixed = TRUE
-  )
-  expect_error(
-    estimate_severity(
-      linelist,
-      population,
-      "testing_type",
-      "patient_status",
-      time_period = "week",
-      strata = "sex",
-      additional_betas_std = NA_integer_
-    ),
-    "!is.na(additional_betas_std) is not TRUE",
-    fixed = TRUE
-  )
-  expect_error(
-    estimate_severity(
-      linelist,
-      population,
-      "testing_type",
-      "patient_status",
-      time_period = "week",
-      strata = "sex",
-      additional_betas_std = -1L
-    ),
-    "additional_betas_std > 0 is not TRUE",
-    fixed = TRUE
-  )
 })
 
 test_that("Output Validation", {
   # Slow, skip if not manual run
   skip_on_cran()
-
+  # Sample data
   linelist <- data.frame(
     patient_id = letters,
     week = rep_len(1L:3L, 26L),
@@ -426,7 +286,6 @@ test_that("Output Validation", {
     sex = c("Female", "Male"),
     value = c(4000L, 3975L)
   )
-
   # Categories inferred from linelist/population
   severity_est <- suppressWarnings(
     estimate_severity(
@@ -445,7 +304,7 @@ test_that("Output Validation", {
       refresh = 0L
     )
   )
-
+  # Expectations on output structure
   expect_s4_class(severity_est, "SeverityEstimateFit")
   expect_equal(
     slotNames(severity_est),
@@ -498,7 +357,6 @@ test_that("Output Validation", {
     stringsAsFactors = TRUE
   )
   expect_identical(severity_est@outcome, expected_outcome)
-
   # Time period/strata categories are user specified
   severity_est <- suppressMessages(
     estimate_severity(
@@ -519,7 +377,7 @@ test_that("Output Validation", {
       refresh = 0L
     )
   )
-
+  # Expectations on output structure
   expect_s4_class(severity_est, "SeverityEstimateFit")
   expect_equal(
     slotNames(severity_est),
