@@ -77,16 +77,8 @@ estimate_severity <- function(
   ...
 ) {
   # Input validation
-  stopifnot(
-    is.data.frame(linelist),
-    is.data.frame(population)
-  )
-  if (!setequal(class(linelist), "data.frame")) {
-    linelist <- as.data.frame(linelist)
-  }
-  if (!setequal(class(population), "data.frame")) {
-    population <- as.data.frame(population)
-  }
+  linelist <- is_data_frame(linelist)
+  population <- is_data_frame(population)
   stopifnot(
     # Check on the surveillance column of line list
     is.character(surveillance),
