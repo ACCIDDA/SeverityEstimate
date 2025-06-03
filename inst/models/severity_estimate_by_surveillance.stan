@@ -37,13 +37,13 @@ data {
   // Spline degrees of freedom for mortality and symptom terms
   int <lower=1> degrees_of_freedom;
   // Active detection probability prior
-  real <lower=0> phi_alpha;
-  real <lower=0> phi_beta;
+  real <lower=0> active_detection_alpha;
+  real <lower=0> active_detection_beta;
   // Passive detection probability prior
-  real <lower=0> psi_1_alpha;
-  real <lower=0> psi_1_beta;
-  real <lower=0> psi_2_alpha;
-  real <lower=0> psi_2_beta;
+  real <lower=0> passive_asymptomatic_alpha;
+  real <lower=0> passive_asymptomatic_beta;
+  real <lower=0> passive_symptomatic_alpha;
+  real <lower=0> passive_symptomatic_beta;
 }
 
 parameters {
@@ -53,9 +53,10 @@ parameters {
   // The hazard of infection in each time step
   real logit_hzd[time_groups,strata_groups];
   // Active detection probability
-  real <lower=0, upper=1> phi;
+  real <lower=0, upper=1> active_detection;
   // Passive detection probabilities
-  real <lower=0, upper=1> psi[2];
+  real <lower=0, upper=1> passive_asymptomatic_detection;
+  real <lower=0, upper=1> passive_symptomatic_detection;
 }
 
 transformed parameters {
@@ -105,9 +106,13 @@ model {
   }
 
   // Priors for detection probabilities
-  phi ~ beta(phi_alpha, phi_beta);
-  psi[1] ~ beta(psi_1_alpha, psi_1_beta);
-  psi[2] ~ beta(psi_2_alpha, psi_2_beta);
+  active_detection ~ beta(active_detection_alpha, active_detection_beta);
+  passive_asymptomatic_detection ~ beta(
+    passive_asymptomatic_alpha, passive_asymptomatic_beta
+  );
+  passive_symptomatic_detection ~ beta(
+    passive_symptomatic_alpha, passive_symptomatic_beta
+  );
 
   // Prior for community hazard
   for (i in 1:time_groups) {
@@ -117,9 +122,10 @@ model {
           + (100.0 * machine_precision())),
         hazard_std
       );
-      I_active[i, j] ~ poisson(phi * C[i, j]);
+      I_active[i, j] ~ poisson(active_detection * C[i, j]);
       I_passive[i, j] ~ poisson(
-        (1-phi) * (psi[1] * (1-xi[j]) + psi[2] * xi[j]) * C[i, j]
+        (1-active_detection) * (passive_asymptomatic_detection * (1-xi[j])
+         + passive_symptomatic_detection * xi[j]) * C[i, j]
       );
     }
   }
@@ -134,18 +140,20 @@ model {
   for (i in 1:observed_passive) {
     symptoms_passive[i] ~ bernoulli(
       (1 -
-        ((1 - (psi[2] * xi[strata_passive[i]]))
+        ((1 - (passive_symptomatic_detection * xi[strata_passive[i]]))
           * (1 - mortality[strata_passive[i]])))/
 				(1 - (1 - mortality[strata_passive[i]])
 				  * (1 - ((1 - xi[strata_passive[i]])
-				    * psi[1] + xi[strata_passive[i]] * psi[2])))
+				    * passive_asymptomatic_detection + xi[strata_passive[i]]
+				     * passive_symptomatic_detection)))
 		);
 		dead_passive[i] ~ bernoulli(
 		  mortality[strata_passive[i]]/
 		    (1 - (
 		      (1 - mortality[strata_passive[i]]) *
 		        (1 -((1 - xi[strata_passive[i]]) *
-		          psi[1] + xi[strata_passive[i]] * psi[2]))))
+		          passive_asymptomatic_detection + xi[strata_passive[i]]
+		           * passive_symptomatic_detection))))
 		);
   }
 }
@@ -162,7 +170,7 @@ generated quantities {
       // First generate the active cases, used in passive cases
       gq_tmp = C[i, j] - I_active[i, j];
       if (gq_tmp > 0) {
-        C_active_additional[i, j] = poisson_rng(phi * gq_tmp);
+        C_active_additional[i, j] = poisson_rng(active_detection * gq_tmp);
       } else {
         C_active_additional[i, j] = 0;
       }

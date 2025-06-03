@@ -180,12 +180,12 @@ estimate_severity <- function(
     ),
     hazard_std = hazard_std,
     degrees_of_freedom = degrees_of_freedom,
-    phi_alpha = active_prior["alpha"],
-    phi_beta = active_prior["beta"],
-    psi_1_alpha = passive_asymptomatic_prior["alpha"],
-    psi_1_beta = passive_asymptomatic_prior["beta"],
-    psi_2_alpha = passive_symptomatic_prior["alpha"],
-    psi_2_beta = passive_symptomatic_prior["beta"]
+    active_detection_alpha = active_prior["alpha"],
+    active_detection_beta = active_prior["beta"],
+    passive_asymptomatic_alpha = passive_asymptomatic_prior["alpha"],
+    passive_asymptomatic_beta = passive_asymptomatic_prior["beta"],
+    passive_symptomatic_alpha = passive_symptomatic_prior["alpha"],
+    passive_symptomatic_beta = passive_symptomatic_prior["beta"]
   )
 
   # Pass along everything to the model

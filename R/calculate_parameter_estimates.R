@@ -75,7 +75,15 @@ calculate_parameter_estimates.list <- function(
   ...
 ) {
   # Input validation
-  stopifnot(all(c("psi", "phi") %in% names(x)))
+  stopifnot(
+    all(
+      c(
+        "active_detection",
+        "passive_asymptomatic_detection",
+        "passive_symptomatic_detection"
+      ) %in% names(x)
+    )
+  )
   stopifnot(isTRUE(mean_estimate) || isFALSE(mean_estimate))
   stopifnot(isTRUE(median_estimate) || isFALSE(median_estimate))
   stopifnot(isTRUE(include_description) || isFALSE(include_description))
@@ -96,7 +104,11 @@ calculate_parameter_estimates.list <- function(
   }
 
   # Extract and process values
-  params_matrix <- cbind(x$psi, x$phi)
+  params_matrix <- cbind(
+    x$active_detection,
+    x$passive_asymptomatic_detection,
+    x$passive_symptomatic_detection
+  )
   idx <- if (median_estimate) 2L else 1L
   param_summary <- do.call(rbind, apply(params_matrix, 2L, function(x) {
     lst <- list()
@@ -127,12 +139,16 @@ calculate_parameter_estimates.list <- function(
 
   # Format return
   old_names <- names(param_summary)
-  param_summary$parameter <- c("psi_1", "psi_2", "phi")
+  param_summary$parameter <- c(
+    "active_detection",
+    "passive_asymptomatic_detection",
+    "passive_symptomatic_detection"
+  )
   if (include_description) {
     param_summary$parameter_description <- c(
+      "active detection rate",
       "mildly/asymptomatic passive detection rate",
-      "severe symptoms passive detection rate",
-      "active detection rate"
+      "severe symptoms passive detection rate"
     )
     new_names <- c("parameter", "parameter_description", old_names)
   } else {
