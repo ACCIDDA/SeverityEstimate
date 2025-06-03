@@ -71,7 +71,10 @@ test_that("Input Validation", {
       time_period = "week",
       strata = "sex"
     ),
-    "is.character(surveillance) is not TRUE",
+    regexp = paste0(
+      "Assertion on 'surveillance' failed: ",
+      "Must be of type 'string', not 'integer'."
+    ),
     fixed = TRUE
   )
   expect_error(
@@ -83,7 +86,7 @@ test_that("Input Validation", {
       time_period = "week",
       strata = "sex"
     ),
-    "length(surveillance) == 1L is not TRUE",
+    "Assertion on 'surveillance' failed: Must have length 1.",
     fixed = TRUE
   )
   expect_error(
@@ -95,7 +98,7 @@ test_that("Input Validation", {
       time_period = "week",
       strata = "sex"
     ),
-    "!is.na(surveillance) is not TRUE",
+    "Assertion on 'surveillance' failed: May not be NA.",
     fixed = TRUE
   )
   expect_error(
@@ -135,7 +138,7 @@ test_that("Input Validation", {
       time_period = "week",
       strata = "sex"
     ),
-    "is.character(outcome) is not TRUE",
+    "Assertion on 'outcome' failed: Must be of type 'string', not 'integer'.",
     fixed = TRUE
   )
   expect_error(
@@ -147,7 +150,7 @@ test_that("Input Validation", {
       time_period = "week",
       strata = "sex"
     ),
-    "length(outcome) == 1L is not TRUE",
+    "Assertion on 'outcome' failed: Must have length 1.",
     fixed = TRUE
   )
   expect_error(
@@ -159,7 +162,7 @@ test_that("Input Validation", {
       time_period = "week",
       strata = "sex"
     ),
-    "!is.na(outcome) is not TRUE",
+    "Assertion on 'outcome' failed: May not be NA.",
     fixed = TRUE
   )
   expect_error(
@@ -200,7 +203,10 @@ test_that("Input Validation", {
       strata = "sex",
       hazard_std = "abc"
     ),
-    "is.numeric(hazard_std) is not TRUE",
+    paste0(
+      "Assertion on 'hazard_std' failed: ",
+      "Must be of type 'number', not 'character'."
+    ),
     fixed = TRUE
   )
   expect_error(
@@ -213,7 +219,7 @@ test_that("Input Validation", {
       strata = "sex",
       hazard_std = 1:5
     ),
-    "length(hazard_std) == 1L is not TRUE",
+    "Assertion on 'hazard_std' failed: Must have length 1.",
     fixed = TRUE
   )
   expect_error(
@@ -226,7 +232,7 @@ test_that("Input Validation", {
       strata = "sex",
       hazard_std = NA_real_
     ),
-    "!is.na(hazard_std) is not TRUE",
+    "Assertion on 'hazard_std' failed: May not be NA.",
     fixed = TRUE
   )
   expect_error(
@@ -239,7 +245,7 @@ test_that("Input Validation", {
       strata = "sex",
       hazard_std = -pi
     ),
-    "hazard_std > 0 is not TRUE",
+    "Assertion on 'hazard_std' failed: Element 1 is not >= 2.22045e-16.",
     fixed = TRUE
   )
   # degrees_of_freedom param
@@ -253,7 +259,10 @@ test_that("Input Validation", {
       strata = "sex",
       degrees_of_freedom = "abc"
     ),
-    "is.integer(degrees_of_freedom) is not TRUE",
+    paste0(
+      "Assertion on 'degrees_of_freedom' failed: ",
+      "Must be of type 'integerish', not 'character'."
+    ),
     fixed = TRUE
   )
   expect_error(
@@ -266,7 +275,11 @@ test_that("Input Validation", {
       strata = "sex",
       degrees_of_freedom = pi
     ),
-    "is.integer(degrees_of_freedom) is not TRUE",
+    paste0(
+      "Assertion on 'degrees_of_freedom' failed: ",
+      "Must be of type 'integerish', ",
+      "but element 1 is not close to an integer."
+    ),
     fixed = TRUE
   )
 })
