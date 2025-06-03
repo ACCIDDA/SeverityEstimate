@@ -54,8 +54,11 @@
 #' @returns
 #' A \linkS4class{SeverityEstimateFit} S4 object.
 #'
-#' @importFrom utils tail
+#' @importFrom checkmate assert_integerish
+#' @importFrom checkmate assert_number
+#' @importFrom checkmate assert_string
 #' @importFrom methods new
+#' @importFrom utils tail
 #' @export
 estimate_severity <- function(
   linelist,
@@ -79,38 +82,33 @@ estimate_severity <- function(
   # Input validation
   linelist <- is_data_frame(linelist)
   population <- is_data_frame(population)
+  # Check on the surveillance column of line list
+  checkmate::assert_string(surveillance)
   stopifnot(
-    # Check on the surveillance column of line list
-    is.character(surveillance),
-    length(surveillance) == 1L,
-    !is.na(surveillance),
     surveillance %in% names(linelist),
-    is.factor(linelist[, surveillance]) ||
-      is.character(linelist[, surveillance]),
-    # Check on the outcome column of the line list
-    is.character(outcome),
-    length(outcome) == 1L,
-    !is.na(outcome),
-    outcome %in% names(linelist),
-    is.factor(linelist[, outcome]) ||
-      is.character(linelist[, outcome]),
-    # Check on hazard variance
-    is.numeric(hazard_std),
-    length(hazard_std) == 1L,
-    !is.na(hazard_std),
-    hazard_std > 0.0,
-    # Check on degrees of freedom
-    is.integer(degrees_of_freedom),
-    length(degrees_of_freedom) == 1L,
-    !is.na(degrees_of_freedom),
-    degrees_of_freedom >= 0L
+    is.factor(linelist[, surveillance])
+    || is.character(linelist[, surveillance])
   )
+  # Check on the outcome column of the line list
+  checkmate::assert_string(outcome)
+  stopifnot(
+    outcome %in% names(linelist),
+    is.factor(linelist[, outcome])
+    || is.character(linelist[, outcome])
+  )
+  # Check on hazard variance
+  checkmate::assert_number(
+    hazard_std, lower = .Machine$double.eps, finite = TRUE
+  )
+  # Check on degrees of freedom
+  checkmate::assert_integerish(degrees_of_freedom, lower = 0L)
+  degrees_of_freedom <- as.integer(degrees_of_freedom)
+  # Checks on prior parameters
   active_prior <- beta_parameterization(active_prior)
   passive_asymptomatic_prior <- beta_parameterization(
     passive_asymptomatic_prior
   )
   passive_symptomatic_prior <- beta_parameterization(passive_symptomatic_prior)
-
   # Construct the incidence array
   arrays <- incidence_population_arrays(
     linelist,
@@ -127,7 +125,6 @@ estimate_severity <- function(
   )
   surveillance_df <- format_surveillance_data_frame(arrays$surveillance)
   outcome_df <- format_outcome_data_frame(arrays$outcome)
-
   # Compile together the data given and format it
   surveillance_ind <- match(
     c("Active", "Passive", "Unknown"),
@@ -143,7 +140,6 @@ estimate_severity <- function(
   passive_ind <- which(
     arrays$linelist_ind[, "surveillance", drop = TRUE] == surveillance_ind[2L]
   )
-
   data <- list(
     strata_groups = nrow(arrays$strata),
     time_groups = nrow(arrays$time_period),
@@ -179,14 +175,12 @@ estimate_severity <- function(
     passive_symptomatic_alpha = passive_symptomatic_prior["alpha"],
     passive_symptomatic_beta = passive_symptomatic_prior["beta"]
   )
-
   # Pass along everything to the model
   model_fit <- stan_model(
     "severity_estimate_by_surveillance.stan",
     data = data,
     ...
   )
-
   # Create and return severity fit
   severity_estimate_fit <- new(
     "SeverityEstimateFit",
