@@ -11,9 +11,9 @@ data {
 
   // *Matrices of data*
   // The number of incidence detected through active surveillance
-  int <lower=0> I_active[time_groups,strata_groups];
+  int <lower=0> I_active[time_groups, strata_groups];
   // The number of incidence detected through passive surveillance
-  int <lower=0> I_passive[time_groups,strata_groups];
+  int <lower=0> I_passive[time_groups, strata_groups];
   // The total population
   int <lower=0> population[strata_groups];
 
@@ -49,9 +49,9 @@ data {
 parameters {
    // Symtom development/mortality spline coefficients
   real alpha[1 + degrees_of_freedom];
-  real mort_coef[1+degrees_of_freedom];
+  real mort_coef[1 + degrees_of_freedom];
   // The hazard of infection in each time step
-  real logit_hzd[time_groups,strata_groups];
+  real logit_hzd[time_groups, strata_groups];
   // Active detection probability
   real <lower=0, upper=1> active_detection;
   // Passive detection probabilities
@@ -124,7 +124,7 @@ model {
       );
       I_active[i, j] ~ poisson(active_detection * C[i, j]);
       I_passive[i, j] ~ poisson(
-        (1-active_detection) * (passive_asymptomatic_detection * (1-xi[j])
+        (1-active_detection) * (passive_asymptomatic_detection * (1 - xi[j])
          + passive_symptomatic_detection * xi[j]) * C[i, j]
       );
     }
