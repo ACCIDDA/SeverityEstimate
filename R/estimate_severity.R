@@ -80,22 +80,12 @@ estimate_severity <- function(
   ...
 ) {
   # Input validation
-  linelist <- is_data_frame(linelist)
-  population <- is_data_frame(population)
-  # Check on the surveillance column of line list
   checkmate::assert_string(surveillance)
-  stopifnot(
-    surveillance %in% names(linelist),
-    is.factor(linelist[, surveillance])
-    || is.character(linelist[, surveillance])
-  )
-  # Check on the outcome column of the line list
   checkmate::assert_string(outcome)
-  stopifnot(
-    outcome %in% names(linelist),
-    is.factor(linelist[, outcome])
-    || is.character(linelist[, outcome])
+  linelist <- is_data_frame(
+    linelist, has_string_columns = c(surveillance, outcome)
   )
+  population <- is_data_frame(population)
   # Check on hazard variance
   checkmate::assert_number(
     hazard_std, lower = .Machine$double.eps, finite = TRUE

@@ -4,10 +4,13 @@
 \alias{is_data_frame}
 \title{Is \code{x} A 'data.frame'?}
 \usage{
-is_data_frame(x)
+is_data_frame(x, has_string_columns = character())
 }
 \arguments{
 \item{x}{The object to check and downcast.}
+
+\item{has_string_columns}{A character vector of columns to check for the
+presence of as well as check it is a character/factor column.}
 }
 \value{
 Either \code{x} if it is only a 'data.frame' otherwise \code{x} downcasted as a
