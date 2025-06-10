@@ -1,12 +1,22 @@
 test_that("Input Validation", {
-  expect_error(format_extract_data_frame(NULL, "foo", list(letters)))
-  expect_error(format_extract_data_frame(letters, "foo", list(letters)))
+  expect_error(
+    format_extract_data_frame(NULL, "foo", list(letters)),
+    regexp = "is.data.frame(df) is not TRUE",
+    fixed = TRUE
+  )
+  expect_error(
+    format_extract_data_frame(letters, "foo", list(letters)),
+    regexp = "is.data.frame(df) is not TRUE",
+    fixed = TRUE
+  )
   expect_error(
     format_extract_data_frame(
       data.frame(abc = letters, def = LETTERS),
       "foo",
       list(letters)
-    )
+    ),
+    regexp = "The foo data.frame should only contain one column.",
+    fixed = TRUE
   )
   expect_error(
     format_extract_data_frame(
@@ -14,7 +24,7 @@ test_that("Input Validation", {
       "foo",
       list("a", c("b", "c"), c("d", "e", "f"))
     ),
-    "Was given inconsistent valid level lengths: 1, 2, 3.",
+    regexp = "Was given inconsistent valid level lengths: 1, 2, 3.",
     fixed = TRUE
   )
   expect_error(
@@ -23,7 +33,7 @@ test_that("Input Validation", {
       "foo",
       list(c("a", "b", "c"), c("d", "e", "f"))
     ),
-    "The foo data.frame should only contain 3 types of foo.",
+    regexp = "The foo data.frame should only contain 3 types of foo.",
     fixed = TRUE
   )
   expect_error(
@@ -32,7 +42,7 @@ test_that("Input Validation", {
       "foo",
       list(c("a", "b"), c("c", "d"))
     ),
-    paste0(
+    regexp = paste0(
       "The labels found in foo weren't valid. ",
       'Was expecting something like c("a", "b"), c("c", "d").'
     ),
@@ -45,7 +55,7 @@ test_that("Input Validation", {
       list(c("a", "b")),
       case_insensitive_levels = FALSE
     ),
-    paste0(
+    regexp = paste0(
       "The labels found in foo weren't valid. ",
       'Was expecting something like c("a", "b").'
     ),

@@ -10,7 +10,6 @@ test_that("Input Validation", {
   expect_error(process_significance_levels(-0.01))
   expect_error(process_significance_levels(c(0.1, 0.05, 1.02)))
   expect_error(process_significance_levels(c(0.1, 0.05, -0.02)))
-
   # Custom error
   expect_error(
     process_significance_levels(c(0.101, 0.102, 0.054)),

@@ -4,16 +4,14 @@ test_that("Input Validation", {
   expect_error(
     format_outcome_data_frame(list(lower = letters, upper = LETTERS))
   )
-
   expect_error(
     format_outcome_data_frame(mtcars),
-    "The outcome data.frame should only contain one column.",
+    regexp = "The outcome data.frame should only contain one column.",
     fixed = TRUE
   )
-
   expect_error(
     format_outcome_data_frame(data.frame(lower = letters)),
-    paste0(
+    regexp = paste0(
       "The outcome data.frame should ",
       "only contain 3 types of outcome."
     ),
@@ -21,18 +19,17 @@ test_that("Input Validation", {
   )
   expect_error(
     format_outcome_data_frame(data.frame(lower = as.factor(letters))),
-    paste0(
+    regexp = paste0(
       "The outcome data.frame should ",
       "only contain 3 types of outcome."
     ),
     fixed = TRUE
   )
-
   expect_error(
     format_outcome_data_frame(
       data.frame(foo = c("X", "Y", "Z", "X", "Y", "Z"))
     ),
-    paste0(
+    regexp = paste0(
       "The labels found in outcome weren't valid. Was expecting something ",
       'like c("asymptomatic", "death", "symptomatic"), c("a", "d", "s").'
     ),
@@ -42,7 +39,7 @@ test_that("Input Validation", {
     format_outcome_data_frame(
       data.frame(foo = as.factor(c("X", "Y", "Z", "X", "Y", "Z")))
     ),
-    paste0(
+    regexp = paste0(
       "The labels found in outcome weren't valid. Was expecting something ",
       'like c("asymptomatic", "death", "symptomatic"), c("a", "d", "s").'
     ),

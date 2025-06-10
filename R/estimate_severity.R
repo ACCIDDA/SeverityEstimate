@@ -83,12 +83,15 @@ estimate_severity <- function(
   checkmate::assert_string(surveillance)
   checkmate::assert_string(outcome)
   linelist <- is_data_frame(
-    linelist, has_string_columns = c(surveillance, outcome)
+    linelist,
+    has_string_columns = c(surveillance, outcome)
   )
   population <- is_data_frame(population)
   # Check on hazard variance
   checkmate::assert_number(
-    hazard_std, lower = .Machine$double.eps, finite = TRUE
+    hazard_std,
+    lower = .Machine$double.eps,
+    finite = TRUE
   )
   # Check on degrees of freedom
   checkmate::assert_integerish(degrees_of_freedom, lower = 0L)

@@ -1,18 +1,18 @@
 test_that("Stops when given an object that is not 'data.frame' like.", {
   expect_error(
     is_data_frame(NULL),
-    "`NULL` is not 'data.frame' like.",
+    regexp = "`NULL` is not 'data.frame' like.",
     fixed = TRUE
   )
   expect_error(
     is_data_frame(list(abc = letters, xyz = LETTERS)),
-    "`list(abc = letters, xyz = LETTERS)` is not 'data.frame' like.",
+    regexp = "`list(abc = letters, xyz = LETTERS)` is not 'data.frame' like.",
     fixed = TRUE
   )
   nums <- 1:9
   expect_error(
     is_data_frame(nums),
-    "`nums` is not 'data.frame' like.",
+    regexp = "`nums` is not 'data.frame' like.",
     fixed = TRUE
   )
 })

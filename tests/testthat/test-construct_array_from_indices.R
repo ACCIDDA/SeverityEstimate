@@ -4,13 +4,13 @@ test_that("Input Validation", {
 
   expect_error(
     construct_array_from_indices(),
-    "At least one vector of indices must be provided for '...'.",
+    regexp = "At least one vector of indices must be provided for '...'.",
     fixed = TRUE
   )
 
   expect_error(
     construct_array_from_indices(list(1L:26L, 1L:26L), list(1L:26L, 1L:26L)),
-    paste0(
+    regexp = paste0(
       "The first element of '...' is a list ",
       "but more than one argument was given."
     ),
@@ -19,7 +19,7 @@ test_that("Input Validation", {
 
   expect_error(
     construct_array_from_indices(1L:10L, 1L:25L, 1L:50L),
-    paste0(
+    regexp = paste0(
       "The indices given for '...' must all be equal length, ",
       "instead was given arguments with lengths: 10, 25, 50."
     ),
@@ -30,7 +30,7 @@ test_that("Input Validation", {
     construct_array_from_indices(
       1L:10L, 1L:25L, 1L:50L, dim = rep.int(100L, 4L)
     ),
-    paste0(
+    regexp = paste0(
       "An explicit `dim` was given, with length 4, which ",
       "does not match the number of indicies given, 3."
     ),

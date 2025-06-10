@@ -21,7 +21,7 @@ test_that("Input Validation", {
       time_period = "week",
       strata = "sex"
     ),
-    "`linelist` is not 'data.frame' like.",
+    regexp = "`linelist` is not 'data.frame' like.",
     fixed = TRUE
   )
   expect_error(
@@ -33,7 +33,7 @@ test_that("Input Validation", {
       time_period = "week",
       strata = "sex"
     ),
-    "`linelist` is not 'data.frame' like.",
+    regexp = "`linelist` is not 'data.frame' like.",
     fixed = TRUE
   )
   # population param
@@ -46,7 +46,7 @@ test_that("Input Validation", {
       time_period = "week",
       strata = "sex"
     ),
-    "`population` is not 'data.frame' like.",
+    regexp = "`population` is not 'data.frame' like.",
     fixed = TRUE
   )
   expect_error(
@@ -58,7 +58,7 @@ test_that("Input Validation", {
       time_period = "week",
       strata = "sex"
     ),
-    "`population` is not 'data.frame' like.",
+    regexp = "`population` is not 'data.frame' like.",
     fixed = TRUE
   )
   # surveillance param
@@ -86,7 +86,7 @@ test_that("Input Validation", {
       time_period = "week",
       strata = "sex"
     ),
-    "Assertion on 'surveillance' failed: Must have length 1.",
+    regexp = "Assertion on 'surveillance' failed: Must have length 1.",
     fixed = TRUE
   )
   expect_error(
@@ -98,7 +98,7 @@ test_that("Input Validation", {
       time_period = "week",
       strata = "sex"
     ),
-    "Assertion on 'surveillance' failed: May not be NA.",
+    regexp = "Assertion on 'surveillance' failed: May not be NA.",
     fixed = TRUE
   )
   expect_error(
@@ -124,7 +124,7 @@ test_that("Input Validation", {
       time_period = "week",
       strata = "sex"
     ),
-    paste0(
+    regexp = paste0(
       "The 'week' column of `linelist` is not a character or factor, ",
       "instead is: integer."
     ),
@@ -140,7 +140,9 @@ test_that("Input Validation", {
       time_period = "week",
       strata = "sex"
     ),
-    "Assertion on 'outcome' failed: Must be of type 'string', not 'integer'.",
+    regexp = paste0(
+      "Assertion on 'outcome' failed: Must be of type 'string', not 'integer'."
+    ),
     fixed = TRUE
   )
   expect_error(
@@ -152,7 +154,7 @@ test_that("Input Validation", {
       time_period = "week",
       strata = "sex"
     ),
-    "Assertion on 'outcome' failed: Must have length 1.",
+    regexp = "Assertion on 'outcome' failed: Must have length 1.",
     fixed = TRUE
   )
   expect_error(
@@ -164,7 +166,7 @@ test_that("Input Validation", {
       time_period = "week",
       strata = "sex"
     ),
-    "Assertion on 'outcome' failed: May not be NA.",
+    regexp = "Assertion on 'outcome' failed: May not be NA.",
     fixed = TRUE
   )
   expect_error(
@@ -190,7 +192,7 @@ test_that("Input Validation", {
       time_period = "week",
       strata = "sex"
     ),
-    paste0(
+    regexp = paste0(
       "The 'week' column of `linelist` is not a character or factor, ",
       "instead is: integer."
     ),
@@ -207,7 +209,7 @@ test_that("Input Validation", {
       strata = "sex",
       hazard_std = "abc"
     ),
-    paste0(
+    regexp = paste0(
       "Assertion on 'hazard_std' failed: ",
       "Must be of type 'number', not 'character'."
     ),
@@ -223,7 +225,7 @@ test_that("Input Validation", {
       strata = "sex",
       hazard_std = 1:5
     ),
-    "Assertion on 'hazard_std' failed: Must have length 1.",
+    regexp = "Assertion on 'hazard_std' failed: Must have length 1.",
     fixed = TRUE
   )
   expect_error(
@@ -236,7 +238,7 @@ test_that("Input Validation", {
       strata = "sex",
       hazard_std = NA_real_
     ),
-    "Assertion on 'hazard_std' failed: May not be NA.",
+    regexp = "Assertion on 'hazard_std' failed: May not be NA.",
     fixed = TRUE
   )
   expect_error(
@@ -249,7 +251,9 @@ test_that("Input Validation", {
       strata = "sex",
       hazard_std = -pi
     ),
-    "Assertion on 'hazard_std' failed: Element 1 is not >= 2.22045e-16.",
+    regexp = paste0(
+      "Assertion on 'hazard_std' failed: Element 1 is not >= 2.22045e-16."
+    ),
     fixed = TRUE
   )
   # degrees_of_freedom param
@@ -263,7 +267,7 @@ test_that("Input Validation", {
       strata = "sex",
       degrees_of_freedom = "abc"
     ),
-    paste0(
+    regexp = paste0(
       "Assertion on 'degrees_of_freedom' failed: ",
       "Must be of type 'integerish', not 'character'."
     ),
@@ -279,7 +283,7 @@ test_that("Input Validation", {
       strata = "sex",
       degrees_of_freedom = pi
     ),
-    paste0(
+    regexp = paste0(
       "Assertion on 'degrees_of_freedom' failed: ",
       "Must be of type 'integerish', ",
       "but element 1 is not close to an integer."
