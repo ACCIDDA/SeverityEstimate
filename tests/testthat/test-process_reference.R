@@ -13,7 +13,9 @@ test_that("Given data.frame for `values`", {
   # Input validation
   expect_error(
     process_reference(df, c("ghi", "jkl")),
-    "The values given is a data.frame but is missing expected columns: jkl.",
+    regexp = paste0(
+      "The values given is a data.frame but is missing expected columns: jkl."
+    ),
     fixed = TRUE
   )
 
@@ -29,7 +31,7 @@ test_that("Given non-NULL or non-data.frame for `values`", {
   # Input validation
   expect_error(
     process_reference(LETTERS, character()),
-    paste0(
+    regexp = paste0(
       "If a non-data.frame is provided for values only one ",
       "column can be given, but instead was given 0 columns."
     ),
@@ -37,7 +39,7 @@ test_that("Given non-NULL or non-data.frame for `values`", {
   )
   expect_error(
     process_reference(LETTERS, c("A", "B", "C")),
-    paste0(
+    regexp = paste0(
       "If a non-data.frame is provided for values only one ",
       "column can be given, but instead was given 3 columns."
     ),

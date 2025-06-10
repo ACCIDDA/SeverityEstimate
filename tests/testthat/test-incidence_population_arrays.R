@@ -27,7 +27,7 @@ test_that("Input Validation", {
       NULL,
       NULL
     ),
-    "all(time_period %in% names(linelist)) is not TRUE",
+    regexp = "all(time_period %in% names(linelist)) is not TRUE",
     fixed = TRUE
   )
   expect_error(
@@ -44,7 +44,7 @@ test_that("Input Validation", {
       NULL,
       NULL
     ),
-    "all(strata %in% names(linelist)) is not TRUE",
+    regexp = "all(strata %in% names(linelist)) is not TRUE",
     fixed = TRUE
   )
   expect_error( # Specifically gets `population`
@@ -61,7 +61,7 @@ test_that("Input Validation", {
       NULL,
       NULL
     ),
-    "all(strata %in% names(population)) is not TRUE",
+    regexp = "all(strata %in% names(population)) is not TRUE",
     fixed = TRUE
   )
   expect_error(
@@ -78,7 +78,7 @@ test_that("Input Validation", {
       NULL,
       NULL
     ),
-    "all(surveillance %in% names(linelist)) is not TRUE",
+    regexp = "all(surveillance %in% names(linelist)) is not TRUE",
     fixed = TRUE
   )
   expect_error(
@@ -95,7 +95,7 @@ test_that("Input Validation", {
       NULL,
       NULL
     ),
-    "all(outcome %in% names(linelist)) is not TRUE",
+    regexp = "all(outcome %in% names(linelist)) is not TRUE",
     fixed = TRUE
   )
   expect_error(
@@ -112,7 +112,7 @@ test_that("Input Validation", {
       NULL,
       NULL
     ),
-    "length(population_value) == 1L is not TRUE",
+    regexp = "length(population_value) == 1L is not TRUE",
     fixed = TRUE
   )
   expect_error(
@@ -129,7 +129,7 @@ test_that("Input Validation", {
       NULL,
       NULL
     ),
-    "population_value %in% names(population) is not TRUE",
+    regexp = "population_value %in% names(population) is not TRUE",
     fixed = TRUE
   )
 })
@@ -162,7 +162,7 @@ test_that("Incidents Strata Variables Not Covered By Population", {
       NULL,
       NULL
     ),
-    paste0(
+    regexp = paste0(
       "There are `strata` values found in the line ",
       "list that are not found in the population."
     ),

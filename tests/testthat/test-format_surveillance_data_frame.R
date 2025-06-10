@@ -4,16 +4,14 @@ test_that("Input Validation", {
   expect_error(
     format_surveillance_data_frame(list(lower = letters, upper = LETTERS))
   )
-
   expect_error(
     format_surveillance_data_frame(mtcars),
-    "The surveillance data.frame should only contain one column.",
+    regexp = "The surveillance data.frame should only contain one column.",
     fixed = TRUE
   )
-
   expect_error(
     format_surveillance_data_frame(data.frame(lower = letters)),
-    paste0(
+    regexp = paste0(
       "The surveillance data.frame should ",
       "only contain 3 types of surveillance."
     ),
@@ -21,16 +19,15 @@ test_that("Input Validation", {
   )
   expect_error(
     format_surveillance_data_frame(data.frame(lower = as.factor(letters))),
-    paste0(
+    regexp = paste0(
       "The surveillance data.frame should ",
       "only contain 3 types of surveillance."
     ),
     fixed = TRUE
   )
-
   expect_error(
     format_surveillance_data_frame(data.frame(foo = c("X", "Y", "X", "Y"))),
-    paste0(
+    regexp = paste0(
       "The labels found in surveillance weren't valid. Was expecting ",
       'something like c("active", "passive", "unknown"), c("a", "p", "u").'
     ),
@@ -40,7 +37,7 @@ test_that("Input Validation", {
     format_surveillance_data_frame(
       data.frame(foo = as.factor(c("X", "Y", "X", "Y")))
     ),
-    paste0(
+    regexp = paste0(
       "The labels found in surveillance weren't valid. Was expecting ",
       'something like c("active", "passive", "unknown"), c("a", "p", "u").'
     ),

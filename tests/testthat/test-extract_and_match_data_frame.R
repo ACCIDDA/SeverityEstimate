@@ -131,7 +131,7 @@ test_that("Extract And Match Data Frame With Subset Missing Entries", {
   # Tests
   expect_error(
     extract_and_match_data_frame(x, c("num", "log"), subset_x = subset_x),
-    "There were values found in `x` not covered by `subset_x`.",
+    regexp = "There were values found in `x` not covered by `subset_x`.",
     fixed = TRUE
   )
 

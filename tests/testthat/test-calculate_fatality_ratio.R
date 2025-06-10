@@ -35,8 +35,16 @@ test_that("Input validation when given a list for `x`", {
   )
 
   # Test that `x` has the names "C", "mortality", & "xi"
-  expect_error(calculate_fatality_ratio(list("abc" = letters, "def" = LETTERS)))
-  expect_error(calculate_fatality_ratio(list("C" = 1L:10L, "xi" = 11L:20L)))
+  expect_error(
+    calculate_fatality_ratio(list("abc" = letters, "def" = LETTERS)),
+    regexp = 'all(c("C", "mortality", "xi") %in% names(x)) is not TRUE',
+    fixed = TRUE
+  )
+  expect_error(
+    calculate_fatality_ratio(list("C" = 1L:10L, "xi" = 11L:20L)),
+    regexp = 'all(c("C", "mortality", "xi") %in% names(x)) is not TRUE',
+    fixed = TRUE
+  )
 
   # Test mean/median/naive estimate single logical parameters
   lapply(list(NA, NULL, c(TRUE, TRUE), 1L), function(x) {
