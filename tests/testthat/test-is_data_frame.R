@@ -1,5 +1,3 @@
-library(lobstr)
-
 test_that("Stops when given an object that is not 'data.frame' like.", {
   expect_error(
     is_data_frame(NULL),
@@ -58,4 +56,58 @@ test_that("Returns downcasted object when not given exactly a 'data.frame'", {
       expect_false(identical(lobstr::obj_addr(y), lobstr::obj_addr(x)))
     }
   }
+})
+
+test_that("Stops when missing required columns", {
+  x <- data.frame(
+    abc = letters,
+    xyz = LETTERS
+  )
+  expect_error(
+    is_data_frame(x, has_string_columns = "ghi"),
+    regexp = "`x` is missing required string columns: ghi.",
+    fixed = TRUE
+  )
+  expect_error(
+    is_data_frame(x, has_string_columns = c("ghi", "jkl")),
+    regexp = "`x` is missing required string columns: ghi, jkl.",
+    fixed = TRUE
+  )
+  expect_error(
+    is_data_frame(x, has_string_columns = c("ghi", "xyz", "jkl")),
+    regexp = "`x` is missing required string columns: ghi, jkl.",
+    fixed = TRUE
+  )
+})
+
+test_that("Stops when required columns are not characters or factors", {
+  x <- data.frame(
+    abc = letters,
+    def = factor(
+      x = rep_len(c("a", "b", "c"), 26L), levels = c("a", "b", "c")
+    ),
+    ghi = 1L:26L,
+    jkl = runif(26L)
+  )
+  expect_error(
+    is_data_frame(x, has_string_columns = "ghi"),
+    regexp = paste0(
+      "The 'ghi' column of `x` is not a character or factor, instead is: "
+    ),
+    fixed = TRUE
+  )
+  expect_error(
+    is_data_frame(x, has_string_columns = c("abc", "ghi")),
+    regexp = paste0(
+      "The 'ghi' column of `x` is not a character or factor, instead is: "
+    ),
+    fixed = TRUE
+  )
+  expect_error(
+    is_data_frame(x, has_string_columns = c("jkl", "ghi")),
+    regexp = paste0(
+      "The 'jkl' column of `x` is not a character or factor, instead is: "
+    ),
+    fixed = TRUE
+  )
 })

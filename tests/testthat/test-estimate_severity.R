@@ -110,10 +110,12 @@ test_that("Input Validation", {
       time_period = "week",
       strata = "sex"
     ),
-    "surveillance %in% names(linelist) is not TRUE",
+    regexp = paste0(
+      "`linelist` is missing required string columns: not present in linelist."
+    ),
     fixed = TRUE
   )
-  expect_error( # fails for not being a character/factor
+  expect_error(
     estimate_severity(
       linelist,
       population,
@@ -123,8 +125,8 @@ test_that("Input Validation", {
       strata = "sex"
     ),
     paste0(
-      "is.factor(linelist[, surveillance]) || is.character(linelist[,  ",
-      ".... is not TRUE"
+      "The 'week' column of `linelist` is not a character or factor, ",
+      "instead is: integer."
     ),
     fixed = TRUE
   )
@@ -174,10 +176,12 @@ test_that("Input Validation", {
       time_period = "week",
       strata = "sex"
     ),
-    "outcome %in% names(linelist) is not TRUE",
+    regexp = paste0(
+      "`linelist` is missing required string columns: not present in linelist."
+    ),
     fixed = TRUE
   )
-  expect_error( # fails for not being a character/factor
+  expect_error(
     estimate_severity(
       linelist,
       population,
@@ -187,8 +191,8 @@ test_that("Input Validation", {
       strata = "sex"
     ),
     paste0(
-      "is.factor(linelist[, outcome]) || is.character(linelist[, outcome]) ",
-      "is not TRUE"
+      "The 'week' column of `linelist` is not a character or factor, ",
+      "instead is: integer."
     ),
     fixed = TRUE
   )
