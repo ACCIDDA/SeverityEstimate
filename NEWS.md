@@ -1,5 +1,36 @@
-# SeverityEstimate 0.0.2 (in development)
+# SeverityEstimate 0.1.0 (in development)
 
+- Added `SeverityEstimateModel` S4 class to represent a model and contain the metadata for building a model. Also added the constructor function `SeverityEstimateModel` to make it easy to create an instance of this class, like so:
+```R
+library(SeverityEstimate)
+
+line_list <- data.frame(
+  id = 1L:3L,
+  week = c(1L, 1L, 2L),
+  sex = c("M", "F", "M"),
+  outcome = c("Asymptomatic", "Symptomatic", "Death"),
+  detection = c("Active", "Active", "Passive")
+)
+
+population <- data.frame(
+  sex = c("Male", "Female"),
+  amount = c(123L, 456L)
+)
+
+model <- SeverityEstimateModel(line_list, population)
+model
+# An object of class "SeverityEstimateModel"
+# Slot "line_list":
+#   id week sex      outcome detection
+# 1  1    1   M Asymptomatic    Active
+# 2  2    1   F  Symptomatic    Active
+# 3  3    2   M        Death   Passive
+
+# Slot "population":
+#      sex amount
+# 1   Male    123
+# 2 Female    456
+```
 - Switched from `make` to `just` for task running. This change provides a couple of improvements namely: easier cross-platform support, simplification to task specification, and ability to invoke tasks using the shell or R. #44.
 
 # SeverityEstimate 0.0.1
