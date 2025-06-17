@@ -11,13 +11,14 @@ line_list <- data.frame(
   detection = c("Active", "Active", "Passive")
 )
 population <- data.frame(
-  sex = c("Male", "Female"),
+  sex = c("M", "F"),
   amount = c(123L, 456L)
 )
 model <- SeverityEstimateModel(line_list, population) |>
   active_prior(alpha = 1.0, beta = 1.0) |>
   passive_asymptomatic_prior(alpha = 1.0, beta = 3.0) |>
-  passive_symptomatic_prior(alpha = 3.0, beta = 1.0)
+  passive_symptomatic_prior(alpha = 3.0, beta = 1.0) |>
+  strata("sex")
 model
 # An object of class "SeverityEstimateModel"
 # Slot "line_list":
@@ -27,9 +28,22 @@ model
 # 3  3    2   M        Death   Passive
 #
 # Slot "population":
-#      sex amount
-# 1   Male    123
-# 2 Female    456
+#   sex amount
+# 1   M    123
+# 2   F    456
+#
+# Slot "strata":
+# [[1]]
+# [[1]]$name
+# [1] "sex"
+#
+# [[1]]$levels
+# [1] "F" "M"
+#
+# [[1]]$ordered
+# [1] FALSE
+#
+#
 #
 # Slot "active_prior":
 # alpha  beta 
