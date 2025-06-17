@@ -7,6 +7,7 @@
 #' @slot line_list A line list of cases to model the severity of.
 #' @slot population A dataset containing information on the population broken
 #' down by strataification.
+#' @slot strata A list of model stratification specifications.
 #' @slot active_prior Parameters for the beta distribution prior for the active
 #' detection rate.
 #' @slot passive_asymptomatic_prior Parameters for the beta distribution prior
@@ -22,6 +23,7 @@ setClass(
   slots = c(
     "line_list" = "data.frame",
     "population" = "data.frame",
+    "strata" = "list",
     "active_prior" = "numeric",
     "passive_asymptomatic_prior" = "numeric",
     "passive_symptomatic_prior" = "numeric"
@@ -29,6 +31,7 @@ setClass(
   prototype = list(
     "line_list" = data.frame(),
     "population" = data.frame(),
+    "strata" = list(),
     "active_prior" = numeric(),
     "passive_asymptomatic_prior" = numeric(),
     "passive_symptomatic_prior" = numeric()
@@ -121,10 +124,7 @@ print.SeverityEstimateModel <- function(x, ...) {
 #' @keywords internal
 check_model <- function(
   model,
-  attribute = NULL,
-  name = NULL,
-  name_in = NULL,
-  ordered = NA
+  attribute = NULL
 ) {
   checkmate::assert_class(model, "SeverityEstimateModel")
   checkmate::assert_string(attribute, null.ok = TRUE)
@@ -139,16 +139,42 @@ check_model <- function(
       )
     }
   }
-  checkmate::assert_string(name, null.ok = TRUE)
-  if (!is.null(name)) {
-    checkmate::assert_choice(name_in, c("line_list", "population", "both"))
-    if (name_in %in% c("line_list", "both")) {
-      checkmate::assert_choice(name, names(model@line_list))
-    }
-    if (name_in %in% c("population", "both")) {
-      checkmate::assert_choice(name, names(model@population))
-    }
-  }
-  assert_bool(ordered, na.ok = TRUE)
   NULL
+}
+
+
+#' @rdname check_model
+infer_levels <- function(model, name, name_in, levels = NULL, ordered = FALSE) {
+  # Validations
+  checkmate::assert_string(name)
+  checkmate::assert_choice(name_in, c("line_list", "population", "both"))
+  if (name_in %in% c("line_list", "both")) {
+    checkmate::assert_choice(name, names(model@line_list))
+  }
+  if (name_in %in% c("population", "both")) {
+    checkmate::assert_choice(name, names(model@population))
+  }
+  assert_bool(ordered)
+  if (is.null(levels) && ordered) {
+    stop(
+      "Assertion on 'levels' failed: Explicit levels ",
+      "must be provided when `ordered` is `TRUE`."
+    )
+  }
+  if (name_in == "line_list") {
+    inferred_levels <- model@line_list[, name, drop = TRUE]
+  } else if (name_in == "population") {
+    inferred_levels <- model@population[, name, drop = TRUE]
+  } else {
+    inferred_levels <- c(
+      model@line_list[, name, drop = TRUE],
+      model@population[, name, drop = TRUE]
+    )
+  }
+  inferred_levels <- sort(unique(inferred_levels))
+  if (is.null(levels)) {
+    levels <- inferred_levels
+  }
+  checkmate::assert_subset(inferred_levels, levels)
+  levels
 }
