@@ -18,7 +18,8 @@ model <- SeverityEstimateModel(line_list, population) |>
   active_prior(alpha = 1.0, beta = 1.0) |>
   passive_asymptomatic_prior(alpha = 1.0, beta = 3.0) |>
   passive_symptomatic_prior(alpha = 3.0, beta = 1.0) |>
-  strata("sex")
+  strata("sex") |>
+  time("week")
 model
 # An object of class "SeverityEstimateModel"
 # Slot "line_list":
@@ -42,6 +43,15 @@ model
 #
 # [[1]]$ordered
 # [1] FALSE
+#
+#
+#
+# Slot "time":
+# $name
+# [1] "week"
+#
+# $levels
+# [1] 1 2
 #
 #
 #
