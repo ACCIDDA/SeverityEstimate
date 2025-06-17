@@ -180,3 +180,48 @@ test_that(
     }
   }
 )
+
+test_that(
+  paste0(
+    "Variance/mean inequality error for ",
+    "'mean'/'var' and 'mean'/'sd' parameterizations"
+  ),
+  {
+    # mean/var
+    invalid_mean_var_params <- list(
+      c("mean" = 0.99, "var" = 0.1),
+      c("mean" = 0.01, "var" = 0.1),
+      c("mean" = 0.5, "var" = 0.3),
+      c("mean" = 0.3, "var" = 0.3 * (1.0 - 0.3))
+    )
+    for (params in invalid_mean_var_params) {
+      expect_gte(params["var"], params["mean"] * (1.0 - params["mean"]))
+      expect_error(
+        beta_parameterization(params),
+        regexp = paste0(
+          "^The beta distribution\'s variance, .*, cannot be greater ",
+          "than or equal to mean \\* \\(1 \\- mean\\), .*\\.$"
+        ),
+        perl = TRUE
+      )
+    }
+    # mean/sd
+    invalid_mean_sd_params <- list(
+      c("mean" = 0.99, "sd" = 0.1),
+      c("mean" = 0.01, "sd" = 0.1),
+      c("mean" = 0.5, "sd" = 0.55),
+      c("mean" = 0.3, "sd" = sqrt(0.3 * (1.0 - 0.3)))
+    )
+    for (params in invalid_mean_sd_params) {
+      expect_gte(params["sd"]**2.0, params["mean"] * (1.0 - params["mean"]))
+      expect_error(
+        beta_parameterization(params),
+        regexp = paste0(
+          "^The beta distribution\'s variance, .*, cannot be greater ",
+          "than or equal to mean \\* \\(1 \\- mean\\), .*\\.$"
+        ),
+        perl = TRUE
+      )
+    }
+  }
+)
