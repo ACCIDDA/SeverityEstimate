@@ -4,7 +4,9 @@ test_that("Non-SeverityEstimateFit or list object given for `x`", {
       calculate_fatality_ratio(x),
       regexp = paste0(
         "Unable to find a suitable `calculate_fatality_ratio` method for ",
-        "`x` with classes: ", toString(class(x)), "."
+        "`x` with classes: ",
+        toString(class(x)),
+        "."
       ),
       fixed = TRUE
     )
@@ -61,7 +63,11 @@ test_that("Output validation when given a list for `x`", {
   unique_strata <- 5L
   strata <- data.frame(
     "age_group" = c(
-      "Children", "Elderly", "Infants", "Working Adults", "Young Adults"
+      "Children",
+      "Elderly",
+      "Infants",
+      "Working Adults",
+      "Young Adults"
     )
   )
   x <- list(
@@ -105,18 +111,34 @@ test_that("Output validation when given a list for `x`", {
   expected_fatality_ratios$ifr_mean_estimate <- apply(x$mortality, 2L, mean)
   expected_fatality_ratios$ifr_median_estimate <- apply(x$mortality, 2L, median)
   expected_fatality_ratios$ifr_lower_05 <- apply(
-    x$mortality, 2L, stats::quantile, probs = 0.025, names = FALSE
+    x$mortality,
+    2L,
+    stats::quantile,
+    probs = 0.025,
+    names = FALSE
   )
   expected_fatality_ratios$ifr_upper_05 <- apply(
-    x$mortality, 2L, stats::quantile, probs = 0.975, names = FALSE
+    x$mortality,
+    2L,
+    stats::quantile,
+    probs = 0.975,
+    names = FALSE
   )
   expected_fatality_ratios$sir_mean_estimate <- apply(x$xi, 2L, mean)
   expected_fatality_ratios$sir_median_estimate <- apply(x$xi, 2L, median)
   expected_fatality_ratios$sir_lower_05 <- apply(
-    x$xi, 2L, stats::quantile, probs = 0.025, names = FALSE
+    x$xi,
+    2L,
+    stats::quantile,
+    probs = 0.025,
+    names = FALSE
   )
   expected_fatality_ratios$sir_upper_05 <- apply(
-    x$xi, 2L, stats::quantile, probs = 0.975, names = FALSE
+    x$xi,
+    2L,
+    stats::quantile,
+    probs = 0.975,
+    names = FALSE
   )
   expect_identical(fatality_ratios, expected_fatality_ratios)
 
@@ -134,12 +156,10 @@ test_that("Output validation when given a list for `x`", {
   expected_fatality_ratios$ifr_median_estimate <- apply(x$mortality, 2L, median)
   expected_fatality_ratios$sir_mean_estimate <- apply(x$xi, 2L, mean)
   expected_fatality_ratios$sir_median_estimate <- apply(x$xi, 2L, median)
-  expected_fatality_ratios$naive_ifr <- (
-    apply(incidence[, , , 2L], 2L, sum) / apply(incidence, 2L, sum)
-  )
-  expected_fatality_ratios$naive_sir <- (
-    apply(incidence[, , , 2L:3L], 2L, sum) / apply(incidence, 2L, sum)
-  )
+  expected_fatality_ratios$naive_ifr <- (apply(incidence[,,, 2L], 2L, sum) /
+    apply(incidence, 2L, sum))
+  expected_fatality_ratios$naive_sir <- (apply(incidence[,,, 2L:3L], 2L, sum) /
+    apply(incidence, 2L, sum))
   expect_identical(fatality_ratios, expected_fatality_ratios)
 })
 
@@ -150,7 +170,11 @@ test_that("Output validation when given a list for `x` and missing outcomes", {
   unique_strata <- 5L
   strata <- data.frame(
     "age_group" = c(
-      "Children", "Elderly", "Infants", "Working Adults", "Young Adults"
+      "Children",
+      "Elderly",
+      "Infants",
+      "Working Adults",
+      "Young Adults"
     )
   )
   x <- list(
@@ -194,9 +218,8 @@ test_that("Output validation when given a list for `x` and missing outcomes", {
   expected_fatality_ratios$sir_mean_estimate <- apply(x$xi, 2L, mean)
   expected_fatality_ratios$sir_median_estimate <- apply(x$xi, 2L, median)
   expected_fatality_ratios$naive_ifr <- rep.int(0.0, unique_strata)
-  expected_fatality_ratios$naive_sir <- (
-    apply(incidence[, , , 2L], 2L, sum) / apply(incidence, 2L, sum)
-  )
+  expected_fatality_ratios$naive_sir <- (apply(incidence[,,, 2L], 2L, sum) /
+    apply(incidence, 2L, sum))
   expect_identical(fatality_ratios, expected_fatality_ratios)
 
   # Sample input with no deaths or symptoms
@@ -205,7 +228,11 @@ test_that("Output validation when given a list for `x` and missing outcomes", {
   unique_strata <- 5L
   strata <- data.frame(
     "age_group" = c(
-      "Children", "Elderly", "Infants", "Working Adults", "Young Adults"
+      "Children",
+      "Elderly",
+      "Infants",
+      "Working Adults",
+      "Young Adults"
     )
   )
   x <- list(

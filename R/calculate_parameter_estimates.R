@@ -81,7 +81,8 @@ calculate_parameter_estimates.list <- function(
         "active_detection",
         "passive_asymptomatic_detection",
         "passive_symptomatic_detection"
-      ) %in% names(x)
+      ) %in%
+        names(x)
     )
   )
   stopifnot(isTRUE(mean_estimate) || isFALSE(mean_estimate))
@@ -110,32 +111,35 @@ calculate_parameter_estimates.list <- function(
     x$passive_symptomatic_detection
   )
   idx <- if (median_estimate) 2L else 1L
-  param_summary <- do.call(rbind, apply(params_matrix, 2L, function(x) {
-    lst <- list()
-    # Mean estimate
-    if (mean_estimate) {
-      lst[["mean_estimate"]] <- mean(x)
-    }
-    # Median estimate and CIs
-    if (median_estimate || length(alpha) > 0L) {
-      q <- stats::quantile(
-        x,
-        probs = c(
-          if (median_estimate) 0.5 else numeric(),
-          if (length(alpha) > 0L) conf_probs else numeric()
-        ),
-        names = FALSE
-      )
-      if (median_estimate) {
-        lst[["median_estimate"]] <- q[1L]
+  param_summary <- do.call(
+    rbind,
+    apply(params_matrix, 2L, function(x) {
+      lst <- list()
+      # Mean estimate
+      if (mean_estimate) {
+        lst[["mean_estimate"]] <- mean(x)
       }
-      if (length(alpha) > 0L) {
-        lst[conf_labels] <- q[idx:length(q)]
+      # Median estimate and CIs
+      if (median_estimate || length(alpha) > 0L) {
+        q <- stats::quantile(
+          x,
+          probs = c(
+            if (median_estimate) 0.5 else numeric(),
+            if (length(alpha) > 0L) conf_probs else numeric()
+          ),
+          names = FALSE
+        )
+        if (median_estimate) {
+          lst[["median_estimate"]] <- q[1L]
+        }
+        if (length(alpha) > 0L) {
+          lst[conf_labels] <- q[idx:length(q)]
+        }
       }
-    }
-    # Done
-    as.data.frame(lst)
-  }))
+      # Done
+      as.data.frame(lst)
+    })
+  )
 
   # Format return
   old_names <- names(param_summary)
@@ -166,6 +170,8 @@ calculate_parameter_estimates.list <- function(
 calculate_parameter_estimates.default <- function(x, ...) {
   stop(
     "Unable to find a suitable `calculate_parameter_estimates` method for `x` ",
-    "with classes: ", toString(class(x)), "."
+    "with classes: ",
+    toString(class(x)),
+    "."
   )
 }

@@ -26,17 +26,24 @@ is_data_frame <- function(x, has_string_columns = character()) {
     missing_columns <- setdiff(has_string_columns, names(x))
     if (length(missing_columns)) {
       stop(
-        "`", checkmate::vname(x), "` is missing required string columns: ",
-        toString(missing_columns), "."
+        "`",
+        checkmate::vname(x),
+        "` is missing required string columns: ",
+        toString(missing_columns),
+        "."
       )
     }
     for (column in has_string_columns) {
       y <- x[, column]
       if (!is.factor(y) && !is.character(y)) {
         stop(
-          "The '", column, "' column of `", checkmate::vname(x),
+          "The '",
+          column,
+          "' column of `",
+          checkmate::vname(x),
           "` is not a character or factor, instead is: ",
-          toString(class(y)), "."
+          toString(class(y)),
+          "."
         )
       }
     }

@@ -126,19 +126,27 @@ test_that("Output validation when given a list for `x`", {
     lower_05 = c(
       stats::quantile(x2$active_detection, probs = 0.025, names = FALSE),
       stats::quantile(
-        x2$passive_asymptomatic_detection, probs = 0.025, names = FALSE
+        x2$passive_asymptomatic_detection,
+        probs = 0.025,
+        names = FALSE
       ),
       stats::quantile(
-        x2$passive_symptomatic_detection, probs = 0.025, names = FALSE
+        x2$passive_symptomatic_detection,
+        probs = 0.025,
+        names = FALSE
       )
     ),
     upper_05 = c(
       stats::quantile(x2$active_detection, probs = 0.975, names = FALSE),
       stats::quantile(
-        x2$passive_asymptomatic_detection, probs = 0.975, names = FALSE
+        x2$passive_asymptomatic_detection,
+        probs = 0.975,
+        names = FALSE
       ),
       stats::quantile(
-        x2$passive_symptomatic_detection, probs = 0.975, names = FALSE
+        x2$passive_symptomatic_detection,
+        probs = 0.975,
+        names = FALSE
       )
     )
   )
@@ -175,37 +183,53 @@ test_that("Output validation when given a list for `x`", {
     lower_05 = c(
       stats::quantile(x3$active_detection, probs = 0.025, names = FALSE),
       stats::quantile(
-        x3$passive_asymptomatic_detection, probs = 0.025, names = FALSE
+        x3$passive_asymptomatic_detection,
+        probs = 0.025,
+        names = FALSE
       ),
       stats::quantile(
-        x3$passive_symptomatic_detection, probs = 0.025, names = FALSE
+        x3$passive_symptomatic_detection,
+        probs = 0.025,
+        names = FALSE
       )
     ),
     upper_05 = c(
       stats::quantile(x3$active_detection, probs = 0.975, names = FALSE),
       stats::quantile(
-        x3$passive_asymptomatic_detection, probs = 0.975, names = FALSE
+        x3$passive_asymptomatic_detection,
+        probs = 0.975,
+        names = FALSE
       ),
       stats::quantile(
-        x3$passive_symptomatic_detection, probs = 0.975, names = FALSE
+        x3$passive_symptomatic_detection,
+        probs = 0.975,
+        names = FALSE
       )
     ),
     lower_01 = c(
       stats::quantile(x3$active_detection, probs = 0.005, names = FALSE),
       stats::quantile(
-        x3$passive_asymptomatic_detection, probs = 0.005, names = FALSE
+        x3$passive_asymptomatic_detection,
+        probs = 0.005,
+        names = FALSE
       ),
       stats::quantile(
-        x3$passive_symptomatic_detection, probs = 0.005, names = FALSE
+        x3$passive_symptomatic_detection,
+        probs = 0.005,
+        names = FALSE
       )
     ),
     upper_01 = c(
       stats::quantile(x3$active_detection, probs = 0.995, names = FALSE),
       stats::quantile(
-        x3$passive_asymptomatic_detection, probs = 0.995, names = FALSE
+        x3$passive_asymptomatic_detection,
+        probs = 0.995,
+        names = FALSE
       ),
       stats::quantile(
-        x3$passive_symptomatic_detection, probs = 0.995, names = FALSE
+        x3$passive_symptomatic_detection,
+        probs = 0.995,
+        names = FALSE
       )
     )
   )

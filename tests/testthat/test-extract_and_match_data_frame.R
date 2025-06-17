@@ -154,8 +154,8 @@ test_that("Extract And Match Data Frame With Subset Missing Entries", {
   expect_length(extract_and_match$ind, 2600L)
   expect_true(
     all(
-      (1L <= extract_and_match$ind & extract_and_match$ind <= 130L)
-      | is.na(extract_and_match$ind)
+      (1L <= extract_and_match$ind & extract_and_match$ind <= 130L) |
+        is.na(extract_and_match$ind)
     )
   )
   not_na <- !is.na(extract_and_match$ind)

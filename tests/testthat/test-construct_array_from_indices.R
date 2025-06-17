@@ -28,7 +28,10 @@ test_that("Input Validation", {
 
   expect_error(
     construct_array_from_indices(
-      1L:10L, 1L:25L, 1L:50L, dim = rep.int(100L, 4L)
+      1L:10L,
+      1L:25L,
+      1L:50L,
+      dim = rep.int(100L, 4L)
     ),
     regexp = paste0(
       "An explicit `dim` was given, with length 4, which ",
@@ -44,13 +47,15 @@ test_that("Small Examples", {
   expect_identical(test_array, expected_array)
 
   test_array <- construct_array_from_indices(
-    c(1L, 2L, 1L, 2L, 1L), c(1L, 1L, 1L, 2L, 2L)
+    c(1L, 2L, 1L, 2L, 1L),
+    c(1L, 1L, 1L, 2L, 2L)
   )
   expected_array <- array(data = c(2L, 1L, 1L, 1L), dim = c(2L, 2L))
   expect_identical(test_array, expected_array)
 
   test_array <- construct_array_from_indices(
-    c(1L, 2L, 1L, 2L, 1L, 2L), c(1L, 1L, 1L, 2L, 2L, 3L)
+    c(1L, 2L, 1L, 2L, 1L, 2L),
+    c(1L, 1L, 1L, 2L, 2L, 3L)
   )
   expected_array <- array(data = c(2L, 1L, 1L, 1L, 0L, 1L), dim = c(2L, 3L))
   expect_identical(test_array, expected_array)
@@ -99,12 +104,30 @@ test_that("Small Examples With Dim", {
   )
   expected_array <- array(
     data = c(
-      1L, 0L, 0L, 0L,
-      0L, 1L, 0L, 0L,
-      0L, 0L, 0L, 0L,
-      0L, 1L, 0L, 0L,
-      0L, 0L, 0L, 0L,
-      0L, 0L, 0L, 0L
+      1L,
+      0L,
+      0L,
+      0L,
+      0L,
+      1L,
+      0L,
+      0L,
+      0L,
+      0L,
+      0L,
+      0L,
+      0L,
+      1L,
+      0L,
+      0L,
+      0L,
+      0L,
+      0L,
+      0L,
+      0L,
+      0L,
+      0L,
+      0L
     ),
     dim = c(4L, 3L, 2L)
   )
@@ -113,7 +136,8 @@ test_that("Small Examples With Dim", {
 
 test_that("Small Examples With Dimnames", {
   test_array <- construct_array_from_indices(
-    c(1L, 2L, 3L, 4L, 2L, 6L), dimnames = list("foobar" = letters[1L:6L])
+    c(1L, 2L, 3L, 4L, 2L, 6L),
+    dimnames = list("foobar" = letters[1L:6L])
   )
   expected_array <- array(
     data = c(1L, 2L, 1L, 1L, 0L, 1L),
@@ -123,7 +147,9 @@ test_that("Small Examples With Dimnames", {
   expect_identical(test_array, expected_array)
 
   test_array <- construct_array_from_indices(
-    c(1L, 2L, 1L, 2L, 1L), c(1L, 1L, 1L, 2L, 2L), dimnames = c("ABC", "DEF")
+    c(1L, 2L, 1L, 2L, 1L),
+    c(1L, 1L, 1L, 2L, 2L),
+    dimnames = c("ABC", "DEF")
   )
   expected_array <- array(
     data = c(2L, 1L, 1L, 1L),

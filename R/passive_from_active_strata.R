@@ -9,10 +9,11 @@
 #'
 #' @keywords internal
 passive_from_active_strata <- function(
-    strata,
-    active_detection,
-    passive_asymptomatic_detection,
-    passive_symptomatic_detection) {
+  strata,
+  active_detection,
+  passive_asymptomatic_detection,
+  passive_symptomatic_detection
+) {
   # Setup
   passive_strata <- strata
 

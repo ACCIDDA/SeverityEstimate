@@ -124,7 +124,8 @@ estimate_severity <- function(
     surveillance_df[, surveillance]
   )
   outcome_ind <- match(
-    c("Asymptomatic", "Symptomatic", "Death"), outcome_df[, outcome]
+    c("Asymptomatic", "Symptomatic", "Death"),
+    outcome_df[, outcome]
   )
   incidence_without_outcome <- rowSums(arrays$incidence, dims = 3L)
   active_ind <- which(
@@ -136,29 +137,33 @@ estimate_severity <- function(
   data <- list(
     strata_groups = nrow(arrays$strata),
     time_groups = nrow(arrays$time_period),
-    I_passive = incidence_without_outcome[, , surveillance_ind[2L]],
-    I_active = incidence_without_outcome[, , surveillance_ind[1L]],
+    I_passive = incidence_without_outcome[,, surveillance_ind[2L]],
+    I_active = incidence_without_outcome[,, surveillance_ind[1L]],
     population = arrays$population,
     observed_active = length(active_ind),
     observed_passive = length(passive_ind),
     strata_active = arrays$linelist_ind[active_ind, "strata", drop = TRUE],
-    symptoms_active = (
-      arrays$linelist_ind[active_ind, "outcome", drop = TRUE]
-      %in% outcome_ind[2L:3L]
-    ),
-    dead_active = (
-      arrays$linelist_ind[active_ind, "outcome", drop = TRUE]
-      %in% outcome_ind[3L]
-    ),
+    symptoms_active = (arrays$linelist_ind[
+      active_ind,
+      "outcome",
+      drop = TRUE
+    ] %in%
+      outcome_ind[2L:3L]),
+    dead_active = (arrays$linelist_ind[active_ind, "outcome", drop = TRUE] %in%
+      outcome_ind[3L]),
     strata_passive = arrays$linelist_ind[passive_ind, "strata", drop = TRUE],
-    symptoms_passive = (
-      arrays$linelist_ind[passive_ind, "outcome", drop = TRUE]
-      %in% outcome_ind[2L:3L]
-    ),
-    dead_passive = (
-      arrays$linelist_ind[passive_ind, "outcome", drop = TRUE]
-      %in% outcome_ind[3L]
-    ),
+    symptoms_passive = (arrays$linelist_ind[
+      passive_ind,
+      "outcome",
+      drop = TRUE
+    ] %in%
+      outcome_ind[2L:3L]),
+    dead_passive = (arrays$linelist_ind[
+      passive_ind,
+      "outcome",
+      drop = TRUE
+    ] %in%
+      outcome_ind[3L]),
     hazard_std = hazard_std,
     degrees_of_freedom = degrees_of_freedom,
     active_detection_alpha = active_prior["alpha"],

@@ -61,7 +61,9 @@ test_that("`params` must have a specific set of names", {
     expect_error(
       beta_parameterization(params),
       regexp = paste0(
-        "The given parameterization ", toString(names(params)), " is not ",
+        "The given parameterization ",
+        toString(names(params)),
+        " is not ",
         "recognized. Must be one of 'alpha'/'beta', 'mean'/'var', 'mean'/'sd'."
       ),
       fixed = TRUE

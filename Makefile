@@ -4,7 +4,7 @@ RMDIR := rm -rf
 
 .PHONY: all clean docs lint test test-fast renv-install renv-update renv-snapshot install remove check
 
-all: clean docs lint test
+all: clean format lint docs test
 
 clean:
 	$(RMDIR) ..Rcheck/
@@ -14,11 +14,11 @@ docs:
 	Rscript -e "library(roxygen2); \
 		roxygen2::roxygenize();"
 
+format:
+	air format .
+
 lint:
-	Rscript -e "library(devtools); \
-		library(lintr); \
-		devtools::load_all(); \
-		lintr::lint_package();"
+	air format . --check
 
 test:
 	Rscript -e "library(devtools); \

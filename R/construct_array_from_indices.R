@@ -66,8 +66,12 @@ construct_array_from_indices <- function(
   }
   if (!is.null(dim) && length(dim) != length(indices)) {
     stop(
-      "An explicit `dim` was given, with length ", length(dim), ", which ",
-      "does not match the number of indicies given, ", length(indices), "."
+      "An explicit `dim` was given, with length ",
+      length(dim),
+      ", which ",
+      "does not match the number of indicies given, ",
+      length(indices),
+      "."
     )
   }
 
@@ -77,7 +81,9 @@ construct_array_from_indices <- function(
   if (length(index_length) > 1L) {
     stop(
       "The indices given for '...' must all be equal length, instead ",
-      "was given arguments with lengths: ", toString(index_length), "."
+      "was given arguments with lengths: ",
+      toString(index_length),
+      "."
     )
   }
   if (length(target) != index_length) {
@@ -130,7 +136,8 @@ construct_array_from_indices <- function(
       dimnames <- mapply(
         function(x, y) seq_len(y),
         dimnames,
-        dim(output_array), SIMPLIFY = FALSE
+        dim(output_array),
+        SIMPLIFY = FALSE
       )
     }
     dimnames(output_array) <- dimnames

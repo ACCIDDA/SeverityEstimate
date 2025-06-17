@@ -81,7 +81,8 @@ incidence_population_arrays <- function(
   time_period_reference <- process_reference(time_period_reference, time_period)
   strata_reference <- process_reference(strata_reference, strata)
   surveillance_reference <- process_reference(
-    surveillance_reference, surveillance
+    surveillance_reference,
+    surveillance
   )
   outcome_reference <- process_reference(outcome_reference, outcome)
 
@@ -134,7 +135,8 @@ incidence_population_arrays <- function(
   )
 
   linelist_extra_strata_ind <- setdiff(
-    linelist_strata_ind, population_strata_ind
+    linelist_strata_ind,
+    population_strata_ind
   )
   if (length(linelist_extra_strata_ind) > 0L) {
     stop(

@@ -24,8 +24,8 @@ calculate_observed_ifr_sir <- function(
     (passive_symptomatic_detection * active_sir)
   denom <- 1.0 - ((1.0 - active_ifr) * (1.0 - theta))
   passive_sir <- (1.0 -
-                    ((1.0 - active_ifr) *
-                       (1.0 - (passive_symptomatic_detection * active_sir)))) /
+    ((1.0 - active_ifr) *
+      (1.0 - (passive_symptomatic_detection * active_sir)))) /
     denom
   passive_ifr <- active_ifr / denom
 

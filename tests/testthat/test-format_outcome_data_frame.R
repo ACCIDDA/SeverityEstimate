@@ -52,8 +52,12 @@ test_that("Output Validation", {
   expected_outcome <- data.frame(
     abc = as.factor(
       c(
-        "Asymptomatic", "Death", "Symptomatic",
-        "Asymptomatic", "Death", "Symptomatic"
+        "Asymptomatic",
+        "Death",
+        "Symptomatic",
+        "Asymptomatic",
+        "Death",
+        "Symptomatic"
       )
     )
   )
@@ -84,8 +88,12 @@ test_that("Output Validation", {
   outcome <- format_outcome_data_frame(
     data.frame(
       abc = c(
-        "asymptomatic", "death", "symptomatic",
-        "asymptomatic", "death", "symptomatic"
+        "asymptomatic",
+        "death",
+        "symptomatic",
+        "asymptomatic",
+        "death",
+        "symptomatic"
       )
     )
   )
@@ -95,8 +103,12 @@ test_that("Output Validation", {
     data.frame(
       abc = as.factor(
         c(
-          "asymptomatic", "death", "symptomatic",
-          "asymptomatic", "death", "symptomatic"
+          "asymptomatic",
+          "death",
+          "symptomatic",
+          "asymptomatic",
+          "death",
+          "symptomatic"
         )
       )
     )
@@ -107,8 +119,12 @@ test_that("Output Validation", {
   outcome <- format_outcome_data_frame(
     data.frame(
       abc = c(
-        "Asymptomatic", "Death", "Symptomatic",
-        "Asymptomatic", "Death", "Symptomatic"
+        "Asymptomatic",
+        "Death",
+        "Symptomatic",
+        "Asymptomatic",
+        "Death",
+        "Symptomatic"
       )
     )
   )
@@ -118,8 +134,12 @@ test_that("Output Validation", {
     data.frame(
       abc = as.factor(
         c(
-          "Asymptomatic", "Death", "Symptomatic",
-          "Asymptomatic", "Death", "Symptomatic"
+          "Asymptomatic",
+          "Death",
+          "Symptomatic",
+          "Asymptomatic",
+          "Death",
+          "Symptomatic"
         )
       )
     )
@@ -130,8 +150,12 @@ test_that("Output Validation", {
   outcome <- format_outcome_data_frame(
     data.frame(
       abc = c(
-        "ASYMPTOMATIC", "DEATH", "SYMPTOMATIC",
-        "ASYMPTOMATIC", "DEATH", "SYMPTOMATIC"
+        "ASYMPTOMATIC",
+        "DEATH",
+        "SYMPTOMATIC",
+        "ASYMPTOMATIC",
+        "DEATH",
+        "SYMPTOMATIC"
       )
     )
   )
@@ -141,8 +165,12 @@ test_that("Output Validation", {
     data.frame(
       abc = as.factor(
         c(
-          "ASYMPTOMATIC", "DEATH", "SYMPTOMATIC",
-          "ASYMPTOMATIC", "DEATH", "SYMPTOMATIC"
+          "ASYMPTOMATIC",
+          "DEATH",
+          "SYMPTOMATIC",
+          "ASYMPTOMATIC",
+          "DEATH",
+          "SYMPTOMATIC"
         )
       )
     )

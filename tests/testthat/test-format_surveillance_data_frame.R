@@ -154,9 +154,11 @@ test_that("Output Validation", {
   expect_identical(surveillance, expected_surveillance)
 
   surveillance <- format_surveillance_data_frame(
-    data.frame(abc = as.factor(
-      c("active", "passive", "unknown", "active", "passive", "unknown")
-    ))
+    data.frame(
+      abc = as.factor(
+        c("active", "passive", "unknown", "active", "passive", "unknown")
+      )
+    )
   )
   expected_surveillance <- data.frame(
     abc = as.factor(
@@ -166,9 +168,11 @@ test_that("Output Validation", {
   expect_identical(surveillance, expected_surveillance)
 
   surveillance <- format_surveillance_data_frame(
-    data.frame(abc = as.factor(
-      c("active", "passive", "active", "passive")
-    ))
+    data.frame(
+      abc = as.factor(
+        c("active", "passive", "active", "passive")
+      )
+    )
   )
   expected_surveillance <- data.frame(
     abc = as.factor(
@@ -203,9 +207,11 @@ test_that("Output Validation", {
   expect_identical(surveillance, expected_surveillance)
 
   surveillance <- format_surveillance_data_frame(
-    data.frame(abc = as.factor(
-      c("Active", "Passive", "Unknown", "Active", "Passive", "Unknown")
-    ))
+    data.frame(
+      abc = as.factor(
+        c("Active", "Passive", "Unknown", "Active", "Passive", "Unknown")
+      )
+    )
   )
   expected_surveillance <- data.frame(
     abc = as.factor(
@@ -215,9 +221,11 @@ test_that("Output Validation", {
   expect_identical(surveillance, expected_surveillance)
 
   surveillance <- format_surveillance_data_frame(
-    data.frame(abc = as.factor(
-      c("Active", "Passive", "Active", "Passive")
-    ))
+    data.frame(
+      abc = as.factor(
+        c("Active", "Passive", "Active", "Passive")
+      )
+    )
   )
   expected_surveillance <- data.frame(
     abc = as.factor(
@@ -252,9 +260,11 @@ test_that("Output Validation", {
   expect_identical(surveillance, expected_surveillance)
 
   surveillance <- format_surveillance_data_frame(
-    data.frame(abc = as.factor(
-      c("ACTIVE", "PASSIVE", "UNKNOWN", "ACTIVE", "PASSIVE", "UNKNOWN")
-    ))
+    data.frame(
+      abc = as.factor(
+        c("ACTIVE", "PASSIVE", "UNKNOWN", "ACTIVE", "PASSIVE", "UNKNOWN")
+      )
+    )
   )
   expected_surveillance <- data.frame(
     abc = as.factor(
@@ -264,9 +274,11 @@ test_that("Output Validation", {
   expect_identical(surveillance, expected_surveillance)
 
   surveillance <- format_surveillance_data_frame(
-    data.frame(abc = as.factor(
-      c("ACTIVE", "PASSIVE", "ACTIVE", "PASSIVE")
-    ))
+    data.frame(
+      abc = as.factor(
+        c("ACTIVE", "PASSIVE", "ACTIVE", "PASSIVE")
+      )
+    )
   )
   expected_surveillance <- data.frame(
     abc = as.factor(
