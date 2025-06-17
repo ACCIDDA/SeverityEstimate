@@ -7,6 +7,12 @@
 #' @slot line_list A line list of cases to model the severity of.
 #' @slot population A dataset containing information on the population broken
 #' down by strataification.
+#' @slot active_prior Parameters for the beta distribution prior for the active
+#' detection rate.
+#' @slot passive_asymptomatic_prior Parameters for the beta distribution prior
+#' for the passive asymptomatic detection rate.
+#' @slot passive_symptomatic_prior Parameters for the beta distribution prior
+#' for the passive symptomatic detection rate.
 #'
 #' @importFrom methods setClass
 #' @export
@@ -15,11 +21,17 @@ setClass(
   Class = "SeverityEstimateModel",
   slots = c(
     "line_list" = "data.frame",
-    "population" = "data.frame"
+    "population" = "data.frame",
+    "active_prior" = "numeric",
+    "passive_asymptomatic_prior" = "numeric",
+    "passive_symptomatic_prior" = "numeric"
   ),
   prototype = list(
     "line_list" = data.frame(),
-    "population" = data.frame()
+    "population" = data.frame(),
+    "active_prior" = numeric(),
+    "passive_asymptomatic_prior" = numeric(),
+    "passive_symptomatic_prior" = numeric()
   )
 )
 
@@ -103,7 +115,6 @@ print.SeverityEstimateModel <- function(x, ...) {
 #'
 #' @importFrom checkmate assert_choice
 #' @importFrom checkmate assert_class
-#' @importFrom checkmate assert_subset
 #' @importFrom checkmate assert_string
 #' @importFrom methods slot
 #' @importFrom methods slotNames

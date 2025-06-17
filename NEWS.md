@@ -1,9 +1,8 @@
 # SeverityEstimate 0.1.0 (in development)
 
-- Added `SeverityEstimateModel` S4 class to represent a model and contain the metadata for building a model. Also added the constructor function `SeverityEstimateModel` to make it easy to create an instance of this class, like so:
+- Added `SeverityEstimateModel` S4 class to represent a model and contain the metadata for building a model. This forms the foundation for the tidymodels-esque API, like so:
 ```R
 library(SeverityEstimate)
-
 line_list <- data.frame(
   id = 1L:3L,
   week = c(1L, 1L, 2L),
@@ -11,13 +10,14 @@ line_list <- data.frame(
   outcome = c("Asymptomatic", "Symptomatic", "Death"),
   detection = c("Active", "Active", "Passive")
 )
-
 population <- data.frame(
   sex = c("Male", "Female"),
   amount = c(123L, 456L)
 )
-
-model <- SeverityEstimateModel(line_list, population)
+model <- SeverityEstimateModel(line_list, population) |>
+  active_prior(alpha = 1.0, beta = 1.0) |>
+  passive_asymptomatic_prior(alpha = 1.0, beta = 3.0) |>
+  passive_symptomatic_prior(alpha = 3.0, beta = 1.0)
 model
 # An object of class "SeverityEstimateModel"
 # Slot "line_list":
@@ -25,11 +25,23 @@ model
 # 1  1    1   M Asymptomatic    Active
 # 2  2    1   F  Symptomatic    Active
 # 3  3    2   M        Death   Passive
-
+#
 # Slot "population":
 #      sex amount
 # 1   Male    123
 # 2 Female    456
+#
+# Slot "active_prior":
+# alpha  beta 
+#     1     1 
+#
+# Slot "passive_asymptomatic_prior":
+# alpha  beta 
+#     1     3 
+#
+# Slot "passive_symptomatic_prior":
+# alpha  beta 
+#     3     1
 ```
 - Switched from `make` to `just` for task running. This change provides a couple of improvements namely: easier cross-platform support, simplification to task specification, and ability to invoke tasks using the shell or R. #44.
 
