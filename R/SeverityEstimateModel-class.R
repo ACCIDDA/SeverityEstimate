@@ -8,6 +8,7 @@
 #' @slot population A dataset containing information on the population broken
 #' down by strataification.
 #' @slot strata A list of model stratification specifications.
+#' @slot time A list specifying the time column of the linelist.
 #' @slot active_prior Parameters for the beta distribution prior for the active
 #' detection rate.
 #' @slot passive_asymptomatic_prior Parameters for the beta distribution prior
@@ -24,6 +25,7 @@ setClass(
     "line_list" = "data.frame",
     "population" = "data.frame",
     "strata" = "list",
+    "time" = "list",
     "active_prior" = "numeric",
     "passive_asymptomatic_prior" = "numeric",
     "passive_symptomatic_prior" = "numeric"
@@ -32,6 +34,7 @@ setClass(
     "line_list" = data.frame(),
     "population" = data.frame(),
     "strata" = list(),
+    "time" = list(),
     "active_prior" = numeric(),
     "passive_asymptomatic_prior" = numeric(),
     "passive_symptomatic_prior" = numeric()
