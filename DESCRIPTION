@@ -1,6 +1,6 @@
 Package: SeverityEstimate
 Title: Bayesian Severity Estimation
-Version: 0.0.1
+Version: 0.1.0
 Authors@R: c(
     person(
       given="Timothy",
