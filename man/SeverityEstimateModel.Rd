@@ -31,6 +31,8 @@ down by strataification.}
 
 \item{\code{strata}}{A list of model stratification specifications.}
 
+\item{\code{time}}{A list specifying the time column of the linelist.}
+
 \item{\code{active_prior}}{Parameters for the beta distribution prior for the active
 detection rate.}
 
