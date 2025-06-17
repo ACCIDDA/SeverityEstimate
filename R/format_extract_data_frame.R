@@ -45,7 +45,8 @@ format_extract_data_frame <- function(
   if (length(level_length) != 1L) {
     stop(
       "Was given inconsistent valid level lengths: ",
-      toString(level_length), "."
+      toString(level_length),
+      "."
     )
   }
 
@@ -60,8 +61,13 @@ format_extract_data_frame <- function(
   }
   if (length(df_levels) > level_length) {
     stop(
-      "The ", name, " data.frame should only contain ",
-      level_length, " types of ", name, "."
+      "The ",
+      name,
+      " data.frame should only contain ",
+      level_length,
+      " types of ",
+      name,
+      "."
     )
   }
   levels_are_valid <- valid_levels |>
@@ -69,8 +75,12 @@ format_extract_data_frame <- function(
     any()
   if (!levels_are_valid) {
     stop(
-      "The labels found in ", name, " weren't valid. ",
-      "Was expecting something like ", toString(valid_levels), "."
+      "The labels found in ",
+      name,
+      " weren't valid. ",
+      "Was expecting something like ",
+      toString(valid_levels),
+      "."
     )
   }
 

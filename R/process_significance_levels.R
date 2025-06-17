@@ -25,7 +25,9 @@ process_significance_levels <- function(alpha) {
   if (length(alpha) != length(unique(alpha))) {
     stop(
       "The entries in `alpha` are not unique when rounded to 2 digits, ",
-      "was given: ", toString(alpha), "."
+      "was given: ",
+      toString(alpha),
+      "."
     )
   }
 

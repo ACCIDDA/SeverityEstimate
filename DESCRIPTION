@@ -39,7 +39,6 @@ Depends:
 Suggests: 
     devtools,
     knitr,
-    lintr,
     lobstr,
     rmarkdown,
     roxygen2,

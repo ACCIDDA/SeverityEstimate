@@ -31,7 +31,9 @@ extract_and_match_data_frame <- function(
   }
   if (length(cols)) {
     extract_x <- extract_x[
-      do.call(order, extract_x[, cols, drop = FALSE]), , drop = FALSE
+      do.call(order, extract_x[, cols, drop = FALSE]),
+      ,
+      drop = FALSE
     ]
   } else if (nrow(extract_x)) {
     extract_x <- extract_x[0, ]

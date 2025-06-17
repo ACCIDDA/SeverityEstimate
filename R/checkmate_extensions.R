@@ -12,7 +12,12 @@
 #' @keywords internal
 check_probability <- function(x) {
   checkmate::check_number(
-    x, na.ok = FALSE, lower = 0.0, upper = 1.0, finite = TRUE, null.ok = TRUE
+    x,
+    na.ok = FALSE,
+    lower = 0.0,
+    upper = 1.0,
+    finite = TRUE,
+    null.ok = TRUE
   )
 }
 

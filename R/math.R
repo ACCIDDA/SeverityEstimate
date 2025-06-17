@@ -47,8 +47,10 @@ beta_parameterization <- function(params) {
     checkmate::assert_numeric(params, lower = .Machine$double.eps)
     return(params)
   }
-  if (setequal(params_names, c("mean", "var")) ||
-        setequal(params_names, c("mean", "sd"))) {
+  if (
+    setequal(params_names, c("mean", "var")) ||
+      setequal(params_names, c("mean", "sd"))
+  ) {
     dispersion <- ifelse("var" %in% params_names, "var", "sd")
     checkmate::assert_number(
       params["mean"],
@@ -61,7 +63,7 @@ beta_parameterization <- function(params) {
       .var.name = paste0('params["', dispersion, '"]')
     )
     if (dispersion == "sd") {
-      params["var"] <- params["sd"] ** 2.0
+      params["var"] <- params["sd"]**2.0
     }
     nu <- ((params["mean"] * (1.0 - params["mean"])) / params["var"]) - 1.0
     return(
@@ -72,7 +74,9 @@ beta_parameterization <- function(params) {
     )
   }
   stop(
-    "The given parameterization ", toString(params_names), " is not ",
+    "The given parameterization ",
+    toString(params_names),
+    " is not ",
     "recognized. Must be one of 'alpha'/'beta', 'mean'/'var', 'mean'/'sd'."
   )
 }

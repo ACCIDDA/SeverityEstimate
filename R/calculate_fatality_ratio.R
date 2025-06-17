@@ -108,7 +108,9 @@ calculate_fatality_ratio.list <- function(
     calc_quantiles_data_frame <- function(x, prefix) {
       x <- x |>
         apply(2L, stats::quantile, probs = probs, names = FALSE) |>
-        {\(.) if (length(probs) > 1L) t(.) else .}() |> # nolint: brace_linter
+        {
+          \(.) if (length(probs) > 1L) t(.) else .
+        }() |>
         as.data.frame()
       names(x) <- paste0(prefix, "_", quantile_names)
       x
@@ -131,12 +133,10 @@ calculate_fatality_ratio.list <- function(
       outcome[, 1L],
       nomatch = ncol(reduced_incidence)
     )
-    fatality_ratios$naive_ifr <- (
-      reduced_incidence[, outcome_ind[1L]] / total_incidence
-    )
-    fatality_ratios$naive_sir <- (
-      rowSums(reduced_incidence[, outcome_ind]) / total_incidence
-    )
+    fatality_ratios$naive_ifr <- (reduced_incidence[, outcome_ind[1L]] /
+      total_incidence)
+    fatality_ratios$naive_sir <- (rowSums(reduced_incidence[, outcome_ind]) /
+      total_incidence)
   }
 
   # Reorder the column names for pretty output
@@ -159,6 +159,8 @@ calculate_fatality_ratio.list <- function(
 calculate_fatality_ratio.default <- function(x, ...) {
   stop(
     "Unable to find a suitable `calculate_fatality_ratio` method for `x` ",
-    "with classes: ", toString(class(x)), "."
+    "with classes: ",
+    toString(class(x)),
+    "."
   )
 }

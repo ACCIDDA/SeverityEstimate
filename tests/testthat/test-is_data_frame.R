@@ -84,7 +84,8 @@ test_that("Stops when required columns are not characters or factors", {
   x <- data.frame(
     abc = letters,
     def = factor(
-      x = rep_len(c("a", "b", "c"), 26L), levels = c("a", "b", "c")
+      x = rep_len(c("a", "b", "c"), 26L),
+      levels = c("a", "b", "c")
     ),
     ghi = 1L:26L,
     jkl = runif(26L)

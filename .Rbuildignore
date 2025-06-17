@@ -2,8 +2,8 @@
 ^renv\.lock$
 ^SeverityEstimate\.Rproj$
 ^\.Rproj\.user$
-^\.lintr
 ^\.github
 ^LICENSE\.md$
 ^doc$
 ^Meta$
+^air.toml$

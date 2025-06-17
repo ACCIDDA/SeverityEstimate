@@ -38,14 +38,15 @@
 #' @importFrom stats rpois
 #' @export
 create_sample_linelist <- function(
-    strata,
-    times,
-    active_detection,
-    passive_asymptomatic_detection,
-    passive_symptomatic_detection,
-    force_of_infection = NULL,
-    force_of_infection_mean = -5.0,
-    seed = 1L) {
+  strata,
+  times,
+  active_detection,
+  passive_asymptomatic_detection,
+  passive_symptomatic_detection,
+  force_of_infection = NULL,
+  force_of_infection_mean = -5.0,
+  seed = 1L
+) {
   # Input validation
   set.seed(seed = seed)
   strata <- is_data_frame(strata)
@@ -92,7 +93,8 @@ create_sample_linelist <- function(
     stop("Not providing any strata is temporarily not supported.")
   }
   invalid_cols <- intersect(
-    strata_cols, c("detection", "outcome", "patient", "time")
+    strata_cols,
+    c("detection", "outcome", "patient", "time")
   )
   if (length(invalid_cols) > 0L) {
     stop(
@@ -108,12 +110,15 @@ create_sample_linelist <- function(
     for (i in seq_along(times)) {
       if (i == 1L) {
         force_of_infection[1, ] <- stats::rnorm(
-          nrow(strata), mean = force_of_infection_mean, sd = 1.0
+          nrow(strata),
+          mean = force_of_infection_mean,
+          sd = 1.0
         )
       } else {
         force_of_infection[i, ] <- stats::rnorm(
           nrow(strata),
-          mean = force_of_infection[i - 1L, ], sd = 1.0
+          mean = force_of_infection[i - 1L, ],
+          sd = 1.0
         )
       }
     }
@@ -136,8 +141,10 @@ create_sample_linelist <- function(
     )
     incidence[i, 2L, ] <- stats::rpois(
       nrow(strata),
-      (1.0 -  active_detection) * strata[, "theta"] *
-        force_of_infection[i, ] * strata[, "population"]
+      (1.0 - active_detection) *
+        strata[, "theta"] *
+        force_of_infection[i, ] *
+        strata[, "population"]
     )
   }
 
@@ -155,33 +162,42 @@ create_sample_linelist <- function(
   )
 
   # Create a linelist
-  linelist <- do.call(rbind, lapply(index_grid, function(x) {
-    linelist_part <- data.frame()
-    obs_incidence <- incidence[x$time_idx, x$detection_idx, x$strata_idx]
-    if (obs_incidence == 0L) {
-      return(data.frame())
-    }
-    obs_type <- ifelse(x$detection_idx == 1L, "active", "passive")
-    obs_sir <- strata[x$strata_idx, paste0(obs_type, "_sir")]
-    obs_ifr <- strata[x$strata_idx, paste0(obs_type, "_ifr")]
-    outcome <- rep(
-      c("Asymptomatic", "Symptomatic", "Death"),
-      times = c(
-        stats::rmultinom(
-          1L, obs_incidence, c(1.0 - obs_sir, obs_sir - obs_ifr, obs_ifr)
+  linelist <- do.call(
+    rbind,
+    lapply(index_grid, function(x) {
+      linelist_part <- data.frame()
+      obs_incidence <- incidence[x$time_idx, x$detection_idx, x$strata_idx]
+      if (obs_incidence == 0L) {
+        return(data.frame())
+      }
+      obs_type <- ifelse(x$detection_idx == 1L, "active", "passive")
+      obs_sir <- strata[x$strata_idx, paste0(obs_type, "_sir")]
+      obs_ifr <- strata[x$strata_idx, paste0(obs_type, "_ifr")]
+      outcome <- rep(
+        c("Asymptomatic", "Symptomatic", "Death"),
+        times = c(
+          stats::rmultinom(
+            1L,
+            obs_incidence,
+            c(1.0 - obs_sir, obs_sir - obs_ifr, obs_ifr)
+          )
         )
       )
-    )
-    linelist_part <- data.frame(outcome = outcome)
-    linelist_part$detection <- ifelse(
-      x$detection_idx == 1L, "Active", "Passive"
-    )
-    linelist_part$time <- times[x$time_idx]
-    linelist_part[, strata_cols] <- strata[
-      x$strata_idx, strata_cols, drop = FALSE
-    ]
-    linelist_part
-  }))
+      linelist_part <- data.frame(outcome = outcome)
+      linelist_part$detection <- ifelse(
+        x$detection_idx == 1L,
+        "Active",
+        "Passive"
+      )
+      linelist_part$time <- times[x$time_idx]
+      linelist_part[, strata_cols] <- strata[
+        x$strata_idx,
+        strata_cols,
+        drop = FALSE
+      ]
+      linelist_part
+    })
+  )
 
   # Linelist formatting
   linelist$patient <- paste0("UID", seq_len(nrow(linelist)))

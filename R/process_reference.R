@@ -26,7 +26,8 @@ process_reference <- function(values, columns) {
     if (length(missing_columns) != 0L) {
       stop(
         "The values given is a data.frame but is missing expected columns: ",
-        toString(missing_columns), "."
+        toString(missing_columns),
+        "."
       )
     }
     values <- values[, columns, drop = FALSE]
@@ -36,7 +37,9 @@ process_reference <- function(values, columns) {
   if (length_columns != 1L) {
     stop(
       "If a non-data.frame is provided for values only one column can be ",
-      "given, but instead was given ", length_columns, " columns."
+      "given, but instead was given ",
+      length_columns,
+      " columns."
     )
   }
   values <- data.frame(values)
