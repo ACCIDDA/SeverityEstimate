@@ -29,6 +29,8 @@ A representation of a severity estimate model and its metadata.
 \item{\code{population}}{A dataset containing information on the population broken
 down by strataification.}
 
+\item{\code{strata}}{A list of model stratification specifications.}
+
 \item{\code{active_prior}}{Parameters for the beta distribution prior for the active
 detection rate.}
 

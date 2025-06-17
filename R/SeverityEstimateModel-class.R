@@ -7,6 +7,7 @@
 #' @slot line_list A line list of cases to model the severity of.
 #' @slot population A dataset containing information on the population broken
 #' down by strataification.
+#' @slot strata A list of model stratification specifications.
 #' @slot active_prior Parameters for the beta distribution prior for the active
 #' detection rate.
 #' @slot passive_asymptomatic_prior Parameters for the beta distribution prior
@@ -22,6 +23,7 @@ setClass(
   slots = c(
     "line_list" = "data.frame",
     "population" = "data.frame",
+    "strata" = "list",
     "active_prior" = "numeric",
     "passive_asymptomatic_prior" = "numeric",
     "passive_symptomatic_prior" = "numeric"
@@ -29,6 +31,7 @@ setClass(
   prototype = list(
     "line_list" = data.frame(),
     "population" = data.frame(),
+    "strata" = list(),
     "active_prior" = numeric(),
     "passive_asymptomatic_prior" = numeric(),
     "passive_symptomatic_prior" = numeric()
