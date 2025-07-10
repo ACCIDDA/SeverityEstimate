@@ -66,7 +66,18 @@ beta_parameterization <- function(params) {
     if (dispersion == "sd") {
       params["var"] <- params["sd"]**2.0
     }
-    nu <- ((params["mean"] * (1.0 - params["mean"])) / params["var"]) - 1.0
+    v <- if (dispersion == "sd") params["sd"]**2.0 else params["var"]
+    q <- params["mean"] * (1.0 - params["mean"])
+    if (v >= q) {
+      stop(
+        "The beta distribution's variance, ",
+        v,
+        ", cannot be greater than or equal to mean * (1 - mean), ",
+        q,
+        "."
+      )
+    }
+    nu <- (q / v) - 1.0
     return(
       c(
         "alpha" = unname(params["mean"] * nu),
@@ -77,7 +88,7 @@ beta_parameterization <- function(params) {
   stop(
     "The given parameterization ",
     toString(params_names),
-    " is not ",
-    "recognized. Must be one of 'alpha'/'beta', 'mean'/'var', 'mean'/'sd'."
+    " is not recognized. ",
+    "Must be one of 'alpha'/'beta', 'mean'/'var', 'mean'/'sd'."
   )
 }
