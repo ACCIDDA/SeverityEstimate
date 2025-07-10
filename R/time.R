@@ -14,7 +14,7 @@
 #' @importFrom methods is
 #' @export
 time <- function(model, name, levels = NULL) {
-  stopifnot(is(model, "SeverityEstimateModel"))
+  check_model(model, attribute = "time", override_warning = FALSE)
   if (length(model@time)) {
     old_name <- model@time$name
     warning(

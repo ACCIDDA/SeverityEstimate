@@ -31,7 +31,7 @@
 #'
 #' @export
 strata <- function(model, name, levels = NULL, ordered = FALSE) {
-  check_model(model)
+  check_model(model, attribute = "strata", override_warning = FALSE)
   levels <- infer_levels(
     model,
     name,

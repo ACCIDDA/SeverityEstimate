@@ -5,7 +5,7 @@
 \alias{infer_levels}
 \title{Perform Commonly Repeated Checks For Operations On Models}
 \usage{
-check_model(model, attribute = NULL)
+check_model(model, attribute = NULL, override_warning = TRUE)
 
 infer_levels(model, name, name_in, levels = NULL, ordered = FALSE)
 }
