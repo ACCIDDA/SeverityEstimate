@@ -10,11 +10,11 @@ time(model, name, levels = NULL)
 \item{model}{A \linkS4class{SeverityEstimateModel} to specify the prior
 distribution for.}
 
-\item{name}{The name of the time column, must be present in the \code{linelist}
+\item{name}{The name of the time column, must be present in the \code{line_list}
 \code{data.frame} given when initializing the model.}
 
 \item{levels}{The levels for the time or if \code{NULL} inferred from the
-\code{linelist} \code{data.frame}. Providing this explicitly is strongly recommended
+\code{line_list} \code{data.frame}. Providing this explicitly is strongly recommended
 to ensure the order is as expected by the user.}
 }
 \value{

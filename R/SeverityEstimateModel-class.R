@@ -136,8 +136,8 @@ check_model <- function(
   checkmate::assert_class(model, "SeverityEstimateModel")
   checkmate::assert_string(attribute, null.ok = TRUE)
   if (!is.null(attribute)) {
-    checkmate::assert_choice(attribute, methods::slotNames(model))
-    if (length(methods::slot(model, attribute))) {
+    checkmate::assert_choice(attribute, slotNames(model))
+    if (length(slot(model, attribute))) {
       warning(
         "The given 'model' has an attribute called '",
         attribute,

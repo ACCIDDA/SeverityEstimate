@@ -12,22 +12,17 @@
 #' `parameter`.
 #'
 #' @importFrom checkmate assert_choice
-#' @importFrom methods is
+#' @importFrom methods slot<-
 #' @export
 #' @rdname prior
 prior <- function(model, parameter, params) {
-  stopifnot(methods::is(model, "SeverityEstimateModel"))
   checkmate::assert_choice(
     parameter,
     c("active", "passive_asymptomatic", "passive_symptomatic")
   )
-  if (parameter == "active") {
-    model@active_prior <- beta_parameterization(params)
-  } else if (parameter == "passive_asymptomatic") {
-    model@passive_asymptomatic_prior <- beta_parameterization(params)
-  } else {
-    model@passive_symptomatic_prior <- beta_parameterization(params)
-  }
+  parameter_prior <- paste0(parameter, "_prior")
+  check_model(model, attribute = parameter_prior)
+  slot(model, parameter_prior) <- beta_parameterization(params)
   model
 }
 
