@@ -32,7 +32,6 @@
 #'
 #' @importFrom checkmate assert_choice
 #' @importFrom checkmate assert_list
-#' @importFrom methods is
 #' @importFrom methods slot<-
 #' @export
 #' @rdname prior
@@ -56,7 +55,7 @@ prior <- function(model, parameter, ...) {
   # Check the model
   check_model(model, attribute = parameter_prior)
   # Assign parameterization to the model
-  slot(model, parameter_prior) <- beta_parameterization(args)
+  methods::slot(model, parameter_prior) <- beta_parameterization(args)
   model
 }
 
