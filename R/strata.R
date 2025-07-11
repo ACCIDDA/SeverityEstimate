@@ -13,34 +13,16 @@
 #' @return
 #' The `model` given modified to contain the stratification information.
 #'
-#' @importFrom checkmate assert
-#' @importFrom checkmate assert_choice
-#' @importFrom checkmate check_choice
-#' @importFrom checkmate vname
-#' @importFrom methods is
 #' @export
 strata <- function(model, name, levels = NULL, ordered = FALSE) {
-  stopifnot(is(model, "SeverityEstimateModel"))
-  checkmate::assert(
-    checkmate::check_choice(name, names(model@linelist)),
-    checkmate::check_choice(name, names(model@population)),
-    combine = "and"
+  check_model(model)
+  levels <- infer_levels(
+    model,
+    name,
+    "both",
+    levels = levels,
+    ordered = ordered
   )
-  assert_bool(ordered)
-  inferred_levels <- sort(unique(c(
-    model@linelist[, name, drop = TRUE],
-    model@population[, name, drop = TRUE]
-  )))
-  if (is.null(levels)) {
-    if (ordered) {
-      stop(
-        "Assertion on 'levels' failed: Explicit levels ",
-        "must be provided when `ordered` is `TRUE`."
-      )
-    }
-    levels <- inferred_levels
-  }
-  checkmate::assert_choice(inferred_levels, levels)
   model@strata <- append(
     model@strata,
     list("name" = name, "levels" = levels, "ordered" = ordered)

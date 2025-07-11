@@ -2,9 +2,12 @@
 % Please edit documentation in R/SeverityEstimateModel-class.R
 \name{check_model}
 \alias{check_model}
+\alias{infer_levels}
 \title{Perform Commonly Repeated Checks For Operations On Models}
 \usage{
-check_model(model, attribute = NULL, name = NULL, name_in = NULL, ordered = NA)
+check_model(model, attribute = NULL)
+
+infer_levels(model, name, name_in, levels = NULL, ordered = FALSE)
 }
 \arguments{
 \item{model}{A \linkS4class{SeverityEstimateModel} S4 object instance

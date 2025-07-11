@@ -11,16 +11,10 @@
 #' @return
 #' The `model` given modified to contain the time information.
 #'
-#' @importFrom checkmate assert_subset
-#' @importFrom methods is
 #' @export
 time <- function(model, name, levels = NULL) {
-  check_model(model, attribute = "time", name = name, name_in = "line_list")
-  inferred_levels <- sort(unique(model@line_list[, name, drop = TRUE]))
-  if (is.null(levels)) {
-    levels <- inferred_levels
-  }
-  checkmate::assert_subset(inferred_levels, levels)
+  check_model(model, attribute = "time")
+  levels <- infer_levels(model, name, "line_list", levels = levels)
   model@time <- list("name" = name, "levels" = levels)
   model
 }
