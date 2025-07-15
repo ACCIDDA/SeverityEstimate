@@ -3,11 +3,14 @@
 \name{check_probability}
 \alias{check_probability}
 \alias{assert_probability}
-\title{Checkmate Extensions For Probabilities}
+\alias{assert_bool}
+\title{Checkmate Extensions}
 \usage{
 check_probability(x)
 
 assert_probability(x, .var.name = checkmate::vname(x), add = NULL)
+
+assert_bool(x, na.ok = FALSE, .var.name = checkmate::vname(x))
 }
 \arguments{
 \item{x}{[any]\cr
@@ -19,9 +22,21 @@ the heuristic implemented in \code{\link[checkmate]{vname}}.}
 
 \item{add}{[\code{AssertCollection}]\cr
 Collection to store assertion messages. See \code{\link[checkmate]{AssertCollection}}.}
+
+\item{na.ok}{[\code{logical(1)}]\cr
+Are missing values allowed? Default is \code{FALSE}.}
 }
 \description{
 This is a small wrapper around \code{\link[checkmate:checkNumber]{checkmate::check_number()}} specifically for
 probabilities for convenience.
+
+Convenience wrappers around checkmate for specific internal use cases.
+Namely:
+\itemize{
+\item \code{check_probability}/\code{assert_probability} are wrappers around
+\code{\link[checkmate:checkNumber]{checkmate::check_number()}} specifically for probabilities, and
+\item \code{assert_bool} is a wrappeer around \code{\link[checkmate:checkFALSE]{checkmate::check_false()}} and
+\code{\link[checkmate:checkTRUE]{checkmate::check_true()}} for single length logicals.
+}
 }
 \keyword{internal}
