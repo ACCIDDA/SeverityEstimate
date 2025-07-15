@@ -12,7 +12,8 @@ SeverityEstimateModel(line_list, population)
 \item{line_list}{A line list of cases to model the severity of.}
 
 \item{population}{A dataset containing information on the population broken
-down by strataification.}
+down by strataification. Can also be a single integer in the case that the
+model is not stratafied.}
 }
 \value{
 A \linkS4class{SeverityEstimateModel} S4 object instance representing a model

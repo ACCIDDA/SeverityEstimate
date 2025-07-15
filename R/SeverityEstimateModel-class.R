@@ -47,16 +47,28 @@ setClass(
 #'
 #' @param line_list A line list of cases to model the severity of.
 #' @param population A dataset containing information on the population broken
-#' down by strataification.
+#' down by strataification. Can also be a single integer in the case that the
+#' model is not stratafied.
 #'
 #' @return
 #' A \linkS4class{SeverityEstimateModel} S4 object instance representing a model
 #' and its associated metadata.
 #'
+#' @importFrom checkmate test_integerish
 #' @importFrom methods new
 #' @export
 SeverityEstimateModel <- function(line_list, population) {
   line_list <- is_data_frame(line_list)
+  if (
+    checkmate::test_integerish(
+      population,
+      len = 1L,
+      lower = 0L,
+      any.missing = FALSE
+    )
+  ) {
+    population <- data.frame(value = population)
+  }
   population <- is_data_frame(population)
   methods::new(
     "SeverityEstimateModel",

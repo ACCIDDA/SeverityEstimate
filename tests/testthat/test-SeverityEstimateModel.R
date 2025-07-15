@@ -12,7 +12,7 @@ POPULATION <- data.frame(
 )
 
 test_that("Line list and population must be data.frame like", {
-  for (x in list(NULL, 123L, pi, "abc", letters)) {
+  for (x in list(NULL, pi, "abc", letters, 1L:3L, NA_integer_)) {
     expect_error(
       SeverityEstimateModel(x, POPULATION),
       regexp = "`line_list` is not 'data.frame' like.",
@@ -32,4 +32,14 @@ test_that("Create a valid SeverityEstimateModel instance", {
   expect_in(c("line_list", "population"), slotNames(model))
   expect_s3_class(model@line_list, "data.frame")
   expect_s3_class(model@population, "data.frame")
+})
+
+test_that("Population can be an integerish as well", {
+  for (x in list(123L, 123.0)) {
+    model <- SeverityEstimateModel(LINE_LIST, x)
+    expect_s4_class(model, "SeverityEstimateModel")
+    expect_in(c("line_list", "population"), slotNames(model))
+    expect_s3_class(model@line_list, "data.frame")
+    expect_s3_class(model@population, "data.frame")
+  }
 })
