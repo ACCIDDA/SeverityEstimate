@@ -6,4 +6,5 @@
 ^LICENSE\.md$
 ^doc$
 ^Meta$
-^air.toml$
+^air\.toml$
+^\.jj$
