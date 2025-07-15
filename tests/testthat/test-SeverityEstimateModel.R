@@ -1,16 +1,3 @@
-LINE_LIST <- data.frame(
-  id = 1L:3L,
-  week = c(1L, 1L, 2L),
-  sex = c("M", "F", "M"),
-  outcome = c("Asymptomatic", "Symptomatic", "Death"),
-  detection = c("Active", "Active", "Passive")
-)
-
-POPULATION <- data.frame(
-  sex = c("Male", "Female"),
-  amount = c(123L, 456L)
-)
-
 test_that("Line list and population must be data.frame like", {
   for (x in list(NULL, pi, "abc", letters, 1L:3L, NA_integer_)) {
     expect_error(
