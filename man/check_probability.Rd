@@ -10,7 +10,7 @@ check_probability(x)
 assert_probability(x, .var.name = checkmate::vname(x), add = NULL)
 }
 \arguments{
-\item{x}{[any]\cr
+\item{x}{[\code{any}]\cr
 Object to check.}
 
 \item{.var.name}{[\code{character(1)}]\cr
