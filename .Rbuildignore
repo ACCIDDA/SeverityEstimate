@@ -8,3 +8,4 @@
 ^Meta$
 ^air\.toml$
 ^\.jj$
+^Justfile$
