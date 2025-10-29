@@ -8,6 +8,8 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Setup just
+      uses: extractions/setup-just@v3
     - name: Install pandoc
       run: sudo apt-get install pandoc
       shell: bash
@@ -18,5 +20,5 @@ runs:
     - name: Setup Renv
       uses: r-lib/actions/setup-renv@v2
     - name: Install SeverityEstimate
-      run: make install
+      run: just install
       shell: bash
