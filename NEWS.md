@@ -20,7 +20,15 @@ model <- SeverityEstimateModel(line_list, population) |>
   passive_symptomatic_prior(alpha = 3.0, beta = 1.0) |>
   strata("sex") |>
   time("week") |>
-  detection("detection", map=c("Active" = "active", "Passive" = "passive"))
+  detection("detection", map = c("Active" = "active", "Passive" = "passive")) |>
+  outcome(
+    "outcome",
+    map = c(
+      "Asymptomatic" = "asymptomatic",
+      "Symptomatic" = "symptomatic",
+      "Death" = "severe"
+    )
+  )
 model
 # An object of class "SeverityEstimateModel"
 # Slot "line_list":
@@ -62,6 +70,15 @@ model
 # $map
 #    Active   Passive 
 #  "active" "passive" 
+#
+#
+# Slot "outcome":
+# $name
+# [1] "outcome"
+#
+# $map
+#   Asymptomatic    Symptomatic          Death 
+# "asymptomatic"  "symptomatic"       "severe" 
 #
 #
 # Slot "active_prior":
