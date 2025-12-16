@@ -34,6 +34,8 @@ down by strataification.}
 
 \item{\code{time}}{A list specifying the time column of the linelist.}
 
+\item{\code{detection}}{A list specifying the detection type mapping.}
+
 \item{\code{active_prior}}{Parameters for the beta distribution prior for the active
 detection rate.}
 
