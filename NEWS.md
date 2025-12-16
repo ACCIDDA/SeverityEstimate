@@ -19,7 +19,8 @@ model <- SeverityEstimateModel(line_list, population) |>
   passive_asymptomatic_prior(alpha = 1.0, beta = 3.0) |>
   passive_symptomatic_prior(alpha = 3.0, beta = 1.0) |>
   strata("sex") |>
-  time("week")
+  time("week") |>
+  detection("detection", map=c("Active" = "active", "Passive" = "passive"))
 model
 # An object of class "SeverityEstimateModel"
 # Slot "line_list":
@@ -53,6 +54,14 @@ model
 # $levels
 # [1] 1 2
 #
+#
+# Slot "detection":
+# $name
+# [1] "detection"
+#
+# $map
+#    Active   Passive 
+#  "active" "passive" 
 #
 #
 # Slot "active_prior":
