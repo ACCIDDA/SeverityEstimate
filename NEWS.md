@@ -67,7 +67,8 @@ model
 # alpha  beta 
 #     3     1
 ```
-- Switched from `make` to `just` for task running. This change provides a couple of improvements namely: easier cross-platform support, simplification to task specification, and ability to invoke tasks using the shell or R. #44.
+- Switched from `make` to `just` for task running. This change provides a couple of improvements namely: easier cross-platform support, simplification to task specification, and ability to invoke tasks using the shell or R. [#44](https://github.com/ACCIDDA/SeverityEstimate/issues/44).
+- Added a check to CI to make sure that appropriate changes are made to `NEWS.md` file. [#61](https://github.com/ACCIDDA/SeverityEstimate/issues/61).
 
 # SeverityEstimate 0.0.1
 
