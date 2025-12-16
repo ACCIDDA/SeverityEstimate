@@ -1,56 +1,78 @@
-name: CI
+name: 'ci'
 
-on:
+'on':
   workflow_dispatch:
   pull_request:
     branches:
-      - main
-  push:
-    branches:
-      - main
+      - 'main'
 
 jobs:
   docs:
-    runs-on: ubuntu-latest
+    name: 'docs'
+    runs-on: 'ubuntu-latest'
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-      - name: Setup R For SeverityEstimate
-        uses: ./.github/actions/setup-r
-      - name: Build Roxygen  Documentation
-        run: just docs
-      - name: Check For Non-Committed Documentation
+      - name: 'checkout repository'
+        uses: 'actions/checkout@v6'
+      - name: 'setup R'
+        uses: './.github/actions/setup-r'
+      - name: 'build roxygen documentation'
+        run: 'just docs'
+      - name: 'check for non-committed documentation'
         run: |
           if [[ $( git status --porcelain ) ]]; then
             echo "Please run roxygen2::roxygenize() and commit the changes."
             exit 1
           fi
   lint:
-    runs-on: ubuntu-latest
+    name: 'lint'
+    runs-on: 'ubuntu-latest'
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-      - name: Setup R For SeverityEstimate
-        uses: ./.github/actions/setup-r
-      - name: Install Air
-        uses: posit-dev/setup-air@v1
-      - name: Run Linter
-        run: just lint
+      - name: 'checkout repository'
+        uses: 'actions/checkout@v6'
+      - name: 'setup R'
+        uses: './.github/actions/setup-r'
+      - name: 'install air'
+        uses: 'posit-dev/setup-air@v1'
+      - name: 'run lint'
+        run: 'just lint'
   tests:
+    name: 'tests'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-      - name: Setup R For SeverityEstimate
-        uses: ./.github/actions/setup-r
-      - name: Run Tests
-        run: just test-fast
+      - name: 'checkout repository'
+        uses: 'actions/checkout@v6'
+      - name: 'setup R'
+        uses: './.github/actions/setup-r'
+      - name: 'run tests'
+        run: 'just test-fast'
   check:
-    runs-on: ubuntu-latest
+    name: 'check'
+    runs-on: 'ubuntu-latest'
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-      - name: Setup R For SeverityEstimate
-        uses: ./.github/actions/setup-r
-      - name: Run Check
-        run: just check
+      - name: 'checkout repository'
+        uses: 'actions/checkout@v6'
+      - name: 'setup R'
+        uses: './.github/actions/setup-r'
+      - name: 'run check'
+        run: 'just check'
+  news:
+    name: 'news'
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: 'checkout repository'
+        uses: 'actions/checkout@v6'
+        with:
+          fetch-depth: 0
+      - name: 'check news updated'
+        run: |
+          git fetch origin main:main
+          GIT_LOG=$(git log main..HEAD --pretty=format:"%s %b")
+          SKIP_REGEX="no[[:space:]]+major[[:space:]]+changes"
+          if echo "$GIT_LOG" | tr '\n' ' ' | grep -Eiq "$SKIP_REGEX"; then
+            echo "Bypassing news check: 'no major changes' found in commit history"
+            exit 0
+          fi
+          if ! git diff --name-only main...HEAD | grep -q "^NEWS.md$"; then
+            echo "Error: Please update NEWS.md"
+            exit 1
+          fi
