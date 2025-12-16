@@ -36,6 +36,8 @@ down by strataification.}
 
 \item{\code{detection}}{A list specifying the detection type mapping.}
 
+\item{\code{outcome}}{A list specifying the outcome severity mapping.}
+
 \item{\code{active_prior}}{Parameters for the beta distribution prior for the active
 detection rate.}
 

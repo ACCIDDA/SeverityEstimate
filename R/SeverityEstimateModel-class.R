@@ -10,6 +10,7 @@
 #' @slot strata A list of model stratification specifications.
 #' @slot time A list specifying the time column of the linelist.
 #' @slot detection A list specifying the detection type mapping.
+#' @slot outcome A list specifying the outcome severity mapping.
 #' @slot active_prior Parameters for the beta distribution prior for the active
 #' detection rate.
 #' @slot passive_asymptomatic_prior Parameters for the beta distribution prior
@@ -28,6 +29,7 @@ setClass(
     "strata" = "list",
     "time" = "list",
     "detection" = "list",
+    "outcome" = "list",
     "active_prior" = "numeric",
     "passive_asymptomatic_prior" = "numeric",
     "passive_symptomatic_prior" = "numeric"
@@ -38,6 +40,7 @@ setClass(
     "strata" = list(),
     "time" = list(),
     "detection" = list(),
+    "outcome" = list(),
     "active_prior" = numeric(),
     "passive_asymptomatic_prior" = numeric(),
     "passive_symptomatic_prior" = numeric()
@@ -100,103 +103,4 @@ print.SeverityEstimateModel <- function(x, ...) {
   # For now just fallback to stan's print method
   utils::str(x, ...)
   invisible(x)
-}
-
-
-#' @title
-#' Perform Commonly Repeated Checks For Operations On Models
-#'
-#' @description
-#' These helpers consolidate common validations and operations on models for use
-#' by functions that operate on models.
-#'
-#' @param model A \linkS4class{SeverityEstimateModel} S4 object instance
-#' representing a model to check.
-#' @param attribute The attribute being modified by the function calling this
-#' check. If this attribute is set a warning will be issued to the user letting
-#' them know.
-#' @param name A column name to check for in either the `line_list` and/or
-#' `population` slots of `model`.
-#' @param name_in A string indication which attribute to check `name` against.
-#' Must be 'line_list', 'population', or 'both'.
-#' @param ordered A boolean indicating if `levels` has a specific order. If
-#' `TRUE` then `levels` cannot be `NULL`, users must explicitly indicate what
-#' the ordering is.
-#'
-#' @details
-#' When using this functionality it is expected that `check_model` is always
-#' called first so subsequent helpers will skip validations performed by this
-#' function.
-#'
-#' @return
-#' `check_model` returns `NULL` and will raise an error if there is an issue.
-#'
-#' `infer_levels` returns a vector of levels for the particular column given.
-#' Either `levels` if non-`NULL` or an inferred set of levels.
-#'
-#' @importFrom checkmate assert_choice
-#' @importFrom checkmate assert_class
-#' @importFrom checkmate assert_string
-#' @importFrom methods slot
-#' @importFrom methods slotNames
-#' @keywords internal
-check_model <- function(
-  model,
-  attribute = NULL,
-  override_warning = TRUE
-) {
-  checkmate::assert_class(model, "SeverityEstimateModel")
-  checkmate::assert_string(attribute, null.ok = TRUE)
-  if (!is.null(attribute)) {
-    checkmate::assert_choice(attribute, methods::slotNames(model))
-    if (override_warning) {
-      slot_value <- methods::slot(model, attribute)
-      if (length(slot_value)) {
-        warning(
-          "The given 'model' has an attribute called '",
-          attribute,
-          "' which has already been set. ",
-          "The previously set value will be overridden."
-        )
-      }
-    }
-  }
-  NULL
-}
-
-
-#' @rdname check_model
-infer_levels <- function(model, name, name_in, levels = NULL, ordered = FALSE) {
-  # Validations
-  checkmate::assert_string(name)
-  checkmate::assert_choice(name_in, c("line_list", "population", "both"))
-  if (name_in %in% c("line_list", "both")) {
-    checkmate::assert_choice(name, names(model@line_list))
-  }
-  if (name_in %in% c("population", "both")) {
-    checkmate::assert_choice(name, names(model@population))
-  }
-  assert_bool(ordered)
-  if (is.null(levels) && ordered) {
-    stop(
-      "Assertion on 'levels' failed: Explicit levels ",
-      "must be provided when `ordered` is `TRUE`."
-    )
-  }
-  if (name_in == "line_list") {
-    inferred_levels <- model@line_list[, name, drop = TRUE]
-  } else if (name_in == "population") {
-    inferred_levels <- model@population[, name, drop = TRUE]
-  } else {
-    inferred_levels <- c(
-      model@line_list[, name, drop = TRUE],
-      model@population[, name, drop = TRUE]
-    )
-  }
-  inferred_levels <- sort(unique(inferred_levels))
-  if (is.null(levels)) {
-    levels <- inferred_levels
-  }
-  checkmate::assert_subset(inferred_levels, levels)
-  levels
 }

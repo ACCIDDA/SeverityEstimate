@@ -77,8 +77,7 @@ test_that("Using detection with invalid map values raises an error", {
   expect_error(
     MODEL |> detection("detection", map = c("Active" = "invalid")),
     regexp = paste0(
-      "Assertion on 'unname(map)' failed: Must be a subset of ",
-      "{'active','passive'}, but has additional elements {'invalid'}."
+      "Assertion on 'map' failed: All values must be one of 'active', 'passive'"
     ),
     fixed = TRUE
   )
@@ -86,8 +85,7 @@ test_that("Using detection with invalid map values raises an error", {
     MODEL |>
       detection("detection", map = c("Active" = "active", "Passive" = "other")),
     regexp = paste0(
-      "Assertion on 'unname(map)' failed: Must be a subset of ",
-      "{'active','passive'}, but has additional elements {'other'}."
+      "Assertion on 'map' failed: All values must be one of 'active', 'passive'"
     ),
     fixed = TRUE
   )

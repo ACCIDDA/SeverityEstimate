@@ -27,11 +27,6 @@
 #'   detection("detection", map = c("Active" = "active", "Passive" = "passive"))
 #' model
 #'
-#' @importFrom checkmate assert_character
-#' @importFrom checkmate assert_choice
-#' @importFrom checkmate assert_names
-#' @importFrom checkmate assert_string
-#' @importFrom checkmate assert_subset
 #' @export
 detection <- function(
   model,
@@ -39,15 +34,7 @@ detection <- function(
   map = c("active" = "active", "passive" = "passive")
 ) {
   check_model(model, attribute = "detection", override_warning = FALSE)
-
-  checkmate::assert_string(name)
-  checkmate::assert_choice(name, names(model@line_list))
-  checkmate::assert_character(map, any.missing = FALSE, min.len = 1L)
-  checkmate::assert_names(names(map), type = "unique")
-  checkmate::assert_subset(unname(map), c("active", "passive"))
-
-  detection_values <- unique(model@line_list[, name, drop = TRUE])
-  checkmate::assert_subset(names(map), detection_values)
+  validate_map(model, name, map, valid_types = c("active", "passive"))
 
   if (length(model@detection)) {
     old_name <- model@detection$name
