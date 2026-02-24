@@ -10,24 +10,24 @@ data {
   int <lower=0> observed_passive;
   // *Matrices of data*
   // The number of incidence detected through active surveillance
-  int <lower=0> I_active[time_groups, strata_groups];
+  array[time_groups, strata_groups] int<lower=0> I_active;
   // The number of incidence detected through passive surveillance
-  int <lower=0> I_passive[time_groups, strata_groups];
+  array[time_groups, strata_groups] int<lower=0> I_passive;
   // The total population
-  int <lower=0> population[strata_groups];
+  array[strata_groups] int<lower=0> population;
   // *Vectors of data*
   // The strata number of the actively observed cases
-  int <lower=0> strata_active[observed_active];
+  array[observed_active] int<lower=0> strata_active;
   // Indicator if the actively observed case presented with symptoms
-  int <lower=0> symptoms_active[observed_active];
+  array[observed_active] int<lower=0> symptoms_active;
   // Indicator if the actively observed case died
-  int <lower=0> dead_active[observed_active];
+  array[observed_active] int<lower=0> dead_active;
   // The strata number of the passively observed cases
-  int <lower=0> strata_passive[observed_passive];
+  array[observed_passive] int<lower=0> strata_passive;
   // Indicator if the passively observed case presented with symptoms
-  int <lower=0> symptoms_passive[observed_passive];
+  array[observed_passive] int<lower=0> symptoms_passive;
   // Indicator if the passively observed case died
-  int <lower=0> dead_passive[observed_passive];
+  array[observed_passive] int<lower=0> dead_passive;
   // *Model parameters and priors*
   // The stdev of the community hazard brownian motion
   real <lower=0> hazard_std;
@@ -43,11 +43,11 @@ data {
   real <lower=0> passive_symptomatic_beta;
 }
 parameters {
-   // Symtom development/mortality spline coefficients
-  real alpha[1 + degrees_of_freedom];
-  real mort_coef[1 + degrees_of_freedom];
+   // Symptom development/mortality spline coefficients
+  array[1 + degrees_of_freedom] real alpha;
+  array[1 + degrees_of_freedom] real mort_coef;
   // The hazard of infection in each time step
-  real logit_hzd[time_groups, strata_groups];
+  array[time_groups, strata_groups] real logit_hzd;
   // Active detection probability
   real <lower=0, upper=1> active_detection;
   // Passive detection probabilities
@@ -57,14 +57,14 @@ parameters {
 transformed parameters {
   // *Transformed parameters*
   // Strata specific symptom/mortality rate
-  real <lower=0, upper=1> xi[strata_groups];
-  real <lower=0, upper=1> mortality[strata_groups];
+  array[strata_groups] real<lower=0, upper=1> xi;
+  array[strata_groups] real<lower=0, upper=1> mortality;
   // The susceptibles/casesat at each time by strata
-  real <lower=0> S[time_groups, strata_groups];
-  real <lower=0> C[time_groups, strata_groups];
+  array[time_groups, strata_groups] real<lower=0> S;
+  array[time_groups, strata_groups] real<lower=0> C;
   // Intermediates
-  real <lower=0> theta[strata_groups];
-  real <lower=0> passive_denom[strata_groups];
+  array[strata_groups] real<lower=0> theta;
+  array[strata_groups] real<lower=0> passive_denom;
   real xi_tmp;
   real mort_tmp;
   // Calculate IFR/SIR for each strata group
@@ -144,8 +144,8 @@ model {
 generated quantities {
   // *Additional helpful quantities*
   // Distribution of unseen additional active/passive cases
-  int <lower=0> C_active_additional[time_groups, strata_groups];
-  int <lower=0> C_passive_additional[time_groups, strata_groups];
+  array[time_groups, strata_groups] int<lower=0> C_active_additional;
+  array[time_groups, strata_groups] int<lower=0> C_passive_additional;
   real gq_tmp;
   // Loop over each time step and generate cases
   for (i in 1:time_groups) {
