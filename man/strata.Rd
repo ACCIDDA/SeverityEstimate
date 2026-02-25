@@ -16,12 +16,19 @@ strata(x) <- value
 
 \S4method{strata}{SeverityEstimateModel}(x) <- value
 
-set_strata(model, name, levels = NULL, ordered = FALSE)
+set_strata(
+  model,
+  name,
+  levels = NULL,
+  ordered = FALSE,
+  degrees_of_freedom = NULL
+)
 }
 \arguments{
 \item{x}{A \linkS4class{SeverityEstimateModel}.}
 
-\item{value}{A named list with entries \code{name}, \code{levels}, and \code{ordered}.}
+\item{value}{A named list with entries \code{name}, \code{levels}, \code{ordered}, and
+\code{degrees_of_freedom}.}
 
 \item{model}{A \linkS4class{SeverityEstimateModel}.}
 
@@ -32,7 +39,12 @@ both the \code{line_list} and \code{population} \code{data.frame}s.}
 \code{line_list}/\code{population}.}
 
 \item{ordered}{Indicator for if the levels are ordered in effect, i.e. age
-increasing severity. If \code{TRUE} then \code{levels} must be provided.}
+increasing severity. If \code{TRUE} then \code{levels} must be provided. Currently
+must be \code{FALSE}; ordered strata are not yet supported.}
+
+\item{degrees_of_freedom}{The degrees of freedom for the strata fixed
+effects. Only used when \code{ordered} is \code{FALSE}. If \code{NULL}, defaults to \code{1L}
+with a warning.}
 }
 \value{
 \code{strata(x)} returns the current list of model stratifications.

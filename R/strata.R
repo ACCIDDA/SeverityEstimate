@@ -7,14 +7,19 @@
 #' for pipeline ergonomics.
 #'
 #' @param x A \linkS4class{SeverityEstimateModel}.
-#' @param value A named list with entries `name`, `levels`, and `ordered`.
+#' @param value A named list with entries `name`, `levels`, `ordered`, and
+#' `degrees_of_freedom`.
 #' @param model A \linkS4class{SeverityEstimateModel}.
 #' @param name The name of the stratification column, which must be present in
 #' both the `line_list` and `population` `data.frame`s.
 #' @param levels The levels for the stratification, or `NULL` to infer from
 #' `line_list`/`population`.
 #' @param ordered Indicator for if the levels are ordered in effect, i.e. age
-#' increasing severity. If `TRUE` then `levels` must be provided.
+#' increasing severity. If `TRUE` then `levels` must be provided. Currently
+#' must be `FALSE`; ordered strata are not yet supported.
+#' @param degrees_of_freedom The degrees of freedom for the strata fixed
+#' effects. Only used when `ordered` is `FALSE`. If `NULL`, defaults to `1L`
+#' with a warning.
 #'
 #' @return
 #' `strata(x)` returns the current list of model stratifications.
@@ -85,6 +90,17 @@ methods::setMethod(
       ordered <- FALSE
     }
     check_model(x, attribute = "strata", override_warning = FALSE)
+    degrees_of_freedom <- value[["degrees_of_freedom"]]
+    if (is.null(degrees_of_freedom)) {
+      warning(
+        "No `degrees_of_freedom` specified for strata '",
+        name,
+        "'. Defaulting to 1L.",
+        call. = FALSE
+      )
+      degrees_of_freedom <- 1L
+    }
+    degrees_of_freedom <- as.integer(degrees_of_freedom)
     levels <- infer_levels(
       x,
       name,
@@ -105,7 +121,8 @@ methods::setMethod(
     x@strata[[idx]] <- list(
       "name" = name,
       "levels" = levels,
-      "ordered" = ordered
+      "ordered" = ordered,
+      "degrees_of_freedom" = degrees_of_freedom
     )
     x
   }
@@ -113,7 +130,18 @@ methods::setMethod(
 
 #' @rdname strata
 #' @export
-set_strata <- function(model, name, levels = NULL, ordered = FALSE) {
-  strata(model) <- list(name = name, levels = levels, ordered = ordered)
+set_strata <- function(
+  model,
+  name,
+  levels = NULL,
+  ordered = FALSE,
+  degrees_of_freedom = NULL
+) {
+  strata(model) <- list(
+    name = name,
+    levels = levels,
+    ordered = ordered,
+    degrees_of_freedom = degrees_of_freedom
+  )
   model
 }
