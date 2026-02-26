@@ -11,8 +11,7 @@ outcome(
 )
 }
 \arguments{
-\item{model}{A \linkS4class{SeverityEstimateModel} to specify the prior
-distribution for.}
+\item{model}{A \linkS4class{SeverityEstimateModel}.}
 
 \item{name}{The name of the outcome column, must be present in the \code{linelist}
 \code{data.frame} given when initializing the model.}
