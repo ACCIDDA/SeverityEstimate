@@ -7,8 +7,7 @@
 strata(model, name, levels = NULL, ordered = FALSE)
 }
 \arguments{
-\item{model}{A \linkS4class{SeverityEstimateModel} to specify the prior
-distribution for.}
+\item{model}{A \linkS4class{SeverityEstimateModel}.}
 
 \item{name}{The name of the strataification column, must be present in both
 the \code{linelist} and \code{population} \code{data.frame}s given when initializing the
