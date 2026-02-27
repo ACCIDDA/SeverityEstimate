@@ -2,28 +2,51 @@
 % Please edit documentation in R/strata.R
 \name{strata}
 \alias{strata}
-\title{Add A Stratification For IFR/SIR Estimates}
+\alias{strata<-}
+\alias{strata,SeverityEstimateModel-method}
+\alias{strata<-,SeverityEstimateModel-method}
+\alias{set_strata}
+\title{Get Or Set Model Stratifications}
 \usage{
-strata(model, name, levels = NULL, ordered = FALSE)
+strata(x)
+
+strata(x) <- value
+
+\S4method{strata}{SeverityEstimateModel}(x)
+
+\S4method{strata}{SeverityEstimateModel}(x) <- value
+
+set_strata(model, name, levels = NULL, ordered = FALSE)
 }
 \arguments{
+\item{x}{A \linkS4class{SeverityEstimateModel}.}
+
+\item{value}{A named list with entries \code{name}, \code{levels}, and \code{ordered}.}
+
 \item{model}{A \linkS4class{SeverityEstimateModel}.}
 
-\item{name}{The name of the strataification column, must be present in both
-the \code{linelist} and \code{population} \code{data.frame}s given when initializing the
-model.}
+\item{name}{The name of the stratification column, which must be present in
+both the \code{line_list} and \code{population} \code{data.frame}s.}
 
-\item{levels}{The levels for the stratification or if \code{NULL} inferred from
-the \code{linelist}/\code{population} \code{data.frame}s.}
+\item{levels}{The levels for the stratification, or \code{NULL} to infer from
+\code{line_list}/\code{population}.}
 
-\item{ordered}{Indicator for if the levels are ordered in affect, i.e. age
+\item{ordered}{Indicator for if the levels are ordered in effect, i.e. age
 increasing severity. If \code{TRUE} then \code{levels} must be provided.}
 }
 \value{
-The \code{model} given modified to contain the stratification information.
+\code{strata(x)} returns the current list of model stratifications.
+
+\code{strata(x) <- value} returns \code{x} modified to include the given
+stratification.
+
+\code{set_strata(model, ...)} returns \code{model} modified to include the given
+stratification.
 }
 \description{
-Add A Stratification For IFR/SIR Estimates
+S4 getter and replacement methods for the \code{strata} slot on a
+\linkS4class{SeverityEstimateModel}, plus a chainable \code{set_strata()} helper
+for pipeline ergonomics.
 }
 \examples{
 line_list <- data.frame(
@@ -38,7 +61,7 @@ population <- data.frame(
   amount = rep(987L, 3L)
 )
 model <- SeverityEstimateModel(line_list, population) |>
-  strata("age", levels = c("Youth", "Adult", "Senior"))
+  set_strata("age", levels = c("Youth", "Adult", "Senior"))
 model
 
 }

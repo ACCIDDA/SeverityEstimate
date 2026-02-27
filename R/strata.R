@@ -1,17 +1,29 @@
 #' @title
-#' Add A Stratification For IFR/SIR Estimates
+#' Get Or Set Model Stratifications
 #'
-#' @inheritParams prior
-#' @param name The name of the strataification column, must be present in both
-#' the `linelist` and `population` `data.frame`s given when initializing the
-#' model.
-#' @param levels The levels for the stratification or if `NULL` inferred from
-#' the `linelist`/`population` `data.frame`s.
-#' @param ordered Indicator for if the levels are ordered in affect, i.e. age
+#' @description
+#' S4 getter and replacement methods for the `strata` slot on a
+#' \linkS4class{SeverityEstimateModel}, plus a chainable `set_strata()` helper
+#' for pipeline ergonomics.
+#'
+#' @param x A \linkS4class{SeverityEstimateModel}.
+#' @param value A named list with entries `name`, `levels`, and `ordered`.
+#' @param model A \linkS4class{SeverityEstimateModel}.
+#' @param name The name of the stratification column, which must be present in
+#' both the `line_list` and `population` `data.frame`s.
+#' @param levels The levels for the stratification, or `NULL` to infer from
+#' `line_list`/`population`.
+#' @param ordered Indicator for if the levels are ordered in effect, i.e. age
 #' increasing severity. If `TRUE` then `levels` must be provided.
 #'
 #' @return
-#' The `model` given modified to contain the stratification information.
+#' `strata(x)` returns the current list of model stratifications.
+#'
+#' `strata(x) <- value` returns `x` modified to include the given
+#' stratification.
+#'
+#' `set_strata(model, ...)` returns `model` modified to include the given
+#' stratification.
 #'
 #' @examples
 #' line_list <- data.frame(
@@ -26,33 +38,82 @@
 #'   amount = rep(987L, 3L)
 #' )
 #' model <- SeverityEstimateModel(line_list, population) |>
-#'   strata("age", levels = c("Youth", "Adult", "Senior"))
+#'   set_strata("age", levels = c("Youth", "Adult", "Senior"))
 #' model
 #'
+#' @importFrom methods setGeneric
+#' @rdname strata
 #' @export
-strata <- function(model, name, levels = NULL, ordered = FALSE) {
-  check_model(model, attribute = "strata", override_warning = FALSE)
-  levels <- infer_levels(
-    model,
-    name,
-    "both",
-    levels = levels,
-    ordered = ordered
-  )
-  length_plus1 <- length(model@strata) + 1L
-  idx <- match(name, sapply(model@strata, \(x) x$name), nomatch = length_plus1)
-  if (idx < length_plus1) {
-    warning(
-      "The given 'model' has a strata called '",
-      name,
-      "' which has already been set. ",
-      "The previously set value will be overridden."
-    )
+methods::setGeneric(
+  "strata",
+  function(x) standardGeneric("strata")
+)
+
+#' @importFrom methods setGeneric
+#' @rdname strata
+#' @export
+methods::setGeneric(
+  "strata<-",
+  function(x, value) standardGeneric("strata<-")
+)
+
+#' @importFrom methods setMethod
+#' @importFrom methods slot
+#' @rdname strata
+#' @export
+methods::setMethod(
+  "strata",
+  signature(x = "SeverityEstimateModel"),
+  function(x) {
+    methods::slot(x, "strata")
   }
-  model@strata[[idx]] <- list(
-    "name" = name,
-    "levels" = levels,
-    "ordered" = ordered
-  )
+)
+
+#' @rdname strata
+#' @export
+methods::setMethod(
+  "strata<-",
+  signature(x = "SeverityEstimateModel"),
+  function(x, value) {
+    if (!is.list(value) || is.null(value[["name"]])) {
+      stop("The replacement value for 'strata' must be a list with a 'name'.")
+    }
+    name <- value[["name"]]
+    levels <- value[["levels"]]
+    ordered <- value[["ordered"]]
+    if (is.null(ordered)) {
+      ordered <- FALSE
+    }
+    check_model(x, attribute = "strata", override_warning = FALSE)
+    levels <- infer_levels(
+      x,
+      name,
+      "both",
+      levels = levels,
+      ordered = ordered
+    )
+    length_plus1 <- length(x@strata) + 1L
+    idx <- match(name, sapply(x@strata, \(s) s$name), nomatch = length_plus1)
+    if (idx < length_plus1) {
+      warning(
+        "The given 'model' has a strata called '",
+        name,
+        "' which has already been set. ",
+        "The previously set value will be overridden."
+      )
+    }
+    x@strata[[idx]] <- list(
+      "name" = name,
+      "levels" = levels,
+      "ordered" = ordered
+    )
+    x
+  }
+)
+
+#' @rdname strata
+#' @export
+set_strata <- function(model, name, levels = NULL, ordered = FALSE) {
+  strata(model) <- list(name = name, levels = levels, ordered = ordered)
   model
 }
