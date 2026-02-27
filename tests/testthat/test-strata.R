@@ -1,8 +1,8 @@
-test_that("Using the `strata` function modifies the 'strata' slot", {
-  expect_identical(MODEL@strata, list())
-  model <- MODEL |> strata("age")
+test_that("`strata()` getter returns the strata slot", {
+  expect_identical(strata(MODEL), list())
+  model <- MODEL |> set_strata("age")
   expect_identical(
-    model@strata,
+    strata(model),
     list(list(
       name = "age",
       levels = c("Adult", "Senior", "Youth"),
@@ -11,31 +11,26 @@ test_that("Using the `strata` function modifies the 'strata' slot", {
   )
 })
 
-test_that(
-  paste0(
-    "Using the `strata` function with ",
-    "explicit levels modifies the 'strata' slot"
-  ),
-  {
-    expect_identical(MODEL@strata, list())
-    model <- MODEL |>
-      strata("age", levels = c("Youth", "Adult", "Senior"), ordered = TRUE)
-    expect_identical(
-      model@strata,
-      list(list(
-        name = "age",
-        levels = c("Youth", "Adult", "Senior"),
-        ordered = TRUE
-      ))
-    )
-  }
-)
-
-test_that("Overriding a strata raises a warning", {
-  expect_identical(MODEL@strata, list())
-  expect_silent(model <- MODEL |> strata("age"))
+test_that("`set_strata()` with explicit levels modifies the strata slot", {
+  expect_identical(strata(MODEL), list())
+  model <- MODEL |>
+    set_strata("age", levels = c("Youth", "Adult", "Senior"), ordered = TRUE)
   expect_identical(
-    model@strata,
+    strata(model),
+    list(list(
+      name = "age",
+      levels = c("Youth", "Adult", "Senior"),
+      ordered = TRUE
+    ))
+  )
+})
+
+test_that("`strata<-` replacement setter updates and can override", {
+  expect_identical(strata(MODEL), list())
+  model <- MODEL
+  strata(model) <- list(name = "age")
+  expect_identical(
+    strata(model),
     list(list(
       name = "age",
       levels = c("Adult", "Senior", "Youth"),
@@ -43,8 +38,11 @@ test_that("Overriding a strata raises a warning", {
     ))
   )
   expect_warning(
-    model <- model |>
-      strata("age", levels = c("Youth", "Adult", "Senior"), ordered = TRUE),
+    strata(model) <- list(
+      name = "age",
+      levels = c("Youth", "Adult", "Senior"),
+      ordered = TRUE
+    ),
     regexp = paste0(
       "The given 'model' has a strata called 'age' which has already ",
       "been set. The previously set value will be overridden."
@@ -52,7 +50,7 @@ test_that("Overriding a strata raises a warning", {
     fixed = TRUE
   )
   expect_identical(
-    model@strata,
+    strata(model),
     list(list(
       name = "age",
       levels = c("Youth", "Adult", "Senior"),

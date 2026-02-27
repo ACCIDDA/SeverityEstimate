@@ -18,7 +18,7 @@ model <- SeverityEstimateModel(line_list, population) |>
   set_active_prior(alpha = 1.0, beta = 1.0) |>
   set_passive_asymptomatic_prior(alpha = 1.0, beta = 3.0) |>
   set_passive_symptomatic_prior(alpha = 3.0, beta = 1.0) |>
-  strata("sex") |>
+  set_strata("sex") |>
   time("week") |>
   detection("detection", map = c("Active" = "active", "Passive" = "passive")) |>
   outcome(
