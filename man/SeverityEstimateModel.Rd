@@ -32,7 +32,7 @@ down by strataification.}
 
 \item{\code{strata}}{A list of model stratification specifications.}
 
-\item{\code{time}}{A list specifying the time column of the linelist.}
+\item{\code{timesteps}}{A list specifying the timestep column of the linelist.}
 
 \item{\code{detection}}{A list specifying the detection type mapping.}
 
