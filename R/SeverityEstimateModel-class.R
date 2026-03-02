@@ -8,7 +8,7 @@
 #' @slot population A dataset containing information on the population broken
 #' down by strataification.
 #' @slot strata A list of model stratification specifications.
-#' @slot time A list specifying the time column of the linelist.
+#' @slot timesteps A list specifying the timestep column of the linelist.
 #' @slot detection A list specifying the detection type mapping.
 #' @slot outcome A list specifying the outcome severity mapping.
 #' @slot active_prior Parameters for the beta distribution prior for the active
@@ -27,7 +27,7 @@ setClass(
     "line_list" = "data.frame",
     "population" = "data.frame",
     "strata" = "list",
-    "time" = "list",
+    "timesteps" = "list",
     "detection" = "list",
     "outcome" = "list",
     "active_prior" = "numeric",
@@ -38,7 +38,7 @@ setClass(
     "line_list" = data.frame(),
     "population" = data.frame(),
     "strata" = list(),
-    "time" = list(),
+    "timesteps" = list(),
     "detection" = list(),
     "outcome" = list(),
     "active_prior" = numeric(),
