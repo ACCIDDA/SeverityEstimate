@@ -2,25 +2,66 @@
 % Please edit documentation in R/detection.R
 \name{detection}
 \alias{detection}
-\title{Add A Detection Type Mapping To A Model}
+\alias{detection<-}
+\alias{detection,SeverityEstimateModel-method}
+\alias{has_detection}
+\alias{has_detection,SeverityEstimateModel-method}
+\alias{detection<-,SeverityEstimateModel-method}
+\alias{require_detection}
+\alias{set_detection}
+\title{Get Or Set Model Detection Mapping}
 \usage{
-detection(model, name, map = c(active = "active", passive = "passive"))
+detection(x)
+
+detection(x) <- value
+
+\S4method{detection}{SeverityEstimateModel}(x)
+
+has_detection(x)
+
+\S4method{has_detection}{SeverityEstimateModel}(x)
+
+\S4method{detection}{SeverityEstimateModel}(x) <- value
+
+require_detection(model, mode = "error")
+
+set_detection(model, name, map = c(active = "active", passive = "passive"))
 }
 \arguments{
+\item{x}{A \linkS4class{SeverityEstimateModel}.}
+
+\item{value}{A named list with entries \code{name} and \code{map}.}
+
 \item{model}{A \linkS4class{SeverityEstimateModel}.}
 
-\item{name}{The name of the detection column, must be present in the \code{linelist}
-\code{data.frame} given when initializing the model.}
+\item{mode}{How \code{require_detection()} should respond when detection is not
+set. One of \code{error}, \code{warn}, \code{silent}.}
+
+\item{name}{The name of the detection column, which must be present in
+\code{line_list}.}
 
 \item{map}{A named character vector mapping detection column values to either
-"active" or "passive". The names must be values present in the detection column,
-and the values must be either "active" or "passive".}
+\code{active} or \code{passive}.}
 }
 \value{
-The \code{model} given modified to contain the detection type mapping.
+\code{detection(x)} returns the current detection specification.
+
+\code{detection(x) <- value} returns \code{x} modified to include the detection
+specification.
+
+\code{has_detection(x)} returns \code{TRUE} if detection has been set, \code{FALSE}
+otherwise.
+
+\code{require_detection(model, mode)} returns \code{model}. If detection is unset, the
+behavior depends on \code{mode}.
+
+\code{set_detection(model, ...)} returns \code{model} modified to include the detection
+specification.
 }
 \description{
-Add A Detection Type Mapping To A Model
+S4 getter and replacement methods for the \code{detection} slot on a
+\linkS4class{SeverityEstimateModel}, plus chainable helpers to set and
+validate detection readiness.
 }
 \examples{
 line_list <- data.frame(
@@ -35,7 +76,10 @@ population <- data.frame(
   amount = rep(987L, 3L)
 )
 model <- SeverityEstimateModel(line_list, population) |>
-  detection("detection", map = c("Active" = "active", "Passive" = "passive"))
+  set_detection(
+    "detection",
+    map = c("Active" = "active", "Passive" = "passive")
+  )
 model
 
 }
