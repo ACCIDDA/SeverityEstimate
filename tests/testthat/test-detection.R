@@ -1,9 +1,12 @@
-test_that("Using the `detection` function modifies the 'detection' slot", {
-  expect_identical(MODEL@detection, list())
+test_that("`detection()` getter returns the detection slot", {
+  expect_identical(detection(MODEL), list())
   model <- MODEL |>
-    detection("detection", map = c("Active" = "active", "Passive" = "passive"))
+    set_detection(
+      "detection",
+      map = c("Active" = "active", "Passive" = "passive")
+    )
   expect_identical(
-    model@detection,
+    detection(model),
     list(
       name = "detection",
       map = c("Active" = "active", "Passive" = "passive")
@@ -11,53 +14,44 @@ test_that("Using the `detection` function modifies the 'detection' slot", {
   )
 })
 
-test_that(
-  paste0(
-    "Using the `detection` function with ",
-    "default map works for lowercase values"
-  ),
-  {
-    line_list_lower <- data.frame(
-      patient = 1L:3L,
-      week = c(1L, 1L, 2L),
-      detection = c("active", "passive", "active"),
-      outcome = c("Asymptomatic", "Death", "Symptomatic")
+test_that("`set_detection()` default map works for lowercase values", {
+  line_list_lower <- data.frame(
+    patient = 1L:3L,
+    week = c(1L, 1L, 2L),
+    detection = c("active", "passive", "active"),
+    outcome = c("Asymptomatic", "Death", "Symptomatic")
+  )
+  model_lower <- SeverityEstimateModel(line_list_lower, 1000L)
+  expect_identical(detection(model_lower), list())
+  model <- model_lower |> set_detection("detection")
+  expect_identical(
+    detection(model),
+    list(
+      name = "detection",
+      map = c("active" = "active", "passive" = "passive")
     )
-    model_lower <- SeverityEstimateModel(line_list_lower, 1000L)
-    expect_identical(model_lower@detection, list())
-    model <- model_lower |> detection("detection")
-    expect_identical(
-      model@detection,
-      list(
-        name = "detection",
-        map = c("active" = "active", "passive" = "passive")
-      )
-    )
-  }
-)
+  )
+})
 
-test_that("Overriding detection raises a warning", {
-  expect_identical(MODEL@detection, list())
-  expect_silent(
-    model <- MODEL |>
-      detection(
-        "detection",
-        map = c("Active" = "active", "Passive" = "passive")
-      )
+test_that("`detection<-` replacement setter updates and can override", {
+  expect_identical(detection(MODEL), list())
+  model <- MODEL
+  detection(model) <- list(
+    name = "detection",
+    map = c("Active" = "active", "Passive" = "passive")
   )
   expect_identical(
-    model@detection,
+    detection(model),
     list(
       name = "detection",
       map = c("Active" = "active", "Passive" = "passive")
     )
   )
   expect_warning(
-    model <- model |>
-      detection(
-        "detection",
-        map = c("Active" = "passive", "Passive" = "active")
-      ),
+    detection(model) <- list(
+      name = "detection",
+      map = c("Active" = "passive", "Passive" = "active")
+    ),
     regexp = paste0(
       "The given 'model' has detection already set to 'detection'. ",
       "The previously set value will be overridden."
@@ -65,7 +59,7 @@ test_that("Overriding detection raises a warning", {
     fixed = TRUE
   )
   expect_identical(
-    model@detection,
+    detection(model),
     list(
       name = "detection",
       map = c("Active" = "passive", "Passive" = "active")
@@ -75,7 +69,7 @@ test_that("Overriding detection raises a warning", {
 
 test_that("Using detection with invalid map values raises an error", {
   expect_error(
-    MODEL |> detection("detection", map = c("Active" = "invalid")),
+    MODEL |> set_detection("detection", map = c("Active" = "invalid")),
     regexp = paste0(
       "Assertion on 'map' failed: All values must be one of 'active', 'passive'"
     ),
@@ -83,7 +77,10 @@ test_that("Using detection with invalid map values raises an error", {
   )
   expect_error(
     MODEL |>
-      detection("detection", map = c("Active" = "active", "Passive" = "other")),
+      set_detection(
+        "detection",
+        map = c("Active" = "active", "Passive" = "other")
+      ),
     regexp = paste0(
       "Assertion on 'map' failed: All values must be one of 'active', 'passive'"
     ),
@@ -93,13 +90,13 @@ test_that("Using detection with invalid map values raises an error", {
 
 test_that("Using detection with map names not in column raises an error", {
   expect_error(
-    MODEL |> detection("detection", map = c("NotPresent" = "active")),
+    MODEL |> set_detection("detection", map = c("NotPresent" = "active")),
     regexp = "Must be a subset of \\{'Active','Passive'\\}",
     fixed = FALSE
   )
   expect_error(
     MODEL |>
-      detection(
+      set_detection(
         "detection",
         map = c("Active" = "active", "NonExistent" = "passive")
       ),
@@ -110,8 +107,51 @@ test_that("Using detection with map names not in column raises an error", {
 
 test_that("Using detection with invalid column name raises an error", {
   expect_error(
-    MODEL |> detection("nonexistent_column"),
+    MODEL |> set_detection("nonexistent_column"),
     regexp = "Must be element of set \\{.*\\}",
     fixed = FALSE
   )
+})
+
+test_that("`has_detection()` returns whether detection is set", {
+  expect_false(has_detection(MODEL))
+  model <- MODEL |>
+    set_detection(
+      "detection",
+      map = c("Active" = "active", "Passive" = "passive")
+    )
+  expect_true(has_detection(model))
+})
+
+test_that("`require_detection()` checks presence according to mode", {
+  expect_error(
+    require_detection(MODEL),
+    regexp = "No detection mapping has been set. Call `set_detection\\(\\.\\.\\.\\)` first\\."
+  )
+  expect_warning(
+    require_detection(MODEL, mode = "warn"),
+    regexp = "No detection mapping has been set. Call `set_detection\\(\\.\\.\\.\\)` first\\."
+  )
+  expect_identical(require_detection(MODEL, mode = "silent"), MODEL)
+
+  model <- MODEL |>
+    set_detection(
+      "detection",
+      map = c("Active" = "active", "Passive" = "passive")
+    )
+  expect_identical(require_detection(model), model)
+})
+
+test_that("`require_detection()` validates mode", {
+  for (mode in c("nope", "loud", "", "warning")) {
+    expect_error(
+      require_detection(MODEL, mode = mode),
+      regexp = paste0(
+        "^Assertion on 'mode' failed: Must be element of set ",
+        "\\{'error','warn','silent'\\}, but is '",
+        mode,
+        "'\\.$"
+      )
+    )
+  }
 })
