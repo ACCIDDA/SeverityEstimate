@@ -2,30 +2,69 @@
 % Please edit documentation in R/outcome.R
 \name{outcome}
 \alias{outcome}
-\title{Add An Outcome Severity Mapping To A Model}
+\alias{outcome<-}
+\alias{outcome,SeverityEstimateModel-method}
+\alias{has_outcome}
+\alias{has_outcome,SeverityEstimateModel-method}
+\alias{outcome<-,SeverityEstimateModel-method}
+\alias{require_outcome}
+\alias{set_outcome}
+\title{Get Or Set Model Outcome Mapping}
 \usage{
-outcome(
+outcome(x)
+
+outcome(x) <- value
+
+\S4method{outcome}{SeverityEstimateModel}(x)
+
+has_outcome(x)
+
+\S4method{has_outcome}{SeverityEstimateModel}(x)
+
+\S4method{outcome}{SeverityEstimateModel}(x) <- value
+
+require_outcome(model, mode = "error")
+
+set_outcome(
   model,
   name,
   map = c(asymptomatic = "asymptomatic", symptomatic = "symptomatic", severe = "severe")
 )
 }
 \arguments{
+\item{x}{A \linkS4class{SeverityEstimateModel}.}
+
+\item{value}{A named list with entries \code{name} and \code{map}.}
+
 \item{model}{A \linkS4class{SeverityEstimateModel}.}
 
-\item{name}{The name of the outcome column, must be present in the \code{linelist}
-\code{data.frame} given when initializing the model.}
+\item{mode}{How \code{require_outcome()} should respond when outcome is not set.
+One of \code{error}, \code{warn}, \code{silent}.}
+
+\item{name}{The name of the outcome column, which must be present in
+\code{line_list}.}
 
 \item{map}{A named character vector mapping outcome column values to one of
-"asymptomatic", "symptomatic", or "severe". The names must be values present
-in the outcome column, and the values must be one of "asymptomatic",
-"symptomatic", or "severe".}
+\code{asymptomatic}, \code{symptomatic}, or \code{severe}.}
 }
 \value{
-The \code{model} given modified to contain the outcome severity mapping.
+\code{outcome(x)} returns the current outcome specification.
+
+\code{outcome(x) <- value} returns \code{x} modified to include the outcome
+specification.
+
+\code{has_outcome(x)} returns \code{TRUE} if outcome has been set, \code{FALSE} otherwise.
+
+\code{require_outcome(model, mode)} returns \code{model}. If outcome is unset, the
+behavior depends on \code{mode}.
+
+\code{set_outcome(model, ...)} returns \code{model} modified to include the outcome
+specification.
 }
 \description{
-Add An Outcome Severity Mapping To A Model
+S4 getter and replacement methods for the \code{outcome} slot on a
+\linkS4class{SeverityEstimateModel}, plus chainable helpers to set and
+validate outcome readiness.
 }
 \examples{
 line_list <- data.frame(
@@ -40,7 +79,7 @@ population <- data.frame(
   amount = rep(987L, 3L)
 )
 model <- SeverityEstimateModel(line_list, population) |>
-  outcome("outcome", map = c(
+  set_outcome("outcome", map = c(
     "Asymptomatic" = "asymptomatic",
     "Symptomatic" = "symptomatic",
     "Death" = "severe"

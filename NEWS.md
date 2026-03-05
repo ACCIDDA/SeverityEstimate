@@ -24,7 +24,7 @@ model <- SeverityEstimateModel(line_list, population) |>
     "detection",
     map = c("Active" = "active", "Passive" = "passive")
   ) |>
-  outcome(
+  set_outcome(
     "outcome",
     map = c(
       "Asymptomatic" = "asymptomatic",
