@@ -1,8 +1,8 @@
 ---
-title: "getting-started"
+title: "Getting Started"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{getting-started}
+  %\VignetteIndexEntry{Getting Started}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,11 +14,34 @@ knitr::opts_chunk$set(
 )
 ```
 
+## Overview
+
+`SeverityEstimate` fits a Bayesian model to estimate the infection fatality
+ratio (IFR) and symptomatic infection rate (SIR) from case line list data,
+accounting for the fact that active and passive surveillance systems detect
+cases at different rates and with different symptom profiles. The model is based
+on [Lessler et al. (2016)](https://doi.org/10.1093/aje/kwv452).
+
+The package uses a pipeline API similar in spirit to `tidymodels`: you first
+build and configure a `SeverityEstimateModel` object, then call `fit()` to run
+the Stan sampler and obtain a `SeverityEstimateFit` from which estimates are
+extracted.
+
 ```{r setup}
 options(mc.cores = 1L)
-library(devtools)
-devtools::load_all()
+library(SeverityEstimate)
 ```
+
+## Sample data
+
+We start by generating a synthetic line list with `create_sample_linelist()`.
+This requires a `strata` table describing each subgroup's true underlying
+parameters - the infection fatality ratio (`ifr`), the symptomatic infection
+rate (`sir`), and the population size — along with a sequence of observation
+times and detection probabilities for active and passive surveillance.
+
+Here we define three age groups observed weekly over a 13-week period, with a
+constant force of infection of 0.005 across all strata and time points.
 
 ```{r sample data}
 strata <- do.call(rbind, lapply(list(
@@ -28,47 +51,108 @@ strata <- do.call(rbind, lapply(list(
 ), as.data.frame))
 times <- seq(as.Date("2024-01-01"), as.Date("2024-3-31"), "+7 days")
 force_of_infection <- matrix(
-  data = 0.004, nrow = length(times), ncol = nrow(strata)
+  data = 0.005, nrow = length(times), ncol = nrow(strata)
 )
-linelist <- SeverityEstimate::create_sample_linelist(
+linelist <- create_sample_linelist(
   strata,
   times,
-  0.15,
-  0.05,
-  0.95,
+  0.15,  # active detection probability
+  0.05,  # passive detection probability for asymptomatic cases
+  0.95,  # passive detection probability for symptomatic cases
   force_of_infection = force_of_infection,
   seed = 123L
 )
 head(linelist, n = 20L)
 ```
 
+The resulting line list has one row per observed case, with columns for the
+patient identifier, time step, age stratum, detection type (`Active` or
+`Passive`), and outcome (`Asymptomatic`, `Symptomatic`, or `Death`).
+
 ```{r sample data summary}
 summary(linelist)
 ```
 
+## Building and fitting the model
+
+The modelling workflow has two stages. First, a `SeverityEstimateModel` is
+constructed by specifying the line list, the population table, and the model
+configuration. Each `set_*` call adds one piece of configuration and returns
+the model so calls can be chained.
+
+- `set_active_prior/passive_asymptomatic_prior/passive_symptomatic_prior`:
+  Set Beta distribution priors for each surveillance detection rate. Here we use
+  a weakly informative prior for active detection and priors that reflect the
+  expectation that passive surveillance is more likely to capture symptomatic
+  than asymptomatic cases.
+- `set_strata`: Declares the column used for stratification and its ordered
+  levels. Levels should be provided explicitly to ensure a consistent ordering
+  in the output.
+- `set_timesteps`: Declares the column that identifies the time period of each
+  observation.
+- `set_detection`: Maps the values in the detection column to the canonical
+  types `active` and `passive` expected by the model.
+- `set_outcome`: Maps the values in the outcome column to the canonical types
+  `asymptomatic`, `symptomatic`, and `severe` expected by the model.
+
+Once configured, `fit()` compiles the Stan model and runs the sampler, passing
+any additional arguments (e.g. `chains`, `iter`) through to `rstan::stan()`.
+
 ```{r fit model}
-estimate <- SeverityEstimate::estimate_severity(
-  linelist,
-  strata[, c("age", "population")],
-  "detection",
-  "outcome",
-  time_period = "time",
-  strata = "age",
-  time_period_reference = times,
-  strata_reference = strata[, "age"],
-  surveillance_reference = c("Active", "Passive"),
-  # Stan parameters
+population <- strata[, c("age", "population")]
+
+model <- SeverityEstimateModel(linelist, population) |>
+  set_active_prior(alpha = 1.0, beta = 1.0) |>
+  set_passive_asymptomatic_prior(alpha = 1.0, beta = 3.0) |>
+  set_passive_symptomatic_prior(alpha = 3.0, beta = 1.0) |>
+  set_strata(
+    "age",
+    levels = strata[, "age"],
+    degrees_of_freedom = 1L
+  ) |>
+  set_timesteps("time") |>
+  set_detection(
+    "detection",
+    map = c("Active" = "active", "Passive" = "passive")
+  ) |>
+  set_outcome(
+    "outcome",
+    map = c(
+      "Asymptomatic" = "asymptomatic",
+      "Symptomatic" = "symptomatic",
+      "Death" = "severe"
+    )
+  )
+
+estimate <- fit(
+  model,
   chains = 2L,
   iter = 2000L
 )
 ```
 
+## Extracting results
+
+### Detection rate parameters
+
+`calculate_parameter_estimates()` returns a summary of the three detection rate
+parameters fitted by the model: the active detection rate, the passive
+asymptomatic detection rate, and the passive symptomatic detection rate. The
+`alpha` argument controls which credible interval bounds are returned.
+
 ```{r underlying parameters}
-SeverityEstimate::calculate_parameter_estimates(estimate, alpha = 0.05)
+calculate_parameter_estimates(estimate, alpha = 0.05)
 ```
 
+### Fatality ratios
+
+`calculate_fatality_ratio()` returns IFR and SIR estimates broken down by
+stratum. Setting `naive_estimate = TRUE` also includes a naive observed ratio
+computed directly from the raw counts, which provides a useful point of
+comparison against the model-adjusted estimates.
+
 ```{r severity estimates}
-ratios <- SeverityEstimate::calculate_fatality_ratio(
+ratios <- calculate_fatality_ratio(
   estimate, median_estimate = FALSE, naive_estimate = TRUE
 )
 ratios[match(c("youth", "adult", "senior"), ratios$age), ]
