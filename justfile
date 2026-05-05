@@ -1,5 +1,5 @@
 PKG := "SeverityEstimate"
-VERSION := `Rscript -e "cat(read.dcf('DESCRIPTION')[,'Version'])"`
+VERSION := `sed -n 's/^Version: //p' DESCRIPTION`
 TARBALL := PKG + "_" + VERSION + ".tar.gz"
 
 default: clean format lint docs test
