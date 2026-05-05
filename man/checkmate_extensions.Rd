@@ -41,9 +41,9 @@ Convenience wrappers around checkmate for specific internal use cases.
 Namely:
 \itemize{
 \item \code{check_probability}/\code{assert_probability} are wrappers around
-\code{\link[checkmate:checkNumber]{checkmate::check_number()}} specifically for probabilities.
-\item \code{assert_bool} is a wrappeer around \code{\link[checkmate:checkFALSE]{checkmate::check_false()}} and
-\code{\link[checkmate:checkTRUE]{checkmate::check_true()}} for single length logicals.
+\code{\link[checkmate:check_number]{checkmate::check_number()}} specifically for probabilities.
+\item \code{assert_bool} is a wrappeer around \code{\link[checkmate:check_false]{checkmate::check_false()}} and
+\code{\link[checkmate:check_true]{checkmate::check_true()}} for single length logicals.
 }
 }
 \keyword{internal}
