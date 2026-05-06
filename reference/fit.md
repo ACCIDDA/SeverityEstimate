@@ -1,0 +1,29 @@
+# Fit a severity estimate model instance.
+
+Fit a severity estimate model instance.
+
+## Usage
+
+``` r
+fit(model, ...)
+```
+
+## Arguments
+
+- model:
+
+  A
+  [SeverityEstimateModel](https://accidda.github.io/SeverityEstimate/reference/SeverityEstimateModel.md)
+  to fit.
+
+- ...:
+
+  Further optional args that are eventually given to
+  [`rstan::stan()`](https://mc-stan.org/rstan/reference/stan.html)
+  related to fitting.
+
+## Value
+
+A
+[SeverityEstimateFit](https://accidda.github.io/SeverityEstimate/reference/SeverityEstimateFit.md)
+S4 object.
