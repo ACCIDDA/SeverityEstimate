@@ -97,6 +97,10 @@ the model so calls can be chained.
 
 Once configured, `fit()` compiles the Stan model and runs the sampler, passing
 any additional arguments (e.g. `chains`, `iter`) through to `rstan::stan()`.
+The settings below are intentionally small to keep this vignette reasonably
+quick to render. They are not sufficient to assess convergence or support
+serious inference. In practice you'd want to use more chains and iterations
+and review the usual Stan diagnostics.
 
 ```{r fit model}
 population <- strata[, c("age", "population")]
@@ -126,8 +130,10 @@ model <- SeverityEstimateModel(linelist, population) |>
 
 estimate <- fit(
   model,
-  chains = 2L,
-  iter = 2000L
+  chains = 1L,
+  iter = 500L,
+  seed = 123L,
+  refresh = 0
 )
 ```
 

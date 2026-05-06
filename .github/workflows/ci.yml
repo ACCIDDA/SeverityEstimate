@@ -12,7 +12,7 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
       - name: 'checkout repository'
-        uses: 'actions/checkout@v6'
+        uses: 'actions/checkout@v6.0.2'
       - name: 'setup R'
         uses: './.github/actions/setup-r'
       - name: 'build roxygen documentation'
@@ -28,7 +28,7 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
       - name: 'checkout repository'
-        uses: 'actions/checkout@v6'
+        uses: 'actions/checkout@v6.0.2'
       - name: 'setup R'
         uses: './.github/actions/setup-r'
       - name: 'install air'
@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'checkout repository'
-        uses: 'actions/checkout@v6'
+        uses: 'actions/checkout@v6.0.2'
       - name: 'setup R'
         uses: './.github/actions/setup-r'
       - name: 'run tests'
@@ -50,7 +50,7 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
       - name: 'checkout repository'
-        uses: 'actions/checkout@v6'
+        uses: 'actions/checkout@v6.0.2'
       - name: 'setup R'
         uses: './.github/actions/setup-r'
       - name: 'run check'
@@ -61,7 +61,7 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
       - name: 'checkout repository'
-        uses: 'actions/checkout@v6'
+        uses: 'actions/checkout@v6.0.2'
         with:
           fetch-depth: 0
       - name: 'check news updated'

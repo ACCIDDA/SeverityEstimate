@@ -39,6 +39,7 @@ Suggests:
     devtools,
     knitr,
     lobstr,
+    pkgdown,
     rmarkdown,
     roxygen2,
     testthat (>= 3.0.0),
@@ -47,3 +48,4 @@ Config/testthat/edition: 3
 StagedInstall: no
 VignetteBuilder: knitr
 Config/roxygen2/version: 8.0.0
+URL: https://accidda.github.io/SeverityEstimate/
