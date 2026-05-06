@@ -9,3 +9,6 @@
 ^air\.toml$
 ^\.jj$
 ^Justfile$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

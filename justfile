@@ -2,40 +2,58 @@ PKG := "SeverityEstimate"
 VERSION := `sed -n 's/^Version: //p' DESCRIPTION`
 TARBALL := PKG + "_" + VERSION + ".tar.gz"
 
-default: clean format lint docs test
+default: clean format lint docs test pkgdown-fast
 
 [unix]
+[group('dev')]
 [doc('Clean up auxiliary files and directories')]
 clean:
 	rm -f  *.tar.gz
-	rm -rf ..Rcheck/
+	rm -rf ./*.Rcheck/
 	rm -rf .Rproj.user/
+	rm -rf docs/
+	rm -f vignettes/*.html
 
+[group('dev')]
 [doc('Build man pages using roxygen')]
 docs:
 	#!/usr/bin/env Rscript
 	library(roxygen2)
 	roxygen2::roxygenize()
 
+[group('dev')]
 [doc('Format R code using air')]
 format:
 	air format .
 
+[group('dev')]
 [doc('Check R code using air')]
 lint:
 	air format . --check
 
+[group('dev')]
 [doc('Run unit tests using devtools')]
 test:
 	#!/usr/bin/env Rscript 
 	library(devtools)
 	devtools::test()
 
+[group('dev')]
 [doc('Run unit tests using devtools, stopping on first failure')]
 test-fast:
 	#!/usr/bin/env Rscript
 	library(devtools)
 	devtools::test(stop_on_failure=TRUE)
+
+[group('dev')]
+[doc('Build a tar.gz artifact')]
+build:
+	R CMD build .
+
+[group('dev')]
+[doc('Check the built tar.gz artifact')]
+check: build
+	R CMD check {{ TARBALL }} --no-manual --no-tests
 
 [group('renv')]
 [doc('Install package dependencies using renv')]
@@ -61,18 +79,27 @@ renv-snapshot:
 	renv::update()
 	renv::snapshot()
 
+[group('install')]
 [doc('Install development version of SeverityEstimate')]
 install: renv-install
 	R CMD INSTALL .
 
+[group('install')]
 [doc('Remove development version of SeverityEstimate')]
 remove:
 	R CMD REMOVE {{ PKG }}
 
-[doc('Build a tar.gz artifact')]
-build:
-	R CMD build .
+[group('pkgdown')]
+[doc('Build the full pkgdown site locally')]
+pkgdown: install
+	Rscript -e 'pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)'
 
-[doc('Check the built tar.gz artifact')]
-check: build
-	R CMD check {{ TARBALL }} --no-manual --no-tests
+[group('pkgdown')]
+[doc('Build pkgdown home/reference pages without rendering articles')]
+pkgdown-fast: install
+	Rscript -e 'pkgdown::build_home(); pkgdown::build_reference()'
+
+[group('pkgdown')]
+[doc('Build and open the pkgdown site locally in a browser')]
+pkgdown-preview: pkgdown
+	Rscript -e 'pkgdown::preview_site()'

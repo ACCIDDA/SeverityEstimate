@@ -1,0 +1,42 @@
+# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
+# Need help debugging build failures?
+# Start at https://github.com/r-lib/actions#where-to-find-help
+name: 'pkgdown'
+
+'on':
+  push:
+    branches:
+      - 'main'
+  pull_request:
+    branches:
+      - 'main'
+  release:
+    types:
+      - 'published'
+  workflow_dispatch:
+
+permissions: 'read-all'
+
+jobs:
+  pkgdown:
+    runs-on: 'ubuntu-latest'
+    concurrency:
+      group: "pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}"
+    env:
+      GITHUB_PAT: "${{ secrets.GITHUB_TOKEN }}"
+    permissions:
+      contents: 'write'
+    steps:
+      - name: 'checkout repository'
+        uses: 'actions/checkout@v6.0.2'
+      - name: 'setup R'
+        uses: './.github/actions/setup-r'
+      - name: 'build pkgdown site'
+        run: 'just pkgdown'
+      - name: 'deploy to github pages'
+        if: "${{ github.event_name != 'pull_request' }}"
+        uses: 'JamesIves/github-pages-deploy-action@v4.8.0'
+        with:
+          clean: false
+          branch: 'gh-pages'
+          folder: 'docs'
