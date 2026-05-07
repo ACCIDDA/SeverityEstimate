@@ -2,8 +2,8 @@
 #' Fit a severity estimate model instance.
 #'
 #' @param model A \linkS4class{SeverityEstimateModel} to fit.
-#' @param ... Further optional args that are eventually given to [rstan::stan()]
-#' related to fitting.
+#' @param ... Further optional args that are eventually given to
+#' [rstan::sampling()] related to fitting.
 #'
 #' @returns
 #' A \linkS4class{SeverityEstimateFit} S4 object.
@@ -141,29 +141,30 @@ fit <- function(model, ...) {
     arrays$linelist_ind[, "surveillance"] == surveillance_ind[2L]
   )
 
-  # Build the strata_index matrix for the template (strata_groups x n_dims).
-  # Each row is a strata cell; each column is the per-dimension level index.
-  # Also build template_strata describing each dimension for the Jinja2 template.
+  # Build the strata index matrix and flattened level metadata for the static
+  # Stan model. Each row is a strata cell; each column is the per-dimension
+  # level index.
   if (length(strata_l) > 0L) {
     n_strata_dims <- length(strata_l)
+    strata_n_levels <- as.integer(
+      vapply(strata_l, \(s) length(s$levels), integer(1L))
+    )
+    strata_level_start <- cumsum(c(1L, utils::head(strata_n_levels, -1L)))
     strata_index <- matrix(
       0L,
       nrow = nrow(arrays$strata),
       ncol = n_strata_dims
     )
-    template_strata <- vector("list", n_strata_dims)
     for (k in seq_len(n_strata_dims)) {
       s <- strata_l[[k]]
       col_vals <- arrays$strata[, s$name]
       strata_index[, k] <- match(col_vals, s$levels)
-      template_strata[[k]] <- list(
-        name = s$name,
-        n_levels = length(s$levels)
-      )
     }
   } else {
-    strata_index <- NULL
-    template_strata <- list()
+    n_strata_dims <- 0L
+    strata_n_levels <- integer()
+    strata_level_start <- integer()
+    strata_index <- array(integer(), dim = c(nrow(arrays$strata), 0L))
   }
 
   # Extract prior parameterizations
@@ -175,6 +176,11 @@ fit <- function(model, ...) {
   data <- list(
     strata_groups = nrow(arrays$strata),
     time_groups = nrow(arrays$time_period),
+    n_strata_dims = n_strata_dims,
+    strata_n_levels = as_integer_array(strata_n_levels),
+    strata_level_start = as_integer_array(strata_level_start),
+    n_strata_levels_total = sum(strata_n_levels),
+    strata_index = strata_index,
     I_active = matrix(
       incidence_without_outcome[,, surveillance_ind[1L]],
       nrow = nrow(arrays$time_period),
@@ -214,17 +220,10 @@ fit <- function(model, ...) {
     passive_symptomatic_alpha = passive_sym[["alpha"]],
     passive_symptomatic_beta = passive_sym[["beta"]]
   )
-  if (!is.null(strata_index)) {
-    data[["strata_index"]] <- strata_index
-  }
 
-  # Fit via Jinja2 template
+  # Fit via precompiled Stan model
   model_fit <- stan_model(
-    "estimate_severity.stan.j2",
-    template_data = list(
-      strata = template_strata,
-      n_strata_dims = length(template_strata)
-    ),
+    "estimate_severity",
     data = data,
     ...
   )

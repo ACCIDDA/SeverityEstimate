@@ -7,3 +7,5 @@ persistent-line-breaks = true
 exclude = ["renv/"]
 default-exclude = true
 skip = []
+table = []
+default-table = true

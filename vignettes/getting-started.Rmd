@@ -96,7 +96,7 @@ the model so calls can be chained.
   `asymptomatic`, `symptomatic`, and `severe` expected by the model.
 
 Once configured, `fit()` compiles the Stan model and runs the sampler, passing
-any additional arguments (e.g. `chains`, `iter`) through to `rstan::stan()`.
+any additional arguments (e.g. `chains`, `iter`) through to `rstan::sampling()`.
 The settings below are intentionally small to keep this vignette reasonably
 quick to render. They are not sufficient to assess convergence or support
 serious inference. In practice you'd want to use more chains and iterations
@@ -131,7 +131,7 @@ model <- SeverityEstimateModel(linelist, population) |>
 estimate <- fit(
   model,
   chains = 1L,
-  iter = 500L,
+  iter = 250L,
   seed = 123L,
   refresh = 0
 )

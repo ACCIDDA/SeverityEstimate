@@ -121,6 +121,7 @@ fit_result
 - Added a check to CI to make sure that appropriate changes are made to `NEWS.md` file. [#61](https://github.com/ACCIDDA/SeverityEstimate/issues/61).
 - Updated `renv` from v1.1.7 to v1.2.0. See [#87](https://github.com/ACCIDDA/SeverityEstimate/pull/87).
 - Setup `pkgdown` site hosted on GitHub pages at [accidda.github.io/SeverityEstimate/](https://accidda.github.io/SeverityEstimate/). See [#28](https://github.com/ACCIDDA/SeverityEstimate/issues/28).
+- Restructured package utilizing [`rstantools`](https://mc-stan.org/rstantools/index.html). [#73](https://github.com/ACCIDDA/SeverityEstimate/issues/73).
 
 # SeverityEstimate 0.0.1
 

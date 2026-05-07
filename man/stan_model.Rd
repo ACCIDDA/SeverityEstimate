@@ -2,25 +2,19 @@
 % Please edit documentation in R/stan_model.R
 \name{stan_model}
 \alias{stan_model}
-\title{Run A Stan Model From A Template}
+\title{Run A Precompiled Stan Model}
 \usage{
-stan_model(template, template_data = list(), fun = rstan::stan, ...)
+stan_model(model_name, ...)
 }
 \arguments{
-\item{template}{The name of the template to render, should match a file under
-the \verb{inst/} directory.}
+\item{model_name}{The name of a model in \code{stanmodels}.}
 
-\item{template_data}{The data to use when rendering the template.}
-
-\item{fun}{The function to call on the rendered template, typically one of
-\code{\link[rstan:stan]{rstan::stan()}} for live use and \code{\link[rstan:stanc]{rstan::stanc()}} for unit testing.}
-
-\item{...}{Further arguments passed to the \code{fun} function.}
+\item{...}{Further arguments passed to \code{\link[rstan:sampling]{rstan::sampling()}}.}
 }
 \value{
-The output of \code{fun} called with the given further arguments.
+The output of \code{\link[rstan:sampling]{rstan::sampling()}} called with the given further arguments.
 }
 \description{
-Run A Stan Model From A Template
+Run A Precompiled Stan Model
 }
 \keyword{internal}

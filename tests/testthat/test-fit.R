@@ -1,44 +1,3 @@
-# Shared fixtures ---------------------------------------------------------
-
-make_model <- function(strata_col = "age") {
-  linelist <- data.frame(
-    patient_id = letters,
-    week = rep_len(1L:3L, 26L),
-    age = rep_len(c("Female", "Male"), 26L),
-    testing_type = rep_len(c("A", "A", "A", "P", "P"), 26L),
-    patient_status = rep_len(c("A", "D", "S", "S"), 26L)
-  )
-  population <- data.frame(
-    age = c("Female", "Male"),
-    value = c(4000L, 3975L)
-  )
-  model <- SeverityEstimateModel(linelist, population) |>
-    set_timesteps("week") |>
-    set_detection(
-      "testing_type",
-      map = c("A" = "active", "P" = "passive")
-    ) |>
-    set_outcome(
-      "patient_status",
-      map = c("A" = "asymptomatic", "S" = "symptomatic", "D" = "severe")
-    )
-  if (!is.null(strata_col)) {
-    model <- model |> set_strata(strata_col, degrees_of_freedom = 1L)
-  }
-  model
-}
-
-# Stan args for a minimal fast run
-STAN_ARGS <- list(
-  chains = 1L,
-  iter = 100L,
-  seed = 1L,
-  cores = 1L,
-  open_progress = FALSE,
-  refresh = 0L
-)
-
-
 # Validation errors -------------------------------------------------------
 
 test_that("`fit()` errors when timesteps not set", {
@@ -75,7 +34,7 @@ test_that("`fit()` errors when outcome not set", {
 })
 
 test_that("`fit()` errors when any strata is ordered", {
-  model <- make_model(strata_col = NULL) |>
+  model <- MAKE_FIT_TEST_MODEL(strata_col = NULL) |>
     set_strata(
       "age",
       ordered = TRUE,
@@ -90,45 +49,16 @@ test_that("`fit()` errors when any strata is ordered", {
 })
 
 
-# Template compilation ----------------------------------------------------
+# Stan compilation --------------------------------------------------------
 
-test_that("Stan template compiles with no strata", {
-  output <- stan_model(
-    "estimate_severity.stan.j2",
-    template_data = list(strata = list(), n_strata_dims = 0L),
-    fun = rstan::stanc,
-    model_name = "estimate_severity_no_strata",
-    verbose = FALSE
-  )
-  expect_true(output$status)
-})
-
-test_that("Stan template compiles with one strata dimension", {
-  output <- stan_model(
-    "estimate_severity.stan.j2",
-    template_data = list(
-      strata = list(list(name = "age", n_levels = 3L)),
-      n_strata_dims = 1L
+test_that("Generic severity Stan model compiles", {
+  output <- rstan::stanc(
+    file = system.file(
+      "stan",
+      "estimate_severity.stan",
+      package = "SeverityEstimate"
     ),
-    fun = rstan::stanc,
-    model_name = "estimate_severity_one_strata",
-    verbose = FALSE
-  )
-  expect_true(output$status)
-})
-
-test_that("Stan template compiles with two strata dimensions", {
-  output <- stan_model(
-    "estimate_severity.stan.j2",
-    template_data = list(
-      strata = list(
-        list(name = "age", n_levels = 3L),
-        list(name = "region", n_levels = 2L)
-      ),
-      n_strata_dims = 2L
-    ),
-    fun = rstan::stanc,
-    model_name = "estimate_severity_two_strata",
+    model_name = "estimate_severity",
     verbose = FALSE
   )
   expect_true(output$status)
@@ -139,9 +69,9 @@ test_that("Stan template compiles with two strata dimensions", {
 
 test_that("`fit()` returns a SeverityEstimateFit with correct structure (no strata)", {
   skip_on_cran()
-  model <- make_model(strata_col = NULL)
+  model <- MAKE_FIT_TEST_MODEL(strata_col = NULL)
   result <- suppressWarnings(
-    do.call(fit, c(list(model = model), STAN_ARGS))
+    do.call(fit, c(list(model = model), FIT_TEST_STAN_ARGS))
   )
   expect_s4_class(result, "SeverityEstimateFit")
   expect_equal(
@@ -171,9 +101,9 @@ test_that("`fit()` returns a SeverityEstimateFit with correct structure (no stra
 
 test_that("`fit()` returns a SeverityEstimateFit with correct structure (with strata)", {
   skip_on_cran()
-  model <- make_model(strata_col = "age")
+  model <- MAKE_FIT_TEST_MODEL(strata_col = "age")
   result <- suppressWarnings(
-    do.call(fit, c(list(model = model), STAN_ARGS))
+    do.call(fit, c(list(model = model), FIT_TEST_STAN_ARGS))
   )
   expect_s4_class(result, "SeverityEstimateFit")
   expect_s4_class(result@model_fit, "stanfit")
@@ -240,7 +170,7 @@ test_that("`fit()` handles a single passive observation with strata", {
       )
     )
   result <- suppressWarnings(
-    do.call(fit, c(list(model = model), STAN_ARGS))
+    do.call(fit, c(list(model = model), FIT_TEST_STAN_ARGS))
   )
   expect_s4_class(result, "SeverityEstimateFit")
   expect_s4_class(result@model_fit, "stanfit")
@@ -274,7 +204,7 @@ test_that("`fit()` with two strata dimensions returns correct array dimensions",
     set_strata("age", degrees_of_freedom = 1L) |>
     set_strata("region", degrees_of_freedom = 1L)
   result <- suppressWarnings(
-    do.call(fit, c(list(model = model), STAN_ARGS))
+    do.call(fit, c(list(model = model), FIT_TEST_STAN_ARGS))
   )
   expect_s4_class(result, "SeverityEstimateFit")
   # 2 age levels x 2 region levels = 4 strata cells

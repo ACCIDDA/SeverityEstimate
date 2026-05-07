@@ -30,11 +30,9 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 Depends:
     checkmate,
-    fs,
-    jinjar,
     methods,
-    rstan,
-    R (>= 4.1.0)
+    R (>= 4.1.0),
+    rstan (>= 2.18.1)
 Suggests: 
     devtools,
     knitr,
@@ -49,3 +47,16 @@ StagedInstall: no
 VignetteBuilder: knitr
 Config/roxygen2/version: 8.0.0
 URL: https://accidda.github.io/SeverityEstimate/
+Biarch: true
+Imports: 
+    Rcpp (>= 0.12.0),
+    RcppParallel (>= 5.0.1),
+    rstantools (>= 2.6.0)
+LinkingTo: 
+    BH (>= 1.66.0),
+    Rcpp (>= 0.12.0),
+    RcppEigen (>= 0.3.3.3.0),
+    RcppParallel (>= 5.0.1),
+    rstan (>= 2.18.1),
+    StanHeaders (>= 2.18.0)
+SystemRequirements: GNU make

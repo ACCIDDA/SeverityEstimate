@@ -1,13 +1,21 @@
 data {
   // *Dimensions of data*
   // The number of strata cells (cross-product of all strata levels)
-  int <lower=0> strata_groups;
+  int<lower=1> strata_groups;
   // The number of times
-  int <lower=0> time_groups;
+  int<lower=1> time_groups;
+  // The number of strata dimensions
+  int<lower=0> n_strata_dims;
+  // The number of levels within each strata dimension
+  array[n_strata_dims] int<lower=1> strata_n_levels;
+  // One-based start index for each strata dimension in the flattened effect vectors
+  array[n_strata_dims] int<lower=1> strata_level_start;
+  // The total number of strata levels across all dimensions
+  int<lower=0> n_strata_levels_total;
   // The number of cases observed through active surveillance
-  int <lower=0> observed_active;
+  int<lower=0> observed_active;
   // The number of cases observed through passive surveillance
-  int <lower=0> observed_passive;
+  int<lower=0> observed_passive;
   // *Matrices of data*
   // The number of incidence detected through active surveillance
   array[time_groups, strata_groups] int<lower=0> I_active;
@@ -17,52 +25,45 @@ data {
   array[strata_groups] int<lower=0> population;
   // *Vectors of data*
   // The strata cell index of the actively observed cases
-  array[observed_active] int<lower=0> strata_active;
+  array[observed_active] int<lower=1> strata_active;
   // Indicator if the actively observed case presented with symptoms
-  array[observed_active] int<lower=0> symptoms_active;
+  array[observed_active] int<lower=0, upper=1> symptoms_active;
   // Indicator if the actively observed case died
-  array[observed_active] int<lower=0> dead_active;
+  array[observed_active] int<lower=0, upper=1> dead_active;
   // The strata cell index of the passively observed cases
-  array[observed_passive] int<lower=0> strata_passive;
+  array[observed_passive] int<lower=1> strata_passive;
   // Indicator if the passively observed case presented with symptoms
-  array[observed_passive] int<lower=0> symptoms_passive;
+  array[observed_passive] int<lower=0, upper=1> symptoms_passive;
   // Indicator if the passively observed case died
-  array[observed_passive] int<lower=0> dead_passive;
-  // *Strata dimension indices*
+  array[observed_passive] int<lower=0, upper=1> dead_passive;
   // For each strata cell, the level index within each strata dimension
-{% if strata %}
-  array[strata_groups, {{ n_strata_dims }}] int<lower=1> strata_index;
-{% endif %}
+  array[strata_groups, n_strata_dims] int<lower=1> strata_index;
   // *Model parameters and priors*
   // The stdev of the community hazard brownian motion
-  real <lower=0> hazard_std;
+  real<lower=0> hazard_std;
   // Active detection probability prior
-  real <lower=0> active_detection_alpha;
-  real <lower=0> active_detection_beta;
+  real<lower=0> active_detection_alpha;
+  real<lower=0> active_detection_beta;
   // Passive detection probability prior
-  real <lower=0> passive_asymptomatic_alpha;
-  real <lower=0> passive_asymptomatic_beta;
-  real <lower=0> passive_symptomatic_alpha;
-  real <lower=0> passive_symptomatic_beta;
+  real<lower=0> passive_asymptomatic_alpha;
+  real<lower=0> passive_asymptomatic_beta;
+  real<lower=0> passive_symptomatic_alpha;
+  real<lower=0> passive_symptomatic_beta;
 }
 parameters {
   // Global intercepts for symptom and mortality rates
   real mu_xi;
   real mu_mort;
-{% if strata %}
-  // Per-level fixed effects for each strata dimension
-{% for s in strata %}
-  array[{{ s.n_levels }}] real alpha_xi_{{ loop.index1 }};
-  array[{{ s.n_levels }}] real alpha_mort_{{ loop.index1 }};
-{% endfor %}
-{% endif %}
+  // Flattened per-level fixed effects across all strata dimensions
+  vector[n_strata_levels_total] alpha_xi;
+  vector[n_strata_levels_total] alpha_mort;
   // The hazard of infection in each time step
   array[time_groups, strata_groups] real logit_hzd;
   // Active detection probability
-  real <lower=0, upper=1> active_detection;
+  real<lower=0, upper=1> active_detection;
   // Passive detection probabilities
-  real <lower=0, upper=1> passive_asymptomatic_detection;
-  real <lower=0, upper=1> passive_symptomatic_detection;
+  real<lower=0, upper=1> passive_asymptomatic_detection;
+  real<lower=0, upper=1> passive_symptomatic_detection;
 }
 transformed parameters {
   // Strata cell symptom/mortality rates
@@ -76,28 +77,27 @@ transformed parameters {
   array[strata_groups] real<lower=0> passive_denom;
   real xi_tmp;
   real mort_tmp;
+
   // Calculate xi/mortality for each strata cell
   for (i in 1:strata_groups) {
-    xi_tmp = mu_xi
-{% if strata %}
-{% for s in strata %}
-      + alpha_xi_{{ loop.index1 }}[strata_index[i, {{ loop.index1 }}]]
-{% endfor %}
-{% endif %}
-    ;
-    mort_tmp = mu_mort
-{% if strata %}
-{% for s in strata %}
-      + alpha_mort_{{ loop.index1 }}[strata_index[i, {{ loop.index1 }}]]
-{% endfor %}
-{% endif %}
-    ;
+    xi_tmp = mu_xi;
+    mort_tmp = mu_mort;
+
+    if (n_strata_dims > 0) {
+      for (k in 1:n_strata_dims) {
+        int effect_index = strata_level_start[k] + strata_index[i, k] - 1;
+        xi_tmp += alpha_xi[effect_index];
+        mort_tmp += alpha_mort[effect_index];
+      }
+    }
+
     xi[i] = inv_logit(xi_tmp);
     mortality[i] = inv_logit(mort_tmp);
     // For first time step assume the population at risk is the full population
     S[1, i] = population[i];
     C[1, i] = population[i] * inv_logit(logit_hzd[1, i]);
   }
+
   // For each subsequent time step, susceptibles deplete by prior cases
   for (i in 2:time_groups) {
     for (j in 1:strata_groups) {
@@ -105,6 +105,7 @@ transformed parameters {
       C[i, j] = S[i, j] * inv_logit(logit_hzd[i, j]);
     }
   }
+
   // Commonly reused detection-weighted quantities
   for (i in 1:strata_groups) {
     theta[i] = (passive_asymptomatic_detection * (1.0 - xi[i]))
@@ -117,15 +118,19 @@ model {
   // Global intercepts
   mu_xi ~ normal(0, 2);
   mu_mort ~ normal(0, 2);
-{% if strata %}
-  // Per-level fixed effects with sum-to-zero soft constraint
-{% for s in strata %}
-  alpha_xi_{{ loop.index1 }} ~ normal(0, 2);
-  sum(alpha_xi_{{ loop.index1 }}) ~ normal(0, 0.001);
-  alpha_mort_{{ loop.index1 }} ~ normal(0, 2);
-  sum(alpha_mort_{{ loop.index1 }}) ~ normal(0, 0.001);
-{% endfor %}
-{% endif %}
+
+  // Per-level fixed effects with a per-dimension sum-to-zero soft constraint
+  if (n_strata_dims > 0) {
+    for (k in 1:n_strata_dims) {
+      segment(alpha_xi, strata_level_start[k], strata_n_levels[k]) ~ normal(0, 2);
+      sum(segment(alpha_xi, strata_level_start[k], strata_n_levels[k]))
+        ~ normal(0, 0.001);
+      segment(alpha_mort, strata_level_start[k], strata_n_levels[k]) ~ normal(0, 2);
+      sum(segment(alpha_mort, strata_level_start[k], strata_n_levels[k]))
+        ~ normal(0, 0.001);
+    }
+  }
+
   // Priors for detection probabilities
   active_detection ~ beta(active_detection_alpha, active_detection_beta);
   passive_asymptomatic_detection ~ beta(
@@ -134,6 +139,7 @@ model {
   passive_symptomatic_detection ~ beta(
     passive_symptomatic_alpha, passive_symptomatic_beta
   );
+
   // Prior for community hazard
   for (i in 1:time_groups) {
     for (j in 1:strata_groups) {
@@ -146,11 +152,13 @@ model {
       I_passive[i, j] ~ poisson((1.0 - active_detection) * theta[j] * C[i, j]);
     }
   }
+
   // Symptomatic probability in active cases
   for (i in 1:observed_active) {
     symptoms_active[i] ~ bernoulli(xi[strata_active[i]]);
     dead_active[i] ~ bernoulli(mortality[strata_active[i]]);
   }
+
   // Symptomatic/mortality probability in passive cases (conditioned on detection)
   for (i in 1:observed_passive) {
     symptoms_passive[i] ~ bernoulli(
@@ -168,6 +176,7 @@ generated quantities {
   array[time_groups, strata_groups] int<lower=0> C_active_additional;
   array[time_groups, strata_groups] int<lower=0> C_passive_additional;
   real gq_tmp;
+
   for (i in 1:time_groups) {
     for (j in 1:strata_groups) {
       gq_tmp = C[i, j] - I_active[i, j];
@@ -176,6 +185,7 @@ generated quantities {
       } else {
         C_active_additional[i, j] = 0;
       }
+
       gq_tmp = C[i, j] - I_passive[i, j] - I_active[i, j]
         - C_active_additional[i, j];
       if (gq_tmp > 0) {

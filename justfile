@@ -22,6 +22,27 @@ docs:
 	roxygen2::roxygenize()
 
 [group('dev')]
+[doc('Regenerate Stan package artifacts under src/ and R/stanmodels.R')]
+stan:
+	#!/usr/bin/env Rscript
+	library(rstantools)
+	rstantools::rstan_config()
+
+[group('dev')]
+[doc('Fail if Stan-generated package artifacts are out of date')]
+stan-check: stan
+	@if ! git diff --quiet -- \
+		R/stanmodels.R \
+		src \
+		configure \
+		configure.win \
+		inst/include/stan_meta_header.hpp; then \
+		echo "Stan-generated files are out of date. Run 'just stan' and commit the changes."; \
+		git diff -- R/stanmodels.R src configure configure.win inst/include/stan_meta_header.hpp; \
+		exit 1; \
+	fi
+
+[group('dev')]
 [doc('Format R code using air')]
 format:
 	air format .
@@ -103,3 +124,13 @@ pkgdown-fast: install
 [doc('Build and open the pkgdown site locally in a browser')]
 pkgdown-preview: pkgdown
 	Rscript -e 'pkgdown::preview_site()'
+
+[group('vignettes')]
+[doc('Render a vignette locally')]
+vignette target:
+	Rscript -e 'rmarkdown::render("vignettes/{{ target }}.Rmd")'
+
+[group('vignettes')]
+[doc('Render a vignette and open the generated HTML in the default browser')]
+view target:
+	Rscript -e 'utils::browseURL(normalizePath("vignettes/{{ target }}.html"))'
