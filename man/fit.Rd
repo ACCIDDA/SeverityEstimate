@@ -9,8 +9,8 @@ fit(model, ...)
 \arguments{
 \item{model}{A \linkS4class{SeverityEstimateModel} to fit.}
 
-\item{...}{Further optional args that are eventually given to \code{\link[rstan:stan]{rstan::stan()}}
-related to fitting.}
+\item{...}{Further optional args that are eventually given to
+\code{\link[rstan:sampling]{rstan::sampling()}} related to fitting.}
 }
 \value{
 A \linkS4class{SeverityEstimateFit} S4 object.

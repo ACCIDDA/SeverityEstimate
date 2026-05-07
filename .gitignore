@@ -1,3 +1,7 @@
+# Created by https://www.toptal.com/developers/gitignore/api/R
+# Edit at https://www.toptal.com/developers/gitignore?templates=R
+
+### R ###
 # History files
 .Rhistory
 .Rapp.history
@@ -20,8 +24,6 @@
 
 # RStudio files
 .Rproj.user/
-*.Rproj
-.Rproj.user
 
 # produced vignettes
 vignettes/*.html
@@ -49,6 +51,9 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
-inst/doc
-/doc/
-/Meta/
+
+### R.Bookdown Stack ###
+# R package: bookdown caching files
+/*_files/
+
+# End of https://www.toptal.com/developers/gitignore/api/R

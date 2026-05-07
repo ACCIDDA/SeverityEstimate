@@ -1,29 +1,24 @@
 #' @title
-#' Run A Stan Model From A Template
+#' Run A Precompiled Stan Model
 #'
-#' @inheritParams render_template
-#' @param fun The function to call on the rendered template, typically one of
-#' [rstan::stan()] for live use and [rstan::stanc()] for unit testing.
-#' @param ... Further arguments passed to the `fun` function.
+#' @param model_name The name of a model in `stanmodels`.
+#' @param ... Further arguments passed to [rstan::sampling()].
 #'
 #' @returns
-#' The output of `fun` called with the given further arguments.
+#' The output of [rstan::sampling()] called with the given further arguments.
 #'
-#' @importFrom rstan stan
+#' @importFrom rstan sampling
 #' @keywords internal
-stan_model <- function(
-  template,
-  template_data = list(),
-  fun = rstan::stan,
-  ...
-) {
-  args <- list(...)
-  args[["model_code"]] <- render_template(
-    template,
-    template_data = template_data
-  )
-  if (!"model_name" %in% names(args)) {
-    args[["model_name"]] <- template
+stan_model <- function(model_name, ...) {
+  model <- stanmodels[[model_name]]
+  if (is.null(model)) {
+    stop("Unknown Stan model: '", model_name, "'.", call. = FALSE)
   }
-  do.call(fun, args)
+
+  args <- list(...)
+  if ("object" %in% names(args)) {
+    stop("Do not pass `object` to `stan_model()`.", call. = FALSE)
+  }
+  args[["object"]] <- model
+  do.call(rstan::sampling, args)
 }

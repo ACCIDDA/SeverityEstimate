@@ -18,8 +18,9 @@
 #' increasing severity. If `TRUE` then `levels` must be provided. Currently
 #' must be `FALSE`; ordered strata are not yet supported.
 #' @param degrees_of_freedom The degrees of freedom for the strata fixed
-#' effects. Only used when `ordered` is `FALSE`. If `NULL`, defaults to `1L`
-#' with a warning.
+#' effects. This value is currently stored on the model specification for
+#' future ordered/spline support, but is not consumed by [fit()]. If `NULL`,
+#' defaults to `1L` with a warning.
 #'
 #' @return
 #' `strata(x)` returns the current list of model stratifications.

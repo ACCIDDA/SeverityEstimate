@@ -7,6 +7,16 @@ name: 'ci'
       - 'main'
 
 jobs:
+  stan:
+    name: 'stan'
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: 'checkout repository'
+        uses: 'actions/checkout@v6.0.2'
+      - name: 'setup R'
+        uses: './.github/actions/setup-r'
+      - name: 'check generated Stan artifacts'
+        run: 'just stan-check'
   docs:
     name: 'docs'
     runs-on: 'ubuntu-latest'

@@ -43,8 +43,9 @@ increasing severity. If \code{TRUE} then \code{levels} must be provided. Current
 must be \code{FALSE}; ordered strata are not yet supported.}
 
 \item{degrees_of_freedom}{The degrees of freedom for the strata fixed
-effects. Only used when \code{ordered} is \code{FALSE}. If \code{NULL}, defaults to \code{1L}
-with a warning.}
+effects. This value is currently stored on the model specification for
+future ordered/spline support, but is not consumed by \code{\link[=fit]{fit()}}. If \code{NULL},
+defaults to \code{1L} with a warning.}
 }
 \value{
 \code{strata(x)} returns the current list of model stratifications.

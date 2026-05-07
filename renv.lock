@@ -449,7 +449,7 @@
     },
     "cpp11": {
       "Package": "cpp11",
-      "Version": "0.5.4",
+      "Version": "0.5.5",
       "Source": "Repository",
       "Title": "A C++11 Interface for R's C Interface",
       "Authors@R": "c( person(\"Davis\", \"Vaughan\", email = \"davis@posit.co\", role = c(\"aut\", \"cre\"), comment = c(ORCID = \"0000-0003-4777-038X\")), person(\"Jim\",\"Hester\", role = \"aut\", comment = c(ORCID = \"0000-0002-2739-7082\")), person(\"Romain\", \"François\", role = \"aut\", comment = c(ORCID = \"0000-0002-2444-4226\")), person(\"Benjamin\", \"Kietzman\", role = \"ctb\"), person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\")) )",
@@ -597,48 +597,6 @@
       "NeedsCompilation": "yes",
       "Author": "Thomas Lin Pedersen [cre, aut] (<https://orcid.org/0000-0002-5147-4711>), Berendea Nicolae [aut] (Author of the ColorSpace C++ library), Romain François [aut] (<https://orcid.org/0000-0002-2444-4226>), Posit, PBC [cph, fnd]",
       "Maintainer": "Thomas Lin Pedersen <thomas.pedersen@posit.co>",
-      "Repository": "CRAN"
-    },
-    "fs": {
-      "Package": "fs",
-      "Version": "2.1.0",
-      "Source": "Repository",
-      "Title": "Cross-Platform File System Operations Based on 'libuv'",
-      "Authors@R": "c( person(\"Jim\", \"Hester\", role = \"aut\"), person(\"Hadley\", \"Wickham\", role = \"aut\"), person(\"Gábor\", \"Csárdi\", role = \"aut\"), person(\"Jeroen\", \"Ooms\", , \"jeroenooms@gmail.com\", role = \"cre\"), person(\"libuv project contributors\", role = \"cph\", comment = \"libuv library\"), person(\"Joyent, Inc. and other Node contributors\", role = \"cph\", comment = \"libuv library\"), person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\"), comment = c(ROR = \"03wc8by49\")) )",
-      "Description": "A cross-platform interface to file system operations, built on top of the 'libuv' C library.",
-      "License": "MIT + file LICENSE",
-      "URL": "https://fs.r-lib.org, https://github.com/r-lib/fs",
-      "BugReports": "https://github.com/r-lib/fs/issues",
-      "Depends": [
-        "R (>= 4.1)"
-      ],
-      "Imports": [
-        "methods"
-      ],
-      "Suggests": [
-        "covr",
-        "crayon",
-        "knitr",
-        "pillar (>= 1.0.0)",
-        "rmarkdown",
-        "spelling",
-        "testthat (>= 3.0.0)",
-        "tibble (>= 1.1.0)",
-        "vctrs (>= 0.3.0)",
-        "withr"
-      ],
-      "VignetteBuilder": "knitr",
-      "SystemRequirements": "libuv: libuv-devel (rpm) or libuv1-dev (deb). Alternatively to build the vendored libuv 'cmake' is required. GNU make.",
-      "Config/Needs/website": "tidyverse/tidytemplate",
-      "Config/testthat/edition": "3",
-      "Config/usethis/last-upkeep": "2025-04-23",
-      "Copyright": "file COPYRIGHTS",
-      "Encoding": "UTF-8",
-      "Language": "en-US",
-      "RoxygenNote": "7.3.3",
-      "NeedsCompilation": "yes",
-      "Author": "Jim Hester [aut], Hadley Wickham [aut], Gábor Csárdi [aut], Jeroen Ooms [cre], libuv project contributors [cph] (libuv library), Joyent, Inc. and other Node contributors [cph] (libuv library), Posit Software, PBC [cph, fnd] (ROR: <https://ror.org/03wc8by49>)",
-      "Maintainer": "Jeroen Ooms <jeroenooms@gmail.com>",
       "Repository": "CRAN"
     },
     "generics": {
@@ -924,70 +882,6 @@
       "NeedsCompilation": "yes",
       "Author": "Hadley Wickham [aut] (ORCID: <https://orcid.org/0000-0003-4757-117X>), Claus O. Wilke [aut] (Original author, ORCID: <https://orcid.org/0000-0002-7470-9261>), Thomas Lin Pedersen [aut, cre] (ORCID: <https://orcid.org/0000-0002-5147-4711>), Posit, PBC [cph, fnd] (ROR: <https://ror.org/03wc8by49>)",
       "Maintainer": "Thomas Lin Pedersen <thomas.pedersen@posit.co>",
-      "Repository": "CRAN"
-    },
-    "jinjar": {
-      "Package": "jinjar",
-      "Version": "0.3.2",
-      "Source": "Repository",
-      "Title": "Template Engine Inspired by 'Jinja'",
-      "Authors@R": "c( person(\"David\", \"Hall\", , \"david.hall.physics@gmail.com\", role = c(\"aut\", \"cre\", \"cph\"), comment = c(ORCID = \"0000-0002-2193-0480\")), person(\"Lars\", \"Berscheid\", role = \"cph\", comment = \"Author of bundled inja library\"), person(\"Niels\", \"Lohmann\", role = \"cph\", comment = \"Author of bundled json library\") )",
-      "Description": "Template engine powered by the 'inja' C++ library. Users write a template document, using syntax inspired by the 'Jinja' Python package, and then render the final document by passing data from R. The template syntax supports features such as variables, loops, conditions and inheritance.",
-      "License": "MIT + file LICENSE",
-      "URL": "https://davidchall.github.io/jinjar/, https://github.com/davidchall/jinjar",
-      "BugReports": "https://github.com/davidchall/jinjar/issues",
-      "Imports": [
-        "cli",
-        "fs",
-        "jsonlite",
-        "rlang (>= 1.0.0)"
-      ],
-      "Suggests": [
-        "knitr",
-        "rmarkdown",
-        "testthat"
-      ],
-      "LinkingTo": [
-        "cpp11"
-      ],
-      "VignetteBuilder": "knitr",
-      "Config/testthat/edition": "3",
-      "Encoding": "UTF-8",
-      "Language": "en-US",
-      "RoxygenNote": "7.3.2",
-      "NeedsCompilation": "yes",
-      "Author": "David Hall [aut, cre, cph] (<https://orcid.org/0000-0002-2193-0480>), Lars Berscheid [cph] (Author of bundled inja library), Niels Lohmann [cph] (Author of bundled json library)",
-      "Maintainer": "David Hall <david.hall.physics@gmail.com>",
-      "Repository": "CRAN"
-    },
-    "jsonlite": {
-      "Package": "jsonlite",
-      "Version": "2.0.0",
-      "Source": "Repository",
-      "Title": "A Simple and Robust JSON Parser and Generator for R",
-      "License": "MIT + file LICENSE",
-      "Depends": [
-        "methods"
-      ],
-      "Authors@R": "c( person(\"Jeroen\", \"Ooms\", role = c(\"aut\", \"cre\"), email = \"jeroenooms@gmail.com\", comment = c(ORCID = \"0000-0002-4035-0289\")), person(\"Duncan\", \"Temple Lang\", role = \"ctb\"), person(\"Lloyd\", \"Hilaiel\", role = \"cph\", comment=\"author of bundled libyajl\"))",
-      "URL": "https://jeroen.r-universe.dev/jsonlite https://arxiv.org/abs/1403.2805",
-      "BugReports": "https://github.com/jeroen/jsonlite/issues",
-      "Maintainer": "Jeroen Ooms <jeroenooms@gmail.com>",
-      "VignetteBuilder": "knitr, R.rsp",
-      "Description": "A reasonably fast JSON parser and generator, optimized for statistical  data and the web. Offers simple, flexible tools for working with JSON in R, and is particularly powerful for building pipelines and interacting with a web API.  The implementation is based on the mapping described in the vignette (Ooms, 2014). In addition to converting JSON data from/to R objects, 'jsonlite' contains  functions to stream, validate, and prettify JSON data. The unit tests included  with the package verify that all edge cases are encoded and decoded consistently  for use with dynamic data in systems and applications.",
-      "Suggests": [
-        "httr",
-        "vctrs",
-        "testthat",
-        "knitr",
-        "rmarkdown",
-        "R.rsp",
-        "sf"
-      ],
-      "RoxygenNote": "7.3.2",
-      "Encoding": "UTF-8",
-      "NeedsCompilation": "yes",
-      "Author": "Jeroen Ooms [aut, cre] (<https://orcid.org/0000-0002-4035-0289>), Duncan Temple Lang [ctb], Lloyd Hilaiel [cph] (author of bundled libyajl)",
       "Repository": "CRAN"
     },
     "labeling": {
@@ -1595,6 +1489,45 @@
       "Config/testthat/edition": "3",
       "Author": "Jiqiang Guo [aut], Jonah Gabry [aut], Ben Goodrich [cre, aut], Andrew Johnson [aut], Sebastian Weber [aut], Hamada S. Badr [aut] (<https://orcid.org/0000-0002-9808-2344>), Daniel Lee [ctb], Krzysztof Sakrejda [ctb], Modrak Martin [ctb], Trustees of Columbia University [cph], Oleg Sklyar [cph] (R/cxxfunplus.R), The R Core Team [cph] (R/pairs.R, R/dynGet.R), Jens Oehlschlaegel-Akiyoshi [cph] (R/pairs.R), John Maddock [cph] (gamma.hpp), Paul Bristow [cph] (gamma.hpp), Nikhar Agrawal [cph] (gamma.hpp), Christopher Kormanyos [cph] (gamma.hpp), Bronder Steve [ctb]",
       "Maintainer": "Ben Goodrich <benjamin.goodrich@columbia.edu>",
+      "Repository": "CRAN"
+    },
+    "rstantools": {
+      "Package": "rstantools",
+      "Version": "2.6.0",
+      "Source": "Repository",
+      "Type": "Package",
+      "Title": "Tools for Developing R Packages Interfacing with 'Stan'",
+      "Date": "2026-01-08",
+      "Authors@R": "c(person(given = \"Jonah\", family = \"Gabry\", role = c(\"aut\", \"cre\"), email = \"jgabry@gmail.com\"), person(given = \"Ben\", family = \"Goodrich\", role = \"aut\", email = \"benjamin.goodrich@columbia.edu\"), person(given = \"Martin\", family = \"Lysy\", role = \"aut\", email = \"mlysy@uwaterloo.ca\"), person(given = \"Andrew\", family = \"Johnson\", role = \"aut\"), person(given = \"Hamada S.\", family = \"Badr\", role = \"ctb\"), person(given = \"Marco\", family = \"Colombo\", role = \"ctb\"), person(given = \"Stefan\", family = \"Siegert\", role = \"ctb\"), person(given = \"Visruth\",  family = \"Srimath Kandali\",  role = \"ctb\"),        person(given = \"Trustees of\", family = \"Columbia University\", role = \"cph\"))",
+      "Description": "Provides various tools for developers of R packages interfacing with 'Stan' <https://mc-stan.org>, including functions to set up the required package structure, S3 generics and default methods to unify function naming across 'Stan'-based R packages, and vignettes with recommendations for developers.",
+      "License": "GPL (>= 3)",
+      "URL": "https://mc-stan.org/rstantools/, https://discourse.mc-stan.org/",
+      "BugReports": "https://github.com/stan-dev/rstantools/issues",
+      "Encoding": "UTF-8",
+      "SystemRequirements": "pandoc",
+      "Imports": [
+        "desc",
+        "stats",
+        "utils",
+        "Rcpp (>= 0.12.16)",
+        "RcppParallel (>= 5.0.1)"
+      ],
+      "Suggests": [
+        "rstan (>= 2.17.2)",
+        "usethis (>= 1.5.1)",
+        "testthat (>= 2.0.0)",
+        "knitr",
+        "pkgbuild",
+        "pkgload",
+        "roxygen2 (>= 6.0.1)",
+        "rmarkdown",
+        "rstudioapi"
+      ],
+      "RoxygenNote": "7.3.3",
+      "VignetteBuilder": "knitr",
+      "NeedsCompilation": "no",
+      "Author": "Jonah Gabry [aut, cre], Ben Goodrich [aut], Martin Lysy [aut], Andrew Johnson [aut], Hamada S. Badr [ctb], Marco Colombo [ctb], Stefan Siegert [ctb], Visruth Srimath Kandali [ctb], Trustees of Columbia University [cph]",
+      "Maintainer": "Jonah Gabry <jgabry@gmail.com>",
       "Repository": "CRAN"
     },
     "scales": {

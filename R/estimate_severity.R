@@ -48,8 +48,8 @@
 #' @param passive_symptomatic_prior The parameters for the prior beta
 #' distribution for the passive symptomatic detection probability. Can be
 #' specified as 'alpha'/'beta', 'mean'/'var', or 'mean'/'sd'.
-#' @param ... Further optional args that are eventually given to [rstan::stan()]
-#' related to fitting.
+#' @param ... Further optional args that are eventually given to
+#' [rstan::sampling()] related to fitting.
 #'
 #' @returns
 #' A \linkS4class{SeverityEstimateFit} S4 object.
@@ -175,7 +175,7 @@ estimate_severity <- function(
   )
   # Pass along everything to the model
   model_fit <- stan_model(
-    "severity_estimate_by_surveillance.stan",
+    "severity_estimate_by_surveillance",
     data = data,
     ...
   )

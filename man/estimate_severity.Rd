@@ -83,8 +83,8 @@ specified as 'alpha'/'beta', 'mean'/'var', or 'mean'/'sd'.}
 distribution for the passive symptomatic detection probability. Can be
 specified as 'alpha'/'beta', 'mean'/'var', or 'mean'/'sd'.}
 
-\item{...}{Further optional args that are eventually given to \code{\link[rstan:stan]{rstan::stan()}}
-related to fitting.}
+\item{...}{Further optional args that are eventually given to
+\code{\link[rstan:sampling]{rstan::sampling()}} related to fitting.}
 }
 \value{
 A \linkS4class{SeverityEstimateFit} S4 object.
