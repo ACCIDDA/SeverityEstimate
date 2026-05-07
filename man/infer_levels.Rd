@@ -4,7 +4,7 @@
 \alias{infer_levels}
 \title{Infer And Validate Levels For Variables}
 \usage{
-infer_levels(model, name, name_in, levels = NULL, ordered = FALSE)
+infer_levels(model, name, name_in, levels = NULL)
 }
 \arguments{
 \item{model}{A \linkS4class{SeverityEstimateModel} S4 object instance
@@ -18,14 +18,14 @@ Must be 'line_list', 'population', or 'both'.}
 
 \item{levels}{Explicit user provided levels, in order, if provided otherwise
 \code{NULL} to infer the levels.}
-
-\item{ordered}{A boolean indicating if \code{levels} has a specific order. If
-\code{TRUE} then \code{levels} cannot be \code{NULL}, users must explicitly indicate what
-the ordering is.}
 }
 \value{
 \code{infer_levels} returns a vector of levels for the particular column given.
 Either \code{levels} if non-\code{NULL} or an inferred set of levels.
+
+Explicit \code{levels} may not contain missing or duplicated values. Likewise,
+missing values in the source column are rejected before inferred levels are
+constructed.
 }
 \description{
 Infer And Validate Levels For Variables

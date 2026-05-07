@@ -99,7 +99,7 @@ model
 # alpha  beta
 #     3     1
 ```
-- Implemented `fit()` for `SeverityEstimateModel`, completing the S4 pipeline API. The model now supports an arbitrary number of unordered strata dimensions via additive fixed effects on the logit scale, rendered at compile time via a Jinja2 Stan template. Continuing from the example above:
+- Implemented `fit()` for `SeverityEstimateModel`, completing the S4 pipeline API. The model now supports an arbitrary number of ordered/unordered strata dimensions via additive fixed effects on the logit scale. Continuing from the example above:
 ```R
 fit_result <- model |>
   fit(

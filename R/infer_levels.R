@@ -9,19 +9,21 @@
 #' Must be 'line_list', 'population', or 'both'.
 #' @param levels Explicit user provided levels, in order, if provided otherwise
 #' `NULL` to infer the levels.
-#' @param ordered A boolean indicating if `levels` has a specific order. If
-#' `TRUE` then `levels` cannot be `NULL`, users must explicitly indicate what
-#' the ordering is.
 #'
 #' @return
 #' `infer_levels` returns a vector of levels for the particular column given.
 #' Either `levels` if non-`NULL` or an inferred set of levels.
 #'
+#' Explicit `levels` may not contain missing or duplicated values. Likewise,
+#' missing values in the source column are rejected before inferred levels are
+#' constructed.
+#'
+#' @importFrom checkmate assert_atomic
 #' @importFrom checkmate assert_choice
 #' @importFrom checkmate assert_string
 #' @importFrom checkmate assert_subset
 #' @keywords internal
-infer_levels <- function(model, name, name_in, levels = NULL, ordered = FALSE) {
+infer_levels <- function(model, name, name_in, levels = NULL) {
   # Validations
   checkmate::assert_string(name)
   checkmate::assert_choice(name_in, c("line_list", "population", "both"))
@@ -31,12 +33,14 @@ infer_levels <- function(model, name, name_in, levels = NULL, ordered = FALSE) {
   if (name_in %in% c("population", "both")) {
     checkmate::assert_choice(name, names(model@population))
   }
-  assert_bool(ordered)
-  if (is.null(levels) && ordered) {
-    stop(
-      "Assertion on 'levels' failed: Explicit levels ",
-      "must be provided when `ordered` is `TRUE`."
-    )
+  if (!is.null(levels)) {
+    checkmate::assert_atomic(levels, any.missing = FALSE)
+    if (anyDuplicated(levels)) {
+      stop(
+        "Assertion on 'levels' failed: Values must be unique.",
+        call. = FALSE
+      )
+    }
   }
   if (name_in == "line_list") {
     inferred_levels <- model@line_list[, name, drop = TRUE]
@@ -48,6 +52,11 @@ infer_levels <- function(model, name, name_in, levels = NULL, ordered = FALSE) {
       model@population[, name, drop = TRUE]
     )
   }
+  checkmate::assert_atomic(
+    inferred_levels,
+    any.missing = FALSE,
+    .var.name = "levels"
+  )
   inferred_levels <- sort(unique(inferred_levels))
   if (is.null(levels)) {
     levels <- inferred_levels

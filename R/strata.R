@@ -7,20 +7,18 @@
 #' for pipeline ergonomics.
 #'
 #' @param x A \linkS4class{SeverityEstimateModel}.
-#' @param value A named list with entries `name`, `levels`, `ordered`, and
+#' @param value A named list with entries `name`, `levels`, and
 #' `degrees_of_freedom`.
 #' @param model A \linkS4class{SeverityEstimateModel}.
 #' @param name The name of the stratification column, which must be present in
 #' both the `line_list` and `population` `data.frame`s.
 #' @param levels The levels for the stratification, or `NULL` to infer from
 #' `line_list`/`population`.
-#' @param ordered Indicator for if the levels are ordered in effect, i.e. age
-#' increasing severity. If `TRUE` then `levels` must be provided. Currently
-#' must be `FALSE`; ordered strata are not yet supported.
 #' @param degrees_of_freedom The degrees of freedom for the strata fixed
-#' effects. This value is currently stored on the model specification for
-#' future ordered/spline support, but is not consumed by [fit()]. If `NULL`,
-#' defaults to `1L` with a warning.
+#' effects. `NULL` and `0L` use unsmoothed categorical effects. Values greater
+#' than `0L` request an ordered smooth effect and therefore require explicit
+#' `levels`. The value must be less than the saturated categorical fit, i.e.
+#' at most `length(levels) - 2L`.
 #'
 #' @return
 #' `strata(x)` returns the current list of model stratifications.
@@ -86,29 +84,52 @@ methods::setMethod(
     }
     name <- value[["name"]]
     levels <- value[["levels"]]
-    ordered <- value[["ordered"]]
-    if (is.null(ordered)) {
-      ordered <- FALSE
-    }
     check_model(x, attribute = "strata", override_warning = FALSE)
     degrees_of_freedom <- value[["degrees_of_freedom"]]
+    checkmate::assert_integerish(
+      degrees_of_freedom,
+      len = 1L,
+      lower = 0L,
+      null.ok = TRUE
+    )
     if (is.null(degrees_of_freedom)) {
-      warning(
-        "No `degrees_of_freedom` specified for strata '",
-        name,
-        "'. Defaulting to 1L.",
-        call. = FALSE
-      )
-      degrees_of_freedom <- 1L
+      degrees_of_freedom <- 0L
     }
     degrees_of_freedom <- as.integer(degrees_of_freedom)
+    if (degrees_of_freedom > 0L && is.null(levels)) {
+      stop(
+        "Assertion on 'levels' failed: Explicit levels must be provided ",
+        "when `degrees_of_freedom > 0L`.",
+        call. = FALSE
+      )
+    }
     levels <- infer_levels(
       x,
       name,
       "both",
-      levels = levels,
-      ordered = ordered
+      levels = levels
     )
+    if (degrees_of_freedom > 0L) {
+      n_levels <- length(levels)
+      if (n_levels < 3L) {
+        stop(
+          "Assertion on 'levels' failed: Smoothed strata require at least ",
+          "3 levels.",
+          call. = FALSE
+        )
+      }
+      if (degrees_of_freedom > (n_levels - 2L)) {
+        stop(
+          "Assertion on 'degrees_of_freedom' failed: Must be at most ",
+          n_levels - 2L,
+          " for ",
+          n_levels,
+          " levels. Use `degrees_of_freedom = 0L` for an unsmoothed ",
+          "categorical effect.",
+          call. = FALSE
+        )
+      }
+    }
     length_plus1 <- length(x@strata) + 1L
     idx <- match(name, sapply(x@strata, \(s) s$name), nomatch = length_plus1)
     if (idx < length_plus1) {
@@ -122,7 +143,6 @@ methods::setMethod(
     x@strata[[idx]] <- list(
       "name" = name,
       "levels" = levels,
-      "ordered" = ordered,
       "degrees_of_freedom" = degrees_of_freedom
     )
     x
@@ -135,13 +155,11 @@ set_strata <- function(
   model,
   name,
   levels = NULL,
-  ordered = FALSE,
   degrees_of_freedom = NULL
 ) {
   strata(model) <- list(
     name = name,
     levels = levels,
-    ordered = ordered,
     degrees_of_freedom = degrees_of_freedom
   )
   model

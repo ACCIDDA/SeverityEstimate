@@ -16,18 +16,12 @@ strata(x) <- value
 
 \S4method{strata}{SeverityEstimateModel}(x) <- value
 
-set_strata(
-  model,
-  name,
-  levels = NULL,
-  ordered = FALSE,
-  degrees_of_freedom = NULL
-)
+set_strata(model, name, levels = NULL, degrees_of_freedom = NULL)
 }
 \arguments{
 \item{x}{A \linkS4class{SeverityEstimateModel}.}
 
-\item{value}{A named list with entries \code{name}, \code{levels}, \code{ordered}, and
+\item{value}{A named list with entries \code{name}, \code{levels}, and
 \code{degrees_of_freedom}.}
 
 \item{model}{A \linkS4class{SeverityEstimateModel}.}
@@ -38,14 +32,11 @@ both the \code{line_list} and \code{population} \code{data.frame}s.}
 \item{levels}{The levels for the stratification, or \code{NULL} to infer from
 \code{line_list}/\code{population}.}
 
-\item{ordered}{Indicator for if the levels are ordered in effect, i.e. age
-increasing severity. If \code{TRUE} then \code{levels} must be provided. Currently
-must be \code{FALSE}; ordered strata are not yet supported.}
-
 \item{degrees_of_freedom}{The degrees of freedom for the strata fixed
-effects. This value is currently stored on the model specification for
-future ordered/spline support, but is not consumed by \code{\link[=fit]{fit()}}. If \code{NULL},
-defaults to \code{1L} with a warning.}
+effects. \code{NULL} and \code{0L} use unsmoothed categorical effects. Values greater
+than \code{0L} request an ordered smooth effect and therefore require explicit
+\code{levels}. The value must be less than the saturated categorical fit, i.e.
+at most \code{length(levels) - 2L}.}
 }
 \value{
 \code{strata(x)} returns the current list of model stratifications.

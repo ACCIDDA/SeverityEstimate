@@ -13,173 +13,160 @@ namespace model_estimate_severity_namespace {
 using stan::model::model_base_crtp;
 using namespace stan::math;
 stan::math::profile_map profiles__;
-static constexpr std::array<const char*, 145> locations_array__ =
+static constexpr std::array<const char*, 135> locations_array__ =
   {" (found before start of program)",
-  " (in 'estimate_severity', line 55, column 2 to column 13)",
-  " (in 'estimate_severity', line 56, column 2 to column 15)",
-  " (in 'estimate_severity', line 58, column 2 to column 41)",
-  " (in 'estimate_severity', line 59, column 2 to column 43)",
-  " (in 'estimate_severity', line 61, column 2 to column 51)",
-  " (in 'estimate_severity', line 63, column 2 to column 42)",
+  " (in 'estimate_severity', line 49, column 2 to column 13)",
+  " (in 'estimate_severity', line 50, column 2 to column 15)",
+  " (in 'estimate_severity', line 52, column 2 to column 38)",
+  " (in 'estimate_severity', line 53, column 2 to column 40)",
+  " (in 'estimate_severity', line 55, column 2 to column 51)",
+  " (in 'estimate_severity', line 57, column 2 to column 42)",
+  " (in 'estimate_severity', line 59, column 2 to column 56)",
+  " (in 'estimate_severity', line 60, column 2 to column 55)",
+  " (in 'estimate_severity', line 64, column 2 to column 49)",
   " (in 'estimate_severity', line 65, column 2 to column 56)",
-  " (in 'estimate_severity', line 66, column 2 to column 55)",
-  " (in 'estimate_severity', line 70, column 2 to column 49)",
-  " (in 'estimate_severity', line 71, column 2 to column 56)",
-  " (in 'estimate_severity', line 73, column 2 to column 52)",
-  " (in 'estimate_severity', line 74, column 2 to column 52)",
-  " (in 'estimate_severity', line 76, column 2 to column 43)",
-  " (in 'estimate_severity', line 77, column 2 to column 51)",
-  " (in 'estimate_severity', line 78, column 2 to column 14)",
-  " (in 'estimate_severity', line 79, column 2 to column 16)",
-  " (in 'estimate_severity', line 166, column 2 to column 69)",
-  " (in 'estimate_severity', line 167, column 2 to column 70)",
-  " (in 'estimate_severity', line 168, column 2 to column 14)",
-  " (in 'estimate_severity', line 82, column 4 to column 19)",
-  " (in 'estimate_severity', line 83, column 4 to column 23)",
-  " (in 'estimate_severity', line 86, column 8 to column 74)",
-  " (in 'estimate_severity', line 87, column 8 to column 41)",
-  " (in 'estimate_severity', line 88, column 8 to column 45)",
-  " (in 'estimate_severity', line 85, column 33 to line 89, column 7)",
-  " (in 'estimate_severity', line 85, column 6 to line 89, column 7)",
-  " (in 'estimate_severity', line 84, column 27 to line 90, column 5)",
-  " (in 'estimate_severity', line 84, column 4 to line 90, column 5)",
-  " (in 'estimate_severity', line 91, column 4 to column 30)",
-  " (in 'estimate_severity', line 92, column 4 to column 39)",
-  " (in 'estimate_severity', line 94, column 4 to column 28)",
-  " (in 'estimate_severity', line 95, column 4 to column 57)",
-  " (in 'estimate_severity', line 81, column 29 to line 96, column 3)",
-  " (in 'estimate_severity', line 81, column 2 to line 96, column 3)",
-  " (in 'estimate_severity', line 100, column 6 to column 42)",
-  " (in 'estimate_severity', line 101, column 6 to column 53)",
-  " (in 'estimate_severity', line 99, column 31 to line 102, column 5)",
-  " (in 'estimate_severity', line 99, column 4 to line 102, column 5)",
-  " (in 'estimate_severity', line 98, column 27 to line 103, column 3)",
-  " (in 'estimate_severity', line 98, column 2 to line 103, column 3)",
-  " (in 'estimate_severity', line 106, column 4 to line 107, column 48)",
-  " (in 'estimate_severity', line 108, column 4 to column 71)",
-  " (in 'estimate_severity', line 105, column 29 to line 109, column 3)",
-  " (in 'estimate_severity', line 105, column 2 to line 109, column 3)",
-  " (in 'estimate_severity', line 171, column 6 to column 40)",
-  " (in 'estimate_severity', line 175, column 8 to column 38)",
-  " (in 'estimate_severity', line 174, column 13 to line 176, column 7)",
-  " (in 'estimate_severity', line 173, column 8 to column 75)",
-  " (in 'estimate_severity', line 172, column 22 to line 174, column 7)",
-  " (in 'estimate_severity', line 172, column 6 to line 176, column 7)",
-  " (in 'estimate_severity', line 177, column 6 to line 178, column 36)",
-  " (in 'estimate_severity', line 182, column 8 to column 39)",
-  " (in 'estimate_severity', line 181, column 13 to line 183, column 7)",
-  " (in 'estimate_severity', line 180, column 8 to column 57)",
-  " (in 'estimate_severity', line 179, column 22 to line 181, column 7)",
-  " (in 'estimate_severity', line 179, column 6 to line 183, column 7)",
-  " (in 'estimate_severity', line 170, column 31 to line 184, column 5)",
-  " (in 'estimate_severity', line 170, column 4 to line 184, column 5)",
-  " (in 'estimate_severity', line 169, column 27 to line 185, column 3)",
-  " (in 'estimate_severity', line 169, column 2 to line 185, column 3)",
-  " (in 'estimate_severity', line 114, column 2 to column 23)",
-  " (in 'estimate_severity', line 115, column 2 to column 25)",
-  " (in 'estimate_severity', line 119, column 6 to column 82)",
-  " (in 'estimate_severity', line 120, column 6 to line 121, column 27)",
-  " (in 'estimate_severity', line 122, column 6 to column 84)",
-  " (in 'estimate_severity', line 123, column 6 to line 124, column 27)",
-  " (in 'estimate_severity', line 118, column 31 to line 125, column 5)",
-  " (in 'estimate_severity', line 118, column 4 to line 125, column 5)",
-  " (in 'estimate_severity', line 117, column 25 to line 126, column 3)",
-  " (in 'estimate_severity', line 117, column 2 to line 126, column 3)",
-  " (in 'estimate_severity', line 128, column 2 to column 73)",
-  " (in 'estimate_severity', line 129, column 2 to line 131, column 4)",
-  " (in 'estimate_severity', line 132, column 2 to line 134, column 4)",
-  " (in 'estimate_severity', line 138, column 6 to line 142, column 8)",
-  " (in 'estimate_severity', line 143, column 6 to column 59)",
-  " (in 'estimate_severity', line 144, column 6 to column 79)",
-  " (in 'estimate_severity', line 137, column 31 to line 145, column 5)",
-  " (in 'estimate_severity', line 137, column 4 to line 145, column 5)",
-  " (in 'estimate_severity', line 136, column 27 to line 146, column 3)",
-  " (in 'estimate_severity', line 136, column 2 to line 146, column 3)",
-  " (in 'estimate_severity', line 149, column 4 to column 57)",
-  " (in 'estimate_severity', line 150, column 4 to column 60)",
-  " (in 'estimate_severity', line 148, column 31 to line 151, column 3)",
-  " (in 'estimate_severity', line 148, column 2 to line 151, column 3)",
-  " (in 'estimate_severity', line 154, column 4 to line 158, column 6)",
-  " (in 'estimate_severity', line 159, column 4 to line 161, column 6)",
-  " (in 'estimate_severity', line 153, column 32 to line 162, column 3)",
-  " (in 'estimate_severity', line 153, column 2 to line 162, column 3)",
+  " (in 'estimate_severity', line 67, column 2 to column 52)",
+  " (in 'estimate_severity', line 68, column 2 to column 52)",
+  " (in 'estimate_severity', line 70, column 2 to column 31)",
+  " (in 'estimate_severity', line 71, column 2 to column 33)",
+  " (in 'estimate_severity', line 72, column 2 to column 43)",
+  " (in 'estimate_severity', line 73, column 2 to column 51)",
+  " (in 'estimate_severity', line 151, column 2 to column 69)",
+  " (in 'estimate_severity', line 152, column 2 to column 70)",
+  " (in 'estimate_severity', line 153, column 2 to column 14)",
+  " (in 'estimate_severity', line 74, column 2 to column 44)",
+  " (in 'estimate_severity', line 75, column 2 to column 48)",
+  " (in 'estimate_severity', line 77, column 4 to column 33)",
+  " (in 'estimate_severity', line 78, column 4 to column 37)",
+  " (in 'estimate_severity', line 76, column 31 to line 79, column 3)",
+  " (in 'estimate_severity', line 76, column 2 to line 79, column 3)",
+  " (in 'estimate_severity', line 82, column 4 to column 33)",
+  " (in 'estimate_severity', line 83, column 4 to column 42)",
+  " (in 'estimate_severity', line 85, column 4 to column 28)",
+  " (in 'estimate_severity', line 86, column 4 to column 57)",
+  " (in 'estimate_severity', line 81, column 29 to line 87, column 3)",
+  " (in 'estimate_severity', line 81, column 2 to line 87, column 3)",
+  " (in 'estimate_severity', line 91, column 6 to column 42)",
+  " (in 'estimate_severity', line 92, column 6 to column 53)",
+  " (in 'estimate_severity', line 90, column 31 to line 93, column 5)",
+  " (in 'estimate_severity', line 90, column 4 to line 93, column 5)",
+  " (in 'estimate_severity', line 89, column 27 to line 94, column 3)",
+  " (in 'estimate_severity', line 89, column 2 to line 94, column 3)",
+  " (in 'estimate_severity', line 97, column 4 to line 98, column 48)",
+  " (in 'estimate_severity', line 99, column 4 to column 71)",
+  " (in 'estimate_severity', line 96, column 29 to line 100, column 3)",
+  " (in 'estimate_severity', line 96, column 2 to line 100, column 3)",
+  " (in 'estimate_severity', line 156, column 6 to column 40)",
+  " (in 'estimate_severity', line 160, column 8 to column 38)",
+  " (in 'estimate_severity', line 159, column 13 to line 161, column 7)",
+  " (in 'estimate_severity', line 158, column 8 to column 75)",
+  " (in 'estimate_severity', line 157, column 22 to line 159, column 7)",
+  " (in 'estimate_severity', line 157, column 6 to line 161, column 7)",
+  " (in 'estimate_severity', line 162, column 6 to line 163, column 36)",
+  " (in 'estimate_severity', line 167, column 8 to column 39)",
+  " (in 'estimate_severity', line 166, column 13 to line 168, column 7)",
+  " (in 'estimate_severity', line 165, column 8 to column 57)",
+  " (in 'estimate_severity', line 164, column 22 to line 166, column 7)",
+  " (in 'estimate_severity', line 164, column 6 to line 168, column 7)",
+  " (in 'estimate_severity', line 155, column 31 to line 169, column 5)",
+  " (in 'estimate_severity', line 155, column 4 to line 169, column 5)",
+  " (in 'estimate_severity', line 154, column 27 to line 170, column 3)",
+  " (in 'estimate_severity', line 154, column 2 to line 170, column 3)",
+  " (in 'estimate_severity', line 105, column 2 to column 23)",
+  " (in 'estimate_severity', line 106, column 2 to column 25)",
+  " (in 'estimate_severity', line 109, column 4 to column 27)",
+  " (in 'estimate_severity', line 110, column 4 to column 29)",
+  " (in 'estimate_severity', line 108, column 31 to line 111, column 3)",
+  " (in 'estimate_severity', line 108, column 2 to line 111, column 3)",
+  " (in 'estimate_severity', line 113, column 2 to column 73)",
+  " (in 'estimate_severity', line 114, column 2 to line 116, column 4)",
+  " (in 'estimate_severity', line 117, column 2 to line 119, column 4)",
+  " (in 'estimate_severity', line 123, column 6 to line 127, column 8)",
+  " (in 'estimate_severity', line 128, column 6 to column 59)",
+  " (in 'estimate_severity', line 129, column 6 to column 79)",
+  " (in 'estimate_severity', line 122, column 31 to line 130, column 5)",
+  " (in 'estimate_severity', line 122, column 4 to line 130, column 5)",
+  " (in 'estimate_severity', line 121, column 27 to line 131, column 3)",
+  " (in 'estimate_severity', line 121, column 2 to line 131, column 3)",
+  " (in 'estimate_severity', line 134, column 4 to column 57)",
+  " (in 'estimate_severity', line 135, column 4 to column 60)",
+  " (in 'estimate_severity', line 133, column 31 to line 136, column 3)",
+  " (in 'estimate_severity', line 133, column 2 to line 136, column 3)",
+  " (in 'estimate_severity', line 139, column 4 to line 143, column 6)",
+  " (in 'estimate_severity', line 144, column 4 to line 146, column 6)",
+  " (in 'estimate_severity', line 138, column 32 to line 147, column 3)",
+  " (in 'estimate_severity', line 138, column 2 to line 147, column 3)",
   " (in 'estimate_severity', line 4, column 2 to column 29)",
   " (in 'estimate_severity', line 6, column 2 to column 27)",
-  " (in 'estimate_severity', line 8, column 2 to column 29)",
-  " (in 'estimate_severity', line 10, column 8 to column 21)",
-  " (in 'estimate_severity', line 10, column 2 to column 52)",
-  " (in 'estimate_severity', line 12, column 8 to column 21)",
-  " (in 'estimate_severity', line 12, column 2 to column 55)",
-  " (in 'estimate_severity', line 14, column 2 to column 37)",
-  " (in 'estimate_severity', line 16, column 2 to column 31)",
-  " (in 'estimate_severity', line 18, column 2 to column 32)",
-  " (in 'estimate_severity', line 21, column 8 to column 19)",
-  " (in 'estimate_severity', line 21, column 21 to column 34)",
-  " (in 'estimate_severity', line 21, column 2 to column 58)",
-  " (in 'estimate_severity', line 23, column 8 to column 19)",
-  " (in 'estimate_severity', line 23, column 21 to column 34)",
-  " (in 'estimate_severity', line 23, column 2 to column 59)",
-  " (in 'estimate_severity', line 25, column 8 to column 21)",
-  " (in 'estimate_severity', line 25, column 2 to column 47)",
+  " (in 'estimate_severity', line 8, column 2 to column 35)",
+  " (in 'estimate_severity', line 10, column 2 to column 31)",
+  " (in 'estimate_severity', line 12, column 2 to column 32)",
+  " (in 'estimate_severity', line 15, column 8 to column 19)",
+  " (in 'estimate_severity', line 15, column 21 to column 34)",
+  " (in 'estimate_severity', line 15, column 2 to column 58)",
+  " (in 'estimate_severity', line 17, column 8 to column 19)",
+  " (in 'estimate_severity', line 17, column 21 to column 34)",
+  " (in 'estimate_severity', line 17, column 2 to column 59)",
+  " (in 'estimate_severity', line 19, column 8 to column 21)",
+  " (in 'estimate_severity', line 19, column 2 to column 47)",
+  " (in 'estimate_severity', line 21, column 9 to column 22)",
+  " (in 'estimate_severity', line 21, column 24 to column 43)",
+  " (in 'estimate_severity', line 21, column 2 to column 54)",
+  " (in 'estimate_severity', line 24, column 8 to column 23)",
+  " (in 'estimate_severity', line 24, column 2 to column 52)",
+  " (in 'estimate_severity', line 26, column 8 to column 23)",
+  " (in 'estimate_severity', line 26, column 2 to column 63)",
   " (in 'estimate_severity', line 28, column 8 to column 23)",
-  " (in 'estimate_severity', line 28, column 2 to column 52)",
-  " (in 'estimate_severity', line 30, column 8 to column 23)",
-  " (in 'estimate_severity', line 30, column 2 to column 63)",
-  " (in 'estimate_severity', line 32, column 8 to column 23)",
-  " (in 'estimate_severity', line 32, column 2 to column 59)",
+  " (in 'estimate_severity', line 28, column 2 to column 59)",
+  " (in 'estimate_severity', line 30, column 8 to column 24)",
+  " (in 'estimate_severity', line 30, column 2 to column 54)",
+  " (in 'estimate_severity', line 32, column 8 to column 24)",
+  " (in 'estimate_severity', line 32, column 2 to column 65)",
   " (in 'estimate_severity', line 34, column 8 to column 24)",
-  " (in 'estimate_severity', line 34, column 2 to column 54)",
-  " (in 'estimate_severity', line 36, column 8 to column 24)",
-  " (in 'estimate_severity', line 36, column 2 to column 65)",
-  " (in 'estimate_severity', line 38, column 8 to column 24)",
-  " (in 'estimate_severity', line 38, column 2 to column 61)",
-  " (in 'estimate_severity', line 40, column 8 to column 21)",
-  " (in 'estimate_severity', line 40, column 23 to column 36)",
-  " (in 'estimate_severity', line 40, column 2 to column 64)",
-  " (in 'estimate_severity', line 43, column 2 to column 27)",
-  " (in 'estimate_severity', line 45, column 2 to column 39)",
-  " (in 'estimate_severity', line 46, column 2 to column 38)",
-  " (in 'estimate_severity', line 48, column 2 to column 43)",
-  " (in 'estimate_severity', line 49, column 2 to column 42)",
-  " (in 'estimate_severity', line 50, column 2 to column 42)",
-  " (in 'estimate_severity', line 51, column 2 to column 41)",
-  " (in 'estimate_severity', line 58, column 9 to column 30)",
-  " (in 'estimate_severity', line 59, column 9 to column 30)",
-  " (in 'estimate_severity', line 61, column 8 to column 19)",
-  " (in 'estimate_severity', line 61, column 21 to column 34)",
-  " (in 'estimate_severity', line 70, column 8 to column 21)",
-  " (in 'estimate_severity', line 71, column 8 to column 21)",
-  " (in 'estimate_severity', line 73, column 8 to column 19)",
-  " (in 'estimate_severity', line 73, column 21 to column 34)",
-  " (in 'estimate_severity', line 74, column 8 to column 19)",
-  " (in 'estimate_severity', line 74, column 21 to column 34)",
-  " (in 'estimate_severity', line 76, column 8 to column 21)",
-  " (in 'estimate_severity', line 77, column 8 to column 21)",
-  " (in 'estimate_severity', line 166, column 8 to column 19)",
-  " (in 'estimate_severity', line 166, column 21 to column 34)",
-  " (in 'estimate_severity', line 167, column 8 to column 19)",
-  " (in 'estimate_severity', line 167, column 21 to column 34)"};
+  " (in 'estimate_severity', line 34, column 2 to column 61)",
+  " (in 'estimate_severity', line 37, column 2 to column 27)",
+  " (in 'estimate_severity', line 39, column 2 to column 39)",
+  " (in 'estimate_severity', line 40, column 2 to column 38)",
+  " (in 'estimate_severity', line 42, column 2 to column 43)",
+  " (in 'estimate_severity', line 43, column 2 to column 42)",
+  " (in 'estimate_severity', line 44, column 2 to column 42)",
+  " (in 'estimate_severity', line 45, column 2 to column 41)",
+  " (in 'estimate_severity', line 52, column 9 to column 28)",
+  " (in 'estimate_severity', line 53, column 9 to column 28)",
+  " (in 'estimate_severity', line 55, column 8 to column 19)",
+  " (in 'estimate_severity', line 55, column 21 to column 34)",
+  " (in 'estimate_severity', line 64, column 8 to column 21)",
+  " (in 'estimate_severity', line 65, column 8 to column 21)",
+  " (in 'estimate_severity', line 67, column 8 to column 19)",
+  " (in 'estimate_severity', line 67, column 21 to column 34)",
+  " (in 'estimate_severity', line 68, column 8 to column 19)",
+  " (in 'estimate_severity', line 68, column 21 to column 34)",
+  " (in 'estimate_severity', line 70, column 9 to column 22)",
+  " (in 'estimate_severity', line 71, column 9 to column 22)",
+  " (in 'estimate_severity', line 72, column 8 to column 21)",
+  " (in 'estimate_severity', line 73, column 8 to column 21)",
+  " (in 'estimate_severity', line 151, column 8 to column 19)",
+  " (in 'estimate_severity', line 151, column 21 to column 34)",
+  " (in 'estimate_severity', line 152, column 8 to column 19)",
+  " (in 'estimate_severity', line 152, column 21 to column 34)"};
 #include <stan_meta_header.hpp>
 class model_estimate_severity final : public model_base_crtp<model_estimate_severity> {
 private:
   int strata_groups;
   int time_groups;
-  int n_strata_dims;
-  std::vector<int> strata_n_levels;
-  std::vector<int> strata_level_start;
-  int n_strata_levels_total;
+  int n_strata_basis_cols;
   int observed_active;
   int observed_passive;
   std::vector<std::vector<int>> I_active;
   std::vector<std::vector<int>> I_passive;
   std::vector<int> population;
+  Eigen::Matrix<double,-1,-1> X_strata_data__;
   std::vector<int> strata_active;
   std::vector<int> symptoms_active;
   std::vector<int> dead_active;
   std::vector<int> strata_passive;
   std::vector<int> symptoms_passive;
   std::vector<int> dead_passive;
-  std::vector<std::vector<int>> strata_index;
   double hazard_std;
   double active_detection_alpha;
   double active_detection_beta;
@@ -187,6 +174,7 @@ private:
   double passive_asymptomatic_beta;
   double passive_symptomatic_alpha;
   double passive_symptomatic_beta;
+  Eigen::Map<Eigen::Matrix<double,-1,-1>> X_strata{nullptr, 0, 0};
 public:
   ~model_estimate_severity() {}
   model_estimate_severity(stan::io::var_context& context__, unsigned int
@@ -208,94 +196,58 @@ public:
     try {
       int pos__ = std::numeric_limits<int>::min();
       pos__ = 1;
-      current_statement__ = 89;
+      current_statement__ = 82;
       context__.validate_dims("data initialization", "strata_groups", "int",
         std::vector<size_t>{});
       strata_groups = std::numeric_limits<int>::min();
-      current_statement__ = 89;
+      current_statement__ = 82;
       strata_groups = context__.vals_i("strata_groups")[(1 - 1)];
-      current_statement__ = 89;
+      current_statement__ = 82;
       stan::math::check_greater_or_equal(function__, "strata_groups",
         strata_groups, 1);
-      current_statement__ = 90;
+      current_statement__ = 83;
       context__.validate_dims("data initialization", "time_groups", "int",
         std::vector<size_t>{});
       time_groups = std::numeric_limits<int>::min();
-      current_statement__ = 90;
+      current_statement__ = 83;
       time_groups = context__.vals_i("time_groups")[(1 - 1)];
-      current_statement__ = 90;
+      current_statement__ = 83;
       stan::math::check_greater_or_equal(function__, "time_groups",
         time_groups, 1);
-      current_statement__ = 91;
-      context__.validate_dims("data initialization", "n_strata_dims", "int",
-        std::vector<size_t>{});
-      n_strata_dims = std::numeric_limits<int>::min();
-      current_statement__ = 91;
-      n_strata_dims = context__.vals_i("n_strata_dims")[(1 - 1)];
-      current_statement__ = 91;
-      stan::math::check_greater_or_equal(function__, "n_strata_dims",
-        n_strata_dims, 0);
-      current_statement__ = 92;
-      stan::math::validate_non_negative_index("strata_n_levels",
-        "n_strata_dims", n_strata_dims);
-      current_statement__ = 93;
-      context__.validate_dims("data initialization", "strata_n_levels",
-        "int", std::vector<size_t>{static_cast<size_t>(n_strata_dims)});
-      strata_n_levels = std::vector<int>(n_strata_dims,
-                          std::numeric_limits<int>::min());
-      current_statement__ = 93;
-      strata_n_levels = context__.vals_i("strata_n_levels");
-      current_statement__ = 93;
-      stan::math::check_greater_or_equal(function__, "strata_n_levels",
-        strata_n_levels, 1);
-      current_statement__ = 94;
-      stan::math::validate_non_negative_index("strata_level_start",
-        "n_strata_dims", n_strata_dims);
-      current_statement__ = 95;
-      context__.validate_dims("data initialization", "strata_level_start",
-        "int", std::vector<size_t>{static_cast<size_t>(n_strata_dims)});
-      strata_level_start = std::vector<int>(n_strata_dims,
-                             std::numeric_limits<int>::min());
-      current_statement__ = 95;
-      strata_level_start = context__.vals_i("strata_level_start");
-      current_statement__ = 95;
-      stan::math::check_greater_or_equal(function__, "strata_level_start",
-        strata_level_start, 1);
-      current_statement__ = 96;
-      context__.validate_dims("data initialization", "n_strata_levels_total",
+      current_statement__ = 84;
+      context__.validate_dims("data initialization", "n_strata_basis_cols",
         "int", std::vector<size_t>{});
-      n_strata_levels_total = std::numeric_limits<int>::min();
-      current_statement__ = 96;
-      n_strata_levels_total = context__.vals_i("n_strata_levels_total")[(1 -
-        1)];
-      current_statement__ = 96;
-      stan::math::check_greater_or_equal(function__, "n_strata_levels_total",
-        n_strata_levels_total, 0);
-      current_statement__ = 97;
+      n_strata_basis_cols = std::numeric_limits<int>::min();
+      current_statement__ = 84;
+      n_strata_basis_cols = context__.vals_i("n_strata_basis_cols")[(1 - 1)];
+      current_statement__ = 84;
+      stan::math::check_greater_or_equal(function__, "n_strata_basis_cols",
+        n_strata_basis_cols, 0);
+      current_statement__ = 85;
       context__.validate_dims("data initialization", "observed_active",
         "int", std::vector<size_t>{});
       observed_active = std::numeric_limits<int>::min();
-      current_statement__ = 97;
+      current_statement__ = 85;
       observed_active = context__.vals_i("observed_active")[(1 - 1)];
-      current_statement__ = 97;
+      current_statement__ = 85;
       stan::math::check_greater_or_equal(function__, "observed_active",
         observed_active, 0);
-      current_statement__ = 98;
+      current_statement__ = 86;
       context__.validate_dims("data initialization", "observed_passive",
         "int", std::vector<size_t>{});
       observed_passive = std::numeric_limits<int>::min();
-      current_statement__ = 98;
+      current_statement__ = 86;
       observed_passive = context__.vals_i("observed_passive")[(1 - 1)];
-      current_statement__ = 98;
+      current_statement__ = 86;
       stan::math::check_greater_or_equal(function__, "observed_passive",
         observed_passive, 0);
-      current_statement__ = 99;
+      current_statement__ = 87;
       stan::math::validate_non_negative_index("I_active", "time_groups",
         time_groups);
-      current_statement__ = 100;
+      current_statement__ = 88;
       stan::math::validate_non_negative_index("I_active", "strata_groups",
         strata_groups);
-      current_statement__ = 101;
+      current_statement__ = 89;
       context__.validate_dims("data initialization", "I_active", "int",
         std::vector<size_t>{static_cast<size_t>(time_groups),
           static_cast<size_t>(strata_groups)});
@@ -304,32 +256,32 @@ public:
                      std::numeric_limits<int>::min()));
       {
         std::vector<int> I_active_flat__;
-        current_statement__ = 101;
+        current_statement__ = 89;
         I_active_flat__ = context__.vals_i("I_active");
-        current_statement__ = 101;
+        current_statement__ = 89;
         pos__ = 1;
-        current_statement__ = 101;
+        current_statement__ = 89;
         for (int sym1__ = 1; sym1__ <= strata_groups; ++sym1__) {
-          current_statement__ = 101;
+          current_statement__ = 89;
           for (int sym2__ = 1; sym2__ <= time_groups; ++sym2__) {
-            current_statement__ = 101;
+            current_statement__ = 89;
             stan::model::assign(I_active, I_active_flat__[(pos__ - 1)],
               "assigning variable I_active", stan::model::index_uni(sym2__),
               stan::model::index_uni(sym1__));
-            current_statement__ = 101;
+            current_statement__ = 89;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 101;
+      current_statement__ = 89;
       stan::math::check_greater_or_equal(function__, "I_active", I_active, 0);
-      current_statement__ = 102;
+      current_statement__ = 90;
       stan::math::validate_non_negative_index("I_passive", "time_groups",
         time_groups);
-      current_statement__ = 103;
+      current_statement__ = 91;
       stan::math::validate_non_negative_index("I_passive", "strata_groups",
         strata_groups);
-      current_statement__ = 104;
+      current_statement__ = 92;
       context__.validate_dims("data initialization", "I_passive", "int",
         std::vector<size_t>{static_cast<size_t>(time_groups),
           static_cast<size_t>(strata_groups)});
@@ -338,283 +290,289 @@ public:
                       std::numeric_limits<int>::min()));
       {
         std::vector<int> I_passive_flat__;
-        current_statement__ = 104;
+        current_statement__ = 92;
         I_passive_flat__ = context__.vals_i("I_passive");
-        current_statement__ = 104;
+        current_statement__ = 92;
         pos__ = 1;
-        current_statement__ = 104;
+        current_statement__ = 92;
         for (int sym1__ = 1; sym1__ <= strata_groups; ++sym1__) {
-          current_statement__ = 104;
+          current_statement__ = 92;
           for (int sym2__ = 1; sym2__ <= time_groups; ++sym2__) {
-            current_statement__ = 104;
+            current_statement__ = 92;
             stan::model::assign(I_passive, I_passive_flat__[(pos__ - 1)],
               "assigning variable I_passive", stan::model::index_uni(sym2__),
               stan::model::index_uni(sym1__));
-            current_statement__ = 104;
+            current_statement__ = 92;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 104;
+      current_statement__ = 92;
       stan::math::check_greater_or_equal(function__, "I_passive", I_passive,
         0);
-      current_statement__ = 105;
+      current_statement__ = 93;
       stan::math::validate_non_negative_index("population", "strata_groups",
         strata_groups);
-      current_statement__ = 106;
+      current_statement__ = 94;
       context__.validate_dims("data initialization", "population", "int",
         std::vector<size_t>{static_cast<size_t>(strata_groups)});
       population = std::vector<int>(strata_groups,
                      std::numeric_limits<int>::min());
-      current_statement__ = 106;
+      current_statement__ = 94;
       population = context__.vals_i("population");
-      current_statement__ = 106;
+      current_statement__ = 94;
       stan::math::check_greater_or_equal(function__, "population",
         population, 0);
-      current_statement__ = 107;
-      stan::math::validate_non_negative_index("strata_active",
-        "observed_active", observed_active);
-      current_statement__ = 108;
-      context__.validate_dims("data initialization", "strata_active", "int",
-        std::vector<size_t>{static_cast<size_t>(observed_active)});
-      strata_active = std::vector<int>(observed_active,
-                        std::numeric_limits<int>::min());
-      current_statement__ = 108;
-      strata_active = context__.vals_i("strata_active");
-      current_statement__ = 108;
-      stan::math::check_greater_or_equal(function__, "strata_active",
-        strata_active, 1);
-      current_statement__ = 109;
-      stan::math::validate_non_negative_index("symptoms_active",
-        "observed_active", observed_active);
-      current_statement__ = 110;
-      context__.validate_dims("data initialization", "symptoms_active",
-        "int", std::vector<size_t>{static_cast<size_t>(observed_active)});
-      symptoms_active = std::vector<int>(observed_active,
-                          std::numeric_limits<int>::min());
-      current_statement__ = 110;
-      symptoms_active = context__.vals_i("symptoms_active");
-      current_statement__ = 110;
-      stan::math::check_greater_or_equal(function__, "symptoms_active",
-        symptoms_active, 0);
-      current_statement__ = 110;
-      stan::math::check_less_or_equal(function__, "symptoms_active",
-        symptoms_active, 1);
-      current_statement__ = 111;
-      stan::math::validate_non_negative_index("dead_active",
-        "observed_active", observed_active);
-      current_statement__ = 112;
-      context__.validate_dims("data initialization", "dead_active", "int",
-        std::vector<size_t>{static_cast<size_t>(observed_active)});
-      dead_active = std::vector<int>(observed_active,
-                      std::numeric_limits<int>::min());
-      current_statement__ = 112;
-      dead_active = context__.vals_i("dead_active");
-      current_statement__ = 112;
-      stan::math::check_greater_or_equal(function__, "dead_active",
-        dead_active, 0);
-      current_statement__ = 112;
-      stan::math::check_less_or_equal(function__, "dead_active", dead_active,
-        1);
-      current_statement__ = 113;
-      stan::math::validate_non_negative_index("strata_passive",
-        "observed_passive", observed_passive);
-      current_statement__ = 114;
-      context__.validate_dims("data initialization", "strata_passive", "int",
-        std::vector<size_t>{static_cast<size_t>(observed_passive)});
-      strata_passive = std::vector<int>(observed_passive,
-                         std::numeric_limits<int>::min());
-      current_statement__ = 114;
-      strata_passive = context__.vals_i("strata_passive");
-      current_statement__ = 114;
-      stan::math::check_greater_or_equal(function__, "strata_passive",
-        strata_passive, 1);
-      current_statement__ = 115;
-      stan::math::validate_non_negative_index("symptoms_passive",
-        "observed_passive", observed_passive);
-      current_statement__ = 116;
-      context__.validate_dims("data initialization", "symptoms_passive",
-        "int", std::vector<size_t>{static_cast<size_t>(observed_passive)});
-      symptoms_passive = std::vector<int>(observed_passive,
-                           std::numeric_limits<int>::min());
-      current_statement__ = 116;
-      symptoms_passive = context__.vals_i("symptoms_passive");
-      current_statement__ = 116;
-      stan::math::check_greater_or_equal(function__, "symptoms_passive",
-        symptoms_passive, 0);
-      current_statement__ = 116;
-      stan::math::check_less_or_equal(function__, "symptoms_passive",
-        symptoms_passive, 1);
-      current_statement__ = 117;
-      stan::math::validate_non_negative_index("dead_passive",
-        "observed_passive", observed_passive);
-      current_statement__ = 118;
-      context__.validate_dims("data initialization", "dead_passive", "int",
-        std::vector<size_t>{static_cast<size_t>(observed_passive)});
-      dead_passive = std::vector<int>(observed_passive,
-                       std::numeric_limits<int>::min());
-      current_statement__ = 118;
-      dead_passive = context__.vals_i("dead_passive");
-      current_statement__ = 118;
-      stan::math::check_greater_or_equal(function__, "dead_passive",
-        dead_passive, 0);
-      current_statement__ = 118;
-      stan::math::check_less_or_equal(function__, "dead_passive",
-        dead_passive, 1);
-      current_statement__ = 119;
-      stan::math::validate_non_negative_index("strata_index",
-        "strata_groups", strata_groups);
-      current_statement__ = 120;
-      stan::math::validate_non_negative_index("strata_index",
-        "n_strata_dims", n_strata_dims);
-      current_statement__ = 121;
-      context__.validate_dims("data initialization", "strata_index", "int",
+      current_statement__ = 95;
+      stan::math::validate_non_negative_index("X_strata", "strata_groups",
+        strata_groups);
+      current_statement__ = 96;
+      stan::math::validate_non_negative_index("X_strata",
+        "n_strata_basis_cols", n_strata_basis_cols);
+      current_statement__ = 97;
+      context__.validate_dims("data initialization", "X_strata", "double",
         std::vector<size_t>{static_cast<size_t>(strata_groups),
-          static_cast<size_t>(n_strata_dims)});
-      strata_index = std::vector<std::vector<int>>(strata_groups,
-                       std::vector<int>(n_strata_dims,
-                         std::numeric_limits<int>::min()));
+          static_cast<size_t>(n_strata_basis_cols)});
+      X_strata_data__ = Eigen::Matrix<double,-1,-1>::Constant(strata_groups,
+                          n_strata_basis_cols,
+                          std::numeric_limits<double>::quiet_NaN());
+      new (&X_strata)
+        Eigen::Map<Eigen::Matrix<double,-1,-1>>(X_strata_data__.data(),
+        strata_groups, n_strata_basis_cols);
       {
-        std::vector<int> strata_index_flat__;
-        current_statement__ = 121;
-        strata_index_flat__ = context__.vals_i("strata_index");
-        current_statement__ = 121;
+        std::vector<local_scalar_t__> X_strata_flat__;
+        current_statement__ = 97;
+        X_strata_flat__ = context__.vals_r("X_strata");
+        current_statement__ = 97;
         pos__ = 1;
-        current_statement__ = 121;
-        for (int sym1__ = 1; sym1__ <= n_strata_dims; ++sym1__) {
-          current_statement__ = 121;
+        current_statement__ = 97;
+        for (int sym1__ = 1; sym1__ <= n_strata_basis_cols; ++sym1__) {
+          current_statement__ = 97;
           for (int sym2__ = 1; sym2__ <= strata_groups; ++sym2__) {
-            current_statement__ = 121;
-            stan::model::assign(strata_index, strata_index_flat__[(pos__ -
-              1)], "assigning variable strata_index",
-              stan::model::index_uni(sym2__), stan::model::index_uni(sym1__));
-            current_statement__ = 121;
+            current_statement__ = 97;
+            stan::model::assign(X_strata, X_strata_flat__[(pos__ - 1)],
+              "assigning variable X_strata", stan::model::index_uni(sym2__),
+              stan::model::index_uni(sym1__));
+            current_statement__ = 97;
             pos__ = (pos__ + 1);
           }
         }
       }
-      current_statement__ = 121;
-      stan::math::check_greater_or_equal(function__, "strata_index",
-        strata_index, 1);
-      current_statement__ = 122;
+      current_statement__ = 98;
+      stan::math::validate_non_negative_index("strata_active",
+        "observed_active", observed_active);
+      current_statement__ = 99;
+      context__.validate_dims("data initialization", "strata_active", "int",
+        std::vector<size_t>{static_cast<size_t>(observed_active)});
+      strata_active = std::vector<int>(observed_active,
+                        std::numeric_limits<int>::min());
+      current_statement__ = 99;
+      strata_active = context__.vals_i("strata_active");
+      current_statement__ = 99;
+      stan::math::check_greater_or_equal(function__, "strata_active",
+        strata_active, 1);
+      current_statement__ = 100;
+      stan::math::validate_non_negative_index("symptoms_active",
+        "observed_active", observed_active);
+      current_statement__ = 101;
+      context__.validate_dims("data initialization", "symptoms_active",
+        "int", std::vector<size_t>{static_cast<size_t>(observed_active)});
+      symptoms_active = std::vector<int>(observed_active,
+                          std::numeric_limits<int>::min());
+      current_statement__ = 101;
+      symptoms_active = context__.vals_i("symptoms_active");
+      current_statement__ = 101;
+      stan::math::check_greater_or_equal(function__, "symptoms_active",
+        symptoms_active, 0);
+      current_statement__ = 101;
+      stan::math::check_less_or_equal(function__, "symptoms_active",
+        symptoms_active, 1);
+      current_statement__ = 102;
+      stan::math::validate_non_negative_index("dead_active",
+        "observed_active", observed_active);
+      current_statement__ = 103;
+      context__.validate_dims("data initialization", "dead_active", "int",
+        std::vector<size_t>{static_cast<size_t>(observed_active)});
+      dead_active = std::vector<int>(observed_active,
+                      std::numeric_limits<int>::min());
+      current_statement__ = 103;
+      dead_active = context__.vals_i("dead_active");
+      current_statement__ = 103;
+      stan::math::check_greater_or_equal(function__, "dead_active",
+        dead_active, 0);
+      current_statement__ = 103;
+      stan::math::check_less_or_equal(function__, "dead_active", dead_active,
+        1);
+      current_statement__ = 104;
+      stan::math::validate_non_negative_index("strata_passive",
+        "observed_passive", observed_passive);
+      current_statement__ = 105;
+      context__.validate_dims("data initialization", "strata_passive", "int",
+        std::vector<size_t>{static_cast<size_t>(observed_passive)});
+      strata_passive = std::vector<int>(observed_passive,
+                         std::numeric_limits<int>::min());
+      current_statement__ = 105;
+      strata_passive = context__.vals_i("strata_passive");
+      current_statement__ = 105;
+      stan::math::check_greater_or_equal(function__, "strata_passive",
+        strata_passive, 1);
+      current_statement__ = 106;
+      stan::math::validate_non_negative_index("symptoms_passive",
+        "observed_passive", observed_passive);
+      current_statement__ = 107;
+      context__.validate_dims("data initialization", "symptoms_passive",
+        "int", std::vector<size_t>{static_cast<size_t>(observed_passive)});
+      symptoms_passive = std::vector<int>(observed_passive,
+                           std::numeric_limits<int>::min());
+      current_statement__ = 107;
+      symptoms_passive = context__.vals_i("symptoms_passive");
+      current_statement__ = 107;
+      stan::math::check_greater_or_equal(function__, "symptoms_passive",
+        symptoms_passive, 0);
+      current_statement__ = 107;
+      stan::math::check_less_or_equal(function__, "symptoms_passive",
+        symptoms_passive, 1);
+      current_statement__ = 108;
+      stan::math::validate_non_negative_index("dead_passive",
+        "observed_passive", observed_passive);
+      current_statement__ = 109;
+      context__.validate_dims("data initialization", "dead_passive", "int",
+        std::vector<size_t>{static_cast<size_t>(observed_passive)});
+      dead_passive = std::vector<int>(observed_passive,
+                       std::numeric_limits<int>::min());
+      current_statement__ = 109;
+      dead_passive = context__.vals_i("dead_passive");
+      current_statement__ = 109;
+      stan::math::check_greater_or_equal(function__, "dead_passive",
+        dead_passive, 0);
+      current_statement__ = 109;
+      stan::math::check_less_or_equal(function__, "dead_passive",
+        dead_passive, 1);
+      current_statement__ = 110;
       context__.validate_dims("data initialization", "hazard_std", "double",
         std::vector<size_t>{});
       hazard_std = std::numeric_limits<double>::quiet_NaN();
-      current_statement__ = 122;
+      current_statement__ = 110;
       hazard_std = context__.vals_r("hazard_std")[(1 - 1)];
-      current_statement__ = 122;
+      current_statement__ = 110;
       stan::math::check_greater_or_equal(function__, "hazard_std",
         hazard_std, 0);
-      current_statement__ = 123;
+      current_statement__ = 111;
       context__.validate_dims("data initialization",
         "active_detection_alpha", "double", std::vector<size_t>{});
       active_detection_alpha = std::numeric_limits<double>::quiet_NaN();
-      current_statement__ = 123;
+      current_statement__ = 111;
       active_detection_alpha = context__.vals_r("active_detection_alpha")[(1
         - 1)];
-      current_statement__ = 123;
+      current_statement__ = 111;
       stan::math::check_greater_or_equal(function__,
         "active_detection_alpha", active_detection_alpha, 0);
-      current_statement__ = 124;
+      current_statement__ = 112;
       context__.validate_dims("data initialization", "active_detection_beta",
         "double", std::vector<size_t>{});
       active_detection_beta = std::numeric_limits<double>::quiet_NaN();
-      current_statement__ = 124;
+      current_statement__ = 112;
       active_detection_beta = context__.vals_r("active_detection_beta")[(1 -
         1)];
-      current_statement__ = 124;
+      current_statement__ = 112;
       stan::math::check_greater_or_equal(function__, "active_detection_beta",
         active_detection_beta, 0);
-      current_statement__ = 125;
+      current_statement__ = 113;
       context__.validate_dims("data initialization",
         "passive_asymptomatic_alpha", "double", std::vector<size_t>{});
       passive_asymptomatic_alpha = std::numeric_limits<double>::quiet_NaN();
-      current_statement__ = 125;
+      current_statement__ = 113;
       passive_asymptomatic_alpha = context__.vals_r("passive_asymptomatic_alpha")[(1
         - 1)];
-      current_statement__ = 125;
+      current_statement__ = 113;
       stan::math::check_greater_or_equal(function__,
         "passive_asymptomatic_alpha", passive_asymptomatic_alpha, 0);
-      current_statement__ = 126;
+      current_statement__ = 114;
       context__.validate_dims("data initialization",
         "passive_asymptomatic_beta", "double", std::vector<size_t>{});
       passive_asymptomatic_beta = std::numeric_limits<double>::quiet_NaN();
-      current_statement__ = 126;
+      current_statement__ = 114;
       passive_asymptomatic_beta = context__.vals_r("passive_asymptomatic_beta")[(1
         - 1)];
-      current_statement__ = 126;
+      current_statement__ = 114;
       stan::math::check_greater_or_equal(function__,
         "passive_asymptomatic_beta", passive_asymptomatic_beta, 0);
-      current_statement__ = 127;
+      current_statement__ = 115;
       context__.validate_dims("data initialization",
         "passive_symptomatic_alpha", "double", std::vector<size_t>{});
       passive_symptomatic_alpha = std::numeric_limits<double>::quiet_NaN();
-      current_statement__ = 127;
+      current_statement__ = 115;
       passive_symptomatic_alpha = context__.vals_r("passive_symptomatic_alpha")[(1
         - 1)];
-      current_statement__ = 127;
+      current_statement__ = 115;
       stan::math::check_greater_or_equal(function__,
         "passive_symptomatic_alpha", passive_symptomatic_alpha, 0);
-      current_statement__ = 128;
+      current_statement__ = 116;
       context__.validate_dims("data initialization",
         "passive_symptomatic_beta", "double", std::vector<size_t>{});
       passive_symptomatic_beta = std::numeric_limits<double>::quiet_NaN();
-      current_statement__ = 128;
+      current_statement__ = 116;
       passive_symptomatic_beta = context__.vals_r("passive_symptomatic_beta")[(1
         - 1)];
-      current_statement__ = 128;
+      current_statement__ = 116;
       stan::math::check_greater_or_equal(function__,
         "passive_symptomatic_beta", passive_symptomatic_beta, 0);
-      current_statement__ = 129;
-      stan::math::validate_non_negative_index("alpha_xi",
-        "n_strata_levels_total", n_strata_levels_total);
-      current_statement__ = 130;
-      stan::math::validate_non_negative_index("alpha_mort",
-        "n_strata_levels_total", n_strata_levels_total);
-      current_statement__ = 131;
+      current_statement__ = 117;
+      stan::math::validate_non_negative_index("beta_xi",
+        "n_strata_basis_cols", n_strata_basis_cols);
+      current_statement__ = 118;
+      stan::math::validate_non_negative_index("beta_mort",
+        "n_strata_basis_cols", n_strata_basis_cols);
+      current_statement__ = 119;
       stan::math::validate_non_negative_index("logit_hzd", "time_groups",
         time_groups);
-      current_statement__ = 132;
+      current_statement__ = 120;
       stan::math::validate_non_negative_index("logit_hzd", "strata_groups",
         strata_groups);
-      current_statement__ = 133;
+      current_statement__ = 121;
       stan::math::validate_non_negative_index("xi", "strata_groups",
         strata_groups);
-      current_statement__ = 134;
+      current_statement__ = 122;
       stan::math::validate_non_negative_index("mortality", "strata_groups",
         strata_groups);
-      current_statement__ = 135;
+      current_statement__ = 123;
       stan::math::validate_non_negative_index("S", "time_groups", time_groups);
-      current_statement__ = 136;
+      current_statement__ = 124;
       stan::math::validate_non_negative_index("S", "strata_groups",
         strata_groups);
-      current_statement__ = 137;
+      current_statement__ = 125;
       stan::math::validate_non_negative_index("C", "time_groups", time_groups);
-      current_statement__ = 138;
+      current_statement__ = 126;
       stan::math::validate_non_negative_index("C", "strata_groups",
         strata_groups);
-      current_statement__ = 139;
+      current_statement__ = 127;
+      stan::math::validate_non_negative_index("eta_xi", "strata_groups",
+        strata_groups);
+      current_statement__ = 128;
+      stan::math::validate_non_negative_index("eta_mort", "strata_groups",
+        strata_groups);
+      current_statement__ = 129;
       stan::math::validate_non_negative_index("theta", "strata_groups",
         strata_groups);
-      current_statement__ = 140;
+      current_statement__ = 130;
       stan::math::validate_non_negative_index("passive_denom",
         "strata_groups", strata_groups);
-      current_statement__ = 141;
+      current_statement__ = 131;
       stan::math::validate_non_negative_index("C_active_additional",
         "time_groups", time_groups);
-      current_statement__ = 142;
+      current_statement__ = 132;
       stan::math::validate_non_negative_index("C_active_additional",
         "strata_groups", strata_groups);
-      current_statement__ = 143;
+      current_statement__ = 133;
       stan::math::validate_non_negative_index("C_passive_additional",
         "time_groups", time_groups);
-      current_statement__ = 144;
+      current_statement__ = 134;
       stan::math::validate_non_negative_index("C_passive_additional",
         "strata_groups", strata_groups);
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
     }
-    num_params_r__ = 1 + 1 + n_strata_levels_total + n_strata_levels_total +
+    num_params_r__ = 1 + 1 + n_strata_basis_cols + n_strata_basis_cols +
       (time_groups * strata_groups) + 1 + 1 + 1;
   }
   inline std::string model_name() const final {
@@ -650,18 +608,18 @@ public:
       local_scalar_t__ mu_mort = DUMMY_VAR__;
       current_statement__ = 2;
       mu_mort = in__.template read<local_scalar_t__>();
-      Eigen::Matrix<local_scalar_t__,-1,1> alpha_xi =
-        Eigen::Matrix<local_scalar_t__,-1,1>::Constant(n_strata_levels_total,
+      Eigen::Matrix<local_scalar_t__,-1,1> beta_xi =
+        Eigen::Matrix<local_scalar_t__,-1,1>::Constant(n_strata_basis_cols,
           DUMMY_VAR__);
       current_statement__ = 3;
-      alpha_xi = in__.template read<
-                   Eigen::Matrix<local_scalar_t__,-1,1>>(n_strata_levels_total);
-      Eigen::Matrix<local_scalar_t__,-1,1> alpha_mort =
-        Eigen::Matrix<local_scalar_t__,-1,1>::Constant(n_strata_levels_total,
+      beta_xi = in__.template read<
+                  Eigen::Matrix<local_scalar_t__,-1,1>>(n_strata_basis_cols);
+      Eigen::Matrix<local_scalar_t__,-1,1> beta_mort =
+        Eigen::Matrix<local_scalar_t__,-1,1>::Constant(n_strata_basis_cols,
           DUMMY_VAR__);
       current_statement__ = 4;
-      alpha_mort = in__.template read<
-                     Eigen::Matrix<local_scalar_t__,-1,1>>(n_strata_levels_total);
+      beta_mort = in__.template read<
+                    Eigen::Matrix<local_scalar_t__,-1,1>>(n_strata_basis_cols);
       std::vector<std::vector<local_scalar_t__>> logit_hzd =
         std::vector<std::vector<local_scalar_t__>>(time_groups,
           std::vector<local_scalar_t__>(strata_groups, DUMMY_VAR__));
@@ -693,53 +651,56 @@ public:
       std::vector<std::vector<local_scalar_t__>> C =
         std::vector<std::vector<local_scalar_t__>>(time_groups,
           std::vector<local_scalar_t__>(strata_groups, DUMMY_VAR__));
+      Eigen::Matrix<local_scalar_t__,-1,1> eta_xi =
+        Eigen::Matrix<local_scalar_t__,-1,1>::Constant(strata_groups,
+          DUMMY_VAR__);
+      Eigen::Matrix<local_scalar_t__,-1,1> eta_mort =
+        Eigen::Matrix<local_scalar_t__,-1,1>::Constant(strata_groups,
+          DUMMY_VAR__);
       std::vector<local_scalar_t__> theta =
         std::vector<local_scalar_t__>(strata_groups, DUMMY_VAR__);
       std::vector<local_scalar_t__> passive_denom =
         std::vector<local_scalar_t__>(strata_groups, DUMMY_VAR__);
-      local_scalar_t__ xi_tmp = DUMMY_VAR__;
-      local_scalar_t__ mort_tmp = DUMMY_VAR__;
-      current_statement__ = 34;
+      current_statement__ = 20;
+      stan::model::assign(eta_xi,
+        stan::math::rep_vector(mu_xi, strata_groups),
+        "assigning variable eta_xi");
+      current_statement__ = 21;
+      stan::model::assign(eta_mort,
+        stan::math::rep_vector(mu_mort, strata_groups),
+        "assigning variable eta_mort");
+      current_statement__ = 25;
+      if (stan::math::logical_gt(n_strata_basis_cols, 0)) {
+        current_statement__ = 22;
+        stan::model::assign(eta_xi,
+          stan::math::add(stan::model::deep_copy(eta_xi),
+            stan::math::multiply(X_strata, beta_xi)),
+          "assigning variable eta_xi");
+        current_statement__ = 23;
+        stan::model::assign(eta_mort,
+          stan::math::add(stan::model::deep_copy(eta_mort),
+            stan::math::multiply(X_strata, beta_mort)),
+          "assigning variable eta_mort");
+      }
+      current_statement__ = 31;
       for (int i = 1; i <= strata_groups; ++i) {
-        current_statement__ = 20;
-        xi_tmp = mu_xi;
-        current_statement__ = 21;
-        mort_tmp = mu_mort;
-        current_statement__ = 28;
-        if (stan::math::logical_gt(n_strata_dims, 0)) {
-          current_statement__ = 26;
-          for (int k = 1; k <= n_strata_dims; ++k) {
-            int effect_index = std::numeric_limits<int>::min();
-            current_statement__ = 22;
-            effect_index = ((stan::model::rvalue(strata_level_start,
-                               "strata_level_start",
-                               stan::model::index_uni(k))
-              +
-              stan::model::rvalue(strata_index, "strata_index",
-                stan::model::index_uni(i), stan::model::index_uni(k)))
-              - 1);
-            current_statement__ = 23;
-            xi_tmp = (xi_tmp +
-              stan::model::rvalue(alpha_xi, "alpha_xi",
-                stan::model::index_uni(effect_index)));
-            current_statement__ = 24;
-            mort_tmp = (mort_tmp +
-              stan::model::rvalue(alpha_mort, "alpha_mort",
-                stan::model::index_uni(effect_index)));
-          }
-        }
-        current_statement__ = 29;
-        stan::model::assign(xi, stan::math::inv_logit(xi_tmp),
+        current_statement__ = 26;
+        stan::model::assign(xi,
+          stan::math::inv_logit(
+            stan::model::rvalue(eta_xi, "eta_xi", stan::model::index_uni(i))),
           "assigning variable xi", stan::model::index_uni(i));
-        current_statement__ = 30;
-        stan::model::assign(mortality, stan::math::inv_logit(mort_tmp),
-          "assigning variable mortality", stan::model::index_uni(i));
-        current_statement__ = 31;
+        current_statement__ = 27;
+        stan::model::assign(mortality,
+          stan::math::inv_logit(
+            stan::model::rvalue(eta_mort, "eta_mort",
+              stan::model::index_uni(i))), "assigning variable mortality",
+          stan::model::index_uni(i));
+        current_statement__ = 28;
         stan::model::assign(S,
           stan::model::rvalue(population, "population",
             stan::model::index_uni(i)), "assigning variable S",
           stan::model::index_uni(1), stan::model::index_uni(i));
-        current_statement__ = 32;
+        current_statement__ = 29;
         stan::model::assign(C,
           (stan::model::rvalue(population, "population",
              stan::model::index_uni(i)) *
@@ -749,18 +710,18 @@ public:
           "assigning variable C", stan::model::index_uni(1),
           stan::model::index_uni(i));
       }
-      current_statement__ = 40;
+      current_statement__ = 37;
       for (int i = 2; i <= time_groups; ++i) {
-        current_statement__ = 38;
+        current_statement__ = 35;
         for (int j = 1; j <= strata_groups; ++j) {
-          current_statement__ = 35;
+          current_statement__ = 32;
           stan::model::assign(S,
             (stan::model::rvalue(S, "S", stan::model::index_uni((i - 1)),
                stan::model::index_uni(j)) -
             stan::model::rvalue(C, "C", stan::model::index_uni((i - 1)),
               stan::model::index_uni(j))), "assigning variable S",
             stan::model::index_uni(i), stan::model::index_uni(j));
-          current_statement__ = 36;
+          current_statement__ = 33;
           stan::model::assign(C,
             (stan::model::rvalue(S, "S", stan::model::index_uni(i),
                stan::model::index_uni(j)) *
@@ -771,15 +732,15 @@ public:
             stan::model::index_uni(j));
         }
       }
-      current_statement__ = 44;
+      current_statement__ = 41;
       for (int i = 1; i <= strata_groups; ++i) {
-        current_statement__ = 41;
+        current_statement__ = 38;
         stan::model::assign(theta, ((passive_asymptomatic_detection * (1.0 -
           stan::model::rvalue(xi, "xi", stan::model::index_uni(i)))) +
           (passive_symptomatic_detection *
           stan::model::rvalue(xi, "xi", stan::model::index_uni(i)))),
           "assigning variable theta", stan::model::index_uni(i));
-        current_statement__ = 42;
+        current_statement__ = 39;
         stan::model::assign(passive_denom, (1.0 - ((1.0 -
           stan::model::rvalue(mortality, "mortality",
             stan::model::index_uni(i))) * (1.0 -
@@ -799,77 +760,40 @@ public:
       stan::math::check_greater_or_equal(function__, "S", S, 0);
       current_statement__ = 12;
       stan::math::check_greater_or_equal(function__, "C", C, 0);
-      current_statement__ = 13;
+      current_statement__ = 15;
       stan::math::check_greater_or_equal(function__, "theta", theta, 0);
-      current_statement__ = 14;
+      current_statement__ = 16;
       stan::math::check_greater_or_equal(function__, "passive_denom",
         passive_denom, 0);
       {
-        current_statement__ = 61;
+        current_statement__ = 58;
         lp_accum__.add(stan::math::normal_lpdf<propto__>(mu_xi, 0, 2));
-        current_statement__ = 62;
+        current_statement__ = 59;
         lp_accum__.add(stan::math::normal_lpdf<propto__>(mu_mort, 0, 2));
-        current_statement__ = 70;
-        if (stan::math::logical_gt(n_strata_dims, 0)) {
-          current_statement__ = 68;
-          for (int k = 1; k <= n_strata_dims; ++k) {
-            current_statement__ = 63;
-            lp_accum__.add(stan::math::normal_lpdf<propto__>(
-                             stan::math::segment(alpha_xi,
-                               stan::model::rvalue(strata_level_start,
-                                 "strata_level_start",
-                                 stan::model::index_uni(k)),
-                               stan::model::rvalue(strata_n_levels,
-                                 "strata_n_levels", stan::model::index_uni(k))),
-                             0, 2));
-            current_statement__ = 64;
-            lp_accum__.add(stan::math::normal_lpdf<propto__>(
-                             stan::math::sum(
-                               stan::math::segment(alpha_xi,
-                                 stan::model::rvalue(strata_level_start,
-                                   "strata_level_start",
-                                   stan::model::index_uni(k)),
-                                 stan::model::rvalue(strata_n_levels,
-                                   "strata_n_levels",
-                                   stan::model::index_uni(k)))), 0, 0.001));
-            current_statement__ = 65;
-            lp_accum__.add(stan::math::normal_lpdf<propto__>(
-                             stan::math::segment(alpha_mort,
-                               stan::model::rvalue(strata_level_start,
-                                 "strata_level_start",
-                                 stan::model::index_uni(k)),
-                               stan::model::rvalue(strata_n_levels,
-                                 "strata_n_levels", stan::model::index_uni(k))),
-                             0, 2));
-            current_statement__ = 66;
-            lp_accum__.add(stan::math::normal_lpdf<propto__>(
-                             stan::math::sum(
-                               stan::math::segment(alpha_mort,
-                                 stan::model::rvalue(strata_level_start,
-                                   "strata_level_start",
-                                   stan::model::index_uni(k)),
-                                 stan::model::rvalue(strata_n_levels,
-                                   "strata_n_levels",
-                                   stan::model::index_uni(k)))), 0, 0.001));
-          }
+        current_statement__ = 63;
+        if (stan::math::logical_gt(n_strata_basis_cols, 0)) {
+          current_statement__ = 60;
+          lp_accum__.add(stan::math::normal_lpdf<propto__>(beta_xi, 0, 2));
+          current_statement__ = 61;
+          lp_accum__.add(stan::math::normal_lpdf<propto__>(beta_mort, 0, 2));
         }
-        current_statement__ = 71;
+        current_statement__ = 64;
         lp_accum__.add(stan::math::beta_lpdf<propto__>(active_detection,
                          active_detection_alpha, active_detection_beta));
-        current_statement__ = 72;
+        current_statement__ = 65;
         lp_accum__.add(stan::math::beta_lpdf<propto__>(
                          passive_asymptomatic_detection,
                          passive_asymptomatic_alpha,
                          passive_asymptomatic_beta));
-        current_statement__ = 73;
+        current_statement__ = 66;
         lp_accum__.add(stan::math::beta_lpdf<propto__>(
                          passive_symptomatic_detection,
                          passive_symptomatic_alpha, passive_symptomatic_beta));
-        current_statement__ = 80;
+        current_statement__ = 73;
         for (int i = 1; i <= time_groups; ++i) {
-          current_statement__ = 78;
+          current_statement__ = 71;
           for (int j = 1; j <= strata_groups; ++j) {
-            current_statement__ = 74;
+            current_statement__ = 67;
             lp_accum__.add(stan::math::normal_lpdf<propto__>(
                              stan::model::rvalue(logit_hzd, "logit_hzd",
                                stan::model::index_uni(i),
@@ -881,7 +805,7 @@ public:
                                stan::model::rvalue(population, "population",
                                  stan::model::index_uni(j))) + (100.0 *
                                stan::math::machine_precision()))), hazard_std));
-            current_statement__ = 75;
+            current_statement__ = 68;
             lp_accum__.add(stan::math::poisson_lpmf<propto__>(
                              stan::model::rvalue(I_active, "I_active",
                                stan::model::index_uni(i),
@@ -890,7 +814,7 @@ public:
                              stan::model::rvalue(C, "C",
                                stan::model::index_uni(i),
                                stan::model::index_uni(j)))));
-            current_statement__ = 76;
+            current_statement__ = 69;
             lp_accum__.add(stan::math::poisson_lpmf<propto__>(
                              stan::model::rvalue(I_passive, "I_passive",
                                stan::model::index_uni(i),
@@ -903,9 +827,9 @@ public:
                                stan::model::index_uni(j)))));
           }
         }
-        current_statement__ = 84;
+        current_statement__ = 77;
         for (int i = 1; i <= observed_active; ++i) {
-          current_statement__ = 81;
+          current_statement__ = 74;
           lp_accum__.add(stan::math::bernoulli_lpmf<propto__>(
                            stan::model::rvalue(symptoms_active,
                              "symptoms_active", stan::model::index_uni(i)),
@@ -913,7 +837,7 @@ public:
                              stan::model::index_uni(
                                stan::model::rvalue(strata_active,
                                  "strata_active", stan::model::index_uni(i))))));
-          current_statement__ = 82;
+          current_statement__ = 75;
           lp_accum__.add(stan::math::bernoulli_lpmf<propto__>(
                            stan::model::rvalue(dead_active, "dead_active",
                              stan::model::index_uni(i)),
@@ -922,9 +846,9 @@ public:
                                stan::model::rvalue(strata_active,
                                  "strata_active", stan::model::index_uni(i))))));
         }
-        current_statement__ = 88;
+        current_statement__ = 81;
         for (int i = 1; i <= observed_passive; ++i) {
-          current_statement__ = 85;
+          current_statement__ = 78;
           lp_accum__.add(stan::math::bernoulli_lpmf<propto__>(
                            stan::model::rvalue(symptoms_passive,
                              "symptoms_passive", stan::model::index_uni(i)),
@@ -944,7 +868,7 @@ public:
                              stan::model::index_uni(
                                stan::model::rvalue(strata_passive,
                                  "strata_passive", stan::model::index_uni(i)))))));
-          current_statement__ = 86;
+          current_statement__ = 79;
           lp_accum__.add(stan::math::bernoulli_lpmf<propto__>(
                            stan::model::rvalue(dead_passive, "dead_passive",
                              stan::model::index_uni(i)),
@@ -1003,18 +927,18 @@ public:
       double mu_mort = std::numeric_limits<double>::quiet_NaN();
       current_statement__ = 2;
       mu_mort = in__.template read<local_scalar_t__>();
-      Eigen::Matrix<double,-1,1> alpha_xi =
-        Eigen::Matrix<double,-1,1>::Constant(n_strata_levels_total,
+      Eigen::Matrix<double,-1,1> beta_xi =
+        Eigen::Matrix<double,-1,1>::Constant(n_strata_basis_cols,
           std::numeric_limits<double>::quiet_NaN());
       current_statement__ = 3;
-      alpha_xi = in__.template read<
-                   Eigen::Matrix<local_scalar_t__,-1,1>>(n_strata_levels_total);
-      Eigen::Matrix<double,-1,1> alpha_mort =
-        Eigen::Matrix<double,-1,1>::Constant(n_strata_levels_total,
+      beta_xi = in__.template read<
+                  Eigen::Matrix<local_scalar_t__,-1,1>>(n_strata_basis_cols);
+      Eigen::Matrix<double,-1,1> beta_mort =
+        Eigen::Matrix<double,-1,1>::Constant(n_strata_basis_cols,
           std::numeric_limits<double>::quiet_NaN());
       current_statement__ = 4;
-      alpha_mort = in__.template read<
-                     Eigen::Matrix<local_scalar_t__,-1,1>>(n_strata_levels_total);
+      beta_mort = in__.template read<
+                    Eigen::Matrix<local_scalar_t__,-1,1>>(n_strata_basis_cols);
       std::vector<std::vector<double>> logit_hzd =
         std::vector<std::vector<double>>(time_groups,
           std::vector<double>(strata_groups,
@@ -1053,18 +977,22 @@ public:
         std::vector<std::vector<double>>(time_groups,
           std::vector<double>(strata_groups,
             std::numeric_limits<double>::quiet_NaN()));
+      Eigen::Matrix<double,-1,1> eta_xi =
+        Eigen::Matrix<double,-1,1>::Constant(strata_groups,
+          std::numeric_limits<double>::quiet_NaN());
+      Eigen::Matrix<double,-1,1> eta_mort =
+        Eigen::Matrix<double,-1,1>::Constant(strata_groups,
+          std::numeric_limits<double>::quiet_NaN());
       std::vector<double> theta =
         std::vector<double>(strata_groups,
           std::numeric_limits<double>::quiet_NaN());
       std::vector<double> passive_denom =
         std::vector<double>(strata_groups,
           std::numeric_limits<double>::quiet_NaN());
-      double xi_tmp = std::numeric_limits<double>::quiet_NaN();
-      double mort_tmp = std::numeric_limits<double>::quiet_NaN();
       out__.write(mu_xi);
       out__.write(mu_mort);
-      out__.write(alpha_xi);
-      out__.write(alpha_mort);
+      out__.write(beta_xi);
+      out__.write(beta_mort);
       for (int sym1__ = 1; sym1__ <= strata_groups; ++sym1__) {
         for (int sym2__ = 1; sym2__ <= time_groups; ++sym2__) {
           out__.write(logit_hzd[(sym2__ - 1)][(sym1__ - 1)]);
@@ -1078,47 +1006,46 @@ public:
             stan::math::primitive_value(emit_generated_quantities__)))) {
         return ;
       }
-      current_statement__ = 34;
+      current_statement__ = 20;
+      stan::model::assign(eta_xi,
+        stan::math::rep_vector(mu_xi, strata_groups),
+        "assigning variable eta_xi");
+      current_statement__ = 21;
+      stan::model::assign(eta_mort,
+        stan::math::rep_vector(mu_mort, strata_groups),
+        "assigning variable eta_mort");
+      current_statement__ = 25;
+      if (stan::math::logical_gt(n_strata_basis_cols, 0)) {
+        current_statement__ = 22;
+        stan::model::assign(eta_xi,
+          stan::math::add(stan::model::deep_copy(eta_xi),
+            stan::math::multiply(X_strata, beta_xi)),
+          "assigning variable eta_xi");
+        current_statement__ = 23;
+        stan::model::assign(eta_mort,
+          stan::math::add(stan::model::deep_copy(eta_mort),
+            stan::math::multiply(X_strata, beta_mort)),
+          "assigning variable eta_mort");
+      }
+      current_statement__ = 31;
       for (int i = 1; i <= strata_groups; ++i) {
-        current_statement__ = 20;
-        xi_tmp = mu_xi;
-        current_statement__ = 21;
-        mort_tmp = mu_mort;
-        current_statement__ = 28;
-        if (stan::math::logical_gt(n_strata_dims, 0)) {
-          current_statement__ = 26;
-          for (int k = 1; k <= n_strata_dims; ++k) {
-            int effect_index = std::numeric_limits<int>::min();
-            current_statement__ = 22;
-            effect_index = ((stan::model::rvalue(strata_level_start,
-                               "strata_level_start",
-                               stan::model::index_uni(k))
-              +
-              stan::model::rvalue(strata_index, "strata_index",
-                stan::model::index_uni(i), stan::model::index_uni(k)))
-              - 1);
-            current_statement__ = 23;
-            xi_tmp = (xi_tmp +
-              stan::model::rvalue(alpha_xi, "alpha_xi",
-                stan::model::index_uni(effect_index)));
-            current_statement__ = 24;
-            mort_tmp = (mort_tmp +
-              stan::model::rvalue(alpha_mort, "alpha_mort",
-                stan::model::index_uni(effect_index)));
-          }
-        }
-        current_statement__ = 29;
-        stan::model::assign(xi, stan::math::inv_logit(xi_tmp),
+        current_statement__ = 26;
+        stan::model::assign(xi,
+          stan::math::inv_logit(
+            stan::model::rvalue(eta_xi, "eta_xi", stan::model::index_uni(i))),
           "assigning variable xi", stan::model::index_uni(i));
-        current_statement__ = 30;
-        stan::model::assign(mortality, stan::math::inv_logit(mort_tmp),
-          "assigning variable mortality", stan::model::index_uni(i));
-        current_statement__ = 31;
+        current_statement__ = 27;
+        stan::model::assign(mortality,
+          stan::math::inv_logit(
+            stan::model::rvalue(eta_mort, "eta_mort",
+              stan::model::index_uni(i))), "assigning variable mortality",
+          stan::model::index_uni(i));
+        current_statement__ = 28;
         stan::model::assign(S,
           stan::model::rvalue(population, "population",
             stan::model::index_uni(i)), "assigning variable S",
           stan::model::index_uni(1), stan::model::index_uni(i));
-        current_statement__ = 32;
+        current_statement__ = 29;
         stan::model::assign(C,
           (stan::model::rvalue(population, "population",
              stan::model::index_uni(i)) *
@@ -1128,18 +1055,18 @@ public:
           "assigning variable C", stan::model::index_uni(1),
           stan::model::index_uni(i));
       }
-      current_statement__ = 40;
+      current_statement__ = 37;
       for (int i = 2; i <= time_groups; ++i) {
-        current_statement__ = 38;
+        current_statement__ = 35;
         for (int j = 1; j <= strata_groups; ++j) {
-          current_statement__ = 35;
+          current_statement__ = 32;
           stan::model::assign(S,
             (stan::model::rvalue(S, "S", stan::model::index_uni((i - 1)),
                stan::model::index_uni(j)) -
             stan::model::rvalue(C, "C", stan::model::index_uni((i - 1)),
               stan::model::index_uni(j))), "assigning variable S",
             stan::model::index_uni(i), stan::model::index_uni(j));
-          current_statement__ = 36;
+          current_statement__ = 33;
           stan::model::assign(C,
             (stan::model::rvalue(S, "S", stan::model::index_uni(i),
                stan::model::index_uni(j)) *
@@ -1150,15 +1077,15 @@ public:
             stan::model::index_uni(j));
         }
       }
-      current_statement__ = 44;
+      current_statement__ = 41;
       for (int i = 1; i <= strata_groups; ++i) {
-        current_statement__ = 41;
+        current_statement__ = 38;
         stan::model::assign(theta, ((passive_asymptomatic_detection * (1.0 -
           stan::model::rvalue(xi, "xi", stan::model::index_uni(i)))) +
           (passive_symptomatic_detection *
           stan::model::rvalue(xi, "xi", stan::model::index_uni(i)))),
           "assigning variable theta", stan::model::index_uni(i));
-        current_statement__ = 42;
+        current_statement__ = 39;
         stan::model::assign(passive_denom, (1.0 - ((1.0 -
           stan::model::rvalue(mortality, "mortality",
             stan::model::index_uni(i))) * (1.0 -
@@ -1178,9 +1105,9 @@ public:
       stan::math::check_greater_or_equal(function__, "S", S, 0);
       current_statement__ = 12;
       stan::math::check_greater_or_equal(function__, "C", C, 0);
-      current_statement__ = 13;
+      current_statement__ = 15;
       stan::math::check_greater_or_equal(function__, "theta", theta, 0);
-      current_statement__ = 14;
+      current_statement__ = 16;
       stan::math::check_greater_or_equal(function__, "passive_denom",
         passive_denom, 0);
       if (emit_transformed_parameters__) {
@@ -1196,10 +1123,10 @@ public:
             out__.write(C[(sym2__ - 1)][(sym1__ - 1)]);
           }
         }
+        out__.write(eta_xi);
+        out__.write(eta_mort);
         out__.write(theta);
         out__.write(passive_denom);
-        out__.write(xi_tmp);
-        out__.write(mort_tmp);
       }
       if (stan::math::logical_negation(emit_generated_quantities__)) {
         return ;
@@ -1211,30 +1138,30 @@ public:
         std::vector<std::vector<int>>(time_groups,
           std::vector<int>(strata_groups, std::numeric_limits<int>::min()));
       double gq_tmp = std::numeric_limits<double>::quiet_NaN();
-      current_statement__ = 60;
+      current_statement__ = 57;
       for (int i = 1; i <= time_groups; ++i) {
-        current_statement__ = 58;
+        current_statement__ = 55;
         for (int j = 1; j <= strata_groups; ++j) {
-          current_statement__ = 45;
+          current_statement__ = 42;
           gq_tmp = (stan::model::rvalue(C, "C", stan::model::index_uni(i),
                       stan::model::index_uni(j))
             -
             stan::model::rvalue(I_active, "I_active",
               stan::model::index_uni(i), stan::model::index_uni(j)));
-          current_statement__ = 50;
+          current_statement__ = 47;
           if (stan::math::logical_gt(gq_tmp, 0)) {
-            current_statement__ = 48;
+            current_statement__ = 45;
             stan::model::assign(C_active_additional,
               stan::math::poisson_rng((active_detection * gq_tmp), base_rng__),
               "assigning variable C_active_additional",
               stan::model::index_uni(i), stan::model::index_uni(j));
           } else {
-            current_statement__ = 46;
+            current_statement__ = 43;
             stan::model::assign(C_active_additional, 0,
               "assigning variable C_active_additional",
               stan::model::index_uni(i), stan::model::index_uni(j));
           }
-          current_statement__ = 51;
+          current_statement__ = 48;
           gq_tmp = (((stan::model::rvalue(C, "C", stan::model::index_uni(i),
                         stan::model::index_uni(j))
             -
@@ -1246,15 +1173,15 @@ public:
             -
             stan::model::rvalue(C_active_additional, "C_active_additional",
               stan::model::index_uni(i), stan::model::index_uni(j)));
-          current_statement__ = 56;
+          current_statement__ = 53;
           if (stan::math::logical_gt(gq_tmp, 0)) {
-            current_statement__ = 54;
+            current_statement__ = 51;
             stan::model::assign(C_passive_additional,
               stan::math::poisson_rng(gq_tmp, base_rng__),
               "assigning variable C_passive_additional",
               stan::model::index_uni(i), stan::model::index_uni(j));
           } else {
-            current_statement__ = 52;
+            current_statement__ = 49;
             stan::model::assign(C_passive_additional, 0,
               "assigning variable C_passive_additional",
               stan::model::index_uni(i), stan::model::index_uni(j));
@@ -1306,24 +1233,22 @@ public:
       current_statement__ = 2;
       mu_mort = in__.read<local_scalar_t__>();
       out__.write(mu_mort);
-      Eigen::Matrix<local_scalar_t__,-1,1> alpha_xi =
-        Eigen::Matrix<local_scalar_t__,-1,1>::Constant(n_strata_levels_total,
+      Eigen::Matrix<local_scalar_t__,-1,1> beta_xi =
+        Eigen::Matrix<local_scalar_t__,-1,1>::Constant(n_strata_basis_cols,
           DUMMY_VAR__);
       current_statement__ = 3;
-      stan::model::assign(alpha_xi,
-        in__.read<
-          Eigen::Matrix<local_scalar_t__,-1,1>>(n_strata_levels_total),
-        "assigning variable alpha_xi");
-      out__.write(alpha_xi);
-      Eigen::Matrix<local_scalar_t__,-1,1> alpha_mort =
-        Eigen::Matrix<local_scalar_t__,-1,1>::Constant(n_strata_levels_total,
+      stan::model::assign(beta_xi,
+        in__.read<Eigen::Matrix<local_scalar_t__,-1,1>>(n_strata_basis_cols),
+        "assigning variable beta_xi");
+      out__.write(beta_xi);
+      Eigen::Matrix<local_scalar_t__,-1,1> beta_mort =
+        Eigen::Matrix<local_scalar_t__,-1,1>::Constant(n_strata_basis_cols,
           DUMMY_VAR__);
       current_statement__ = 4;
-      stan::model::assign(alpha_mort,
-        in__.read<
-          Eigen::Matrix<local_scalar_t__,-1,1>>(n_strata_levels_total),
-        "assigning variable alpha_mort");
-      out__.write(alpha_mort);
+      stan::model::assign(beta_mort,
+        in__.read<Eigen::Matrix<local_scalar_t__,-1,1>>(n_strata_basis_cols),
+        "assigning variable beta_mort");
+      out__.write(beta_mort);
       std::vector<std::vector<local_scalar_t__>> logit_hzd =
         std::vector<std::vector<local_scalar_t__>>(time_groups,
           std::vector<local_scalar_t__>(strata_groups, DUMMY_VAR__));
@@ -1371,13 +1296,13 @@ public:
       context__.validate_dims("parameter initialization", "mu_mort",
         "double", std::vector<size_t>{});
       current_statement__ = 3;
-      context__.validate_dims("parameter initialization", "alpha_xi",
+      context__.validate_dims("parameter initialization", "beta_xi",
         "double",
-        std::vector<size_t>{static_cast<size_t>(n_strata_levels_total)});
+        std::vector<size_t>{static_cast<size_t>(n_strata_basis_cols)});
       current_statement__ = 4;
-      context__.validate_dims("parameter initialization", "alpha_mort",
+      context__.validate_dims("parameter initialization", "beta_mort",
         "double",
-        std::vector<size_t>{static_cast<size_t>(n_strata_levels_total)});
+        std::vector<size_t>{static_cast<size_t>(n_strata_basis_cols)});
       current_statement__ = 5;
       context__.validate_dims("parameter initialization", "logit_hzd",
         "double",
@@ -1402,44 +1327,44 @@ public:
       current_statement__ = 2;
       mu_mort = context__.vals_r("mu_mort")[(1 - 1)];
       out__.write(mu_mort);
-      Eigen::Matrix<local_scalar_t__,-1,1> alpha_xi =
-        Eigen::Matrix<local_scalar_t__,-1,1>::Constant(n_strata_levels_total,
+      Eigen::Matrix<local_scalar_t__,-1,1> beta_xi =
+        Eigen::Matrix<local_scalar_t__,-1,1>::Constant(n_strata_basis_cols,
           DUMMY_VAR__);
       {
-        std::vector<local_scalar_t__> alpha_xi_flat__;
+        std::vector<local_scalar_t__> beta_xi_flat__;
         current_statement__ = 3;
-        alpha_xi_flat__ = context__.vals_r("alpha_xi");
+        beta_xi_flat__ = context__.vals_r("beta_xi");
         current_statement__ = 3;
         pos__ = 1;
         current_statement__ = 3;
-        for (int sym1__ = 1; sym1__ <= n_strata_levels_total; ++sym1__) {
+        for (int sym1__ = 1; sym1__ <= n_strata_basis_cols; ++sym1__) {
           current_statement__ = 3;
-          stan::model::assign(alpha_xi, alpha_xi_flat__[(pos__ - 1)],
-            "assigning variable alpha_xi", stan::model::index_uni(sym1__));
+          stan::model::assign(beta_xi, beta_xi_flat__[(pos__ - 1)],
+            "assigning variable beta_xi", stan::model::index_uni(sym1__));
           current_statement__ = 3;
           pos__ = (pos__ + 1);
         }
       }
-      out__.write(alpha_xi);
-      Eigen::Matrix<local_scalar_t__,-1,1> alpha_mort =
-        Eigen::Matrix<local_scalar_t__,-1,1>::Constant(n_strata_levels_total,
+      out__.write(beta_xi);
+      Eigen::Matrix<local_scalar_t__,-1,1> beta_mort =
+        Eigen::Matrix<local_scalar_t__,-1,1>::Constant(n_strata_basis_cols,
           DUMMY_VAR__);
       {
-        std::vector<local_scalar_t__> alpha_mort_flat__;
+        std::vector<local_scalar_t__> beta_mort_flat__;
         current_statement__ = 4;
-        alpha_mort_flat__ = context__.vals_r("alpha_mort");
+        beta_mort_flat__ = context__.vals_r("beta_mort");
         current_statement__ = 4;
         pos__ = 1;
         current_statement__ = 4;
-        for (int sym1__ = 1; sym1__ <= n_strata_levels_total; ++sym1__) {
+        for (int sym1__ = 1; sym1__ <= n_strata_basis_cols; ++sym1__) {
           current_statement__ = 4;
-          stan::model::assign(alpha_mort, alpha_mort_flat__[(pos__ - 1)],
-            "assigning variable alpha_mort", stan::model::index_uni(sym1__));
+          stan::model::assign(beta_mort, beta_mort_flat__[(pos__ - 1)],
+            "assigning variable beta_mort", stan::model::index_uni(sym1__));
           current_statement__ = 4;
           pos__ = (pos__ + 1);
         }
       }
-      out__.write(alpha_mort);
+      out__.write(beta_mort);
       std::vector<std::vector<local_scalar_t__>> logit_hzd =
         std::vector<std::vector<local_scalar_t__>>(time_groups,
           std::vector<local_scalar_t__>(strata_groups, DUMMY_VAR__));
@@ -1485,14 +1410,14 @@ public:
   get_param_names(std::vector<std::string>& names__, const bool
                   emit_transformed_parameters__ = true, const bool
                   emit_generated_quantities__ = true) const {
-    names__ = std::vector<std::string>{"mu_xi", "mu_mort", "alpha_xi",
-                "alpha_mort", "logit_hzd", "active_detection",
+    names__ = std::vector<std::string>{"mu_xi", "mu_mort", "beta_xi",
+                "beta_mort", "logit_hzd", "active_detection",
                 "passive_asymptomatic_detection",
                 "passive_symptomatic_detection"};
     if (emit_transformed_parameters__) {
       std::vector<std::string>
-        temp{"xi", "mortality", "S", "C", "theta", "passive_denom", "xi_tmp",
-             "mort_tmp"};
+        temp{"xi", "mortality", "S", "C", "eta_xi", "eta_mort", "theta",
+             "passive_denom"};
       names__.reserve(names__.size() + temp.size());
       names__.insert(names__.end(), temp.begin(), temp.end());
     }
@@ -1509,8 +1434,8 @@ public:
            emit_generated_quantities__ = true) const {
     dimss__ = std::vector<std::vector<size_t>>{std::vector<size_t>{},
                 std::vector<size_t>{},
-                std::vector<size_t>{static_cast<size_t>(n_strata_levels_total)},
-                std::vector<size_t>{static_cast<size_t>(n_strata_levels_total)},
+                std::vector<size_t>{static_cast<size_t>(n_strata_basis_cols)},
+                std::vector<size_t>{static_cast<size_t>(n_strata_basis_cols)},
                 std::vector<size_t>{static_cast<size_t>(time_groups),
                   static_cast<size_t>(strata_groups)}, std::vector<size_t>{},
                 std::vector<size_t>{}, std::vector<size_t>{}};
@@ -1524,7 +1449,8 @@ public:
                static_cast<size_t>(strata_groups)},
              std::vector<size_t>{static_cast<size_t>(strata_groups)},
              std::vector<size_t>{static_cast<size_t>(strata_groups)},
-             std::vector<size_t>{}, std::vector<size_t>{}};
+             std::vector<size_t>{static_cast<size_t>(strata_groups)},
+             std::vector<size_t>{static_cast<size_t>(strata_groups)}};
       dimss__.reserve(dimss__.size() + temp.size());
       dimss__.insert(dimss__.end(), temp.begin(), temp.end());
     }
@@ -1544,12 +1470,12 @@ public:
                           emit_generated_quantities__ = true) const final {
     param_names__.emplace_back(std::string() + "mu_xi");
     param_names__.emplace_back(std::string() + "mu_mort");
-    for (int sym1__ = 1; sym1__ <= n_strata_levels_total; ++sym1__) {
-      param_names__.emplace_back(std::string() + "alpha_xi" + '.' +
+    for (int sym1__ = 1; sym1__ <= n_strata_basis_cols; ++sym1__) {
+      param_names__.emplace_back(std::string() + "beta_xi" + '.' +
         std::to_string(sym1__));
     }
-    for (int sym1__ = 1; sym1__ <= n_strata_levels_total; ++sym1__) {
-      param_names__.emplace_back(std::string() + "alpha_mort" + '.' +
+    for (int sym1__ = 1; sym1__ <= n_strata_basis_cols; ++sym1__) {
+      param_names__.emplace_back(std::string() + "beta_mort" + '.' +
         std::to_string(sym1__));
     }
     for (int sym1__ = 1; sym1__ <= strata_groups; ++sym1__) {
@@ -1585,6 +1511,14 @@ public:
         }
       }
       for (int sym1__ = 1; sym1__ <= strata_groups; ++sym1__) {
+        param_names__.emplace_back(std::string() + "eta_xi" + '.' +
+          std::to_string(sym1__));
+      }
+      for (int sym1__ = 1; sym1__ <= strata_groups; ++sym1__) {
+        param_names__.emplace_back(std::string() + "eta_mort" + '.' +
+          std::to_string(sym1__));
+      }
+      for (int sym1__ = 1; sym1__ <= strata_groups; ++sym1__) {
         param_names__.emplace_back(std::string() + "theta" + '.' +
           std::to_string(sym1__));
       }
@@ -1592,8 +1526,6 @@ public:
         param_names__.emplace_back(std::string() + "passive_denom" + '.' +
           std::to_string(sym1__));
       }
-      param_names__.emplace_back(std::string() + "xi_tmp");
-      param_names__.emplace_back(std::string() + "mort_tmp");
     }
     if (emit_generated_quantities__) {
       for (int sym1__ = 1; sym1__ <= strata_groups; ++sym1__) {
@@ -1617,12 +1549,12 @@ public:
                             emit_generated_quantities__ = true) const final {
     param_names__.emplace_back(std::string() + "mu_xi");
     param_names__.emplace_back(std::string() + "mu_mort");
-    for (int sym1__ = 1; sym1__ <= n_strata_levels_total; ++sym1__) {
-      param_names__.emplace_back(std::string() + "alpha_xi" + '.' +
+    for (int sym1__ = 1; sym1__ <= n_strata_basis_cols; ++sym1__) {
+      param_names__.emplace_back(std::string() + "beta_xi" + '.' +
         std::to_string(sym1__));
     }
-    for (int sym1__ = 1; sym1__ <= n_strata_levels_total; ++sym1__) {
-      param_names__.emplace_back(std::string() + "alpha_mort" + '.' +
+    for (int sym1__ = 1; sym1__ <= n_strata_basis_cols; ++sym1__) {
+      param_names__.emplace_back(std::string() + "beta_mort" + '.' +
         std::to_string(sym1__));
     }
     for (int sym1__ = 1; sym1__ <= strata_groups; ++sym1__) {
@@ -1658,6 +1590,14 @@ public:
         }
       }
       for (int sym1__ = 1; sym1__ <= strata_groups; ++sym1__) {
+        param_names__.emplace_back(std::string() + "eta_xi" + '.' +
+          std::to_string(sym1__));
+      }
+      for (int sym1__ = 1; sym1__ <= strata_groups; ++sym1__) {
+        param_names__.emplace_back(std::string() + "eta_mort" + '.' +
+          std::to_string(sym1__));
+      }
+      for (int sym1__ = 1; sym1__ <= strata_groups; ++sym1__) {
         param_names__.emplace_back(std::string() + "theta" + '.' +
           std::to_string(sym1__));
       }
@@ -1665,8 +1605,6 @@ public:
         param_names__.emplace_back(std::string() + "passive_denom" + '.' +
           std::to_string(sym1__));
       }
-      param_names__.emplace_back(std::string() + "xi_tmp");
-      param_names__.emplace_back(std::string() + "mort_tmp");
     }
     if (emit_generated_quantities__) {
       for (int sym1__ = 1; sym1__ <= strata_groups; ++sym1__) {
@@ -1685,10 +1623,10 @@ public:
     }
   }
   inline std::string get_constrained_sizedtypes() const {
-    return std::string("[{\"name\":\"mu_xi\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"mu_mort\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"alpha_xi\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(n_strata_levels_total) + "},\"block\":\"parameters\"},{\"name\":\"alpha_mort\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(n_strata_levels_total) + "},\"block\":\"parameters\"},{\"name\":\"logit_hzd\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(time_groups) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}}},\"block\":\"parameters\"},{\"name\":\"active_detection\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"passive_asymptomatic_detection\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"passive_symptomatic_detection\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"xi\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"mortality\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"S\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(time_groups) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}}},\"block\":\"transformed_parameters\"},{\"name\":\"C\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(time_groups) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}}},\"block\":\"transformed_parameters\"},{\"name\":\"theta\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"passive_denom\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"xi_tmp\",\"type\":{\"name\":\"real\"},\"block\":\"transformed_parameters\"},{\"name\":\"mort_tmp\",\"type\":{\"name\":\"real\"},\"block\":\"transformed_parameters\"},{\"name\":\"C_active_additional\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(time_groups) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"int\"}}},\"block\":\"generated_quantities\"},{\"name\":\"C_passive_additional\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(time_groups) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"int\"}}},\"block\":\"generated_quantities\"},{\"name\":\"gq_tmp\",\"type\":{\"name\":\"real\"},\"block\":\"generated_quantities\"}]");
+    return std::string("[{\"name\":\"mu_xi\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"mu_mort\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"beta_xi\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(n_strata_basis_cols) + "},\"block\":\"parameters\"},{\"name\":\"beta_mort\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(n_strata_basis_cols) + "},\"block\":\"parameters\"},{\"name\":\"logit_hzd\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(time_groups) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}}},\"block\":\"parameters\"},{\"name\":\"active_detection\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"passive_asymptomatic_detection\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"passive_symptomatic_detection\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"xi\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"mortality\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"S\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(time_groups) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}}},\"block\":\"transformed_parameters\"},{\"name\":\"C\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(time_groups) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}}},\"block\":\"transformed_parameters\"},{\"name\":\"eta_xi\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(strata_groups) + "},\"block\":\"transformed_parameters\"},{\"name\":\"eta_mort\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(strata_groups) + "},\"block\":\"transformed_parameters\"},{\"name\":\"theta\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"passive_denom\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"C_active_additional\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(time_groups) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"int\"}}},\"block\":\"generated_quantities\"},{\"name\":\"C_passive_additional\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(time_groups) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"int\"}}},\"block\":\"generated_quantities\"},{\"name\":\"gq_tmp\",\"type\":{\"name\":\"real\"},\"block\":\"generated_quantities\"}]");
   }
   inline std::string get_unconstrained_sizedtypes() const {
-    return std::string("[{\"name\":\"mu_xi\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"mu_mort\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"alpha_xi\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(n_strata_levels_total) + "},\"block\":\"parameters\"},{\"name\":\"alpha_mort\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(n_strata_levels_total) + "},\"block\":\"parameters\"},{\"name\":\"logit_hzd\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(time_groups) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}}},\"block\":\"parameters\"},{\"name\":\"active_detection\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"passive_asymptomatic_detection\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"passive_symptomatic_detection\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"xi\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"mortality\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"S\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(time_groups) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}}},\"block\":\"transformed_parameters\"},{\"name\":\"C\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(time_groups) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}}},\"block\":\"transformed_parameters\"},{\"name\":\"theta\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"passive_denom\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"xi_tmp\",\"type\":{\"name\":\"real\"},\"block\":\"transformed_parameters\"},{\"name\":\"mort_tmp\",\"type\":{\"name\":\"real\"},\"block\":\"transformed_parameters\"},{\"name\":\"C_active_additional\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(time_groups) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"int\"}}},\"block\":\"generated_quantities\"},{\"name\":\"C_passive_additional\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(time_groups) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"int\"}}},\"block\":\"generated_quantities\"},{\"name\":\"gq_tmp\",\"type\":{\"name\":\"real\"},\"block\":\"generated_quantities\"}]");
+    return std::string("[{\"name\":\"mu_xi\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"mu_mort\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"beta_xi\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(n_strata_basis_cols) + "},\"block\":\"parameters\"},{\"name\":\"beta_mort\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(n_strata_basis_cols) + "},\"block\":\"parameters\"},{\"name\":\"logit_hzd\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(time_groups) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}}},\"block\":\"parameters\"},{\"name\":\"active_detection\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"passive_asymptomatic_detection\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"passive_symptomatic_detection\",\"type\":{\"name\":\"real\"},\"block\":\"parameters\"},{\"name\":\"xi\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"mortality\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"S\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(time_groups) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}}},\"block\":\"transformed_parameters\"},{\"name\":\"C\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(time_groups) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}}},\"block\":\"transformed_parameters\"},{\"name\":\"eta_xi\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(strata_groups) + "},\"block\":\"transformed_parameters\"},{\"name\":\"eta_mort\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(strata_groups) + "},\"block\":\"transformed_parameters\"},{\"name\":\"theta\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"passive_denom\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"real\"}},\"block\":\"transformed_parameters\"},{\"name\":\"C_active_additional\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(time_groups) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"int\"}}},\"block\":\"generated_quantities\"},{\"name\":\"C_passive_additional\",\"type\":{\"name\":\"array\",\"length\":" + std::to_string(time_groups) + ",\"element_type\":{\"name\":\"array\",\"length\":" + std::to_string(strata_groups) + ",\"element_type\":{\"name\":\"int\"}}},\"block\":\"generated_quantities\"},{\"name\":\"gq_tmp\",\"type\":{\"name\":\"real\"},\"block\":\"generated_quantities\"}]");
   }
   // Begin method overload boilerplate
   template <typename RNG> inline void
@@ -1697,12 +1635,12 @@ public:
               emit_transformed_parameters = true, const bool
               emit_generated_quantities = true, std::ostream*
               pstream = nullptr) const {
-    const size_t num_params__ = (((((((1 + 1) + n_strata_levels_total) +
-      n_strata_levels_total) + (time_groups * strata_groups)) + 1) + 1) + 1);
+    const size_t num_params__ = (((((((1 + 1) + n_strata_basis_cols) +
+      n_strata_basis_cols) + (time_groups * strata_groups)) + 1) + 1) + 1);
     const size_t num_transformed = emit_transformed_parameters *
       ((((((((strata_groups + strata_groups) + (time_groups * strata_groups))
-      + (time_groups * strata_groups)) + strata_groups) + strata_groups) + 1)
-      + 1));
+      + (time_groups * strata_groups)) + strata_groups) + strata_groups) +
+      strata_groups) + strata_groups));
     const size_t num_gen_quantities = emit_generated_quantities *
       ((((time_groups * strata_groups) + (time_groups * strata_groups)) + 1));
     const size_t num_to_write = num_params__ + num_transformed +
@@ -1719,12 +1657,12 @@ public:
               emit_transformed_parameters = true, bool
               emit_generated_quantities = true, std::ostream*
               pstream = nullptr) const {
-    const size_t num_params__ = (((((((1 + 1) + n_strata_levels_total) +
-      n_strata_levels_total) + (time_groups * strata_groups)) + 1) + 1) + 1);
+    const size_t num_params__ = (((((((1 + 1) + n_strata_basis_cols) +
+      n_strata_basis_cols) + (time_groups * strata_groups)) + 1) + 1) + 1);
     const size_t num_transformed = emit_transformed_parameters *
       ((((((((strata_groups + strata_groups) + (time_groups * strata_groups))
-      + (time_groups * strata_groups)) + strata_groups) + strata_groups) + 1)
-      + 1));
+      + (time_groups * strata_groups)) + strata_groups) + strata_groups) +
+      strata_groups) + strata_groups));
     const size_t num_gen_quantities = emit_generated_quantities *
       ((((time_groups * strata_groups) + (time_groups * strata_groups)) + 1));
     const size_t num_to_write = num_params__ + num_transformed +
