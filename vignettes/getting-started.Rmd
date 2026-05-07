@@ -85,9 +85,10 @@ the model so calls can be chained.
   a weakly informative prior for active detection and priors that reflect the
   expectation that passive surveillance is more likely to capture symptomatic
   than asymptomatic cases.
-- `set_strata`: Declares the column used for stratification and its ordered
-  levels. Levels should be provided explicitly to ensure a consistent ordering
-  in the output.
+- `set_strata`: Declares the column used for stratification. Use
+  `degrees_of_freedom = 0L` for an unsmoothed categorical effect, or provide
+  explicit `levels` plus `degrees_of_freedom > 0L` for a smoothed ordered
+  effect across those levels.
 - `set_timesteps`: Declares the column that identifies the time period of each
   observation.
 - `set_detection`: Maps the values in the detection column to the canonical
@@ -95,12 +96,12 @@ the model so calls can be chained.
 - `set_outcome`: Maps the values in the outcome column to the canonical types
   `asymptomatic`, `symptomatic`, and `severe` expected by the model.
 
-Once configured, `fit()` compiles the Stan model and runs the sampler, passing
-any additional arguments (e.g. `chains`, `iter`) through to `rstan::sampling()`.
-The settings below are intentionally small to keep this vignette reasonably
-quick to render. They are not sufficient to assess convergence or support
-serious inference. In practice you'd want to use more chains and iterations
-and review the usual Stan diagnostics.
+Once configured, `fit()` samples from the package's precompiled Stan model,
+passing any additional arguments (e.g. `chains`, `iter`) through to
+`rstan::sampling()`. The settings below are intentionally small to keep this
+vignette reasonably quick to render. They are not sufficient to assess
+convergence or support serious inference. In practice you'd want to use more
+chains and iterations and review the usual Stan diagnostics.
 
 ```{r fit model}
 population <- strata[, c("age", "population")]

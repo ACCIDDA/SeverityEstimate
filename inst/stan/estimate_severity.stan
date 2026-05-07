@@ -4,14 +4,8 @@ data {
   int<lower=1> strata_groups;
   // The number of times
   int<lower=1> time_groups;
-  // The number of strata dimensions
-  int<lower=0> n_strata_dims;
-  // The number of levels within each strata dimension
-  array[n_strata_dims] int<lower=1> strata_n_levels;
-  // One-based start index for each strata dimension in the flattened effect vectors
-  array[n_strata_dims] int<lower=1> strata_level_start;
-  // The total number of strata levels across all dimensions
-  int<lower=0> n_strata_levels_total;
+  // The number of additive strata basis columns
+  int<lower=0> n_strata_basis_cols;
   // The number of cases observed through active surveillance
   int<lower=0> observed_active;
   // The number of cases observed through passive surveillance
@@ -23,6 +17,8 @@ data {
   array[time_groups, strata_groups] int<lower=0> I_passive;
   // The total population
   array[strata_groups] int<lower=0> population;
+  // Additive strata design matrix
+  matrix[strata_groups, n_strata_basis_cols] X_strata;
   // *Vectors of data*
   // The strata cell index of the actively observed cases
   array[observed_active] int<lower=1> strata_active;
@@ -36,8 +32,6 @@ data {
   array[observed_passive] int<lower=0, upper=1> symptoms_passive;
   // Indicator if the passively observed case died
   array[observed_passive] int<lower=0, upper=1> dead_passive;
-  // For each strata cell, the level index within each strata dimension
-  array[strata_groups, n_strata_dims] int<lower=1> strata_index;
   // *Model parameters and priors*
   // The stdev of the community hazard brownian motion
   real<lower=0> hazard_std;
@@ -54,9 +48,9 @@ parameters {
   // Global intercepts for symptom and mortality rates
   real mu_xi;
   real mu_mort;
-  // Flattened per-level fixed effects across all strata dimensions
-  vector[n_strata_levels_total] alpha_xi;
-  vector[n_strata_levels_total] alpha_mort;
+  // Additive strata-effect coefficients
+  vector[n_strata_basis_cols] beta_xi;
+  vector[n_strata_basis_cols] beta_mort;
   // The hazard of infection in each time step
   array[time_groups, strata_groups] real logit_hzd;
   // Active detection probability
@@ -73,26 +67,22 @@ transformed parameters {
   array[time_groups, strata_groups] real<lower=0> S;
   array[time_groups, strata_groups] real<lower=0> C;
   // Intermediates
+  vector[strata_groups] eta_xi;
+  vector[strata_groups] eta_mort;
   array[strata_groups] real<lower=0> theta;
   array[strata_groups] real<lower=0> passive_denom;
-  real xi_tmp;
-  real mort_tmp;
+
+  eta_xi = rep_vector(mu_xi, strata_groups);
+  eta_mort = rep_vector(mu_mort, strata_groups);
+  if (n_strata_basis_cols > 0) {
+    eta_xi += X_strata * beta_xi;
+    eta_mort += X_strata * beta_mort;
+  }
 
   // Calculate xi/mortality for each strata cell
   for (i in 1:strata_groups) {
-    xi_tmp = mu_xi;
-    mort_tmp = mu_mort;
-
-    if (n_strata_dims > 0) {
-      for (k in 1:n_strata_dims) {
-        int effect_index = strata_level_start[k] + strata_index[i, k] - 1;
-        xi_tmp += alpha_xi[effect_index];
-        mort_tmp += alpha_mort[effect_index];
-      }
-    }
-
-    xi[i] = inv_logit(xi_tmp);
-    mortality[i] = inv_logit(mort_tmp);
+    xi[i] = inv_logit(eta_xi[i]);
+    mortality[i] = inv_logit(eta_mort[i]);
     // For first time step assume the population at risk is the full population
     S[1, i] = population[i];
     C[1, i] = population[i] * inv_logit(logit_hzd[1, i]);
@@ -119,16 +109,10 @@ model {
   mu_xi ~ normal(0, 2);
   mu_mort ~ normal(0, 2);
 
-  // Per-level fixed effects with a per-dimension sum-to-zero soft constraint
-  if (n_strata_dims > 0) {
-    for (k in 1:n_strata_dims) {
-      segment(alpha_xi, strata_level_start[k], strata_n_levels[k]) ~ normal(0, 2);
-      sum(segment(alpha_xi, strata_level_start[k], strata_n_levels[k]))
-        ~ normal(0, 0.001);
-      segment(alpha_mort, strata_level_start[k], strata_n_levels[k]) ~ normal(0, 2);
-      sum(segment(alpha_mort, strata_level_start[k], strata_n_levels[k]))
-        ~ normal(0, 0.001);
-    }
+  // Additive strata effects
+  if (n_strata_basis_cols > 0) {
+    beta_xi ~ normal(0, 2);
+    beta_mort ~ normal(0, 2);
   }
 
   // Priors for detection probabilities

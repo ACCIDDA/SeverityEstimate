@@ -33,21 +33,6 @@ test_that("`fit()` errors when outcome not set", {
   )
 })
 
-test_that("`fit()` errors when any strata is ordered", {
-  model <- MAKE_FIT_TEST_MODEL(strata_col = NULL) |>
-    set_strata(
-      "age",
-      ordered = TRUE,
-      levels = c("Female", "Male"),
-      degrees_of_freedom = 1L
-    )
-  expect_error(
-    fit(model),
-    regexp = "Ordered strata are not yet supported",
-    fixed = TRUE
-  )
-})
-
 
 # Stan compilation --------------------------------------------------------
 
@@ -155,7 +140,7 @@ test_that("`fit()` handles a single passive observation with strata", {
     set_active_prior(alpha = 1.0, beta = 1.0) |>
     set_passive_asymptomatic_prior(alpha = 1.0, beta = 3.0) |>
     set_passive_symptomatic_prior(alpha = 3.0, beta = 1.0) |>
-    set_strata("sex", degrees_of_freedom = 1L) |>
+    set_strata("sex", degrees_of_freedom = 0L) |>
     set_timesteps("week") |>
     set_detection(
       "detection",
@@ -176,20 +161,56 @@ test_that("`fit()` handles a single passive observation with strata", {
   expect_s4_class(result@model_fit, "stanfit")
 })
 
-test_that("`fit()` with two strata dimensions returns correct array dimensions", {
+test_that("`fit()` supports a smoothed ordered strata dimension", {
   skip_on_cran()
-  linelist <- data.frame(
-    patient_id = letters,
-    week = rep_len(1L:3L, 26L),
-    age = rep_len(c("Female", "Male"), 26L),
-    region = rep_len(c("North", "South"), 26L),
-    testing_type = rep_len(c("A", "A", "A", "P", "P"), 26L),
-    patient_status = rep_len(c("A", "D", "S", "S"), 26L)
+  line_list <- data.frame(
+    patient_id = 1L:12L,
+    week = rep(1L:3L, each = 4L),
+    age = rep(c("Youth", "Adult", "Senior"), each = 4L),
+    testing_type = rep(c("A", "A", "P", "P"), 3L),
+    patient_status = rep(c("A", "S", "S", "D"), 3L)
   )
   population <- data.frame(
-    age = rep(c("Female", "Male"), each = 2L),
-    region = rep(c("North", "South"), times = 2L),
-    value = c(2000L, 2000L, 2000L, 1975L)
+    age = c("Youth", "Adult", "Senior"),
+    value = c(1200L, 1800L, 900L)
+  )
+  model <- SeverityEstimateModel(line_list, population) |>
+    set_timesteps("week") |>
+    set_detection(
+      "testing_type",
+      map = c("A" = "active", "P" = "passive")
+    ) |>
+    set_outcome(
+      "patient_status",
+      map = c("A" = "asymptomatic", "S" = "symptomatic", "D" = "severe")
+    ) |>
+    set_strata(
+      "age",
+      levels = c("Youth", "Adult", "Senior"),
+      degrees_of_freedom = 1L
+    )
+  result <- suppressWarnings(
+    do.call(fit, c(list(model = model), FIT_TEST_STAN_ARGS))
+  )
+  expect_s4_class(result, "SeverityEstimateFit")
+  expect_s4_class(result@model_fit, "stanfit")
+  expect_setequal(result@strata$age, c("Youth", "Adult", "Senior"))
+})
+
+test_that("`fit()` supports mixed smoothed and categorical strata", {
+  skip_on_cran()
+  linelist <- data.frame(
+    patient_id = 1L:18L,
+    week = rep_len(1L:3L, 18L),
+    age = rep_len(c("Youth", "Adult", "Senior"), 18L),
+    region = rep_len(c("North", "South"), 18L),
+    testing_type = rep_len(c("A", "A", "P"), 18L),
+    patient_status = rep_len(c("A", "S", "D"), 18L)
+  )
+  population <- data.frame(
+    age = rep(c("Youth", "Adult", "Senior"), each = 2L),
+    region = rep(c("North", "South"), times = 3L),
+    value = c(800L, 700L, 900L, 850L, 600L, 650L)
   )
   model <- SeverityEstimateModel(linelist, population) |>
     set_timesteps("week") |>
@@ -201,15 +222,19 @@ test_that("`fit()` with two strata dimensions returns correct array dimensions",
       "patient_status",
       map = c("A" = "asymptomatic", "S" = "symptomatic", "D" = "severe")
     ) |>
-    set_strata("age", degrees_of_freedom = 1L) |>
-    set_strata("region", degrees_of_freedom = 1L)
+    set_strata(
+      "age",
+      levels = c("Youth", "Adult", "Senior"),
+      degrees_of_freedom = 1L
+    ) |>
+    set_strata("region", degrees_of_freedom = 0L)
   result <- suppressWarnings(
     do.call(fit, c(list(model = model), FIT_TEST_STAN_ARGS))
   )
   expect_s4_class(result, "SeverityEstimateFit")
-  # 2 age levels x 2 region levels = 4 strata cells
-  expect_length(result@population, 4L)
-  expect_equal(dim(result@incidence)[2L], 4L)
-  expect_equal(nrow(result@strata), 4L)
+  # 3 age levels x 2 region levels = 6 strata cells
+  expect_length(result@population, 6L)
+  expect_equal(dim(result@incidence)[2L], 6L)
+  expect_equal(nrow(result@strata), 6L)
   expect_setequal(names(result@strata), c("age", "region"))
 })

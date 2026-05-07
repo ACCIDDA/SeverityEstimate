@@ -24,20 +24,6 @@ fit <- function(model, ...) {
     outcome()
   strata_l <- strata(model)
 
-  # Ordered strata are not yet supported
-  ordered_names <- Filter(
-    Negate(is.null),
-    sapply(strata_l, \(s) if (isTRUE(s$ordered)) s$name else NULL)
-  )
-  if (length(ordered_names) > 0L) {
-    stop(
-      "Ordered strata are not yet supported: ",
-      toString(ordered_names),
-      ". Please use `ordered = FALSE`.",
-      call. = FALSE
-    )
-  }
-
   # Constants
   hazard_std <- 3.0
 
@@ -141,31 +127,7 @@ fit <- function(model, ...) {
     arrays$linelist_ind[, "surveillance"] == surveillance_ind[2L]
   )
 
-  # Build the strata index matrix and flattened level metadata for the static
-  # Stan model. Each row is a strata cell; each column is the per-dimension
-  # level index.
-  if (length(strata_l) > 0L) {
-    n_strata_dims <- length(strata_l)
-    strata_n_levels <- as.integer(
-      vapply(strata_l, \(s) length(s$levels), integer(1L))
-    )
-    strata_level_start <- cumsum(c(1L, utils::head(strata_n_levels, -1L)))
-    strata_index <- matrix(
-      0L,
-      nrow = nrow(arrays$strata),
-      ncol = n_strata_dims
-    )
-    for (k in seq_len(n_strata_dims)) {
-      s <- strata_l[[k]]
-      col_vals <- arrays$strata[, s$name]
-      strata_index[, k] <- match(col_vals, s$levels)
-    }
-  } else {
-    n_strata_dims <- 0L
-    strata_n_levels <- integer()
-    strata_level_start <- integer()
-    strata_index <- array(integer(), dim = c(nrow(arrays$strata), 0L))
-  }
+  strata_design <- build_strata_design_matrix(strata_l, arrays$strata)
 
   # Extract prior parameterizations
   active_prior <- active_prior(model)
@@ -176,11 +138,8 @@ fit <- function(model, ...) {
   data <- list(
     strata_groups = nrow(arrays$strata),
     time_groups = nrow(arrays$time_period),
-    n_strata_dims = n_strata_dims,
-    strata_n_levels = as_integer_array(strata_n_levels),
-    strata_level_start = as_integer_array(strata_level_start),
-    n_strata_levels_total = sum(strata_n_levels),
-    strata_index = strata_index,
+    n_strata_basis_cols = strata_design$n_strata_basis_cols,
+    X_strata = strata_design$X_strata,
     I_active = matrix(
       incidence_without_outcome[,, surveillance_ind[1L]],
       nrow = nrow(arrays$time_period),

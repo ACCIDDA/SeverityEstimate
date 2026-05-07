@@ -20,7 +20,15 @@ MODEL <- SeverityEstimateModel(LINE_LIST, POPULATION)
 # small but still cover the active/passive surveillance and
 # asymptomatic/symptomatic/death outcome branches that the Stan data assembly
 # relies on.
-MAKE_FIT_TEST_MODEL <- function(strata_col = "age") {
+#
+# `degrees_of_freedom = 0L` is the unsmoothed categorical baseline. Tests that
+# exercise smoothing should pass explicit `levels` plus `degrees_of_freedom > 0L`
+# so the strata ordering is fully deterministic.
+MAKE_FIT_TEST_MODEL <- function(
+  strata_col = "age",
+  degrees_of_freedom = 0L,
+  levels = NULL
+) {
   linelist <- data.frame(
     patient_id = letters,
     week = rep_len(1L:3L, 26L),
@@ -43,7 +51,12 @@ MAKE_FIT_TEST_MODEL <- function(strata_col = "age") {
       map = c("A" = "asymptomatic", "S" = "symptomatic", "D" = "severe")
     )
   if (!is.null(strata_col)) {
-    model <- model |> set_strata(strata_col, degrees_of_freedom = 1L)
+    model <- model |>
+      set_strata(
+        strata_col,
+        levels = levels,
+        degrees_of_freedom = degrees_of_freedom
+      )
   }
   model
 }
