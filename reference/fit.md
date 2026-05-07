@@ -19,7 +19,7 @@ fit(model, ...)
 - ...:
 
   Further optional args that are eventually given to
-  [`rstan::stan()`](https://mc-stan.org/rstan/reference/stan.html)
+  [`rstan::sampling()`](https://mc-stan.org/rstan/reference/stanmodel-method-sampling.html)
   related to fitting.
 
 ## Value

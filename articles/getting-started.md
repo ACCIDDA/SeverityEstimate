@@ -19,8 +19,6 @@ estimates are extracted.
 options(mc.cores = 1L)
 library(SeverityEstimate)
 #> Loading required package: checkmate
-#> Loading required package: fs
-#> Loading required package: jinjar
 #> Loading required package: rstan
 #> Loading required package: StanHeaders
 #> 
@@ -140,11 +138,11 @@ Once configured,
 [`fit()`](https://accidda.github.io/SeverityEstimate/reference/fit.md)
 compiles the Stan model and runs the sampler, passing any additional
 arguments (e.g. `chains`, `iter`) through to
-[`rstan::stan()`](https://mc-stan.org/rstan/reference/stan.html). The
-settings below are intentionally small to keep this vignette reasonably
-quick to render. They are not sufficient to assess convergence or
-support serious inference. In practice you’d want to use more chains and
-iterations and review the usual Stan diagnostics.
+[`rstan::sampling()`](https://mc-stan.org/rstan/reference/stanmodel-method-sampling.html).
+The settings below are intentionally small to keep this vignette
+reasonably quick to render. They are not sufficient to assess
+convergence or support serious inference. In practice you’d want to use
+more chains and iterations and review the usual Stan diagnostics.
 
 ``` r
 population <- strata[, c("age", "population")]
@@ -175,13 +173,16 @@ model <- SeverityEstimateModel(linelist, population) |>
 estimate <- fit(
   model,
   chains = 1L,
-  iter = 500L,
+  iter = 250L,
   seed = 123L,
   refresh = 0
 )
-#> Warning: There were 245 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 10. See
+#> Warning: There were 125 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 10. See
 #> https://mc-stan.org/misc/warnings.html#maximum-treedepth-exceeded
 #> Warning: Examine the pairs() plot to diagnose sampling problems
+#> Warning: The largest R-hat is NA, indicating chains have not mixed.
+#> Running the chains for more iterations may help. See
+#> https://mc-stan.org/misc/warnings.html#r-hat
 #> Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
 #> Running the chains for more iterations may help. See
 #> https://mc-stan.org/misc/warnings.html#bulk-ess
@@ -207,9 +208,9 @@ calculate_parameter_estimates(estimate, alpha = 0.05)
 #> 2 passive_asymptomatic_detection mildly/asymptomatic passive detection rate
 #> 3  passive_symptomatic_detection     severe symptoms passive detection rate
 #>   mean_estimate median_estimate   lower_05   upper_05
-#> 1    0.15821158       0.1584723 0.13539286 0.17974349
-#> 2    0.05907498       0.0578289 0.03350709 0.09356547
-#> 3    0.93582168       0.9476105 0.81435766 0.99826088
+#> 1    0.15565097       0.1546955 0.13650837 0.17824509
+#> 2    0.05645978       0.0565065 0.03178031 0.08121751
+#> 3    0.92940108       0.9428173 0.79909611 0.99069896
 ```
 
 ### Fatality ratios
@@ -226,11 +227,11 @@ ratios <- calculate_fatality_ratio(
 )
 ratios[match(c("youth", "adult", "senior"), ratios$age), ]
 #>      age ifr_mean_estimate ifr_lower_05 ifr_upper_05 sir_mean_estimate
-#> 3  youth         0.2396614    0.2004706    0.2877567         0.5252368
-#> 1  adult         0.3080786    0.2750720    0.3446976         0.6564920
-#> 2 senior         0.2998994    0.2467768    0.3706342         0.7746898
+#> 3  youth         0.2375597    0.1952226    0.2787510         0.5221819
+#> 1  adult         0.3074100    0.2746494    0.3365399         0.6512881
+#> 2 senior         0.2953045    0.2383301    0.3663886         0.7816631
 #>   sir_lower_05 sir_upper_05 naive_ifr naive_sir
-#> 3    0.4539460    0.5939186 0.3434066 0.8461538
-#> 1    0.6027168    0.7151124 0.3890135 0.9047085
-#> 2    0.6781886    0.8666125 0.3495935 0.9471545
+#> 3    0.4499127    0.5787131 0.3434066 0.8461538
+#> 1    0.5954430    0.7014873 0.3890135 0.9047085
+#> 2    0.6846945    0.8674307 0.3495935 0.9471545
 ```

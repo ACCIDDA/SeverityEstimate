@@ -145,6 +145,9 @@ fit_result
 - Setup `pkgdown` site hosted on GitHub pages at
   [accidda.github.io/SeverityEstimate/](https://accidda.github.io/SeverityEstimate/).
   See [\#28](https://github.com/ACCIDDA/SeverityEstimate/issues/28).
+- Restructured package utilizing
+  [`rstantools`](https://mc-stan.org/rstantools/index.html).
+  [\#73](https://github.com/ACCIDDA/SeverityEstimate/issues/73).
 
 ## SeverityEstimate 0.0.1
 

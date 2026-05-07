@@ -89,8 +89,6 @@ from which estimates are extracted.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>mc.cores <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://accidda.github.io/SeverityEstimate/">SeverityEstimate</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; Loading required package: checkmate</span></span>
-<span><span class="co">#&gt; Loading required package: fs</span></span>
-<span><span class="co">#&gt; Loading required package: jinjar</span></span>
 <span><span class="co">#&gt; Loading required package: rstan</span></span>
 <span><span class="co">#&gt; Loading required package: StanHeaders</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -212,11 +210,11 @@ and <code>severe</code> expected by the model.</li>
 </ul>
 <p>Once configured, <code><a href="../reference/fit.html">fit()</a></code> compiles the Stan model and runs
 the sampler, passing any additional arguments (e.g. <code>chains</code>,
-<code>iter</code>) through to <code><a href="https://mc-stan.org/rstan/reference/stan.html" class="external-link">rstan::stan()</a></code>. The settings
-below are intentionally small to keep this vignette reasonably quick to
-render. They are not sufficient to assess convergence or support serious
-inference. In practice you’d want to use more chains and iterations and
-review the usual Stan diagnostics.</p>
+<code>iter</code>) through to <code><a href="https://mc-stan.org/rstan/reference/stanmodel-method-sampling.html" class="external-link">rstan::sampling()</a></code>. The
+settings below are intentionally small to keep this vignette reasonably
+quick to render. They are not sufficient to assess convergence or
+support serious inference. In practice you’d want to use more chains and
+iterations and review the usual Stan diagnostics.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">population</span> <span class="op">&lt;-</span> <span class="va">strata</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"population"</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
@@ -246,13 +244,16 @@ review the usual Stan diagnostics.</p>
 <span><span class="va">estimate</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit.html">fit</a></span><span class="op">(</span></span>
 <span>  <span class="va">model</span>,</span>
 <span>  chains <span class="op">=</span> <span class="fl">1L</span>,</span>
-<span>  iter <span class="op">=</span> <span class="fl">500L</span>,</span>
+<span>  iter <span class="op">=</span> <span class="fl">250L</span>,</span>
 <span>  seed <span class="op">=</span> <span class="fl">123L</span>,</span>
 <span>  refresh <span class="op">=</span> <span class="fl">0</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: There were 245 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 10. See</span></span>
+<span><span class="co">#&gt; Warning: There were 125 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 10. See</span></span>
 <span><span class="co">#&gt; https://mc-stan.org/misc/warnings.html#maximum-treedepth-exceeded</span></span>
 <span><span class="co">#&gt; Warning: Examine the pairs() plot to diagnose sampling problems</span></span>
+<span><span class="co">#&gt; Warning: The largest R-hat is NA, indicating chains have not mixed.</span></span>
+<span><span class="co">#&gt; Running the chains for more iterations may help. See</span></span>
+<span><span class="co">#&gt; https://mc-stan.org/misc/warnings.html#r-hat</span></span>
 <span><span class="co">#&gt; Warning: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.</span></span>
 <span><span class="co">#&gt; Running the chains for more iterations may help. See</span></span>
 <span><span class="co">#&gt; https://mc-stan.org/misc/warnings.html#bulk-ess</span></span>
@@ -278,9 +279,9 @@ which credible interval bounds are returned.</p>
 <span><span class="co">#&gt; 2 passive_asymptomatic_detection mildly/asymptomatic passive detection rate</span></span>
 <span><span class="co">#&gt; 3  passive_symptomatic_detection     severe symptoms passive detection rate</span></span>
 <span><span class="co">#&gt;   mean_estimate median_estimate   lower_05   upper_05</span></span>
-<span><span class="co">#&gt; 1    0.15821158       0.1584723 0.13539286 0.17974349</span></span>
-<span><span class="co">#&gt; 2    0.05907498       0.0578289 0.03350709 0.09356547</span></span>
-<span><span class="co">#&gt; 3    0.93582168       0.9476105 0.81435766 0.99826088</span></span></code></pre></div>
+<span><span class="co">#&gt; 1    0.15565097       0.1546955 0.13650837 0.17824509</span></span>
+<span><span class="co">#&gt; 2    0.05645978       0.0565065 0.03178031 0.08121751</span></span>
+<span><span class="co">#&gt; 3    0.92940108       0.9428173 0.79909611 0.99069896</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="fatality-ratios">Fatality ratios<a class="anchor" aria-label="anchor" href="#fatality-ratios"></a>
@@ -296,13 +297,13 @@ estimates.</p>
 <span><span class="op">)</span></span>
 <span><span class="va">ratios</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"youth"</span>, <span class="st">"adult"</span>, <span class="st">"senior"</span><span class="op">)</span>, <span class="va">ratios</span><span class="op">$</span><span class="va">age</span><span class="op">)</span>, <span class="op">]</span></span>
 <span><span class="co">#&gt;      age ifr_mean_estimate ifr_lower_05 ifr_upper_05 sir_mean_estimate</span></span>
-<span><span class="co">#&gt; 3  youth         0.2396614    0.2004706    0.2877567         0.5252368</span></span>
-<span><span class="co">#&gt; 1  adult         0.3080786    0.2750720    0.3446976         0.6564920</span></span>
-<span><span class="co">#&gt; 2 senior         0.2998994    0.2467768    0.3706342         0.7746898</span></span>
+<span><span class="co">#&gt; 3  youth         0.2375597    0.1952226    0.2787510         0.5221819</span></span>
+<span><span class="co">#&gt; 1  adult         0.3074100    0.2746494    0.3365399         0.6512881</span></span>
+<span><span class="co">#&gt; 2 senior         0.2953045    0.2383301    0.3663886         0.7816631</span></span>
 <span><span class="co">#&gt;   sir_lower_05 sir_upper_05 naive_ifr naive_sir</span></span>
-<span><span class="co">#&gt; 3    0.4539460    0.5939186 0.3434066 0.8461538</span></span>
-<span><span class="co">#&gt; 1    0.6027168    0.7151124 0.3890135 0.9047085</span></span>
-<span><span class="co">#&gt; 2    0.6781886    0.8666125 0.3495935 0.9471545</span></span></code></pre></div>
+<span><span class="co">#&gt; 3    0.4499127    0.5787131 0.3434066 0.8461538</span></span>
+<span><span class="co">#&gt; 1    0.5954430    0.7014873 0.3890135 0.9047085</span></span>
+<span><span class="co">#&gt; 2    0.6846945    0.8674307 0.3495935 0.9471545</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

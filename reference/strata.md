@@ -61,8 +61,11 @@ set_strata(
 
 - degrees_of_freedom:
 
-  The degrees of freedom for the strata fixed effects. Only used when
-  `ordered` is `FALSE`. If `NULL`, defaults to `1L` with a warning.
+  The degrees of freedom for the strata fixed effects. This value is
+  currently stored on the model specification for future ordered/spline
+  support, but is not consumed by
+  [`fit()`](https://accidda.github.io/SeverityEstimate/reference/fit.md).
+  If `NULL`, defaults to `1L` with a warning.
 
 ## Value
 

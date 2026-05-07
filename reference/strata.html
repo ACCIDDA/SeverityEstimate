@@ -108,8 +108,9 @@ must be <code>FALSE</code>; ordered strata are not yet supported.</p></dd>
 
 <dt id="arg-degrees-of-freedom">degrees_of_freedom<a class="anchor" aria-label="anchor" href="#arg-degrees-of-freedom"></a></dt>
 <dd><p>The degrees of freedom for the strata fixed
-effects. Only used when <code>ordered</code> is <code>FALSE</code>. If <code>NULL</code>, defaults to <code>1L</code>
-with a warning.</p></dd>
+effects. This value is currently stored on the model specification for
+future ordered/spline support, but is not consumed by <code><a href="fit.html">fit()</a></code>. If <code>NULL</code>,
+defaults to <code>1L</code> with a warning.</p></dd>
 
 </dl></div>
     <div class="section level2">
