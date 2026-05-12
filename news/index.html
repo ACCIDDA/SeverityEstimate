@@ -141,7 +141,7 @@
 <span><span class="co"># Slot "passive_symptomatic_prior":</span></span>
 <span><span class="co"># alpha  beta</span></span>
 <span><span class="co">#     3     1</span></span></code></pre></div>
-<ul><li>Implemented <code><a href="../reference/fit.html">fit()</a></code> for <code>SeverityEstimateModel</code>, completing the S4 pipeline API. The model now supports an arbitrary number of unordered strata dimensions via additive fixed effects on the logit scale, rendered at compile time via a Jinja2 Stan template. Continuing from the example above:</li>
+<ul><li>Implemented <code><a href="../reference/fit.html">fit()</a></code> for <code>SeverityEstimateModel</code>, completing the S4 pipeline API. The model now supports an arbitrary number of ordered/unordered strata dimensions via additive fixed effects on the logit scale. Continuing from the example above:</li>
 </ul><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit_result</span> <span class="op">&lt;-</span> <span class="va">model</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/fit.html">fit</a></span><span class="op">(</span></span>

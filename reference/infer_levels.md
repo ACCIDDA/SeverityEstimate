@@ -5,7 +5,7 @@ Infer And Validate Levels For Variables
 ## Usage
 
 ``` r
-infer_levels(model, name, name_in, levels = NULL, ordered = FALSE)
+infer_levels(model, name, name_in, levels = NULL)
 ```
 
 ## Arguments
@@ -31,13 +31,11 @@ infer_levels(model, name, name_in, levels = NULL, ordered = FALSE)
   Explicit user provided levels, in order, if provided otherwise `NULL`
   to infer the levels.
 
-- ordered:
-
-  A boolean indicating if `levels` has a specific order. If `TRUE` then
-  `levels` cannot be `NULL`, users must explicitly indicate what the
-  ordering is.
-
 ## Value
 
 `infer_levels` returns a vector of levels for the particular column
 given. Either `levels` if non-`NULL` or an inferred set of levels.
+
+Explicit `levels` may not contain missing or duplicated values.
+Likewise, missing values in the source column are rejected before
+inferred levels are constructed.

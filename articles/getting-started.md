@@ -123,9 +123,10 @@ configuration and returns the model so calls can be chained.
   Here we use a weakly informative prior for active detection and priors
   that reflect the expectation that passive surveillance is more likely
   to capture symptomatic than asymptomatic cases.
-- `set_strata`: Declares the column used for stratification and its
-  ordered levels. Levels should be provided explicitly to ensure a
-  consistent ordering in the output.
+- `set_strata`: Declares the column used for stratification. Use
+  `degrees_of_freedom = 0L` for an unsmoothed categorical effect, or
+  provide explicit `levels` plus `degrees_of_freedom > 0L` for a
+  smoothed ordered effect across those levels.
 - `set_timesteps`: Declares the column that identifies the time period
   of each observation.
 - `set_detection`: Maps the values in the detection column to the
@@ -136,8 +137,8 @@ configuration and returns the model so calls can be chained.
 
 Once configured,
 [`fit()`](https://accidda.github.io/SeverityEstimate/reference/fit.md)
-compiles the Stan model and runs the sampler, passing any additional
-arguments (e.g. `chains`, `iter`) through to
+samples from the package’s precompiled Stan model, passing any
+additional arguments (e.g. `chains`, `iter`) through to
 [`rstan::sampling()`](https://mc-stan.org/rstan/reference/stanmodel-method-sampling.html).
 The settings below are intentionally small to keep this vignette
 reasonably quick to render. They are not sufficient to assess
@@ -177,9 +178,6 @@ estimate <- fit(
   seed = 123L,
   refresh = 0
 )
-#> Warning: There were 125 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 10. See
-#> https://mc-stan.org/misc/warnings.html#maximum-treedepth-exceeded
-#> Warning: Examine the pairs() plot to diagnose sampling problems
 #> Warning: The largest R-hat is NA, indicating chains have not mixed.
 #> Running the chains for more iterations may help. See
 #> https://mc-stan.org/misc/warnings.html#r-hat
@@ -207,10 +205,10 @@ calculate_parameter_estimates(estimate, alpha = 0.05)
 #> 1               active_detection                      active detection rate
 #> 2 passive_asymptomatic_detection mildly/asymptomatic passive detection rate
 #> 3  passive_symptomatic_detection     severe symptoms passive detection rate
-#>   mean_estimate median_estimate   lower_05   upper_05
-#> 1    0.15565097       0.1546955 0.13650837 0.17824509
-#> 2    0.05645978       0.0565065 0.03178031 0.08121751
-#> 3    0.92940108       0.9428173 0.79909611 0.99069896
+#>   mean_estimate median_estimate  lower_05   upper_05
+#> 1    0.15654989      0.15683992 0.1305356 0.18078452
+#> 2    0.06002338      0.05758782 0.0365340 0.09764516
+#> 3    0.92028152      0.93177442 0.7612098 0.98902736
 ```
 
 ### Fatality ratios
@@ -227,11 +225,11 @@ ratios <- calculate_fatality_ratio(
 )
 ratios[match(c("youth", "adult", "senior"), ratios$age), ]
 #>      age ifr_mean_estimate ifr_lower_05 ifr_upper_05 sir_mean_estimate
-#> 3  youth         0.2375597    0.1952226    0.2787510         0.5221819
-#> 1  adult         0.3074100    0.2746494    0.3365399         0.6512881
-#> 2 senior         0.2953045    0.2383301    0.3663886         0.7816631
+#> 3  youth         0.2585664    0.2259203    0.2989199         0.5303662
+#> 1  adult         0.2912268    0.2656749    0.3195641         0.6591493
+#> 2 senior         0.3267977    0.2829000    0.3720769         0.7666496
 #>   sir_lower_05 sir_upper_05 naive_ifr naive_sir
-#> 3    0.4499127    0.5787131 0.3434066 0.8461538
-#> 1    0.5954430    0.7014873 0.3890135 0.9047085
-#> 2    0.6846945    0.8674307 0.3495935 0.9471545
+#> 3    0.4654789    0.6055360 0.3434066 0.8461538
+#> 1    0.6032755    0.7135180 0.3890135 0.9047085
+#> 2    0.6773229    0.8300262 0.3495935 0.9471545
 ```

@@ -193,9 +193,11 @@ we use a weakly informative prior for active detection and priors that
 reflect the expectation that passive surveillance is more likely to
 capture symptomatic than asymptomatic cases.</li>
 <li>
-<code>set_strata</code>: Declares the column used for stratification
-and its ordered levels. Levels should be provided explicitly to ensure a
-consistent ordering in the output.</li>
+<code>set_strata</code>: Declares the column used for
+stratification. Use <code>degrees_of_freedom = 0L</code> for an
+unsmoothed categorical effect, or provide explicit <code>levels</code>
+plus <code>degrees_of_freedom &gt; 0L</code> for a smoothed ordered
+effect across those levels.</li>
 <li>
 <code>set_timesteps</code>: Declares the column that identifies the
 time period of each observation.</li>
@@ -208,13 +210,14 @@ expected by the model.</li>
 the canonical types <code>asymptomatic</code>, <code>symptomatic</code>,
 and <code>severe</code> expected by the model.</li>
 </ul>
-<p>Once configured, <code><a href="../reference/fit.html">fit()</a></code> compiles the Stan model and runs
-the sampler, passing any additional arguments (e.g. <code>chains</code>,
-<code>iter</code>) through to <code><a href="https://mc-stan.org/rstan/reference/stanmodel-method-sampling.html" class="external-link">rstan::sampling()</a></code>. The
-settings below are intentionally small to keep this vignette reasonably
-quick to render. They are not sufficient to assess convergence or
-support serious inference. In practice you’d want to use more chains and
-iterations and review the usual Stan diagnostics.</p>
+<p>Once configured, <code><a href="../reference/fit.html">fit()</a></code> samples from the package’s
+precompiled Stan model, passing any additional arguments
+(e.g. <code>chains</code>, <code>iter</code>) through to
+<code><a href="https://mc-stan.org/rstan/reference/stanmodel-method-sampling.html" class="external-link">rstan::sampling()</a></code>. The settings below are intentionally
+small to keep this vignette reasonably quick to render. They are not
+sufficient to assess convergence or support serious inference. In
+practice you’d want to use more chains and iterations and review the
+usual Stan diagnostics.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">population</span> <span class="op">&lt;-</span> <span class="va">strata</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"population"</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
@@ -248,9 +251,6 @@ iterations and review the usual Stan diagnostics.</p>
 <span>  seed <span class="op">=</span> <span class="fl">123L</span>,</span>
 <span>  refresh <span class="op">=</span> <span class="fl">0</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: There were 125 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 10. See</span></span>
-<span><span class="co">#&gt; https://mc-stan.org/misc/warnings.html#maximum-treedepth-exceeded</span></span>
-<span><span class="co">#&gt; Warning: Examine the pairs() plot to diagnose sampling problems</span></span>
 <span><span class="co">#&gt; Warning: The largest R-hat is NA, indicating chains have not mixed.</span></span>
 <span><span class="co">#&gt; Running the chains for more iterations may help. See</span></span>
 <span><span class="co">#&gt; https://mc-stan.org/misc/warnings.html#r-hat</span></span>
@@ -278,10 +278,10 @@ which credible interval bounds are returned.</p>
 <span><span class="co">#&gt; 1               active_detection                      active detection rate</span></span>
 <span><span class="co">#&gt; 2 passive_asymptomatic_detection mildly/asymptomatic passive detection rate</span></span>
 <span><span class="co">#&gt; 3  passive_symptomatic_detection     severe symptoms passive detection rate</span></span>
-<span><span class="co">#&gt;   mean_estimate median_estimate   lower_05   upper_05</span></span>
-<span><span class="co">#&gt; 1    0.15565097       0.1546955 0.13650837 0.17824509</span></span>
-<span><span class="co">#&gt; 2    0.05645978       0.0565065 0.03178031 0.08121751</span></span>
-<span><span class="co">#&gt; 3    0.92940108       0.9428173 0.79909611 0.99069896</span></span></code></pre></div>
+<span><span class="co">#&gt;   mean_estimate median_estimate  lower_05   upper_05</span></span>
+<span><span class="co">#&gt; 1    0.15654989      0.15683992 0.1305356 0.18078452</span></span>
+<span><span class="co">#&gt; 2    0.06002338      0.05758782 0.0365340 0.09764516</span></span>
+<span><span class="co">#&gt; 3    0.92028152      0.93177442 0.7612098 0.98902736</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="fatality-ratios">Fatality ratios<a class="anchor" aria-label="anchor" href="#fatality-ratios"></a>
@@ -297,13 +297,13 @@ estimates.</p>
 <span><span class="op">)</span></span>
 <span><span class="va">ratios</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"youth"</span>, <span class="st">"adult"</span>, <span class="st">"senior"</span><span class="op">)</span>, <span class="va">ratios</span><span class="op">$</span><span class="va">age</span><span class="op">)</span>, <span class="op">]</span></span>
 <span><span class="co">#&gt;      age ifr_mean_estimate ifr_lower_05 ifr_upper_05 sir_mean_estimate</span></span>
-<span><span class="co">#&gt; 3  youth         0.2375597    0.1952226    0.2787510         0.5221819</span></span>
-<span><span class="co">#&gt; 1  adult         0.3074100    0.2746494    0.3365399         0.6512881</span></span>
-<span><span class="co">#&gt; 2 senior         0.2953045    0.2383301    0.3663886         0.7816631</span></span>
+<span><span class="co">#&gt; 3  youth         0.2585664    0.2259203    0.2989199         0.5303662</span></span>
+<span><span class="co">#&gt; 1  adult         0.2912268    0.2656749    0.3195641         0.6591493</span></span>
+<span><span class="co">#&gt; 2 senior         0.3267977    0.2829000    0.3720769         0.7666496</span></span>
 <span><span class="co">#&gt;   sir_lower_05 sir_upper_05 naive_ifr naive_sir</span></span>
-<span><span class="co">#&gt; 3    0.4499127    0.5787131 0.3434066 0.8461538</span></span>
-<span><span class="co">#&gt; 1    0.5954430    0.7014873 0.3890135 0.9047085</span></span>
-<span><span class="co">#&gt; 2    0.6846945    0.8674307 0.3495935 0.9471545</span></span></code></pre></div>
+<span><span class="co">#&gt; 3    0.4654789    0.6055360 0.3434066 0.8461538</span></span>
+<span><span class="co">#&gt; 1    0.6032755    0.7135180 0.3890135 0.9047085</span></span>
+<span><span class="co">#&gt; 2    0.6773229    0.8300262 0.3495935 0.9471545</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

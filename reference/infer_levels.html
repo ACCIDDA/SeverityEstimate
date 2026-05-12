@@ -48,7 +48,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">infer_levels</span><span class="op">(</span><span class="va">model</span>, <span class="va">name</span>, <span class="va">name_in</span>, levels <span class="op">=</span> <span class="cn">NULL</span>, ordered <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">infer_levels</span><span class="op">(</span><span class="va">model</span>, <span class="va">name</span>, <span class="va">name_in</span>, levels <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -74,17 +74,14 @@ Must be 'line_list', 'population', or 'both'.</p></dd>
 <dd><p>Explicit user provided levels, in order, if provided otherwise
 <code>NULL</code> to infer the levels.</p></dd>
 
-
-<dt id="arg-ordered">ordered<a class="anchor" aria-label="anchor" href="#arg-ordered"></a></dt>
-<dd><p>A boolean indicating if <code>levels</code> has a specific order. If
-<code>TRUE</code> then <code>levels</code> cannot be <code>NULL</code>, users must explicitly indicate what
-the ordering is.</p></dd>
-
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p><code>infer_levels</code> returns a vector of levels for the particular column given.
 Either <code>levels</code> if non-<code>NULL</code> or an inferred set of levels.</p>
+<p>Explicit <code>levels</code> may not contain missing or duplicated values. Likewise,
+missing values in the source column are rejected before inferred levels are
+constructed.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

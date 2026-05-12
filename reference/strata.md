@@ -17,13 +17,7 @@ strata(x)
 # S4 method for class 'SeverityEstimateModel'
 strata(x) <- value
 
-set_strata(
-  model,
-  name,
-  levels = NULL,
-  ordered = FALSE,
-  degrees_of_freedom = NULL
-)
+set_strata(model, name, levels = NULL, degrees_of_freedom = NULL)
 ```
 
 ## Arguments
@@ -35,8 +29,7 @@ set_strata(
 
 - value:
 
-  A named list with entries `name`, `levels`, `ordered`, and
-  `degrees_of_freedom`.
+  A named list with entries `name`, `levels`, and `degrees_of_freedom`.
 
 - model:
 
@@ -53,19 +46,13 @@ set_strata(
   The levels for the stratification, or `NULL` to infer from
   `line_list`/`population`.
 
-- ordered:
-
-  Indicator for if the levels are ordered in effect, i.e. age increasing
-  severity. If `TRUE` then `levels` must be provided. Currently must be
-  `FALSE`; ordered strata are not yet supported.
-
 - degrees_of_freedom:
 
-  The degrees of freedom for the strata fixed effects. This value is
-  currently stored on the model specification for future ordered/spline
-  support, but is not consumed by
-  [`fit()`](https://accidda.github.io/SeverityEstimate/reference/fit.md).
-  If `NULL`, defaults to `1L` with a warning.
+  The degrees of freedom for the strata fixed effects. `NULL` and `0L`
+  use unsmoothed categorical effects. Values greater than `0L` request
+  an ordered smooth effect and therefore require explicit `levels`. The
+  value must be less than the saturated categorical fit, i.e. at most
+  `length(levels) - 2L`.
 
 ## Value
 
@@ -93,7 +80,6 @@ population <- data.frame(
 )
 model <- SeverityEstimateModel(line_list, population) |>
   set_strata("age", levels = c("Youth", "Adult", "Senior"))
-#> Warning: No `degrees_of_freedom` specified for strata 'age'. Defaulting to 1L.
 model
 #> Formal class 'SeverityEstimateModel' [package "SeverityEstimate"] with 9 slots
 #>   ..@ line_list                 :'data.frame':   3 obs. of  5 variables:
@@ -106,11 +92,10 @@ model
 #>   .. ..$ age   : chr [1:3] "Youth" "Adult" "Senior"
 #>   .. ..$ amount: int [1:3] 987 987 987
 #>   ..@ strata                    :List of 1
-#>   .. ..$ :List of 4
+#>   .. ..$ :List of 3
 #>   .. .. ..$ name              : chr "age"
 #>   .. .. ..$ levels            : chr [1:3] "Youth" "Adult" "Senior"
-#>   .. .. ..$ ordered           : logi FALSE
-#>   .. .. ..$ degrees_of_freedom: int 1
+#>   .. .. ..$ degrees_of_freedom: int 0
 #>   ..@ timesteps                 : list()
 #>   ..@ detection                 : list()
 #>   ..@ outcome                   : list()
