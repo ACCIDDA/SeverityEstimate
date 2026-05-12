@@ -173,7 +173,8 @@ test_that("Public prior APIs provide output validation across parameters", {
     for (params in list(
       list(alpha = 1.0, beta = 2.0),
       list(mean = 0.5, sd = 0.1),
-      list(mean = 0.3, var = 0.05)
+      list(mean = 0.3, var = 0.05),
+      list(mean = 0.7, concentration = 9.0)
     )) {
       model <- SeverityEstimateModel(LINE_LIST, POPULATION)
       expect_length(methods::slot(model, parameter_prior), 0L)
