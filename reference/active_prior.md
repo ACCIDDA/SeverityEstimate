@@ -55,7 +55,7 @@ set_passive_symptomatic_prior(model, ...)
 
   A named list or named numeric vector providing a beta
   parameterization. Must be one of `alpha`/`beta`, `mean`/`var`,
-  `mean`/`sd`.
+  `mean`/`sd`, `mean`/`concentration`.
 
 - model:
 
@@ -65,7 +65,7 @@ set_passive_symptomatic_prior(model, ...)
 - ...:
 
   Beta distribution parameterization. Must be one of `alpha`/`beta`,
-  `mean`/`var`, `mean`/`sd`.
+  `mean`/`var`, `mean`/`sd`, `mean`/`concentration`.
 
 ## Value
 
@@ -116,7 +116,7 @@ population <- data.frame(
   amount = rep(987L, 3L)
 )
 model <- SeverityEstimateModel(line_list, population) |>
-  set_active_prior(mean = 0.9, sd = 0.08) |>
+  set_active_prior(mean = 0.9, concentration = 12.5) |>
   set_passive_asymptomatic_prior(alpha = 1.0, beta = 1.0) |>
   set_passive_symptomatic_prior(mean = 0.1, var = 0.0064)
 model
@@ -134,7 +134,7 @@ model
 #>   ..@ timesteps                 : list()
 #>   ..@ detection                 : list()
 #>   ..@ outcome                   : list()
-#>   ..@ active_prior              : Named num [1:2] 11.76 1.31
+#>   ..@ active_prior              : Named num [1:2] 11.25 1.25
 #>   .. ..- attr(*, "names")= chr [1:2] "alpha" "beta"
 #>   ..@ passive_asymptomatic_prior: Named num [1:2] 1 1
 #>   .. ..- attr(*, "names")= chr [1:2] "alpha" "beta"

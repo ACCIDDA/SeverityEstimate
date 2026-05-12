@@ -32,7 +32,7 @@ get_prior(model, parameter)
 - ...:
 
   Beta distribution parameterization. Must be one of `alpha`/`beta`,
-  `mean`/`var`, `mean`/`sd`.
+  `mean`/`var`, `mean`/`sd`, `mean`/`concentration`.
 
 ## Value
 

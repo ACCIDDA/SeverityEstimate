@@ -104,19 +104,19 @@ estimate_severity(
 
   The parameters for the prior beta distribution for the active
   detection probability. Can be specified as 'alpha'/'beta',
-  'mean'/'var', or 'mean'/'sd'.
+  'mean'/'var', 'mean'/'sd', or 'mean'/'concentration'.
 
 - passive_asymptomatic_prior:
 
   The parameters for the prior beta distribution for the passive
   asymptomatic detection probability. Can be specified as
-  'alpha'/'beta', 'mean'/'var', or 'mean'/'sd'.
+  'alpha'/'beta', 'mean'/'var', 'mean'/'sd', or 'mean'/'concentration'.
 
 - passive_symptomatic_prior:
 
   The parameters for the prior beta distribution for the passive
   symptomatic detection probability. Can be specified as 'alpha'/'beta',
-  'mean'/'var', or 'mean'/'sd'.
+  'mean'/'var', 'mean'/'sd', or 'mean'/'concentration'.
 
 - ...:
 

@@ -14,7 +14,7 @@ beta_parameterization(params)
 
   A named numeric of length two that represent the parameterization of a
   beta distribution. Names must be one of 'alpha'/'beta', 'mean'/'var',
-  'mean'/'sd'.
+  'mean'/'sd', or 'mean'/'concentration'.
 
 ## Value
 
