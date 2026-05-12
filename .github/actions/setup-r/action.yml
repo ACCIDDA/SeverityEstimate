@@ -1,25 +1,48 @@
 name: 'setup R'
 description: "Setup R for this particular repository's configuration."
 inputs:
+  setup-r:
+    description: 'Whether to set up R and renv for this job.'
+    required: false
+    default: 'true'
   r-version:
     description: 'R version to use.'
     required: false
-    default: 'latest'
+    default: 'renv'
+  install-pandoc:
+    description: 'Whether to install pandoc for jobs that render documentation.'
+    required: false
+    default: 'false'
+  install-package:
+    description: 'Whether to install the local package after restoring dependencies.'
+    required: false
+    default: 'false'
+  install-dev-dependencies:
+    description: 'Whether to install development dependencies from DESCRIPTION Suggests.'
+    required: false
+    default: 'false'
 runs:
   using: 'composite'
   steps:
     - name: 'setup just'
       uses: 'extractions/setup-just@v4'
     - name: 'install pandoc'
-      run: 'sudo apt-get install pandoc'
-      shell: 'bash'
+      if: ${{ inputs.setup-r == 'true' && inputs.install-pandoc == 'true' }}
+      uses: 'r-lib/actions/setup-pandoc@v2'
     - name: 'setup R'
+      if: ${{ inputs.setup-r == 'true' }}
       uses: 'r-lib/actions/setup-r@v2'
       with:
         r-version: '${{ inputs.r-version }}'
-        use-public-rspm: false
+        use-public-rspm: true
     - name: 'setup renv'
+      if: ${{ inputs.setup-r == 'true' }}
       uses: 'r-lib/actions/setup-renv@v2'
+    - name: 'install development dependencies'
+      if: ${{ inputs.setup-r == 'true' && inputs.install-dev-dependencies == 'true' }}
+      run: 'just renv-install'
+      shell: 'bash'
     - name: 'install SeverityEstimate'
-      run: 'just install'
+      if: ${{ inputs.setup-r == 'true' && inputs.install-package == 'true' }}
+      run: 'R CMD INSTALL .'
       shell: 'bash'

@@ -31,8 +31,12 @@ jobs:
         uses: 'actions/checkout@v6.0.2'
       - name: 'setup R'
         uses: './.github/actions/setup-r'
+        with:
+          install-dev-dependencies: 'true'
+          install-pandoc: 'true'
+          install-package: 'true'
       - name: 'build pkgdown site'
-        run: 'just pkgdown'
+        run: "Rscript -e 'pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)'"
       - name: 'deploy to github pages'
         if: "${{ github.event_name != 'pull_request' }}"
         uses: 'JamesIves/github-pages-deploy-action@v4.8.0'
