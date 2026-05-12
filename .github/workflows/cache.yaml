@@ -1,0 +1,54 @@
+name: 'cache'
+
+'on':
+  schedule:
+    # Every Monday at 05:00 UTC.
+    # In America/New_York this is Monday 01:00 during EDT and Monday 00:00 during EST.
+    - cron: '0 5 * * 1'
+  workflow_dispatch:
+    inputs:
+      update-lockfile:
+        description: 'Run just renv-snapshot and open or update a PR if renv.lock changes.'
+        required: false
+        default: false
+        type: boolean
+
+permissions: 'read-all'
+
+jobs:
+  renv-cache:
+    name: 'refresh renv cache'
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: 'checkout repository'
+        uses: 'actions/checkout@v6.0.2'
+      - name: 'setup R'
+        uses: './.github/actions/setup-r'
+  renv-lockfile:
+    name: 'update renv lockfile'
+    if: "${{ github.event_name == 'schedule' || inputs['update-lockfile'] }}"
+    runs-on: 'ubuntu-latest'
+    permissions:
+      contents: 'write'
+      pull-requests: 'write'
+    steps:
+      - name: 'checkout repository'
+        uses: 'actions/checkout@v6.0.2'
+      - name: 'setup R'
+        uses: './.github/actions/setup-r'
+      - name: 'update renv lockfile'
+        run: 'just renv-snapshot'
+      - name: 'set branch date'
+        id: 'branch-date'
+        run: "echo 'date=$(date -u +%F)' >> \"$GITHUB_OUTPUT\""
+      - name: 'create pull request'
+        uses: 'peter-evans/create-pull-request@v8'
+        with:
+          branch: "renv-lockfile-${{ steps['branch-date'].outputs.date }}"
+          delete-branch: true
+          commit-message: "`renv.lock` ${{ steps['branch-date'].outputs.date }} refresh"
+          title: "`renv.lock` ${{ steps['branch-date'].outputs.date }} refresh"
+          body: |
+            Weekly automation to refresh `renv.lock` using `just renv-snapshot`.
+
+            No major changes.

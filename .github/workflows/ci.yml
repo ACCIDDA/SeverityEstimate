@@ -25,6 +25,8 @@ jobs:
         uses: 'actions/checkout@v6.0.2'
       - name: 'setup R'
         uses: './.github/actions/setup-r'
+        with:
+          install-dev-dependencies: 'true'
       - name: 'build roxygen documentation'
         run: 'just docs'
       - name: 'check for non-committed documentation'
@@ -41,6 +43,8 @@ jobs:
         uses: 'actions/checkout@v6.0.2'
       - name: 'setup R'
         uses: './.github/actions/setup-r'
+        with:
+          setup-r: 'false'
       - name: 'install air'
         uses: 'posit-dev/setup-air@v1'
       - name: 'run lint'
@@ -53,6 +57,9 @@ jobs:
         uses: 'actions/checkout@v6.0.2'
       - name: 'setup R'
         uses: './.github/actions/setup-r'
+        with:
+          install-dev-dependencies: 'true'
+          install-package: 'true'
       - name: 'run tests'
         run: 'just test-fast'
   check:
@@ -63,6 +70,9 @@ jobs:
         uses: 'actions/checkout@v6.0.2'
       - name: 'setup R'
         uses: './.github/actions/setup-r'
+        with:
+          install-dev-dependencies: 'true'
+          install-pandoc: 'true'
       - name: 'run check'
         run: 'just check'
   news:
