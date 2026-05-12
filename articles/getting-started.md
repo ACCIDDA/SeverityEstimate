@@ -16,6 +16,7 @@ to run the Stan sampler and obtain a `SeverityEstimateFit` from which
 estimates are extracted.
 
 ``` r
+
 options(mc.cores = 1L)
 library(SeverityEstimate)
 #> Loading required package: checkmate
@@ -47,6 +48,7 @@ with a constant force of infection of 0.005 across all strata and time
 points.
 
 ``` r
+
 strata <- do.call(rbind, lapply(list(
   list(age = "youth",  ifr = 0.25, sir = 0.50, population = 10000L),
   list(age = "adult",  ifr = 0.30, sir = 0.65, population = 20000L),
@@ -94,20 +96,21 @@ the patient identifier, time step, age stratum, detection type (`Active`
 or `Passive`), and outcome (`Asymptomatic`, `Symptomatic`, or `Death`).
 
 ``` r
+
 summary(linelist)
-#>       patient          time                   age           detection   
-#>  Length   :1502   Min.   :2024-01-01   Length   :1502   Length   :1502  
-#>  N.unique :1502   1st Qu.:2024-01-22   N.unique :   3   N.unique :   2  
-#>  N.blank  :   0   Median :2024-02-12   N.blank  :   0   N.blank  :   0  
-#>  Min.nchar:   4   Mean   :2024-02-12   Min.nchar:   5   Min.nchar:   6  
-#>  Max.nchar:   7   3rd Qu.:2024-03-04   Max.nchar:   6   Max.nchar:   7  
-#>                   Max.   :2024-03-25                                    
-#>       outcome    
-#>  Length   :1502  
-#>  N.unique :   3  
-#>  N.blank  :   0  
-#>  Min.nchar:   5  
-#>  Max.nchar:  12  
+#>    patient               time                age             detection        
+#>  Length:1502        Min.   :2024-01-01   Length:1502        Length:1502       
+#>  Class :character   1st Qu.:2024-01-22   Class :character   Class :character  
+#>  Mode  :character   Median :2024-02-12   Mode  :character   Mode  :character  
+#>                     Mean   :2024-02-12                                        
+#>                     3rd Qu.:2024-03-04                                        
+#>                     Max.   :2024-03-25                                        
+#>    outcome         
+#>  Length:1502       
+#>  Class :character  
+#>  Mode  :character  
+#>                    
+#>                    
 #> 
 ```
 
@@ -146,6 +149,7 @@ convergence or support serious inference. In practice you’d want to use
 more chains and iterations and review the usual Stan diagnostics.
 
 ``` r
+
 population <- strata[, c("age", "population")]
 
 model <- SeverityEstimateModel(linelist, population) |>
@@ -200,6 +204,7 @@ rate, and the passive symptomatic detection rate. The `alpha` argument
 controls which credible interval bounds are returned.
 
 ``` r
+
 calculate_parameter_estimates(estimate, alpha = 0.05)
 #>                        parameter                      parameter_description
 #> 1               active_detection                      active detection rate
@@ -220,6 +225,7 @@ directly from the raw counts, which provides a useful point of
 comparison against the model-adjusted estimates.
 
 ``` r
+
 ratios <- calculate_fatality_ratio(
   estimate, median_estimate = FALSE, naive_estimate = TRUE
 )

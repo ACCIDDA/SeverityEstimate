@@ -7,6 +7,7 @@
   for the tidymodels-esque API, like so:
 
 ``` r
+
 library(SeverityEstimate)
 line_list <- data.frame(
   id = 1L:3L,
@@ -113,6 +114,7 @@ model
   from the example above:
 
 ``` r
+
 fit_result <- model |>
   fit(
     chains = 2L,
