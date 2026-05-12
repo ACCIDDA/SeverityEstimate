@@ -9,7 +9,7 @@
 #' @param parameter The model parameter to specify the prior for, should be one
 #' of `active`, `passive_asymptomatic`, `passive_symptomatic`.
 #' @param ... Beta distribution parameterization. Must be one of `alpha`/`beta`,
-#' `mean`/`var`, `mean`/`sd`.
+#' `mean`/`var`, `mean`/`sd`, `mean`/`concentration`.
 #'
 #' @return
 #' `model` modified to contain the prior parameterization for `parameter`.
@@ -90,7 +90,8 @@ get_prior <- function(model, parameter) {
 #'
 #' @param x A \linkS4class{SeverityEstimateModel}.
 #' @param value A named list or named numeric vector providing a beta
-#' parameterization. Must be one of `alpha`/`beta`, `mean`/`var`, `mean`/`sd`.
+#' parameterization. Must be one of `alpha`/`beta`, `mean`/`var`, `mean`/`sd`,
+#' `mean`/`concentration`.
 #'
 #' @return
 #' `active_prior(x)` returns the current active prior parameterization. If the
@@ -138,7 +139,7 @@ get_prior <- function(model, parameter) {
 #'   amount = rep(987L, 3L)
 #' )
 #' model <- SeverityEstimateModel(line_list, population) |>
-#'   set_active_prior(mean = 0.9, sd = 0.08) |>
+#'   set_active_prior(mean = 0.9, concentration = 12.5) |>
 #'   set_passive_asymptomatic_prior(alpha = 1.0, beta = 1.0) |>
 #'   set_passive_symptomatic_prior(mean = 0.1, var = 0.0064)
 #' model
@@ -189,7 +190,7 @@ methods::setMethod(
 
 #' @param model A \linkS4class{SeverityEstimateModel}.
 #' @param ... Beta distribution parameterization. Must be one of `alpha`/`beta`,
-#' `mean`/`var`, `mean`/`sd`.
+#' `mean`/`var`, `mean`/`sd`, `mean`/`concentration`.
 #'
 #' @rdname active_prior
 #' @export

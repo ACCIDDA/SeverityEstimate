@@ -64,7 +64,8 @@ test_that("`params` must have a specific set of names", {
         "The given parameterization ",
         toString(names(params)),
         " is not ",
-        "recognized. Must be one of 'alpha'/'beta', 'mean'/'var', 'mean'/'sd'."
+        "recognized. Must be one of 'alpha'/'beta', 'mean'/'var', 'mean'/'sd', ",
+        "or 'mean'/'concentration'."
       ),
       fixed = TRUE
     )
@@ -140,6 +141,73 @@ test_that(
         beta_parameterization(params),
         regexp = "Element 1 is not >=",
         fixed = TRUE
+      )
+    }
+  }
+)
+
+test_that(
+  paste0(
+    "Input validation for `params` when ",
+    "'mean'/'concentration' parameterized"
+  ),
+  {
+    invalid_mean_params <- list(
+      c("mean" = 2.0, "concentration" = 1.0),
+      c("mean" = -0.5, "concentration" = 1.0),
+      c("mean" = 0.0, "concentration" = 1.0),
+      c("mean" = 1.0, "concentration" = 1.0)
+    )
+    for (params in invalid_mean_params) {
+      expect_setequal(names(params), c("mean", "concentration"))
+      expect_error(
+        beta_parameterization(params),
+        regexp = "Element 1 is not",
+        fixed = TRUE
+      )
+    }
+
+    invalid_concentration_params <- list(
+      c("mean" = 0.5, "concentration" = -1.0),
+      c("mean" = 0.5, "concentration" = 0.0)
+    )
+    for (params in invalid_concentration_params) {
+      expect_setequal(names(params), c("mean", "concentration"))
+      expect_error(
+        beta_parameterization(params),
+        regexp = "Element 1 is not >=",
+        fixed = TRUE
+      )
+    }
+  }
+)
+
+test_that(
+  paste0(
+    "Output validation for `params` when ",
+    "'mean'/'concentration' parameterized"
+  ),
+  {
+    valid_params <- list(
+      c("mean" = 0.5, "concentration" = 2.0),
+      c("mean" = 0.75, "concentration" = 10.0),
+      c("mean" = 0.25, "concentration" = 8.0)
+    )
+    for (params in valid_params) {
+      expect_setequal(names(params), c("mean", "concentration"))
+      new_params <- expect_no_error(beta_parameterization(params))
+      expect_setequal(names(new_params), c("alpha", "beta"))
+      expect_equal(
+        unname(new_params["alpha"]),
+        unname(params["mean"] * params["concentration"])
+      )
+      expect_equal(
+        unname(new_params["beta"]),
+        unname((1.0 - params["mean"]) * params["concentration"])
+      )
+      expect_equal(
+        unname(sum(new_params)),
+        unname(params["concentration"])
       )
     }
   }

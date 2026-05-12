@@ -16,7 +16,7 @@ get_prior(model, parameter)
 of \code{active}, \code{passive_asymptomatic}, \code{passive_symptomatic}.}
 
 \item{...}{Beta distribution parameterization. Must be one of \code{alpha}/\code{beta},
-\code{mean}/\code{var}, \code{mean}/\code{sd}.}
+\code{mean}/\code{var}, \code{mean}/\code{sd}, \code{mean}/\code{concentration}.}
 }
 \value{
 \code{model} modified to contain the prior parameterization for \code{parameter}.

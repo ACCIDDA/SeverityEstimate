@@ -73,15 +73,17 @@ degrees of freedom to use in the model.}
 
 \item{active_prior}{The parameters for the prior beta distribution for the
 active detection probability. Can be specified as 'alpha'/'beta',
-'mean'/'var', or 'mean'/'sd'.}
+'mean'/'var', 'mean'/'sd', or 'mean'/'concentration'.}
 
 \item{passive_asymptomatic_prior}{The parameters for the prior beta
 distribution for the passive asymptomatic detection probability. Can be
-specified as 'alpha'/'beta', 'mean'/'var', or 'mean'/'sd'.}
+specified as 'alpha'/'beta', 'mean'/'var', 'mean'/'sd', or
+'mean'/'concentration'.}
 
 \item{passive_symptomatic_prior}{The parameters for the prior beta
 distribution for the passive symptomatic detection probability. Can be
-specified as 'alpha'/'beta', 'mean'/'var', or 'mean'/'sd'.}
+specified as 'alpha'/'beta', 'mean'/'var', 'mean'/'sd', or
+'mean'/'concentration'.}
 
 \item{...}{Further optional args that are eventually given to
 \code{\link[rstan:sampling]{rstan::sampling()}} related to fitting.}

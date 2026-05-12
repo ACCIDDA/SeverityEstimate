@@ -9,7 +9,8 @@ beta_parameterization(params)
 \arguments{
 \item{params}{A named numeric of length two that represent the
 parameterization of a beta distribution. Names must be one of
-'alpha'/'beta', 'mean'/'var', 'mean'/'sd'.}
+'alpha'/'beta', 'mean'/'var', 'mean'/'sd', or
+'mean'/'concentration'.}
 }
 \value{
 A numeric of length two with names 'alpha' and 'beta' corresponding to the

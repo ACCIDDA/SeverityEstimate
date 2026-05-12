@@ -52,12 +52,13 @@ set_passive_symptomatic_prior(model, ...)
 \item{x}{A \linkS4class{SeverityEstimateModel}.}
 
 \item{value}{A named list or named numeric vector providing a beta
-parameterization. Must be one of \code{alpha}/\code{beta}, \code{mean}/\code{var}, \code{mean}/\code{sd}.}
+parameterization. Must be one of \code{alpha}/\code{beta}, \code{mean}/\code{var}, \code{mean}/\code{sd},
+\code{mean}/\code{concentration}.}
 
 \item{model}{A \linkS4class{SeverityEstimateModel}.}
 
 \item{...}{Beta distribution parameterization. Must be one of \code{alpha}/\code{beta},
-\code{mean}/\code{var}, \code{mean}/\code{sd}.}
+\code{mean}/\code{var}, \code{mean}/\code{sd}, \code{mean}/\code{concentration}.}
 }
 \value{
 \code{active_prior(x)} returns the current active prior parameterization. If the
@@ -110,7 +111,7 @@ population <- data.frame(
   amount = rep(987L, 3L)
 )
 model <- SeverityEstimateModel(line_list, population) |>
-  set_active_prior(mean = 0.9, sd = 0.08) |>
+  set_active_prior(mean = 0.9, concentration = 12.5) |>
   set_passive_asymptomatic_prior(alpha = 1.0, beta = 1.0) |>
   set_passive_symptomatic_prior(mean = 0.1, var = 0.0064)
 model

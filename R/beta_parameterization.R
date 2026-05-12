@@ -3,7 +3,8 @@
 #'
 #' @param params A named numeric of length two that represent the
 #' parameterization of a beta distribution. Names must be one of
-#' 'alpha'/'beta', 'mean'/'var', 'mean'/'sd'.
+#' 'alpha'/'beta', 'mean'/'var', 'mean'/'sd', or
+#' 'mean'/'concentration'.
 #'
 #' @return
 #' A numeric of length two with names 'alpha' and 'beta' corresponding to the
@@ -62,10 +63,28 @@ beta_parameterization <- function(params) {
       )
     )
   }
+  if (setequal(params_names, c("mean", "concentration"))) {
+    checkmate::assert_number(
+      params["mean"],
+      lower = .Machine$double.eps,
+      upper = 1.0 - .Machine$double.eps
+    )
+    checkmate::assert_number(
+      params["concentration"],
+      lower = .Machine$double.eps,
+    )
+    return(
+      c(
+        "alpha" = unname(params["mean"] * params["concentration"]),
+        "beta" = unname((1.0 - params["mean"]) * params["concentration"])
+      )
+    )
+  }
   stop(
     "The given parameterization ",
     toString(params_names),
     " is not recognized. ",
-    "Must be one of 'alpha'/'beta', 'mean'/'var', 'mean'/'sd'."
+    "Must be one of 'alpha'/'beta', 'mean'/'var', 'mean'/'sd', ",
+    "or 'mean'/'concentration'."
   )
 }
