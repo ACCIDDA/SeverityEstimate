@@ -210,10 +210,10 @@ calculate_parameter_estimates(estimate, alpha = 0.05)
 #> 1               active_detection                      active detection rate
 #> 2 passive_asymptomatic_detection mildly/asymptomatic passive detection rate
 #> 3  passive_symptomatic_detection     severe symptoms passive detection rate
-#>   mean_estimate median_estimate  lower_05   upper_05
-#> 1    0.15654989      0.15683992 0.1305356 0.18078452
-#> 2    0.06002338      0.05758782 0.0365340 0.09764516
-#> 3    0.92028152      0.93177442 0.7612098 0.98902736
+#>   mean_estimate median_estimate   lower_05   upper_05
+#> 1    0.15371318      0.15394364 0.13197529 0.17823061
+#> 2    0.05824552      0.05636787 0.03273353 0.08834218
+#> 3    0.91119286      0.91945948 0.78640555 0.99779351
 ```
 
 ### Fatality ratios
@@ -231,11 +231,11 @@ ratios <- calculate_fatality_ratio(
 )
 ratios[match(c("youth", "adult", "senior"), ratios$age), ]
 #>      age ifr_mean_estimate ifr_lower_05 ifr_upper_05 sir_mean_estimate
-#> 3  youth         0.2585664    0.2259203    0.2989199         0.5303662
-#> 1  adult         0.2912268    0.2656749    0.3195641         0.6591493
-#> 2 senior         0.3267977    0.2829000    0.3720769         0.7666496
+#> 3  youth         0.2559398    0.2162121    0.3004761         0.5287471
+#> 1  adult         0.2884620    0.2624429    0.3134996         0.6575389
+#> 2 senior         0.3240190    0.2725613    0.3747325         0.7654454
 #>   sir_lower_05 sir_upper_05 naive_ifr naive_sir
-#> 3    0.4654789    0.6055360 0.3434066 0.8461538
-#> 1    0.6032755    0.7135180 0.3890135 0.9047085
-#> 2    0.6773229    0.8300262 0.3495935 0.9471545
+#> 3    0.4617364    0.6000676 0.3434066 0.8461538
+#> 1    0.6087776    0.7010926 0.3890135 0.9047085
+#> 2    0.6960505    0.8294717 0.3495935 0.9471545
 ```
