@@ -40,7 +40,7 @@ jobs:
         run: 'just renv-snapshot'
       - name: 'set branch date'
         id: 'branch-date'
-        run: "echo 'date=$(date -u +%F)' >> \"$GITHUB_OUTPUT\""
+        run: "echo \"date=$(date -u +%F)\" >> \"$GITHUB_OUTPUT\""
       - name: 'create pull request'
         uses: 'peter-evans/create-pull-request@v8'
         with:
