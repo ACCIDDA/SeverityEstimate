@@ -210,8 +210,8 @@ test_that("Output Validation", {
     NULL,
     NULL
   )
-  expect_equal(
-    names(output_arrays),
+  expect_named(
+    output_arrays,
     c(
       "incidence",
       "population",
@@ -327,8 +327,8 @@ test_that("Output Validation", {
     NULL,
     NULL
   )
-  expect_equal(
-    names(output_arrays),
+  expect_named(
+    output_arrays,
     c(
       "incidence",
       "population",
@@ -556,8 +556,8 @@ test_that("Output Validation When Given Reference data.frames", {
     NULL
   )
 
-  expect_equal(
-    names(output_arrays),
+  expect_named(
+    output_arrays,
     c(
       "incidence",
       "population",

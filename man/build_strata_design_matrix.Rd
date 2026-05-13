@@ -51,12 +51,15 @@ strata_df <- expand.grid(
   region = c("North", "South"),
   stringsAsFactors = FALSE
 )
+# jarl-ignore internal_function: example
 SeverityEstimate:::build_strata_design_matrix(strata_spec, strata_df)
 
+# jarl-ignore internal_function: example
 SeverityEstimate:::build_strata_level_basis(
   c("Youth", "Adult", "Senior"),
   degrees_of_freedom = 0L
 )
+# jarl-ignore internal_function: example
 SeverityEstimate:::build_strata_level_basis(
   c("Youth", "Adult", "Senior", "Elderly"),
   degrees_of_freedom = 2L

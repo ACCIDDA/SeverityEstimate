@@ -39,14 +39,8 @@ test_that("Mixed strata bases concatenate additively across dimensions", {
 
   expect_equal(result$n_strata_basis_cols, 2L)
   expect_equal(dim(result$X_strata), c(6L, 2L))
-  expect_equal(
-    length(unique(result$X_strata[strata_df$region == "North", 1L])),
-    3L
-  )
-  expect_equal(
-    length(unique(result$X_strata[strata_df$age == "Youth", 2L])),
-    2L
-  )
+  expect_length(unique(result$X_strata[strata_df$region == "North", 1L]), 3L)
+  expect_length(unique(result$X_strata[strata_df$age == "Youth", 2L]), 2L)
 })
 
 test_that("Complex mixed strata design matrix matches concatenated basis blocks", {

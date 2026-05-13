@@ -179,7 +179,7 @@ test_that("Public prior APIs provide output validation across parameters", {
       model <- SeverityEstimateModel(LINE_LIST, POPULATION)
       expect_length(methods::slot(model, parameter_prior), 0L)
       model <- replacement_setters[[parameter]](model, params)
-      expect_silent(first_slot_value <- methods::slot(model, parameter_prior))
+      first_slot_value <- methods::slot(model, parameter_prior)
       expect_type(first_slot_value, "double")
       expect_length(first_slot_value, 2L)
       expect_setequal(names(first_slot_value), c("alpha", "beta"))

@@ -30,7 +30,7 @@ test_that("Returns the object given when exactly a 'data.frame'.", {
   )
   for (x in sample_data_frames) {
     y <- expect_no_error(is_data_frame(x))
-    expect_identical(class(y), "data.frame")
+    expect_s3_class(y, "data.frame")
     if (require(lobstr, quietly = TRUE)) {
       expect_identical(lobstr::obj_addr(y), lobstr::obj_addr(x))
     }
@@ -51,7 +51,7 @@ test_that("Returns downcasted object when not given exactly a 'data.frame'", {
   for (x in sample_data_frames) {
     class(x) <- c("not.quite.data.frame", "data.frame")
     y <- expect_no_error(is_data_frame(x))
-    expect_identical(class(y), "data.frame")
+    expect_s3_class(y, "data.frame")
     if (require(lobstr, quietly = TRUE)) {
       expect_false(identical(lobstr::obj_addr(y), lobstr::obj_addr(x)))
     }
