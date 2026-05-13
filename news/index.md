@@ -134,16 +134,7 @@ fit_result
 - Added a `getting-started` vignette demonstrating the S4 pipeline API
   end-to-end, from synthetic data generation through model fitting and
   result extraction.
-- Switched from `make` to `just` for task running. This change provides
-  a couple of improvements namely: easier cross-platform support,
-  simplification to task specification, and ability to invoke tasks
-  using the shell or R.
-  [\#44](https://github.com/ACCIDDA/SeverityEstimate/issues/44).
-- Added a check to CI to make sure that appropriate changes are made to
-  `NEWS.md` file.
-  [\#61](https://github.com/ACCIDDA/SeverityEstimate/issues/61).
-- Updated `renv` from v1.1.7 to v1.2.0.
-  \#87\](<https://github.com/ACCIDDA/SeverityEstimate/pull/87>).
+  [\#78](https://github.com/ACCIDDA/SeverityEstimate/issues/78).
 - Setup `pkgdown` site hosted on GitHub pages at
   [accidda.github.io/SeverityEstimate/](https://accidda.github.io/SeverityEstimate/).
   [\#28](https://github.com/ACCIDDA/SeverityEstimate/issues/28).
