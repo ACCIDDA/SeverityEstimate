@@ -93,8 +93,8 @@ calculate_fatality_ratio.list <- function(
   fatality_ratios <- strata
 
   if (mean_estimate) {
-    fatality_ratios$ifr_mean_estimate <- apply(x$mortality, 2L, mean)
-    fatality_ratios$sir_mean_estimate <- apply(x$xi, 2L, mean)
+    fatality_ratios$ifr_mean_estimate <- colMeans(x$mortality)
+    fatality_ratios$sir_mean_estimate <- colMeans(x$xi)
   }
   if (median_estimate || length(alpha) > 0L) {
     probs <- c(

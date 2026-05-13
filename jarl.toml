@@ -1,0 +1,7 @@
+[lint]
+extend-select = [
+  "TESTTHAT",
+]
+
+[lint.assignment]
+operator = "<-"

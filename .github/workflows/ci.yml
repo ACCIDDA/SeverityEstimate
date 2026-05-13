@@ -47,6 +47,10 @@ jobs:
           setup-r: 'false'
       - name: 'install air'
         uses: 'posit-dev/setup-air@v1'
+      - name: 'install jarl'
+        uses: 'etiennebacher/setup-jarl@v0.1.1'
+        with:
+          args: '--version'
       - name: 'run lint'
         run: 'just lint'
   tests:

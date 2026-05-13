@@ -43,14 +43,16 @@ stan-check: stan
 	fi
 
 [group('dev')]
-[doc('Format R code using air')]
+[doc('Format R code using air and auto-fix jarl findings when possible')]
 format:
 	air format .
+	jarl check . --fix --allow-dirty
 
 [group('dev')]
-[doc('Check R code using air')]
+[doc('Check R code using air and jarl')]
 lint:
 	air format . --check
+	jarl check .
 
 [group('dev')]
 [doc('Run unit tests using devtools')]

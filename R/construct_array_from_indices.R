@@ -76,7 +76,7 @@ construct_array_from_indices <- function(
   }
 
   # Light validation and input restructuring
-  index_lengths <- vapply(indices, length, NA_integer_, USE.NAMES = FALSE)
+  index_lengths <- lengths(indices)
   index_length <- unique(index_lengths)
   if (length(index_length) > 1L) {
     stop(

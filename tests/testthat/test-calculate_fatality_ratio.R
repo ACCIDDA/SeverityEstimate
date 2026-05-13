@@ -1,3 +1,11 @@
+sum_incidence_by_strata <- function(x) {
+  vapply(
+    seq_len(dim(x)[2L]),
+    function(i) sum(x[, i, , , drop = FALSE]),
+    numeric(1L)
+  )
+}
+
 test_that("Non-SeverityEstimateFit or list object given for `x`", {
   lapply(list(NULL, data.frame(), Sys.time()), function(x) {
     expect_error(
@@ -99,16 +107,16 @@ test_that("Output validation when given a list for `x`", {
   # Basic test, just mean/median IFR/SIR estimates
   fatality_ratios <- calculate_fatality_ratio(x, strata, alpha = numeric())
   expected_fatality_ratios <- strata
-  expected_fatality_ratios$ifr_mean_estimate <- apply(x$mortality, 2L, mean)
+  expected_fatality_ratios$ifr_mean_estimate <- colMeans(x$mortality)
   expected_fatality_ratios$ifr_median_estimate <- apply(x$mortality, 2L, median)
-  expected_fatality_ratios$sir_mean_estimate <- apply(x$xi, 2L, mean)
+  expected_fatality_ratios$sir_mean_estimate <- colMeans(x$xi)
   expected_fatality_ratios$sir_median_estimate <- apply(x$xi, 2L, median)
   expect_identical(fatality_ratios, expected_fatality_ratios)
 
   # Expanded test with intervals
   fatality_ratios <- calculate_fatality_ratio(x, strata)
   expected_fatality_ratios <- strata
-  expected_fatality_ratios$ifr_mean_estimate <- apply(x$mortality, 2L, mean)
+  expected_fatality_ratios$ifr_mean_estimate <- colMeans(x$mortality)
   expected_fatality_ratios$ifr_median_estimate <- apply(x$mortality, 2L, median)
   expected_fatality_ratios$ifr_lower_05 <- apply(
     x$mortality,
@@ -124,7 +132,7 @@ test_that("Output validation when given a list for `x`", {
     probs = 0.975,
     names = FALSE
   )
-  expected_fatality_ratios$sir_mean_estimate <- apply(x$xi, 2L, mean)
+  expected_fatality_ratios$sir_mean_estimate <- colMeans(x$xi)
   expected_fatality_ratios$sir_median_estimate <- apply(x$xi, 2L, median)
   expected_fatality_ratios$sir_lower_05 <- apply(
     x$xi,
@@ -152,14 +160,20 @@ test_that("Output validation when given a list for `x`", {
     outcome = outcome
   )
   expected_fatality_ratios <- strata
-  expected_fatality_ratios$ifr_mean_estimate <- apply(x$mortality, 2L, mean)
+  expected_fatality_ratios$ifr_mean_estimate <- colMeans(x$mortality)
   expected_fatality_ratios$ifr_median_estimate <- apply(x$mortality, 2L, median)
-  expected_fatality_ratios$sir_mean_estimate <- apply(x$xi, 2L, mean)
+  expected_fatality_ratios$sir_mean_estimate <- colMeans(x$xi)
   expected_fatality_ratios$sir_median_estimate <- apply(x$xi, 2L, median)
-  expected_fatality_ratios$naive_ifr <- (apply(incidence[,,, 2L], 2L, sum) /
-    apply(incidence, 2L, sum))
-  expected_fatality_ratios$naive_sir <- (apply(incidence[,,, 2L:3L], 2L, sum) /
-    apply(incidence, 2L, sum))
+  expected_fatality_ratios$naive_ifr <- (sum_incidence_by_strata(incidence[,,,
+    2L,
+    drop = FALSE
+  ]) /
+    sum_incidence_by_strata(incidence))
+  expected_fatality_ratios$naive_sir <- (sum_incidence_by_strata(incidence[,,,
+    2L:3L,
+    drop = FALSE
+  ]) /
+    sum_incidence_by_strata(incidence))
   expect_identical(fatality_ratios, expected_fatality_ratios)
 })
 
@@ -213,13 +227,16 @@ test_that("Output validation when given a list for `x` and missing outcomes", {
     outcome = outcome
   )
   expected_fatality_ratios <- strata
-  expected_fatality_ratios$ifr_mean_estimate <- apply(x$mortality, 2L, mean)
+  expected_fatality_ratios$ifr_mean_estimate <- colMeans(x$mortality)
   expected_fatality_ratios$ifr_median_estimate <- apply(x$mortality, 2L, median)
-  expected_fatality_ratios$sir_mean_estimate <- apply(x$xi, 2L, mean)
+  expected_fatality_ratios$sir_mean_estimate <- colMeans(x$xi)
   expected_fatality_ratios$sir_median_estimate <- apply(x$xi, 2L, median)
   expected_fatality_ratios$naive_ifr <- rep.int(0.0, unique_strata)
-  expected_fatality_ratios$naive_sir <- (apply(incidence[,,, 2L], 2L, sum) /
-    apply(incidence, 2L, sum))
+  expected_fatality_ratios$naive_sir <- (sum_incidence_by_strata(incidence[,,,
+    2L,
+    drop = FALSE
+  ]) /
+    sum_incidence_by_strata(incidence))
   expect_identical(fatality_ratios, expected_fatality_ratios)
 
   # Sample input with no deaths or symptoms
@@ -271,9 +288,9 @@ test_that("Output validation when given a list for `x` and missing outcomes", {
     outcome = outcome
   )
   expected_fatality_ratios <- strata
-  expected_fatality_ratios$ifr_mean_estimate <- apply(x$mortality, 2L, mean)
+  expected_fatality_ratios$ifr_mean_estimate <- colMeans(x$mortality)
   expected_fatality_ratios$ifr_median_estimate <- apply(x$mortality, 2L, median)
-  expected_fatality_ratios$sir_mean_estimate <- apply(x$xi, 2L, mean)
+  expected_fatality_ratios$sir_mean_estimate <- colMeans(x$xi)
   expected_fatality_ratios$sir_median_estimate <- apply(x$xi, 2L, median)
   expected_fatality_ratios$naive_ifr <- rep.int(0.0, unique_strata)
   expected_fatality_ratios$naive_sir <- rep.int(0.0, unique_strata)

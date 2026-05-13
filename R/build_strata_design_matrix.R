@@ -38,6 +38,7 @@
 #'   region = c("North", "South"),
 #'   stringsAsFactors = FALSE
 #' )
+#' # jarl-ignore internal_function: example
 #' SeverityEstimate:::build_strata_design_matrix(strata_spec, strata_df)
 #'
 #' @importFrom checkmate assert_data_frame
@@ -94,10 +95,12 @@ build_strata_design_matrix <- function(strata, strata_df) {
 
 #' @rdname build_strata_design_matrix
 #' @examples
+#' # jarl-ignore internal_function: example
 #' SeverityEstimate:::build_strata_level_basis(
 #'   c("Youth", "Adult", "Senior"),
 #'   degrees_of_freedom = 0L
 #' )
+#' # jarl-ignore internal_function: example
 #' SeverityEstimate:::build_strata_level_basis(
 #'   c("Youth", "Adult", "Senior", "Elderly"),
 #'   degrees_of_freedom = 2L

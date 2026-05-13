@@ -47,8 +47,11 @@ test_that("The given 'attribute' if not NULL must be a slot of 'model'", {
 })
 
 test_that("Warning when the given 'attribute' is already set in 'model'", {
+  original_active_prior <- MODEL@active_prior
+  withr::defer({
+    MODEL@active_prior <- original_active_prior
+  })
   MODEL@active_prior <- c("alpha" = 1.0, "beta" = 1.0)
-  withr::defer(MODEL@active_prior <- numeric())
   expect_warning(
     check_model(MODEL, attribute = "active_prior"),
     regexp = paste0(
