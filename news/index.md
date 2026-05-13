@@ -138,9 +138,11 @@ fit_result
 - Setup `pkgdown` site hosted on GitHub pages at
   [accidda.github.io/SeverityEstimate/](https://accidda.github.io/SeverityEstimate/).
   [\#28](https://github.com/ACCIDDA/SeverityEstimate/issues/28).
-- Enhanced documentation elements, such as the `README.md` to add more
-  helpful content to the package’s documentation site.
-  [\#3](https://github.com/ACCIDDA/SeverityEstimate/issues/3).
+- Enhanced documentation elements, such as the `README.md`,
+  `CONTRIBUTING.md` to add more helpful content to the package’s
+  documentation site.
+  [\#3](https://github.com/ACCIDDA/SeverityEstimate/issues/3),
+  [\#53](https://github.com/ACCIDDA/SeverityEstimate/issues/53).
 - Restructured package utilizing
   [`rstantools`](https://mc-stan.org/rstantools/index.html).
   [\#73](https://github.com/ACCIDDA/SeverityEstimate/issues/73).
