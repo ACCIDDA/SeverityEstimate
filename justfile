@@ -22,6 +22,14 @@ docs:
 	roxygen2::roxygenize()
 
 [group('dev')]
+[doc('Fail if roxygen documentation changes are not committed')]
+docs-check: docs
+	@if [ -n "$(git status --porcelain)" ]; then \
+		echo "Please run roxygen2::roxygenize() and commit the changes."; \
+		exit 1; \
+	fi
+
+[group('dev')]
 [doc('Regenerate Stan package artifacts under src/ and R/stanmodels.R')]
 stan:
 	#!/usr/bin/env Rscript
@@ -67,6 +75,30 @@ test-fast:
 	#!/usr/bin/env Rscript
 	library(devtools)
 	devtools::test(stop_on_failure=TRUE)
+
+[group('dev')]
+[doc('Fail if NEWS.md was not updated on non-main branches unless commits say no major changes')]
+news-check:
+	@BRANCH=$(git rev-parse --abbrev-ref HEAD); \
+	if [ "$BRANCH" = "main" ]; then \
+		echo "Skipping news check on main"; \
+		exit 0; \
+	fi; \
+	git fetch origin main:main; \
+	GIT_LOG=$(git log main..HEAD --pretty=format:"%s %b"); \
+	SKIP_REGEX="no[[:space:]]+major[[:space:]]+changes"; \
+	if echo "$GIT_LOG" | tr '\n' ' ' | grep -Eiq "$SKIP_REGEX"; then \
+		echo "Bypassing news check: 'no major changes' found in commit history"; \
+		exit 0; \
+	fi; \
+	if ! git diff --name-only main...HEAD | grep -q '^NEWS.md$'; then \
+		echo "Error: Please update NEWS.md"; \
+		exit 1; \
+	fi
+
+[group('dev')]
+[doc('Run local CI-equivalent checks except R CMD check')]
+ci: stan-check docs-check lint test-fast news-check pkgdown
 
 [group('dev')]
 [doc('Build a tar.gz artifact')]
