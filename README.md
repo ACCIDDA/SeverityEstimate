@@ -84,7 +84,7 @@ calculate_fatality_ratio(
 )
 ```
 
-This example intentionally uses small sampler settings to stay lightweight. For real analyses, use more iterations and review the usual Stan diagnostics. For a fuller walkthrough, including stratified analyses, see `vignette("getting-started")`.
+This example intentionally uses small sampler settings to stay lightweight. For real analyses, use more iterations and review the usual Stan diagnostics. For a fuller walkthrough, including stratified analyses, see `vignette("getting-started")`, or for a detailed explaination of the model see `vignette("model-explainer")`.
 
 ## Funding Acknowledgement
 

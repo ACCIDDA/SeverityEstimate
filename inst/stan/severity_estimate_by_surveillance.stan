@@ -29,7 +29,7 @@ data {
   // Indicator if the passively observed case died
   array[observed_passive] int<lower=0> dead_passive;
   // *Model parameters and priors*
-  // The stdev of the community hazard brownian motion
+  // The stdev of the community hazard
   real <lower=0> hazard_std;
   // Spline degrees of freedom for mortality and symptom terms
   int <lower=1> degrees_of_freedom;
