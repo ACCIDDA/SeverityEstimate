@@ -166,5 +166,5 @@ vignette target:
 
 [group('vignettes')]
 [doc('Render a vignette and open the generated HTML in the default browser')]
-view target:
+view target: (vignette target)
 	Rscript -e 'utils::browseURL(normalizePath("vignettes/{{ target }}.html"))'

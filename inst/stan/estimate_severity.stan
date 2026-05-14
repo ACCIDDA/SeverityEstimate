@@ -33,7 +33,7 @@ data {
   // Indicator if the passively observed case died
   array[observed_passive] int<lower=0, upper=1> dead_passive;
   // *Model parameters and priors*
-  // The stdev of the community hazard brownian motion
+  // The stdev of the community hazard
   real<lower=0> hazard_std;
   // Active detection probability prior
   real<lower=0> active_detection_alpha;
