@@ -112,7 +112,9 @@ This example intentionally uses small sampler settings to stay
 lightweight. For real analyses, use more iterations and review the usual
 Stan diagnostics. For a fuller walkthrough, including stratified
 analyses, see
-[`vignette("getting-started")`](https://accidda.github.io/SeverityEstimate/articles/getting-started.md).
+[`vignette("getting-started")`](https://accidda.github.io/SeverityEstimate/articles/getting-started.md),
+or for a detailed explaination of the model see
+[`vignette("model-explainer")`](https://accidda.github.io/SeverityEstimate/articles/model-explainer.md).
 
 ## Funding Acknowledgement
 
@@ -204,3 +206,5 @@ Disease Control and Prevention.
 
 - [Getting
   Started](https://accidda.github.io/SeverityEstimate/articles/getting-started.md):
+- [Model
+  Explainer](https://accidda.github.io/SeverityEstimate/articles/model-explainer.md):
