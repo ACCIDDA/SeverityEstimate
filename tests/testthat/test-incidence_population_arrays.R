@@ -521,6 +521,51 @@ test_that("Output Validation", {
   expect_identical(output_arrays$linelist_ind, expected_linelist_ind)
 })
 
+test_that("Explicit references preserve their given row order", {
+  linelist <- data.frame(
+    patient_id = letters[1L:6L],
+    week = c(1L, 1L, 2L, 2L, 3L, 3L),
+    age = c("Youth", "Adult", "Senior", "Youth", "Adult", "Senior"),
+    testing = c("Active", "Passive", "Passive", "Active", "Passive", "Active"),
+    patient_outcome = c(
+      "Asymptomatic",
+      "Symptomatic",
+      "Death",
+      "Symptomatic",
+      "Asymptomatic",
+      "Death"
+    )
+  )
+  population <- data.frame(
+    age = c("Adult", "Senior", "Youth"),
+    total = c(1800L, 900L, 1200L)
+  )
+  strata_reference <- data.frame(age = c("Senior", "Youth", "Adult"))
+
+  output_arrays <- incidence_population_arrays(
+    linelist,
+    population,
+    "week",
+    "age",
+    "testing",
+    "patient_outcome",
+    "total",
+    NULL,
+    strata_reference,
+    NULL,
+    NULL
+  )
+
+  expect_identical(output_arrays$strata, strata_reference)
+  expect_identical(
+    output_arrays$population,
+    array(
+      c(900L, 1200L, 1800L),
+      dimnames = list("strata" = c("1", "2", "3"))
+    )
+  )
+})
+
 test_that("Output Validation When Given Reference data.frames", {
   linelist <- data.frame(
     patient_id = letters[1L:6L],

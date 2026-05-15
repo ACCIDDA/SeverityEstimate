@@ -160,8 +160,7 @@ computed directly from the raw counts, which provides a useful point of
 comparison against the model-adjusted estimates.
 
 ```{r severity estimates}
-ratios <- calculate_fatality_ratio(
+calculate_fatality_ratio(
   estimate, median_estimate = FALSE, naive_estimate = TRUE
 )
-ratios[match(c("youth", "adult", "senior"), ratios$age), ]
 ```

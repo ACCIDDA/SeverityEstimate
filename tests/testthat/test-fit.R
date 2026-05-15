@@ -194,7 +194,7 @@ test_that("`fit()` supports a smoothed ordered strata dimension", {
   )
   expect_s4_class(result, "SeverityEstimateFit")
   expect_s4_class(result@model_fit, "stanfit")
-  expect_setequal(result@strata$age, c("Youth", "Adult", "Senior"))
+  expect_identical(result@strata$age, c("Youth", "Adult", "Senior"))
 })
 
 test_that("`fit()` supports mixed smoothed and categorical strata", {
@@ -236,5 +236,18 @@ test_that("`fit()` supports mixed smoothed and categorical strata", {
   expect_length(result@population, 6L)
   expect_equal(dim(result@incidence)[2L], 6L)
   expect_equal(nrow(result@strata), 6L)
-  expect_setequal(names(result@strata), c("age", "region"))
+  expect_identical(
+    result@strata,
+    data.frame(
+      age = rep(c("Youth", "Adult", "Senior"), each = 2L),
+      region = rep(c("North", "South"), times = 3L)
+    )
+  )
+  expect_identical(
+    result@population,
+    array(
+      c(800L, 700L, 900L, 850L, 600L, 650L),
+      dimnames = list("strata" = seq_len(6L))
+    )
+  )
 })

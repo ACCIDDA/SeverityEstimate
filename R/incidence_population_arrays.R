@@ -124,7 +124,8 @@ incidence_population_arrays <- function(
   extract_list <- extract_and_match_data_frame(
     population,
     strata,
-    subset_x = extract_df
+    subset_x = extract_df,
+    sort_subset_x = is.null(strata_reference)
   )
   extract_strata <- extract_list$df
   population_strata_ind <- extract_list$ind

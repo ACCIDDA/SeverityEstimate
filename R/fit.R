@@ -46,11 +46,13 @@ fit <- function(model, ...) {
     strata_ref_df <- do.call(
       expand.grid,
       c(
-        lapply(strata_l, \(s) s$levels),
+        rev(lapply(strata_l, \(s) s$levels)),
         list(stringsAsFactors = FALSE)
       )
     )
-    names(strata_ref_df) <- strata_cols
+    names(strata_ref_df) <- rev(strata_cols)
+    strata_ref_df <- strata_ref_df[, strata_cols, drop = FALSE]
+    rownames(strata_ref_df) <- NULL
     population_val <- utils::tail(names(model@population), n = 1L)
   }
 

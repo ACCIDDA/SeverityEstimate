@@ -46,7 +46,7 @@ calculate_fatality_ratio.SeverityEstimateFit <- function(
   alpha = 0.05,
   ...
 ) {
-  calculate_fatality_ratio(
+  fatality_ratios <- calculate_fatality_ratio(
     x = rstan::extract(x@model_fit, c("C", "mortality", "xi")),
     strata = x@strata,
     mean_estimate = mean_estimate,
@@ -57,6 +57,9 @@ calculate_fatality_ratio.SeverityEstimateFit <- function(
     outcome = x@outcome,
     ...
   )
+  fatality_ratios <- reorder_by_strata(fatality_ratios, x@strata)
+  attr(fatality_ratios, "strata_reference") <- x@strata
+  fatality_ratios
 }
 
 

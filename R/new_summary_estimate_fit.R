@@ -58,6 +58,17 @@ format_summary_detection_rates <- function(detection_rates) {
 
 #' @rdname summary_estimate_fit_helpers
 format_summary_severity_estimates <- function(severity_estimates) {
+  strata_reference <- attr(
+    severity_estimates,
+    "strata_reference",
+    exact = TRUE
+  )
+  if (is.data.frame(strata_reference)) {
+    severity_estimates <- reorder_by_strata(
+      severity_estimates,
+      strata_reference
+    )
+  }
   estimate_cols <- c("ifr_mean_estimate", "sir_mean_estimate")
   strata_cols <- setdiff(names(severity_estimates), estimate_cols)
   severity_estimates <- severity_estimates[,
