@@ -133,10 +133,15 @@ calculate_fatality_ratio.list <- function(
       outcome[, 1L],
       nomatch = ncol(reduced_incidence)
     )
-    fatality_ratios$naive_ifr <- (reduced_incidence[, outcome_ind[1L]] /
-      total_incidence)
-    fatality_ratios$naive_sir <- (rowSums(reduced_incidence[, outcome_ind]) /
-      total_incidence)
+    fatality_ratios$naive_ifr <- rep.int(0.0, length(total_incidence))
+    fatality_ratios$naive_sir <- rep.int(0.0, length(total_incidence))
+    nonzero_incidence <- total_incidence > 0L
+    fatality_ratios$naive_ifr[nonzero_incidence] <-
+      reduced_incidence[nonzero_incidence, outcome_ind[1L]] /
+      total_incidence[nonzero_incidence]
+    fatality_ratios$naive_sir[nonzero_incidence] <-
+      rowSums(reduced_incidence[nonzero_incidence, outcome_ind, drop = FALSE]) /
+      total_incidence[nonzero_incidence]
   }
 
   # Reorder the column names for pretty output
