@@ -56,3 +56,81 @@ print.SeverityEstimateFit <- function(x, ...) {
   # For now just fallback to stan's print method
   print(x@model_fit, ...)
 }
+
+
+#' @title
+#' Summary Method for `SeverityEstimateFit` Objects
+#'
+#' @description
+#' Summarises a fitted severity estimate model by reporting mean detection rate
+#' estimates and mean IFR/SIR estimates by strata.
+#'
+#' @param object An object of class `SeverityEstimateFit`.
+#' @param ... Unused.
+#'
+#' @return
+#' `summary.SeverityEstimateFit` returns an object of class
+#' `SummaryEstimateFit` with elements `detection_rates` and
+#' `severity_estimates`.
+#'
+#' @export
+summary.SeverityEstimateFit <- function(object, ...) {
+  detection_rates <- calculate_parameter_estimates(
+    object,
+    mean_estimate = TRUE,
+    median_estimate = FALSE,
+    alpha = numeric(),
+    include_description = FALSE
+  )
+  severity_estimates <- calculate_fatality_ratio(
+    object,
+    mean_estimate = TRUE,
+    median_estimate = FALSE,
+    naive_estimate = FALSE,
+    alpha = numeric()
+  )
+  new_summary_estimate_fit(
+    detection_rates = format_summary_detection_rates(detection_rates),
+    severity_estimates = format_summary_severity_estimates(severity_estimates)
+  )
+}
+
+
+#' @title
+#' Print Method for `SummaryEstimateFit` Objects
+#'
+#' @description
+#' Prints a `SummaryEstimateFit` object in a structured format.
+#'
+#' @param x An object of class `SummaryEstimateFit`.
+#' @param digits The number of significant digits to print.
+#' @param ... Further arguments passed to [print.data.frame()].
+#'
+#' @return
+#' `x` invisibly.
+#'
+#' @export
+print.SummaryEstimateFit <- function(
+  x,
+  digits = max(3L, getOption("digits") - 3L),
+  ...
+) {
+  cat("Detection Rates:\n")
+  print(
+    x$detection_rates,
+    digits = digits,
+    quote = FALSE,
+    right = TRUE,
+    ...
+  )
+  cat("\nSeverity Estimates:\n")
+  print(
+    x$severity_estimates,
+    digits = digits,
+    quote = FALSE,
+    right = TRUE,
+    row.names = FALSE,
+    ...
+  )
+  invisible(x)
+}

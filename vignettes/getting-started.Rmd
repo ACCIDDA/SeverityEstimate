@@ -136,6 +136,7 @@ estimate <- fit(
   seed = 123L,
   refresh = 0
 )
+summary(estimate)
 ```
 
 ## Extracting results

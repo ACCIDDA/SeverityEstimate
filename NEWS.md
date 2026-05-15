@@ -121,6 +121,7 @@ fit_result
 - Enhanced documentation elements, such as the `README.md`, `CONTRIBUTING.md` to add more helpful content to the package's documentation site. [#3](https://github.com/ACCIDDA/SeverityEstimate/issues/3), [#53](https://github.com/ACCIDDA/SeverityEstimate/issues/53).
 - Restructured package utilizing [`rstantools`](https://mc-stan.org/rstantools/index.html). [#73](https://github.com/ACCIDDA/SeverityEstimate/issues/73).
 - Added support for "mean"/"concentration" parameterization of beta prior distributions. [#71](https://github.com/ACCIDDA/SeverityEstimate/issues/71).
+- Added `summary` generic for `SeverityEstimateFit` objects. [#30](https://github.com/ACCIDDA/SeverityEstimate/issues/30).
 
 # SeverityEstimate 0.0.1
 
