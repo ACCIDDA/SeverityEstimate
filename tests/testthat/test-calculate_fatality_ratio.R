@@ -296,3 +296,63 @@ test_that("Output validation when given a list for `x` and missing outcomes", {
   expected_fatality_ratios$naive_sir <- rep.int(0.0, unique_strata)
   expect_identical(fatality_ratios, expected_fatality_ratios)
 })
+
+test_that("Naive estimates are zero when a strata has zero total incidence", {
+  strata <- data.frame(
+    age_group = c("Children", "Adults", "Seniors")
+  )
+  x <- list(
+    "C" = array(
+      data = 0L,
+      dim = c(1L, 1L, 3L),
+      dimnames = list("iterations" = NULL)
+    ),
+    "mortality" = array(
+      data = c(0.1, 0.2, 0.3),
+      dim = c(1L, 3L),
+      dimnames = list("iterations" = NULL)
+    ),
+    "xi" = array(
+      data = c(0.4, 0.5, 0.6),
+      dim = c(1L, 3L),
+      dimnames = list("iterations" = NULL)
+    )
+  )
+  incidence <- array(
+    data = c(
+      5L,
+      0L,
+      3L,
+      3L,
+      0L,
+      1L,
+      2L,
+      0L,
+      0L
+    ),
+    dim = c(1L, 3L, 1L, 3L)
+  )
+  outcome <- data.frame(
+    patient_status = c("Asymptomatic", "Symptomatic", "Death")
+  )
+
+  fatality_ratios <- calculate_fatality_ratio(
+    x,
+    strata,
+    mean_estimate = FALSE,
+    median_estimate = FALSE,
+    naive_estimate = TRUE,
+    alpha = numeric(),
+    incidence = incidence,
+    outcome = outcome
+  )
+
+  expect_identical(
+    fatality_ratios,
+    data.frame(
+      age_group = c("Children", "Adults", "Seniors"),
+      naive_ifr = c(0.2, 0.0, 0.0),
+      naive_sir = c(0.5, 0.0, 0.25)
+    )
+  )
+})
