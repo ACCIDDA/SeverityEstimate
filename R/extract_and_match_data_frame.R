@@ -22,7 +22,8 @@ extract_and_match_data_frame <- function(
   x,
   cols,
   subset_x = NULL,
-  stop_on_nomatch = TRUE
+  stop_on_nomatch = TRUE,
+  sort_subset_x = TRUE
 ) {
   if (is.null(subset_x)) {
     extract_x <- unique(x[, cols, drop = FALSE])
@@ -30,11 +31,13 @@ extract_and_match_data_frame <- function(
     extract_x <- unique(subset_x[, cols, drop = FALSE])
   }
   if (length(cols)) {
-    extract_x <- extract_x[
-      do.call(order, extract_x[, cols, drop = FALSE]),
-      ,
-      drop = FALSE
-    ]
+    if (is.null(subset_x) || isTRUE(sort_subset_x)) {
+      extract_x <- extract_x[
+        do.call(order, extract_x[, cols, drop = FALSE]),
+        ,
+        drop = FALSE
+      ]
+    }
   } else if (nrow(extract_x)) {
     extract_x <- extract_x[0, ]
   }

@@ -126,6 +126,33 @@ test_that("summary.SeverityEstimateFit handles the no-strata case", {
   )
 })
 
+test_that("format_summary_severity_estimates reorders by strata reference", {
+  severity_estimates <- data.frame(
+    age = c("adult", "senior", "youth", "adult", "senior", "youth"),
+    health_occupation = c("yes", "no", "yes", "no", "yes", "no"),
+    ifr_mean_estimate = c(4, 5, 2, 3, 6, 1),
+    sir_mean_estimate = c(104, 105, 102, 103, 106, 101)
+  )
+  attr(
+    severity_estimates,
+    "strata_reference"
+  ) <- data.frame(
+    age = rep(c("youth", "adult", "senior"), each = 2L),
+    health_occupation = rep(c("no", "yes"), times = 3L)
+  )
+
+  expect_identical(
+    format_summary_severity_estimates(severity_estimates),
+    data.frame(
+      age = rep(c("youth", "adult", "senior"), each = 2L),
+      health_occupation = rep(c("no", "yes"), times = 3L),
+      "IFR Estimate" = as.numeric(1:6),
+      "SIR Estimate" = as.numeric(101:106),
+      check.names = FALSE
+    )
+  )
+})
+
 test_that("print.SummaryEstimateFit prints the summary tables", {
   fit_summary <- structure(
     list(

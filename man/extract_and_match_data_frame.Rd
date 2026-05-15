@@ -4,7 +4,13 @@
 \alias{extract_and_match_data_frame}
 \title{Extract And Match A Subset Of A data.frame}
 \usage{
-extract_and_match_data_frame(x, cols, subset_x = NULL, stop_on_nomatch = TRUE)
+extract_and_match_data_frame(
+  x,
+  cols,
+  subset_x = NULL,
+  stop_on_nomatch = TRUE,
+  sort_subset_x = TRUE
+)
 }
 \arguments{
 \item{x}{A data.frame to extract and match from.}
