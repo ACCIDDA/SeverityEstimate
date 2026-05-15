@@ -260,7 +260,19 @@ usual Stan diagnostics.</p>
 <span><span class="co">#&gt; https://mc-stan.org/misc/warnings.html#bulk-ess</span></span>
 <span><span class="co">#&gt; Warning: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.</span></span>
 <span><span class="co">#&gt; Running the chains for more iterations may help. See</span></span>
-<span><span class="co">#&gt; https://mc-stan.org/misc/warnings.html#tail-ess</span></span></code></pre></div>
+<span><span class="co">#&gt; https://mc-stan.org/misc/warnings.html#tail-ess</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Detection Rates:</span></span>
+<span><span class="co">#&gt;                      Estimate</span></span>
+<span><span class="co">#&gt; passive_asymptomatic  0.06002</span></span>
+<span><span class="co">#&gt; passive_symptomatic   0.92028</span></span>
+<span><span class="co">#&gt; active                0.15655</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Severity Estimates:</span></span>
+<span><span class="co">#&gt;     age IFR Estimate SIR Estimate</span></span>
+<span><span class="co">#&gt;   adult       0.2912       0.6591</span></span>
+<span><span class="co">#&gt;  senior       0.3268       0.7666</span></span>
+<span><span class="co">#&gt;   youth       0.2586       0.5304</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="extracting-results">Extracting results<a class="anchor" aria-label="anchor" href="#extracting-results"></a>

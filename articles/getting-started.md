@@ -191,6 +191,18 @@ estimate <- fit(
 #> Warning: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
 #> Running the chains for more iterations may help. See
 #> https://mc-stan.org/misc/warnings.html#tail-ess
+summary(estimate)
+#> Detection Rates:
+#>                      Estimate
+#> passive_asymptomatic  0.06002
+#> passive_symptomatic   0.92028
+#> active                0.15655
+#> 
+#> Severity Estimates:
+#>     age IFR Estimate SIR Estimate
+#>   adult       0.2912       0.6591
+#>  senior       0.3268       0.7666
+#>   youth       0.2586       0.5304
 ```
 
 ## Extracting results

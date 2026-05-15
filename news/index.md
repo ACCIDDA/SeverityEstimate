@@ -151,6 +151,8 @@ fit_result
 - Added support for “mean”/“concentration” parameterization of beta
   prior distributions.
   [\#71](https://github.com/ACCIDDA/SeverityEstimate/issues/71).
+- Added `summary` generic for `SeverityEstimateFit` objects.
+  [\#30](https://github.com/ACCIDDA/SeverityEstimate/issues/30).
 
 ## SeverityEstimate 0.0.1
 
