@@ -122,6 +122,7 @@ fit_result
 - Restructured package utilizing [`rstantools`](https://mc-stan.org/rstantools/index.html). [#73](https://github.com/ACCIDDA/SeverityEstimate/issues/73).
 - Added support for "mean"/"concentration" parameterization of beta prior distributions. [#71](https://github.com/ACCIDDA/SeverityEstimate/issues/71).
 - Added `summary` generic for `SeverityEstimateFit` objects. [#30](https://github.com/ACCIDDA/SeverityEstimate/issues/30).
+- Added an integration-style notebook under `inst/notebooks/` for synthetic parameter-recovery checks, along with local render commands for heavier non-vignette R Markdown analyses. [#116](https://github.com/ACCIDDA/SeverityEstimate/issues/116).
 
 # SeverityEstimate 0.0.1
 

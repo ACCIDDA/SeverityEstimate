@@ -35,9 +35,11 @@ Depends:
     rstan (>= 2.18.1)
 Suggests: 
     devtools,
+    ggplot2,
     knitr,
     lobstr,
     pkgdown,
+    posterior,
     rmarkdown,
     roxygen2,
     testthat (>= 3.0.0),
