@@ -194,15 +194,15 @@ estimate <- fit(
 summary(estimate)
 #> Detection Rates:
 #>                      Estimate
-#> passive_asymptomatic  0.06002
-#> passive_symptomatic   0.92028
-#> active                0.15655
+#> passive_asymptomatic   0.0603
+#> passive_symptomatic    0.9293
+#> active                 0.1569
 #> 
 #> Severity Estimates:
 #>     age IFR Estimate SIR Estimate
-#>   adult       0.2912       0.6591
-#>  senior       0.3268       0.7666
-#>   youth       0.2586       0.5304
+#>   youth       0.2605       0.5340
+#>   adult       0.2926       0.6580
+#>  senior       0.3276       0.7624
 ```
 
 ## Extracting results
@@ -223,9 +223,9 @@ calculate_parameter_estimates(estimate, alpha = 0.05)
 #> 2 passive_asymptomatic_detection mildly/asymptomatic passive detection rate
 #> 3  passive_symptomatic_detection     severe symptoms passive detection rate
 #>   mean_estimate median_estimate  lower_05   upper_05
-#> 1    0.15654989      0.15683992 0.1305356 0.18078452
-#> 2    0.06002338      0.05758782 0.0365340 0.09764516
-#> 3    0.92028152      0.93177442 0.7612098 0.98902736
+#> 1    0.15693292      0.15682700 0.1336004 0.17785827
+#> 2    0.06029848      0.05855891 0.0362586 0.09738366
+#> 3    0.92926126      0.93447901 0.8116061 0.99094681
 ```
 
 ### Fatality ratios
@@ -238,16 +238,15 @@ comparison against the model-adjusted estimates.
 
 ``` r
 
-ratios <- calculate_fatality_ratio(
+calculate_fatality_ratio(
   estimate, median_estimate = FALSE, naive_estimate = TRUE
 )
-ratios[match(c("youth", "adult", "senior"), ratios$age), ]
 #>      age ifr_mean_estimate ifr_lower_05 ifr_upper_05 sir_mean_estimate
-#> 3  youth         0.2585664    0.2259203    0.2989199         0.5303662
-#> 1  adult         0.2912268    0.2656749    0.3195641         0.6591493
-#> 2 senior         0.3267977    0.2829000    0.3720769         0.7666496
+#> 1  youth         0.2604688    0.2191821    0.3026680         0.5340250
+#> 2  adult         0.2925636    0.2633296    0.3179424         0.6580146
+#> 3 senior         0.3275535    0.2879873    0.3817649         0.7624441
 #>   sir_lower_05 sir_upper_05 naive_ifr naive_sir
-#> 3    0.4654789    0.6055360 0.3434066 0.8461538
-#> 1    0.6032755    0.7135180 0.3890135 0.9047085
-#> 2    0.6773229    0.8300262 0.3495935 0.9471545
+#> 1    0.4695491    0.6135623 0.3434066 0.8461538
+#> 2    0.6073257    0.7129924 0.3890135 0.9047085
+#> 3    0.6963781    0.8285428 0.3495935 0.9471545
 ```

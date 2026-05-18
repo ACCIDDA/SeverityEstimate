@@ -6,7 +6,13 @@ the columns and get the index of those rows in the subset.
 ## Usage
 
 ``` r
-extract_and_match_data_frame(x, cols, subset_x = NULL, stop_on_nomatch = TRUE)
+extract_and_match_data_frame(
+  x,
+  cols,
+  subset_x = NULL,
+  stop_on_nomatch = TRUE,
+  sort_subset_x = TRUE
+)
 ```
 
 ## Arguments

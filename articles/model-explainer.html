@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Model Explainer • SeverityEstimate</title>
 <script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Model Explainer">
 </head>
@@ -474,9 +474,9 @@ stratum.</p>
 <span><span class="co">#&gt; 2 passive_asymptomatic_detection mildly/asymptomatic passive detection rate</span></span>
 <span><span class="co">#&gt; 3  passive_symptomatic_detection     severe symptoms passive detection rate</span></span>
 <span><span class="co">#&gt;   mean_estimate median_estimate   lower_05   upper_05</span></span>
-<span><span class="co">#&gt; 1     0.1629191      0.16264570 0.14253597 0.18170546</span></span>
-<span><span class="co">#&gt; 2     0.0677107      0.06620348 0.04363856 0.09880828</span></span>
-<span><span class="co">#&gt; 3     0.9399076      0.95426469 0.83675513 0.99924221</span></span>
+<span><span class="co">#&gt; 1    0.16429132       0.1645077 0.14279436 0.18519107</span></span>
+<span><span class="co">#&gt; 2    0.07024651       0.0709294 0.04860734 0.09187422</span></span>
+<span><span class="co">#&gt; 3    0.95238435       0.9636443 0.84710890 0.99835436</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/calculate_fatality_ratio.html">calculate_fatality_ratio</a></span><span class="op">(</span></span>
 <span>  <span class="va">estimate</span>,</span>
@@ -485,19 +485,19 @@ stratum.</p>
 <span>  naive_estimate <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt;      age health_occupation ifr_median_estimate ifr_lower_05 ifr_upper_05</span></span>
-<span><span class="co">#&gt; 1  adult                no           0.3321037    0.2975334    0.3590999</span></span>
-<span><span class="co">#&gt; 2  adult               yes           0.2735757    0.2150000    0.3283086</span></span>
-<span><span class="co">#&gt; 3 senior                no           0.3798149    0.3308376    0.4150597</span></span>
-<span><span class="co">#&gt; 4 senior               yes           0.3221498    0.2510924    0.3844672</span></span>
-<span><span class="co">#&gt; 5  youth                no           0.2897940    0.2470989    0.3293371</span></span>
-<span><span class="co">#&gt; 6  youth               yes           0.2337566    0.1788611    0.2991079</span></span>
+<span><span class="co">#&gt; 1  youth                no           0.2869454    0.2492251    0.3342272</span></span>
+<span><span class="co">#&gt; 2  youth               yes           0.2323607    0.1788415    0.3000969</span></span>
+<span><span class="co">#&gt; 3  adult                no           0.3342020    0.3062570    0.3646334</span></span>
+<span><span class="co">#&gt; 4  adult               yes           0.2760754    0.2115991    0.3461296</span></span>
+<span><span class="co">#&gt; 5 senior                no           0.3807844    0.3357321    0.4480892</span></span>
+<span><span class="co">#&gt; 6 senior               yes           0.3229806    0.2471775    0.4199844</span></span>
 <span><span class="co">#&gt;   sir_median_estimate sir_lower_05 sir_upper_05 naive_ifr naive_sir</span></span>
-<span><span class="co">#&gt; 1           0.6322716    0.5786584    0.6773942 0.4224806 0.8863049</span></span>
-<span><span class="co">#&gt; 2           0.6185124    0.5285785    0.6949678 0.3231707 0.8597561</span></span>
-<span><span class="co">#&gt; 3           0.7578100    0.6699783    0.8275215 0.4330709 0.9488189</span></span>
-<span><span class="co">#&gt; 4           0.7507920    0.6433758    0.8450642 0.5555556 1.0000000</span></span>
-<span><span class="co">#&gt; 5           0.4755982    0.4258657    0.5387716 0.4069401 0.8170347</span></span>
-<span><span class="co">#&gt; 6           0.4691916    0.3770168    0.5682555 0.3500000 0.8750000</span></span></code></pre></div>
+<span><span class="co">#&gt; 1           0.4674317    0.4112720    0.5211716 0.4069401 0.8170347</span></span>
+<span><span class="co">#&gt; 2           0.4664176    0.3284257    0.5926703 0.3500000 0.8750000</span></span>
+<span><span class="co">#&gt; 3           0.6266265    0.5863260    0.6657964 0.4224806 0.8863049</span></span>
+<span><span class="co">#&gt; 4           0.6161694    0.5203892    0.7385855 0.3231707 0.8597561</span></span>
+<span><span class="co">#&gt; 5           0.7625821    0.6948667    0.8191488 0.4330709 0.9488189</span></span>
+<span><span class="co">#&gt; 6           0.7485675    0.6654328    0.8550410 0.5555556 1.0000000</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="what-to-keep-in-mind-when-reading-fitted-results">What to keep in mind when reading fitted results<a class="anchor" aria-label="anchor" href="#what-to-keep-in-mind-when-reading-fitted-results"></a>

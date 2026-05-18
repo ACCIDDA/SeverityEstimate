@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Getting Started • SeverityEstimate</title>
 <script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Getting Started">
 </head>
@@ -264,15 +264,15 @@ usual Stan diagnostics.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Detection Rates:</span></span>
 <span><span class="co">#&gt;                      Estimate</span></span>
-<span><span class="co">#&gt; passive_asymptomatic  0.06002</span></span>
-<span><span class="co">#&gt; passive_symptomatic   0.92028</span></span>
-<span><span class="co">#&gt; active                0.15655</span></span>
+<span><span class="co">#&gt; passive_asymptomatic   0.0603</span></span>
+<span><span class="co">#&gt; passive_symptomatic    0.9293</span></span>
+<span><span class="co">#&gt; active                 0.1569</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Severity Estimates:</span></span>
 <span><span class="co">#&gt;     age IFR Estimate SIR Estimate</span></span>
-<span><span class="co">#&gt;   adult       0.2912       0.6591</span></span>
-<span><span class="co">#&gt;  senior       0.3268       0.7666</span></span>
-<span><span class="co">#&gt;   youth       0.2586       0.5304</span></span></code></pre></div>
+<span><span class="co">#&gt;   youth       0.2605       0.5340</span></span>
+<span><span class="co">#&gt;   adult       0.2926       0.6580</span></span>
+<span><span class="co">#&gt;  senior       0.3276       0.7624</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="extracting-results">Extracting results<a class="anchor" aria-label="anchor" href="#extracting-results"></a>
@@ -292,9 +292,9 @@ which credible interval bounds are returned.</p>
 <span><span class="co">#&gt; 2 passive_asymptomatic_detection mildly/asymptomatic passive detection rate</span></span>
 <span><span class="co">#&gt; 3  passive_symptomatic_detection     severe symptoms passive detection rate</span></span>
 <span><span class="co">#&gt;   mean_estimate median_estimate  lower_05   upper_05</span></span>
-<span><span class="co">#&gt; 1    0.15654989      0.15683992 0.1305356 0.18078452</span></span>
-<span><span class="co">#&gt; 2    0.06002338      0.05758782 0.0365340 0.09764516</span></span>
-<span><span class="co">#&gt; 3    0.92028152      0.93177442 0.7612098 0.98902736</span></span></code></pre></div>
+<span><span class="co">#&gt; 1    0.15693292      0.15682700 0.1336004 0.17785827</span></span>
+<span><span class="co">#&gt; 2    0.06029848      0.05855891 0.0362586 0.09738366</span></span>
+<span><span class="co">#&gt; 3    0.92926126      0.93447901 0.8116061 0.99094681</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="fatality-ratios">Fatality ratios<a class="anchor" aria-label="anchor" href="#fatality-ratios"></a>
@@ -305,18 +305,17 @@ includes a naive observed ratio computed directly from the raw counts,
 which provides a useful point of comparison against the model-adjusted
 estimates.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ratios</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_fatality_ratio.html">calculate_fatality_ratio</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/calculate_fatality_ratio.html">calculate_fatality_ratio</a></span><span class="op">(</span></span>
 <span>  <span class="va">estimate</span>, median_estimate <span class="op">=</span> <span class="cn">FALSE</span>, naive_estimate <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
-<span><span class="va">ratios</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"youth"</span>, <span class="st">"adult"</span>, <span class="st">"senior"</span><span class="op">)</span>, <span class="va">ratios</span><span class="op">$</span><span class="va">age</span><span class="op">)</span>, <span class="op">]</span></span>
 <span><span class="co">#&gt;      age ifr_mean_estimate ifr_lower_05 ifr_upper_05 sir_mean_estimate</span></span>
-<span><span class="co">#&gt; 3  youth         0.2585664    0.2259203    0.2989199         0.5303662</span></span>
-<span><span class="co">#&gt; 1  adult         0.2912268    0.2656749    0.3195641         0.6591493</span></span>
-<span><span class="co">#&gt; 2 senior         0.3267977    0.2829000    0.3720769         0.7666496</span></span>
+<span><span class="co">#&gt; 1  youth         0.2604688    0.2191821    0.3026680         0.5340250</span></span>
+<span><span class="co">#&gt; 2  adult         0.2925636    0.2633296    0.3179424         0.6580146</span></span>
+<span><span class="co">#&gt; 3 senior         0.3275535    0.2879873    0.3817649         0.7624441</span></span>
 <span><span class="co">#&gt;   sir_lower_05 sir_upper_05 naive_ifr naive_sir</span></span>
-<span><span class="co">#&gt; 3    0.4654789    0.6055360 0.3434066 0.8461538</span></span>
-<span><span class="co">#&gt; 1    0.6032755    0.7135180 0.3890135 0.9047085</span></span>
-<span><span class="co">#&gt; 2    0.6773229    0.8300262 0.3495935 0.9471545</span></span></code></pre></div>
+<span><span class="co">#&gt; 1    0.4695491    0.6135623 0.3434066 0.8461538</span></span>
+<span><span class="co">#&gt; 2    0.6073257    0.7129924 0.3890135 0.9047085</span></span>
+<span><span class="co">#&gt; 3    0.6963781    0.8285428 0.3495935 0.9471545</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
