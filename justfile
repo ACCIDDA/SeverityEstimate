@@ -13,6 +13,7 @@ clean:
 	rm -rf .Rproj.user/
 	rm -rf docs/
 	rm -f vignettes/*.html
+	rm -rf inst/notebooks/rendered
 
 [group('dev')]
 [doc('Build man pages using roxygen')]
@@ -168,3 +169,13 @@ vignette target:
 [doc('Render a vignette and open the generated HTML in the default browser')]
 view target: (vignette target)
 	Rscript -e 'utils::browseURL(normalizePath("vignettes/{{ target }}.html"))'
+
+[group('notebooks')]
+[doc('Render an integration notebook locally')]
+notebook target:
+	Rscript -e 'dir.create("inst/notebooks/rendered", recursive = TRUE, showWarnings = FALSE); rmarkdown::render(input = "inst/notebooks/{{ target }}.Rmd", output_file = "{{ target }}.html", output_dir = "inst/notebooks/rendered", clean = TRUE, envir = new.env(parent = globalenv()))'
+
+[group('notebooks')]
+[doc('Render an integration notebook and open the generated HTML in the default browser')]
+notebook-view target: (notebook target)
+	Rscript -e 'utils::browseURL(normalizePath("inst/notebooks/rendered/{{ target }}.html"))'

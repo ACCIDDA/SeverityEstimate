@@ -1,0 +1,317 @@
+---
+title: "Synthetic Parameter Recovery"
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_depth: 2
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+for (pkg in c("devtools", "ggplot2", "posterior")) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    stop(
+      "This notebook requires the suggested package `",
+      pkg,
+      "`. Install suggested dependencies before rendering."
+    )
+  }
+}
+
+ci_label <- function(alpha) {
+  stopifnot(is.numeric(alpha), length(alpha) == 1L, !is.na(alpha))
+  formatC(100.0 * alpha, width = 2L, format = "d", flag = "0")
+}
+
+build_detection_recovery_table <- function(fit, truth, alpha = 0.05) {
+  alpha_label <- ci_label(alpha)
+  estimates <- calculate_parameter_estimates(
+    fit,
+    mean_estimate = FALSE,
+    alpha = alpha,
+    include_description = FALSE
+  )
+  truth_values <- c(
+    active_detection = truth$active_detection,
+    passive_asymptomatic_detection = truth$passive_asymptomatic_detection,
+    passive_symptomatic_detection = truth$passive_symptomatic_detection
+  )
+  labels <- c(
+    active_detection = "Active detection",
+    passive_asymptomatic_detection = "Passive asymptomatic detection",
+    passive_symptomatic_detection = "Passive symptomatic detection"
+  )
+  output <- data.frame(
+    group = "Detection",
+    label = unname(labels[estimates$parameter]),
+    parameter = estimates$parameter,
+    truth = unname(truth_values[estimates$parameter]),
+    posterior_median = estimates$median_estimate,
+    lower_95 = estimates[[paste0("lower_", alpha_label)]],
+    upper_95 = estimates[[paste0("upper_", alpha_label)]],
+    stringsAsFactors = FALSE
+  )
+  output$truth_in_interval <- with(
+    output,
+    lower_95 <= truth & truth <= upper_95
+  )
+  output
+}
+
+build_severity_recovery_table <- function(fit, truth, alpha = 0.05) {
+  alpha_label <- ci_label(alpha)
+  estimates <- calculate_fatality_ratio(
+    fit,
+    mean_estimate = FALSE,
+    alpha = alpha,
+    naive_estimate = FALSE
+  )
+  output <- data.frame(
+    group = "Severity",
+    label = c("IFR", "SIR"),
+    parameter = c("ifr", "sir"),
+    truth = c(truth$ifr, truth$sir),
+    posterior_median = c(
+      estimates$ifr_median_estimate,
+      estimates$sir_median_estimate
+    ),
+    lower_95 = c(
+      estimates[[paste0("ifr_lower_", alpha_label)]],
+      estimates[[paste0("sir_lower_", alpha_label)]]
+    ),
+    upper_95 = c(
+      estimates[[paste0("ifr_upper_", alpha_label)]],
+      estimates[[paste0("sir_upper_", alpha_label)]]
+    ),
+    stringsAsFactors = FALSE
+  )
+  output$truth_in_interval <- with(
+    output,
+    lower_95 <= truth & truth <= upper_95
+  )
+  output
+}
+
+build_recovery_table <- function(fit, truth, alpha = 0.05) {
+  output <- rbind(
+    build_detection_recovery_table(fit, truth, alpha = alpha),
+    build_severity_recovery_table(fit, truth, alpha = alpha)
+  )
+  output$truth_in_interval_label <- ifelse(
+    output$truth_in_interval,
+    "Captured",
+    "Missed"
+  )
+  output$truth_in_interval <- NULL
+  output
+}
+
+plot_recovery_intervals <- function(recovery_table) {
+  plot_data <- recovery_table
+  plot_data$label <- factor(
+    plot_data$label,
+    levels = rev(plot_data$label)
+  )
+  ggplot2::ggplot(
+    plot_data,
+    ggplot2::aes(y = label)
+  ) +
+    ggplot2::geom_segment(
+      ggplot2::aes(
+        x = lower_95,
+        xend = upper_95,
+        yend = label,
+        color = truth_in_interval_label
+      ),
+      linewidth = 1.1
+    ) +
+    ggplot2::geom_point(
+      ggplot2::aes(
+        x = posterior_median,
+        color = truth_in_interval_label
+      ),
+      size = 2.5
+    ) +
+    ggplot2::geom_point(
+      ggplot2::aes(x = truth),
+      shape = 4,
+      stroke = 1.1,
+      size = 3,
+      color = "black"
+    ) +
+    ggplot2::scale_color_manual(
+      values = c(Captured = "#216869", Missed = "#B42318")
+    ) +
+    ggplot2::labs(
+      x = "Probability",
+      y = NULL,
+      color = "95% CI captures truth",
+      title = "Synthetic Truth vs 95% Credible Intervals"
+    ) +
+    ggplot2::theme_minimal(base_size = 12) +
+    ggplot2::theme(
+      panel.grid.minor = ggplot2::element_blank(),
+      legend.position = "bottom"
+  )
+}
+
+notebook_dir <- dirname(normalizePath(knitr::current_input(dir = TRUE)))
+project_root <- normalizePath(
+  file.path(notebook_dir, "..", ".."),
+  winslash = "/",
+  mustWork = TRUE
+)
+devtools::load_all(project_root, quiet = TRUE, export_all = FALSE)
+alpha <- 0.05
+```
+
+## Overview
+
+This notebook is a heavier-weight companion to the package vignettes. Its goal
+is to act like an integration check: generate a synthetic line list with known
+parameters, fit the no-strata model with convergence-oriented Stan settings,
+then compare the true generating values against the posterior 95% credible
+intervals.
+
+## Synthetic truth
+
+The data-generating scenario is intentionally simple for this first notebook: a
+single unstratified population observed weekly through both active and passive
+surveillance.
+
+```{r synthetic-truth}
+analysis_seed <- 314L
+truth <- list(
+  population = 75000L,
+  ifr = 0.06,
+  sir = 0.45,
+  active_detection = 0.18,
+  passive_asymptomatic_detection = 0.08,
+  passive_symptomatic_detection = 0.90
+)
+times <- seq(as.Date("2024-01-01"), by = "7 days", length.out = 12L)
+force_of_infection <- matrix(
+  data = 0.004,
+  nrow = length(times),
+  ncol = 1L
+)
+fit_args <- list(
+  chains = 2L,
+  iter = 1000L,
+  seed = analysis_seed,
+  cores = 1L,
+  open_progress = interactive(),
+  refresh = if (interactive()) 100L else 0L
+)
+
+truth_table <- data.frame(
+  parameter = c(
+    "population",
+    "ifr",
+    "sir",
+    "active_detection",
+    "passive_asymptomatic_detection",
+    "passive_symptomatic_detection"
+  ),
+  value = unlist(truth, use.names = FALSE)
+)
+knitr::kable(truth_table, digits = 3)
+```
+
+## Simulate data
+
+`create_sample_linelist()` accepts a single-row `population`/`sir`/`ifr` table
+for this no-strata case.
+
+```{r simulate-data}
+linelist <- create_sample_linelist(
+  strata = data.frame(
+    population = truth$population,
+    sir = truth$sir,
+    ifr = truth$ifr
+  ),
+  times = times,
+  active_detection = truth$active_detection,
+  passive_asymptomatic_detection = truth$passive_asymptomatic_detection,
+  passive_symptomatic_detection = truth$passive_symptomatic_detection,
+  force_of_infection = force_of_infection,
+  seed = analysis_seed
+)
+
+case_counts <- as.data.frame.matrix(
+  stats::xtabs(~ detection + outcome, data = linelist)
+)[, c("Asymptomatic", "Symptomatic", "Death")]
+
+knitr::kable(case_counts)
+```
+
+## Build and fit the model
+
+The priors are intentionally weak here because the goal is parameter recovery
+from the synthetic data rather than prior sensitivity analysis.
+
+```{r fit-model}
+model <- SeverityEstimateModel(
+  line_list = linelist,
+  population = truth$population
+) |>
+  set_active_prior(alpha = 1.0, beta = 1.0) |>
+  set_passive_asymptomatic_prior(alpha = 1.0, beta = 1.0) |>
+  set_passive_symptomatic_prior(alpha = 1.0, beta = 1.0) |>
+  set_timesteps("time") |>
+  set_detection(
+    "detection",
+    map = c("Active" = "active", "Passive" = "passive")
+  ) |>
+  set_outcome(
+    "outcome",
+    map = c(
+      "Asymptomatic" = "asymptomatic",
+      "Symptomatic" = "symptomatic",
+      "Death" = "severe"
+    )
+  )
+
+estimate <- do.call(fit, c(list(model = model), fit_args))
+```
+
+## Sampler diagnostics
+
+These are computed with `posterior::summarise_draws()` using
+`posterior::default_convergence_measures()`.
+
+```{r diagnostics}
+draws <- posterior::as_draws_array(as.array(estimate@model_fit))
+diagnostics <- posterior::summarise_draws(
+  draws,
+  posterior::default_convergence_measures()
+)
+knitr::kable(diagnostics, digits = 3)
+```
+
+## Parameter recovery
+
+The table below is the core integration-style check: for each generating
+parameter, compare the synthetic truth to the posterior median and 95% credible
+interval.
+
+```{r recovery-table}
+recovery_table <- build_recovery_table(estimate, truth, alpha = alpha)
+
+knitr::kable(recovery_table, digits = 3)
+```
+
+```{r recovery-plot, fig.height = 4.5, fig.width = 8}
+plot_recovery_intervals(recovery_table)
+```
+
+If this notebook is being used as a manual integration check, the main things
+to look for are:
+
+1. No serious sampler pathologies in the diagnostics table.
+2. Most or all parameters falling inside their 95% credible intervals.
+3. Posterior medians landing reasonably close to the generating values.
