@@ -90,7 +90,12 @@ create_sample_linelist <- function(
   # Wrangle `strata`
   strata_cols <- setdiff(names(strata), c("population", "sir", "ifr"))
   if (length(strata_cols) == 0L) {
-    stop("Not providing any strata is temporarily not supported.")
+    if (nrow(strata) != 1L) {
+      stop(
+        "When `strata` only contains `population`, `sir`, and `ifr`, ",
+        "it must contain exactly one row."
+      )
+    }
   }
   invalid_cols <- intersect(
     strata_cols,
@@ -190,11 +195,13 @@ create_sample_linelist <- function(
         "Passive"
       )
       linelist_part$time <- times[x$time_idx]
-      linelist_part[, strata_cols] <- strata[
-        x$strata_idx,
-        strata_cols,
-        drop = FALSE
-      ]
+      if (length(strata_cols) > 0L) {
+        linelist_part[, strata_cols] <- strata[
+          x$strata_idx,
+          strata_cols,
+          drop = FALSE
+        ]
+      }
       linelist_part
     })
   )
