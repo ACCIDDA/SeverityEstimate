@@ -22,10 +22,11 @@ accounting for the fact that active and passive surveillance systems detect
 cases at different rates and with different symptom profiles. The model is based
 on [Lessler et al. (2016)](https://doi.org/10.1093/aje/kwv452).
 
-The package uses a pipeline API similar in spirit to `tidymodels`: you first
-build and configure a `SeverityEstimateModel` object, then call `fit()` to run
-the Stan sampler and obtain a `SeverityEstimateFit` from which estimates are
-extracted.
+The lightest workflow is to format your data with `time`, `detection`, and
+`outcome` columns, plus any strata columns you want to model, then call
+`default_model()` followed by `fit()`. For more customized models, you can
+still build a `SeverityEstimateModel` manually and configure it with the
+individual `set_*()` helpers.
 
 ```{r setup}
 options(mc.cores = 1L)
@@ -75,28 +76,20 @@ summary(linelist)
 
 ## Building and fitting the model
 
-The modelling workflow has two stages. First, a `SeverityEstimateModel` is
-constructed by specifying the line list, the population table, and the model
-configuration. Each `set_*` call adds one piece of configuration and returns
-the model so calls can be chained.
+`default_model()` is the shortest path from formatted data to a fitted model.
+It expects the line list to contain `time`, `detection`, and `outcome`, and it
+treats every other line-list column as a strata column with
+`degrees_of_freedom = 0L`. Because the sample line list also contains a patient
+identifier, we first drop that column before constructing the model.
 
-- `set_active_prior/passive_asymptomatic_prior/passive_symptomatic_prior`:
-  Set Beta distribution priors for each surveillance detection rate. Here we use
-  a weakly informative prior for active detection and priors that reflect the
-  expectation that passive surveillance is more likely to capture symptomatic
-  than asymptomatic cases.
-- `set_strata`: Declares the column used for stratification. Use
-  `degrees_of_freedom = 0L` for an unsmoothed categorical effect, or provide
-  explicit `levels` plus `degrees_of_freedom > 0L` for a smoothed ordered
-  effect across those levels.
-- `set_timesteps`: Declares the column that identifies the time period of each
-  observation.
-- `set_detection`: Maps the values in the detection column to the canonical
-  types `active` and `passive` expected by the model.
-- `set_outcome`: Maps the values in the outcome column to the canonical types
-  `asymptomatic`, `symptomatic`, and `severe` expected by the model.
+`default_model()` also sets the weakly informative detection priors used
+throughout this package:
 
-Once configured, `fit()` samples from the package's precompiled Stan model,
+- Active detection: `Beta(1, 1)`
+- Passive asymptomatic detection: `Beta(1, 3)`
+- Passive symptomatic detection: `Beta(3, 1)`
+
+Once constructed, `fit()` samples from the package's precompiled Stan model,
 passing any additional arguments (e.g. `chains`, `iter`) through to
 `rstan::sampling()`. The settings below are intentionally small to keep this
 vignette reasonably quick to render. They are not sufficient to assess
@@ -104,30 +97,10 @@ convergence or support serious inference. In practice you'd want to use more
 chains and iterations and review the usual Stan diagnostics.
 
 ```{r fit model}
+linelist_model_data <- linelist[, c("time", "age", "detection", "outcome")]
 population <- strata[, c("age", "population")]
 
-model <- SeverityEstimateModel(linelist, population) |>
-  set_active_prior(alpha = 1.0, beta = 1.0) |>
-  set_passive_asymptomatic_prior(alpha = 1.0, beta = 3.0) |>
-  set_passive_symptomatic_prior(alpha = 3.0, beta = 1.0) |>
-  set_strata(
-    "age",
-    levels = strata[, "age"],
-    degrees_of_freedom = 1L
-  ) |>
-  set_timesteps("time") |>
-  set_detection(
-    "detection",
-    map = c("Active" = "active", "Passive" = "passive")
-  ) |>
-  set_outcome(
-    "outcome",
-    map = c(
-      "Asymptomatic" = "asymptomatic",
-      "Symptomatic" = "symptomatic",
-      "Death" = "severe"
-    )
-  )
+model <- default_model(linelist_model_data, population)
 
 estimate <- fit(
   model,
@@ -138,6 +111,12 @@ estimate <- fit(
 )
 summary(estimate)
 ```
+
+If you need more control, you can still start from `SeverityEstimateModel()`
+and use `set_strata()`, `set_timesteps()`, `set_detection()`, `set_outcome()`,
+and the prior setters directly. That is useful, for example, when you want a
+smoothed ordered strata effect with `degrees_of_freedom > 0L` rather than the
+default unsmoothed categorical effect.
 
 ## Extracting results
 
