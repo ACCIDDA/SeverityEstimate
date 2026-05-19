@@ -86,11 +86,14 @@
 <li>
 <code>vignettes/</code>: Longer-form package documentation in the form of vignettes.</li>
 <li>
+<code>inst/notebooks/</code>: Heavier ad-hoc integration notebooks, such as synthetic parameter-recovery checks, that are intended for local developer use rather than CI.</li>
+<li>
 <code>.github/</code>: CI configuration and workflows.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="opening-a-pull-request">Opening a Pull Request<a class="anchor" aria-label="anchor" href="#opening-a-pull-request"></a></h3>
 <p>Before opening a PR, it is useful to run the relevant local checks. You can run <code>just</code> for the most commont tasks, but it is also helpful to run <code>just ci</code> to replicate the CI checks and <code>just check</code> to ensure that <code>R CMD check</code> runs cleanly (this can take a minute to run).</p>
+<p>For changes that affect the statistical model, Stan program, fitting workflow, or downstream parameter extraction, developers should also render the relevant notebooks under <code>inst/notebooks/</code>. These notebooks are intentionally ad-hoc and are not currently part of CI, but they should still be used to confirm that the model can recover parameters from synthetic data after substantive model changes. For example, run <code>just notebook synthetic-parameter-recovery</code>.</p>
 <p>Pull requests should be opened against the <code>main</code> branch. On pull requests, CI currently checks:</p>
 <ul><li>Stan-generated artifacts are up to date.</li>
 <li>Roxygen documentation is up to date and committed.</li>

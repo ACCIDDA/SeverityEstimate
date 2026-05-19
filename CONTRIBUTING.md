@@ -43,6 +43,9 @@ code quality/linting tasks.
 - `man/`: Generated Rd documentation.
 - `vignettes/`: Longer-form package documentation in the form of
   vignettes.
+- `inst/notebooks/`: Heavier ad-hoc integration notebooks, such as
+  synthetic parameter-recovery checks, that are intended for local
+  developer use rather than CI.
 - `.github/`: CI configuration and workflows.
 
 ### Opening a Pull Request
@@ -51,6 +54,14 @@ Before opening a PR, it is useful to run the relevant local checks. You
 can run `just` for the most commont tasks, but it is also helpful to run
 `just ci` to replicate the CI checks and `just check` to ensure that
 `R CMD check` runs cleanly (this can take a minute to run).
+
+For changes that affect the statistical model, Stan program, fitting
+workflow, or downstream parameter extraction, developers should also
+render the relevant notebooks under `inst/notebooks/`. These notebooks
+are intentionally ad-hoc and are not currently part of CI, but they
+should still be used to confirm that the model can recover parameters
+from synthetic data after substantive model changes. For example, run
+`just notebook synthetic-parameter-recovery`.
 
 Pull requests should be opened against the `main` branch. On pull
 requests, CI currently checks:
