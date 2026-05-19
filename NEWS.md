@@ -99,6 +99,7 @@ model
 # alpha  beta
 #     3     1
 ```
+- Added `default_model` to quickly construct a model from well formated population and line list `data.frame`s as a quick way to get started with the package. [#114](https://github.com/ACCIDDA/SeverityEstimate/issues/114).
 - Implemented `fit()` for `SeverityEstimateModel`, completing the S4 pipeline API. The model now supports an arbitrary number of ordered/unordered strata dimensions via additive fixed effects on the logit scale. Continuing from the example above:
 ```R
 fit_result <- model |>
@@ -116,7 +117,7 @@ fit_result
 # post-warmup draws per chain=250, total post-warmup draws=500.
 # ...
 ```
-- Added a `getting-started` vignette demonstrating the S4 pipeline API end-to-end, from synthetic data generation through model fitting and result extraction as well as a `model-explainer` vignette to do a deep dive into the model. [#78](https://github.com/ACCIDDA/SeverityEstimate/issues/78), [#107](https://github.com/ACCIDDA/SeverityEstimate/issues/107).
+- Added a `getting-started` vignette demonstrating the default model, from synthetic data generation through model fitting and result extraction as well as a `model-explainer` vignette to do a deep dive into the model. [#78](https://github.com/ACCIDDA/SeverityEstimate/issues/78), [#107](https://github.com/ACCIDDA/SeverityEstimate/issues/107).
 - Setup `pkgdown` site hosted on GitHub pages at [accidda.github.io/SeverityEstimate/](https://accidda.github.io/SeverityEstimate/). [#28](https://github.com/ACCIDDA/SeverityEstimate/issues/28).
 - Enhanced documentation elements, such as the `README.md`, `CONTRIBUTING.md` to add more helpful content to the package's documentation site. [#3](https://github.com/ACCIDDA/SeverityEstimate/issues/3), [#53](https://github.com/ACCIDDA/SeverityEstimate/issues/53).
 - Restructured package utilizing [`rstantools`](https://mc-stan.org/rstantools/index.html). [#73](https://github.com/ACCIDDA/SeverityEstimate/issues/73).
