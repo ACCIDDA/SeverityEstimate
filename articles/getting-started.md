@@ -9,11 +9,15 @@ systems detect cases at different rates and with different symptom
 profiles. The model is based on [Lessler et
 al. (2016)](https://doi.org/10.1093/aje/kwv452).
 
-The package uses a pipeline API similar in spirit to `tidymodels`: you
-first build and configure a `SeverityEstimateModel` object, then call
-[`fit()`](https://accidda.github.io/SeverityEstimate/reference/fit.md)
-to run the Stan sampler and obtain a `SeverityEstimateFit` from which
-estimates are extracted.
+The lightest workflow is to format your data with `time`, `detection`,
+and `outcome` columns, plus any strata columns you want to model, then
+call
+[`default_model()`](https://accidda.github.io/SeverityEstimate/reference/default_model.md)
+followed by
+[`fit()`](https://accidda.github.io/SeverityEstimate/reference/fit.md).
+For more customized models, you can still build a
+`SeverityEstimateModel` manually and configure it with the individual
+`set_*()` helpers.
 
 ``` r
 
@@ -116,29 +120,23 @@ summary(linelist)
 
 ## Building and fitting the model
 
-The modelling workflow has two stages. First, a `SeverityEstimateModel`
-is constructed by specifying the line list, the population table, and
-the model configuration. Each `set_*` call adds one piece of
-configuration and returns the model so calls can be chained.
+[`default_model()`](https://accidda.github.io/SeverityEstimate/reference/default_model.md)
+is the shortest path from formatted data to a fitted model. It expects
+the line list to contain `time`, `detection`, and `outcome`, and it
+treats every other line-list column as a strata column with
+`degrees_of_freedom = 0L`. Because the sample line list also contains a
+patient identifier, we first drop that column before constructing the
+model.
 
-- `set_active_prior/passive_asymptomatic_prior/passive_symptomatic_prior`:
-  Set Beta distribution priors for each surveillance detection rate.
-  Here we use a weakly informative prior for active detection and priors
-  that reflect the expectation that passive surveillance is more likely
-  to capture symptomatic than asymptomatic cases.
-- `set_strata`: Declares the column used for stratification. Use
-  `degrees_of_freedom = 0L` for an unsmoothed categorical effect, or
-  provide explicit `levels` plus `degrees_of_freedom > 0L` for a
-  smoothed ordered effect across those levels.
-- `set_timesteps`: Declares the column that identifies the time period
-  of each observation.
-- `set_detection`: Maps the values in the detection column to the
-  canonical types `active` and `passive` expected by the model.
-- `set_outcome`: Maps the values in the outcome column to the canonical
-  types `asymptomatic`, `symptomatic`, and `severe` expected by the
-  model.
+[`default_model()`](https://accidda.github.io/SeverityEstimate/reference/default_model.md)
+also sets the weakly informative detection priors used throughout this
+package:
 
-Once configured,
+- Active detection: `Beta(1, 1)`
+- Passive asymptomatic detection: `Beta(1, 3)`
+- Passive symptomatic detection: `Beta(3, 1)`
+
+Once constructed,
 [`fit()`](https://accidda.github.io/SeverityEstimate/reference/fit.md)
 samples from the package’s precompiled Stan model, passing any
 additional arguments (e.g. `chains`, `iter`) through to
@@ -150,30 +148,10 @@ more chains and iterations and review the usual Stan diagnostics.
 
 ``` r
 
+linelist_model_data <- linelist[, c("time", "age", "detection", "outcome")]
 population <- strata[, c("age", "population")]
 
-model <- SeverityEstimateModel(linelist, population) |>
-  set_active_prior(alpha = 1.0, beta = 1.0) |>
-  set_passive_asymptomatic_prior(alpha = 1.0, beta = 3.0) |>
-  set_passive_symptomatic_prior(alpha = 3.0, beta = 1.0) |>
-  set_strata(
-    "age",
-    levels = strata[, "age"],
-    degrees_of_freedom = 1L
-  ) |>
-  set_timesteps("time") |>
-  set_detection(
-    "detection",
-    map = c("Active" = "active", "Passive" = "passive")
-  ) |>
-  set_outcome(
-    "outcome",
-    map = c(
-      "Asymptomatic" = "asymptomatic",
-      "Symptomatic" = "symptomatic",
-      "Death" = "severe"
-    )
-  )
+model <- default_model(linelist_model_data, population)
 
 estimate <- fit(
   model,
@@ -194,16 +172,27 @@ estimate <- fit(
 summary(estimate)
 #> Detection Rates:
 #>                      Estimate
-#> passive_asymptomatic   0.0603
-#> passive_symptomatic    0.9293
-#> active                 0.1569
+#> passive_asymptomatic  0.05704
+#> passive_symptomatic   0.95175
+#> active                0.15974
 #> 
 #> Severity Estimates:
 #>     age IFR Estimate SIR Estimate
-#>   youth       0.2605       0.5340
-#>   adult       0.2926       0.6580
-#>  senior       0.3276       0.7624
+#>   adult       0.3097       0.6554
+#>  senior       0.3005       0.7675
+#>   youth       0.2400       0.5198
 ```
+
+If you need more control, you can still start from
+[`SeverityEstimateModel()`](https://accidda.github.io/SeverityEstimate/reference/SeverityEstimateModel.md)
+and use
+[`set_strata()`](https://accidda.github.io/SeverityEstimate/reference/strata.md),
+[`set_timesteps()`](https://accidda.github.io/SeverityEstimate/reference/timesteps.md),
+[`set_detection()`](https://accidda.github.io/SeverityEstimate/reference/detection.md),
+[`set_outcome()`](https://accidda.github.io/SeverityEstimate/reference/outcome.md),
+and the prior setters directly. That is useful, for example, when you
+want a smoothed ordered strata effect with `degrees_of_freedom > 0L`
+rather than the default unsmoothed categorical effect.
 
 ## Extracting results
 
@@ -223,9 +212,9 @@ calculate_parameter_estimates(estimate, alpha = 0.05)
 #> 2 passive_asymptomatic_detection mildly/asymptomatic passive detection rate
 #> 3  passive_symptomatic_detection     severe symptoms passive detection rate
 #>   mean_estimate median_estimate  lower_05   upper_05
-#> 1    0.15693292      0.15682700 0.1336004 0.17785827
-#> 2    0.06029848      0.05855891 0.0362586 0.09738366
-#> 3    0.92926126      0.93447901 0.8116061 0.99094681
+#> 1    0.15974402      0.15968138 0.1385260 0.18011611
+#> 2    0.05703974      0.05604461 0.0369103 0.08813589
+#> 3    0.95174877      0.96341735 0.8526623 0.99385044
 ```
 
 ### Fatality ratios
@@ -242,11 +231,11 @@ calculate_fatality_ratio(
   estimate, median_estimate = FALSE, naive_estimate = TRUE
 )
 #>      age ifr_mean_estimate ifr_lower_05 ifr_upper_05 sir_mean_estimate
-#> 1  youth         0.2604688    0.2191821    0.3026680         0.5340250
-#> 2  adult         0.2925636    0.2633296    0.3179424         0.6580146
-#> 3 senior         0.3275535    0.2879873    0.3817649         0.7624441
+#> 1  adult         0.3096621    0.2777563    0.3424366         0.6553673
+#> 2 senior         0.3005075    0.2438216    0.3661525         0.7675303
+#> 3  youth         0.2400402    0.1994504    0.2927146         0.5197518
 #>   sir_lower_05 sir_upper_05 naive_ifr naive_sir
-#> 1    0.4695491    0.6135623 0.3434066 0.8461538
-#> 2    0.6073257    0.7129924 0.3890135 0.9047085
-#> 3    0.6963781    0.8285428 0.3495935 0.9471545
+#> 1    0.6052815    0.7026613 0.3890135 0.9047085
+#> 2    0.6653631    0.8383285 0.3495935 0.9471545
+#> 3    0.4442299    0.5791658 0.3434066 0.8461538
 ```

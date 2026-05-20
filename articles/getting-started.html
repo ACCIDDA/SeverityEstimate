@@ -81,11 +81,12 @@ infection fatality ratio (IFR) and symptomatic infection rate (SIR) from
 case line list data, accounting for the fact that active and passive
 surveillance systems detect cases at different rates and with different
 symptom profiles. The model is based on <a href="https://doi.org/10.1093/aje/kwv452" class="external-link">Lessler et al. (2016)</a>.</p>
-<p>The package uses a pipeline API similar in spirit to
-<code>tidymodels</code>: you first build and configure a
-<code>SeverityEstimateModel</code> object, then call <code><a href="../reference/fit.html">fit()</a></code>
-to run the Stan sampler and obtain a <code>SeverityEstimateFit</code>
-from which estimates are extracted.</p>
+<p>The lightest workflow is to format your data with <code>time</code>,
+<code>detection</code>, and <code>outcome</code> columns, plus any
+strata columns you want to model, then call <code><a href="../reference/default_model.html">default_model()</a></code>
+followed by <code><a href="../reference/fit.html">fit()</a></code>. For more customized models, you can
+still build a <code>SeverityEstimateModel</code> manually and configure
+it with the individual <code>set_*()</code> helpers.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>mc.cores <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://accidda.github.io/SeverityEstimate/">SeverityEstimate</a></span><span class="op">)</span></span>
@@ -181,37 +182,24 @@ for the patient identifier, time step, age stratum, detection type
 <div class="section level2">
 <h2 id="building-and-fitting-the-model">Building and fitting the model<a class="anchor" aria-label="anchor" href="#building-and-fitting-the-model"></a>
 </h2>
-<p>The modelling workflow has two stages. First, a
-<code>SeverityEstimateModel</code> is constructed by specifying the line
-list, the population table, and the model configuration. Each
-<code>set_*</code> call adds one piece of configuration and returns the
-model so calls can be chained.</p>
+<p><code><a href="../reference/default_model.html">default_model()</a></code> is the shortest path from formatted data
+to a fitted model. It expects the line list to contain
+<code>time</code>, <code>detection</code>, and <code>outcome</code>, and
+it treats every other line-list column as a strata column with
+<code>degrees_of_freedom = 0L</code>. Because the sample line list also
+contains a patient identifier, we first drop that column before
+constructing the model.</p>
+<p><code><a href="../reference/default_model.html">default_model()</a></code> also sets the weakly informative
+detection priors used throughout this package:</p>
 <ul>
-<li>
-<code>set_active_prior/passive_asymptomatic_prior/passive_symptomatic_prior</code>:
-Set Beta distribution priors for each surveillance detection rate. Here
-we use a weakly informative prior for active detection and priors that
-reflect the expectation that passive surveillance is more likely to
-capture symptomatic than asymptomatic cases.</li>
-<li>
-<code>set_strata</code>: Declares the column used for
-stratification. Use <code>degrees_of_freedom = 0L</code> for an
-unsmoothed categorical effect, or provide explicit <code>levels</code>
-plus <code>degrees_of_freedom &gt; 0L</code> for a smoothed ordered
-effect across those levels.</li>
-<li>
-<code>set_timesteps</code>: Declares the column that identifies the
-time period of each observation.</li>
-<li>
-<code>set_detection</code>: Maps the values in the detection column
-to the canonical types <code>active</code> and <code>passive</code>
-expected by the model.</li>
-<li>
-<code>set_outcome</code>: Maps the values in the outcome column to
-the canonical types <code>asymptomatic</code>, <code>symptomatic</code>,
-and <code>severe</code> expected by the model.</li>
+<li>Active detection: <code>Beta(1, 1)</code>
+</li>
+<li>Passive asymptomatic detection: <code>Beta(1, 3)</code>
+</li>
+<li>Passive symptomatic detection: <code>Beta(3, 1)</code>
+</li>
 </ul>
-<p>Once configured, <code><a href="../reference/fit.html">fit()</a></code> samples from the package’s
+<p>Once constructed, <code><a href="../reference/fit.html">fit()</a></code> samples from the package’s
 precompiled Stan model, passing any additional arguments
 (e.g. <code>chains</code>, <code>iter</code>) through to
 <code><a href="https://mc-stan.org/rstan/reference/stanmodel-method-sampling.html" class="external-link">rstan::sampling()</a></code>. The settings below are intentionally
@@ -220,30 +208,10 @@ sufficient to assess convergence or support serious inference. In
 practice you’d want to use more chains and iterations and review the
 usual Stan diagnostics.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">population</span> <span class="op">&lt;-</span> <span class="va">strata</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"population"</span><span class="op">)</span><span class="op">]</span></span>
+<code class="sourceCode R"><span><span class="va">linelist_model_data</span> <span class="op">&lt;-</span> <span class="va">linelist</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"time"</span>, <span class="st">"age"</span>, <span class="st">"detection"</span>, <span class="st">"outcome"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">population</span> <span class="op">&lt;-</span> <span class="va">strata</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"population"</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
-<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/SeverityEstimateModel.html">SeverityEstimateModel</a></span><span class="op">(</span><span class="va">linelist</span>, <span class="va">population</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/active_prior.html">set_active_prior</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">1.0</span>, beta <span class="op">=</span> <span class="fl">1.0</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/active_prior.html">set_passive_asymptomatic_prior</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">1.0</span>, beta <span class="op">=</span> <span class="fl">3.0</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/active_prior.html">set_passive_symptomatic_prior</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">3.0</span>, beta <span class="op">=</span> <span class="fl">1.0</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/strata.html">set_strata</a></span><span class="op">(</span></span>
-<span>    <span class="st">"age"</span>,</span>
-<span>    levels <span class="op">=</span> <span class="va">strata</span><span class="op">[</span>, <span class="st">"age"</span><span class="op">]</span>,</span>
-<span>    degrees_of_freedom <span class="op">=</span> <span class="fl">1L</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/timesteps.html">set_timesteps</a></span><span class="op">(</span><span class="st">"time"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/detection.html">set_detection</a></span><span class="op">(</span></span>
-<span>    <span class="st">"detection"</span>,</span>
-<span>    map <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Active"</span> <span class="op">=</span> <span class="st">"active"</span>, <span class="st">"Passive"</span> <span class="op">=</span> <span class="st">"passive"</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/outcome.html">set_outcome</a></span><span class="op">(</span></span>
-<span>    <span class="st">"outcome"</span>,</span>
-<span>    map <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>      <span class="st">"Asymptomatic"</span> <span class="op">=</span> <span class="st">"asymptomatic"</span>,</span>
-<span>      <span class="st">"Symptomatic"</span> <span class="op">=</span> <span class="st">"symptomatic"</span>,</span>
-<span>      <span class="st">"Death"</span> <span class="op">=</span> <span class="st">"severe"</span></span>
-<span>    <span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
+<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/default_model.html">default_model</a></span><span class="op">(</span><span class="va">linelist_model_data</span>, <span class="va">population</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">estimate</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit.html">fit</a></span><span class="op">(</span></span>
 <span>  <span class="va">model</span>,</span>
@@ -264,15 +232,22 @@ usual Stan diagnostics.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Detection Rates:</span></span>
 <span><span class="co">#&gt;                      Estimate</span></span>
-<span><span class="co">#&gt; passive_asymptomatic   0.0603</span></span>
-<span><span class="co">#&gt; passive_symptomatic    0.9293</span></span>
-<span><span class="co">#&gt; active                 0.1569</span></span>
+<span><span class="co">#&gt; passive_asymptomatic  0.05704</span></span>
+<span><span class="co">#&gt; passive_symptomatic   0.95175</span></span>
+<span><span class="co">#&gt; active                0.15974</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Severity Estimates:</span></span>
 <span><span class="co">#&gt;     age IFR Estimate SIR Estimate</span></span>
-<span><span class="co">#&gt;   youth       0.2605       0.5340</span></span>
-<span><span class="co">#&gt;   adult       0.2926       0.6580</span></span>
-<span><span class="co">#&gt;  senior       0.3276       0.7624</span></span></code></pre></div>
+<span><span class="co">#&gt;   adult       0.3097       0.6554</span></span>
+<span><span class="co">#&gt;  senior       0.3005       0.7675</span></span>
+<span><span class="co">#&gt;   youth       0.2400       0.5198</span></span></code></pre></div>
+<p>If you need more control, you can still start from
+<code><a href="../reference/SeverityEstimateModel.html">SeverityEstimateModel()</a></code> and use <code><a href="../reference/strata.html">set_strata()</a></code>,
+<code><a href="../reference/timesteps.html">set_timesteps()</a></code>, <code><a href="../reference/detection.html">set_detection()</a></code>,
+<code><a href="../reference/outcome.html">set_outcome()</a></code>, and the prior setters directly. That is
+useful, for example, when you want a smoothed ordered strata effect with
+<code>degrees_of_freedom &gt; 0L</code> rather than the default
+unsmoothed categorical effect.</p>
 </div>
 <div class="section level2">
 <h2 id="extracting-results">Extracting results<a class="anchor" aria-label="anchor" href="#extracting-results"></a>
@@ -292,9 +267,9 @@ which credible interval bounds are returned.</p>
 <span><span class="co">#&gt; 2 passive_asymptomatic_detection mildly/asymptomatic passive detection rate</span></span>
 <span><span class="co">#&gt; 3  passive_symptomatic_detection     severe symptoms passive detection rate</span></span>
 <span><span class="co">#&gt;   mean_estimate median_estimate  lower_05   upper_05</span></span>
-<span><span class="co">#&gt; 1    0.15693292      0.15682700 0.1336004 0.17785827</span></span>
-<span><span class="co">#&gt; 2    0.06029848      0.05855891 0.0362586 0.09738366</span></span>
-<span><span class="co">#&gt; 3    0.92926126      0.93447901 0.8116061 0.99094681</span></span></code></pre></div>
+<span><span class="co">#&gt; 1    0.15974402      0.15968138 0.1385260 0.18011611</span></span>
+<span><span class="co">#&gt; 2    0.05703974      0.05604461 0.0369103 0.08813589</span></span>
+<span><span class="co">#&gt; 3    0.95174877      0.96341735 0.8526623 0.99385044</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="fatality-ratios">Fatality ratios<a class="anchor" aria-label="anchor" href="#fatality-ratios"></a>
@@ -309,13 +284,13 @@ estimates.</p>
 <span>  <span class="va">estimate</span>, median_estimate <span class="op">=</span> <span class="cn">FALSE</span>, naive_estimate <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt;      age ifr_mean_estimate ifr_lower_05 ifr_upper_05 sir_mean_estimate</span></span>
-<span><span class="co">#&gt; 1  youth         0.2604688    0.2191821    0.3026680         0.5340250</span></span>
-<span><span class="co">#&gt; 2  adult         0.2925636    0.2633296    0.3179424         0.6580146</span></span>
-<span><span class="co">#&gt; 3 senior         0.3275535    0.2879873    0.3817649         0.7624441</span></span>
+<span><span class="co">#&gt; 1  adult         0.3096621    0.2777563    0.3424366         0.6553673</span></span>
+<span><span class="co">#&gt; 2 senior         0.3005075    0.2438216    0.3661525         0.7675303</span></span>
+<span><span class="co">#&gt; 3  youth         0.2400402    0.1994504    0.2927146         0.5197518</span></span>
 <span><span class="co">#&gt;   sir_lower_05 sir_upper_05 naive_ifr naive_sir</span></span>
-<span><span class="co">#&gt; 1    0.4695491    0.6135623 0.3434066 0.8461538</span></span>
-<span><span class="co">#&gt; 2    0.6073257    0.7129924 0.3890135 0.9047085</span></span>
-<span><span class="co">#&gt; 3    0.6963781    0.8285428 0.3495935 0.9471545</span></span></code></pre></div>
+<span><span class="co">#&gt; 1    0.6052815    0.7026613 0.3890135 0.9047085</span></span>
+<span><span class="co">#&gt; 2    0.6653631    0.8383285 0.3495935 0.9471545</span></span>
+<span><span class="co">#&gt; 3    0.4442299    0.5791658 0.3434066 0.8461538</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

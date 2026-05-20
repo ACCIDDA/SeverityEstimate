@@ -158,6 +158,9 @@ Disease Control and Prevention.
 - [`create_sample_linelist()`](https://accidda.github.io/SeverityEstimate/reference/create_sample_linelist.md)
   : Create A Sample Line List
 
+- [`default_model()`](https://accidda.github.io/SeverityEstimate/reference/default_model.md)
+  : Construct A Default Severity Model
+
 - [`detection()`](https://accidda.github.io/SeverityEstimate/reference/detection.md)
   [`` `detection<-`() ``](https://accidda.github.io/SeverityEstimate/reference/detection.md)
   [`has_detection()`](https://accidda.github.io/SeverityEstimate/reference/detection.md)

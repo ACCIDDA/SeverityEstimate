@@ -106,6 +106,10 @@ model
 #     3     1
 ```
 
+- Added `default_model` to quickly construct a model from well formated
+  population and line list `data.frame`s as a quick way to get started
+  with the package.
+  [\#114](https://github.com/ACCIDDA/SeverityEstimate/issues/114).
 - Implemented
   [`fit()`](https://accidda.github.io/SeverityEstimate/reference/fit.md)
   for `SeverityEstimateModel`, completing the S4 pipeline API. The model
@@ -131,10 +135,10 @@ fit_result
 # ...
 ```
 
-- Added a `getting-started` vignette demonstrating the S4 pipeline API
-  end-to-end, from synthetic data generation through model fitting and
-  result extraction as well as a `model-explainer` vignette to do a deep
-  dive into the model.
+- Added a `getting-started` vignette demonstrating the default model,
+  from synthetic data generation through model fitting and result
+  extraction as well as a `model-explainer` vignette to do a deep dive
+  into the model.
   [\#78](https://github.com/ACCIDDA/SeverityEstimate/issues/78),
   [\#107](https://github.com/ACCIDDA/SeverityEstimate/issues/107).
 - Setup `pkgdown` site hosted on GitHub pages at

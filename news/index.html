@@ -142,7 +142,8 @@
 <span><span class="co"># Slot "passive_symptomatic_prior":</span></span>
 <span><span class="co"># alpha  beta</span></span>
 <span><span class="co">#     3     1</span></span></code></pre></div>
-<ul><li>Implemented <code><a href="../reference/fit.html">fit()</a></code> for <code>SeverityEstimateModel</code>, completing the S4 pipeline API. The model now supports an arbitrary number of ordered/unordered strata dimensions via additive fixed effects on the logit scale. Continuing from the example above:</li>
+<ul><li>Added <code>default_model</code> to quickly construct a model from well formated population and line list <code>data.frame</code>s as a quick way to get started with the package. <a href="https://github.com/ACCIDDA/SeverityEstimate/issues/114" class="external-link">#114</a>.</li>
+<li>Implemented <code><a href="../reference/fit.html">fit()</a></code> for <code>SeverityEstimateModel</code>, completing the S4 pipeline API. The model now supports an arbitrary number of ordered/unordered strata dimensions via additive fixed effects on the logit scale. Continuing from the example above:</li>
 </ul><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit_result</span> <span class="op">&lt;-</span> <span class="va">model</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/fit.html">fit</a></span><span class="op">(</span></span>
@@ -158,7 +159,7 @@
 <span><span class="co"># 2 chains, each with iter=500; warmup=250; thin=1;</span></span>
 <span><span class="co"># post-warmup draws per chain=250, total post-warmup draws=500.</span></span>
 <span><span class="co"># ...</span></span></code></pre></div>
-<ul><li>Added a <code>getting-started</code> vignette demonstrating the S4 pipeline API end-to-end, from synthetic data generation through model fitting and result extraction as well as a <code>model-explainer</code> vignette to do a deep dive into the model. <a href="https://github.com/ACCIDDA/SeverityEstimate/issues/78" class="external-link">#78</a>, <a href="https://github.com/ACCIDDA/SeverityEstimate/issues/107" class="external-link">#107</a>.</li>
+<ul><li>Added a <code>getting-started</code> vignette demonstrating the default model, from synthetic data generation through model fitting and result extraction as well as a <code>model-explainer</code> vignette to do a deep dive into the model. <a href="https://github.com/ACCIDDA/SeverityEstimate/issues/78" class="external-link">#78</a>, <a href="https://github.com/ACCIDDA/SeverityEstimate/issues/107" class="external-link">#107</a>.</li>
 <li>Setup <code>pkgdown</code> site hosted on GitHub pages at <a href="https://accidda.github.io/SeverityEstimate/">accidda.github.io/SeverityEstimate/</a>. <a href="https://github.com/ACCIDDA/SeverityEstimate/issues/28" class="external-link">#28</a>.</li>
 <li>Enhanced documentation elements, such as the <code>README.md</code>, <code>CONTRIBUTING.md</code> to add more helpful content to the package’s documentation site. <a href="https://github.com/ACCIDDA/SeverityEstimate/issues/3" class="external-link">#3</a>, <a href="https://github.com/ACCIDDA/SeverityEstimate/issues/53" class="external-link">#53</a>.</li>
 <li>Restructured package utilizing <a href="https://mc-stan.org/rstantools/index.html" class="external-link"><code>rstantools</code></a>. <a href="https://github.com/ACCIDDA/SeverityEstimate/issues/73" class="external-link">#73</a>.</li>

@@ -23,6 +23,7 @@
 <url><loc>https://accidda.github.io/SeverityEstimate/reference/checkmate_extensions.html</loc></url>
 <url><loc>https://accidda.github.io/SeverityEstimate/reference/construct_array_from_indices.html</loc></url>
 <url><loc>https://accidda.github.io/SeverityEstimate/reference/create_sample_linelist.html</loc></url>
+<url><loc>https://accidda.github.io/SeverityEstimate/reference/default_model.html</loc></url>
 <url><loc>https://accidda.github.io/SeverityEstimate/reference/detection.html</loc></url>
 <url><loc>https://accidda.github.io/SeverityEstimate/reference/estimate_severity.html</loc></url>
 <url><loc>https://accidda.github.io/SeverityEstimate/reference/extract_and_match_data_frame.html</loc></url>
@@ -30,6 +31,7 @@
 <url><loc>https://accidda.github.io/SeverityEstimate/reference/format_extract_data_frame.html</loc></url>
 <url><loc>https://accidda.github.io/SeverityEstimate/reference/incidence_population_arrays.html</loc></url>
 <url><loc>https://accidda.github.io/SeverityEstimate/reference/index.html</loc></url>
+<url><loc>https://accidda.github.io/SeverityEstimate/reference/infer_default_map.html</loc></url>
 <url><loc>https://accidda.github.io/SeverityEstimate/reference/infer_levels.html</loc></url>
 <url><loc>https://accidda.github.io/SeverityEstimate/reference/is_data_frame.html</loc></url>
 <url><loc>https://accidda.github.io/SeverityEstimate/reference/logit.html</loc></url>
