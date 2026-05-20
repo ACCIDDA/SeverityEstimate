@@ -290,6 +290,21 @@ calculate_fatality_ratio(
 )
 ```
 
+For model-diagnostics work, `calculate_hazard()` exposes the latent infection hazard on the probability scale for each time-period and strata cell. This is the direct summary of `inv_logit(logit_hzd[t, g])`, so it is the most useful high-level extractor when you want to inspect whether the fitted exposure process is behaving sensibly.
+
+```{r hazard-summary}
+hazard_summary <- calculate_hazard(
+  estimate,
+  median_estimate = TRUE,
+  mean_estimate = FALSE,
+  alpha = 0.05
+)
+
+head(hazard_summary, 8L)
+```
+
+The returned `data.frame` is long-form, with one row per `time_period` and `strata` combination. In practice, this is the easiest way to identify cells where the fitted hazard is implausibly high, implausibly low, or moving differently than the observed passive-incidence signal would suggest.
+
 ## What to keep in mind when reading fitted results
 
 - IFR and SIR are stratum-specific but are linked through shared detection parameters.
