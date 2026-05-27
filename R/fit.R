@@ -19,6 +19,7 @@ fit <- function(model, ...) {
   det <- model |>
     require_detection() |>
     detection()
+  detection_map <- complete_default_detection_map(det$map)
   out <- model |>
     require_outcome() |>
     outcome()
@@ -65,7 +66,7 @@ fit <- function(model, ...) {
   names(time_period_reference) <- ts$name
 
   surveillance_reference <- data.frame(
-    x = names(det$map),
+    x = names(detection_map),
     stringsAsFactors = FALSE
   )
   names(surveillance_reference) <- det$name
@@ -95,6 +96,10 @@ fit <- function(model, ...) {
   if (no_strata) {
     arrays$strata <- arrays$strata[, character(0L), drop = FALSE]
   }
+
+  arrays$surveillance[, det$name] <- unname(
+    detection_map[as.character(arrays$surveillance[, det$name])]
+  )
 
   # Format surveillance/outcome data frames to canonical factor levels
   surveillance_df <- format_surveillance_data_frame(arrays$surveillance)

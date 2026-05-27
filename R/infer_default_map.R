@@ -12,7 +12,9 @@
 #'
 #' `infer_default_detection_map()` specializes this for the `detection` column,
 #' accepting case-insensitive forms of `active`/`passive` and the abbreviations
-#' `a`/`p`.
+#' `a`/`p`. If only one detection type has been observed, the returned map is
+#' completed with the corresponding unobserved active/passive level so sparse
+#' early-outbreak data can still create both surveillance dimensions.
 #'
 #' `infer_default_outcome_map()` specializes this for the `outcome` column,
 #' accepting case-insensitive forms of `asymptomatic`/`symptomatic`/`death` and
@@ -29,9 +31,23 @@
 #' @param value_name The user-facing name of the values being validated.
 #' @param required_types Canonical values that must be represented in the
 #' inferred map.
+#' @param map A named character vector mapping raw detection values to canonical
+#' `active`/`passive` labels.
+#' @param type A canonical detection type to create an unobserved raw label for.
+#' @param existing_levels Existing raw detection levels whose style should be
+#' used when creating the missing level.
+#' @param value A detection label whose case should be adjusted.
+#' @param template A detection label that provides the desired case style.
 #'
 #' @returns
-#' A named character vector mapping raw values to canonical model values.
+#' * `infer_default_map()`, `infer_default_detection_map()`,
+#'   `infer_default_outcome_map()`, and `complete_default_detection_map()`
+#'   return a named character vector mapping raw values to canonical model
+#'   values.
+#' * `default_detection_level()` returns a length-one character vector
+#'   containing the inferred raw label for an unobserved detection type.
+#' * `match_detection_case()` returns `value` converted to match the case style
+#'   of `template`.
 #'
 #' @keywords internal
 infer_default_map <- function(
@@ -79,7 +95,7 @@ infer_default_map <- function(
 
 #' @rdname infer_default_map
 infer_default_detection_map <- function(values) {
-  infer_default_map(
+  map <- infer_default_map(
     values = values,
     valid_map = c(
       "active" = "active",
@@ -87,9 +103,10 @@ infer_default_detection_map <- function(values) {
       "passive" = "passive",
       "p" = "passive"
     ),
-    value_name = "detection",
-    required_types = c("active", "passive")
+    value_name = "detection"
   )
+
+  complete_default_detection_map(map)
 }
 
 #' @rdname infer_default_map
@@ -106,4 +123,47 @@ infer_default_outcome_map <- function(values) {
     ),
     value_name = "outcome"
   )
+}
+
+#' @rdname infer_default_map
+complete_default_detection_map <- function(map) {
+  missing_types <- setdiff(c("active", "passive"), unique(map))
+  for (type in missing_types) {
+    map[[default_detection_level(type, names(map))]] <- type
+  }
+  map
+}
+
+#' @rdname infer_default_map
+default_detection_level <- function(type, existing_levels) {
+  other_type <- if (identical(type, "active")) "passive" else "active"
+  other_abbreviation <- substr(other_type, 1L, 1L)
+  type_abbreviation <- substr(type, 1L, 1L)
+
+  normalized_levels <- tolower(existing_levels)
+  abbreviation_match <- match(other_abbreviation, normalized_levels)
+  if (!is.na(abbreviation_match)) {
+    return(match_detection_case(
+      type_abbreviation,
+      existing_levels[[abbreviation_match]]
+    ))
+  }
+
+  word_match <- match(other_type, normalized_levels)
+  if (!is.na(word_match)) {
+    return(match_detection_case(type, existing_levels[[word_match]]))
+  }
+
+  if (identical(type, "active")) "Active" else "Passive"
+}
+
+#' @rdname infer_default_map
+match_detection_case <- function(value, template) {
+  if (identical(template, toupper(template))) {
+    return(toupper(value))
+  }
+  if (identical(template, tolower(template))) {
+    return(tolower(value))
+  }
+  paste0(toupper(substr(value, 1L, 1L)), substr(value, 2L, nchar(value)))
 }

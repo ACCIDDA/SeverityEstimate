@@ -4,6 +4,9 @@
 \alias{infer_default_map}
 \alias{infer_default_detection_map}
 \alias{infer_default_outcome_map}
+\alias{complete_default_detection_map}
+\alias{default_detection_level}
+\alias{match_detection_case}
 \title{Infer Default Mappings For Formatted Model Inputs}
 \usage{
 infer_default_map(values, valid_map, value_name, required_types = character())
@@ -11,6 +14,12 @@ infer_default_map(values, valid_map, value_name, required_types = character())
 infer_default_detection_map(values)
 
 infer_default_outcome_map(values)
+
+complete_default_detection_map(map)
+
+default_detection_level(type, existing_levels)
+
+match_detection_case(value, template)
 }
 \arguments{
 \item{values}{A vector of observed raw values to map. For the specialized
@@ -23,9 +32,30 @@ canonical model values.}
 
 \item{required_types}{Canonical values that must be represented in the
 inferred map.}
+
+\item{map}{A named character vector mapping raw detection values to canonical
+\code{active}/\code{passive} labels.}
+
+\item{type}{A canonical detection type to create an unobserved raw label for.}
+
+\item{existing_levels}{Existing raw detection levels whose style should be
+used when creating the missing level.}
+
+\item{value}{A detection label whose case should be adjusted.}
+
+\item{template}{A detection label that provides the desired case style.}
 }
 \value{
-A named character vector mapping raw values to canonical model values.
+\itemize{
+\item \code{infer_default_map()}, \code{infer_default_detection_map()},
+\code{infer_default_outcome_map()}, and \code{complete_default_detection_map()}
+return a named character vector mapping raw values to canonical model
+values.
+\item \code{default_detection_level()} returns a length-one character vector
+containing the inferred raw label for an unobserved detection type.
+\item \code{match_detection_case()} returns \code{value} converted to match the case style
+of \code{template}.
+}
 }
 \description{
 Internal helpers used by \code{\link[=default_model]{default_model()}} to infer the detection and outcome
@@ -38,7 +68,9 @@ values to the canonical model labels.
 
 \code{infer_default_detection_map()} specializes this for the \code{detection} column,
 accepting case-insensitive forms of \code{active}/\code{passive} and the abbreviations
-\code{a}/\code{p}.
+\code{a}/\code{p}. If only one detection type has been observed, the returned map is
+completed with the corresponding unobserved active/passive level so sparse
+early-outbreak data can still create both surveillance dimensions.
 
 \code{infer_default_outcome_map()} specializes this for the \code{outcome} column,
 accepting case-insensitive forms of \code{asymptomatic}/\code{symptomatic}/\code{death} and

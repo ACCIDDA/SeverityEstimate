@@ -125,7 +125,7 @@ test_that("validate_map validates all map values are in valid_types", {
   )
 })
 
-test_that("validate_map validates all map names are in column values", {
+test_that("validate_map validates all observed column values are mapped", {
   expect_error(
     validate_map(
       MODEL,
@@ -133,7 +133,11 @@ test_that("validate_map validates all map names are in column values", {
       c("NotPresent" = "active"),
       c("active", "passive")
     ),
-    regexp = "Must be a subset of \\{'Active','Passive'\\}"
+    regexp = paste0(
+      "The `detection` map must cover all observed values. ",
+      "Missing: Active, Passive."
+    ),
+    fixed = TRUE
   )
   expect_error(
     validate_map(
@@ -142,7 +146,11 @@ test_that("validate_map validates all map names are in column values", {
       c("Active" = "active", "NonExistent" = "passive"),
       c("active", "passive")
     ),
-    regexp = "Must be a subset of \\{'Active','Passive'\\}"
+    regexp = paste0(
+      "The `detection` map must cover all observed values. ",
+      "Missing: Passive."
+    ),
+    fixed = TRUE
   )
 })
 
@@ -152,7 +160,11 @@ test_that("validate_map works with different valid_types", {
     validate_map(
       MODEL,
       "outcome",
-      c("Asymptomatic" = "asymptomatic", "Death" = "severe"),
+      c(
+        "Asymptomatic" = "asymptomatic",
+        "Death" = "severe",
+        "Symptomatic" = "symptomatic"
+      ),
       c("asymptomatic", "symptomatic", "severe")
     )
   )
@@ -168,21 +180,57 @@ test_that("validate_map works with different valid_types", {
     validate_map(
       model,
       "status",
-      c("Good" = "positive", "Bad" = "negative"),
+      c("Good" = "positive", "Bad" = "negative", "Neutral" = "neutral"),
       c("positive", "negative", "neutral")
     )
   )
 })
 
-test_that("validate_map allows partial mapping", {
-  # Not all column values need to be in the map
+test_that("validate_map allows maps for unobserved values", {
+  active_only_model <- SeverityEstimateModel(
+    data.frame(detection = "Active"),
+    1000L
+  )
+
+  expect_null(
+    validate_map(
+      active_only_model,
+      "detection",
+      c("Active" = "active", "Passive" = "passive"),
+      c("active", "passive")
+    )
+  )
+})
+
+test_that("validate_map can require selected valid types", {
+  active_only_model <- SeverityEstimateModel(
+    data.frame(detection = "Active"),
+    1000L
+  )
+
   expect_null(
     validate_map(
       MODEL,
       "detection",
-      c("Active" = "active"), # Only mapping "Active", not "Passive"
-      c("active", "passive")
+      c("Active" = "active", "Passive" = "passive"),
+      c("active", "passive"),
+      required_types = c("active", "passive")
     )
+  )
+
+  expect_error(
+    validate_map(
+      active_only_model,
+      "detection",
+      c("Active" = "active"),
+      c("active", "passive"),
+      required_types = c("active", "passive")
+    ),
+    regexp = paste0(
+      "The `detection` map must include values for: active, passive. ",
+      "Missing: passive."
+    ),
+    fixed = TRUE
   )
 })
 

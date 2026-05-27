@@ -88,11 +88,36 @@ test_that("Using detection with invalid map values raises an error", {
   )
 })
 
-test_that("Using detection with map names not in column raises an error", {
+test_that("Using detection with only one observed type is allowed", {
+  active_only_line_list <- data.frame(
+    time = 1L,
+    sex = "Male",
+    detection = "Active",
+    outcome = "Death"
+  )
+  model <- SeverityEstimateModel(
+    active_only_line_list,
+    data.frame(sex = c("Male", "Female"), value = c(10L, 20L))
+  ) |>
+    set_strata("sex", degrees_of_freedom = 0L) |>
+    set_timesteps("time")
+
+  model <- model |> set_detection("detection", map = c("Active" = "active"))
+
+  expect_identical(
+    detection(model),
+    list(name = "detection", map = c("Active" = "active"))
+  )
+})
+
+test_that("Using detection without mapping observed values raises an error", {
   expect_error(
     MODEL |> set_detection("detection", map = c("NotPresent" = "active")),
-    regexp = "Must be a subset of \\{'Active','Passive'\\}",
-    fixed = FALSE
+    regexp = paste0(
+      "The `detection` map must cover all observed values. ",
+      "Missing: Active, Passive."
+    ),
+    fixed = TRUE
   )
   expect_error(
     MODEL |>
@@ -100,8 +125,11 @@ test_that("Using detection with map names not in column raises an error", {
         "detection",
         map = c("Active" = "active", "NonExistent" = "passive")
       ),
-    regexp = "Must be a subset of \\{'Active','Passive'\\}",
-    fixed = FALSE
+    regexp = paste0(
+      "The `detection` map must cover all observed values. ",
+      "Missing: Passive."
+    ),
+    fixed = TRUE
   )
 })
 
