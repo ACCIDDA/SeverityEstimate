@@ -164,10 +164,11 @@ fit_result
 - Added `calculate_hazard` to get the underlying force of infection as a
   `data.frame` for diagnostics/additional analysis.
   [\#9](https://github.com/ACCIDDA/SeverityEstimate/issues/9).
+- Removed the `estimate_severity` API.
+  [\#88](https://github.com/ACCIDDA/SeverityEstimate/issues/88).
 
 ## SeverityEstimate 0.0.1
 
 - Initial version of the package with the main entry point being
-  [`SeverityEstimate::estimate_severity`](https://accidda.github.io/SeverityEstimate/reference/estimate_severity.md)
-  that implements the basics of the model from
-  <https://doi.org/10.1093/aje/kwv452>.
+  `SeverityEstimate::estimate_severity` that implements the basics of
+  the model from <https://doi.org/10.1093/aje/kwv452>.

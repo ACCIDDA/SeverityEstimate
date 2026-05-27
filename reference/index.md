@@ -42,9 +42,6 @@
   [`set_detection()`](https://accidda.github.io/SeverityEstimate/reference/detection.md)
   : Get Or Set Model Detection Mapping
 
-- [`estimate_severity()`](https://accidda.github.io/SeverityEstimate/reference/estimate_severity.md)
-  : Estimate Severity From A Line List
-
 - [`fit()`](https://accidda.github.io/SeverityEstimate/reference/fit.md)
   : Fit a severity estimate model instance.
 
