@@ -4,7 +4,7 @@
 \alias{validate_map}
 \title{Validate A Mapping Of Values From A Line List}
 \usage{
-validate_map(model, name, map, valid_types)
+validate_map(model, name, map, valid_types, required_types = character())
 }
 \arguments{
 \item{model}{A \linkS4class{SeverityEstimateModel} S4 object instance
@@ -16,6 +16,9 @@ representing a model to check.}
 \item{map}{A named character vector mapping column values to valid types.}
 
 \item{valid_types}{A character vector of valid types that map values must be.}
+
+\item{required_types}{A character vector of valid types that map values must
+include.}
 }
 \value{
 \code{NULL}, if there are no issues.

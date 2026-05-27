@@ -86,6 +86,29 @@ test_that("`default_model()` returns a model ready to `fit()`", {
   expect_identical(result@strata$sex, c("Female", "Male"))
 })
 
+test_that("`default_model()` fills missing detection type for sparse data", {
+  line_list <- data.frame(
+    time = 1L,
+    sex = "Male",
+    detection = "Active",
+    outcome = "Death"
+  )
+  population <- data.frame(
+    sex = c("Male", "Female"),
+    value = c(10L, 20L)
+  )
+
+  model <- default_model(line_list, population)
+
+  expect_identical(
+    detection(model),
+    list(
+      name = "detection",
+      map = c("Active" = "active", "Passive" = "passive")
+    )
+  )
+})
+
 test_that("`default_model()` validates inferred schema", {
   expect_error(
     default_model(

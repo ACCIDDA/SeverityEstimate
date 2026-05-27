@@ -161,6 +161,38 @@ test_that("`fit()` handles a single passive observation with strata", {
   expect_s4_class(result@model_fit, "stanfit")
 })
 
+test_that("`fit()` handles a missing detection type with zero incidence", {
+  skip_on_cran()
+  line_list <- data.frame(
+    time = 1L,
+    sex = "Male",
+    detection = "Active",
+    outcome = "Death"
+  )
+  population <- data.frame(
+    sex = c("Male", "Female"),
+    value = c(10L, 20L)
+  )
+  model <- SeverityEstimateModel(line_list, population) |>
+    set_active_prior(alpha = 1.0, beta = 1.0) |>
+    set_passive_asymptomatic_prior(alpha = 1.0, beta = 3.0) |>
+    set_passive_symptomatic_prior(alpha = 3.0, beta = 1.0) |>
+    set_strata("sex", degrees_of_freedom = 0L) |>
+    set_timesteps("time") |>
+    set_detection("detection", map = c("Active" = "active")) |>
+    set_outcome("outcome", map = c("Death" = "severe"))
+  result <- suppressWarnings(
+    do.call(fit, c(list(model = model), FIT_TEST_STAN_ARGS))
+  )
+
+  expect_s4_class(result, "SeverityEstimateFit")
+  expect_identical(
+    as.character(result@surveillance$detection),
+    c("Active", "Passive")
+  )
+  expect_equal(sum(result@incidence[,, 2L, ]), 0L)
+})
+
 test_that("`fit()` supports a smoothed ordered strata dimension", {
   skip_on_cran()
   line_list <- data.frame(

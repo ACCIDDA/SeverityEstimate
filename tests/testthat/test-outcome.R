@@ -120,11 +120,14 @@ test_that("Using outcome with invalid map values raises an error", {
   )
 })
 
-test_that("Using outcome with map names not in column raises an error", {
+test_that("Using outcome without mapping observed values raises an error", {
   expect_error(
     MODEL |> set_outcome("outcome", map = c("NotPresent" = "asymptomatic")),
-    regexp = "Must be a subset of \\{'Asymptomatic','Death','Symptomatic'\\}",
-    fixed = FALSE
+    regexp = paste0(
+      "The `outcome` map must cover all observed values. ",
+      "Missing: Asymptomatic, Death, Symptomatic."
+    ),
+    fixed = TRUE
   )
   expect_error(
     MODEL |>
@@ -135,8 +138,11 @@ test_that("Using outcome with map names not in column raises an error", {
           "NonExistent" = "symptomatic"
         )
       ),
-    regexp = "Must be a subset of \\{'Asymptomatic','Death','Symptomatic'\\}",
-    fixed = FALSE
+    regexp = paste0(
+      "The `outcome` map must cover all observed values. ",
+      "Missing: Death, Symptomatic."
+    ),
+    fixed = TRUE
   )
 })
 
