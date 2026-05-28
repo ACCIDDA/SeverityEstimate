@@ -200,7 +200,7 @@ strata <- do.call(
         health_occupation = "yes",
         ifr = 0.25,
         sir = 0.50,
-        population = 500L
+        population = 0L
       ),
       list(
         age = "adult",

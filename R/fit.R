@@ -57,6 +57,16 @@ fit <- function(model, ...) {
     population_val <- utils::tail(names(model@population), n = 1L)
   }
 
+  population_filter <- filter_positive_population_strata(
+    linelist,
+    population,
+    strata_cols,
+    population_val,
+    strata_ref_df
+  )
+  population <- population_filter$population
+  strata_ref_df <- population_filter$strata_reference
+
   # Build reference data frames from slot levels so array dimensions respect
   # the user-specified ordering
   time_period_reference <- data.frame(

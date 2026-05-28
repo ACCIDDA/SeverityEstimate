@@ -193,6 +193,171 @@ test_that("`fit()` handles a missing detection type with zero incidence", {
   expect_equal(sum(result@incidence[,, 2L, ]), 0L)
 })
 
+test_that("`fit()` drops zero population strata before calling Stan", {
+  skip_on_cran()
+  line_list <- data.frame(
+    patient_id = 1L:10L,
+    time = rep(1L:2L, each = 5L),
+    age = rep(c("youth", "adult", "senior", "adult", "senior"), 2L),
+    health_occupation = rep(c("no", "no", "no", "yes", "yes"), 2L),
+    detection = rep(c("Active", "Passive"), 5L),
+    outcome = rep(
+      c("Asymptomatic", "Symptomatic", "Death", "Symptomatic", "Death"),
+      2L
+    )
+  )
+  population <- data.frame(
+    age = rep(c("youth", "adult", "senior"), times = 2L),
+    health_occupation = rep(c("no", "yes"), each = 3L),
+    value = c(10000L, 20000L, 5000L, 0L, 2000L, 250L)
+  )
+  model <- SeverityEstimateModel(line_list, population) |>
+    set_active_prior(alpha = 1.0, beta = 1.0) |>
+    set_passive_asymptomatic_prior(alpha = 1.0, beta = 3.0) |>
+    set_passive_symptomatic_prior(alpha = 3.0, beta = 1.0) |>
+    set_strata(
+      "age",
+      levels = c("youth", "adult", "senior"),
+      degrees_of_freedom = 1L
+    ) |>
+    set_strata("health_occupation") |>
+    set_timesteps("time") |>
+    set_detection(
+      "detection",
+      map = c("Active" = "active", "Passive" = "passive")
+    ) |>
+    set_outcome(
+      "outcome",
+      map = c(
+        "Asymptomatic" = "asymptomatic",
+        "Symptomatic" = "symptomatic",
+        "Death" = "severe"
+      )
+    )
+
+  result <- suppressWarnings(
+    do.call(fit, c(list(model = model), FIT_TEST_STAN_ARGS))
+  )
+
+  expect_s4_class(result, "SeverityEstimateFit")
+  expect_s4_class(result@model_fit, "stanfit")
+  expect_equal(nrow(result@strata), 5L)
+  expect_false(any(
+    result@strata$age == "youth" &
+      result@strata$health_occupation == "yes"
+  ))
+  expect_true(all(result@population > 0L))
+
+  hazard <- calculate_hazard(
+    result,
+    mean_estimate = FALSE,
+    median_estimate = TRUE,
+    alpha = numeric()
+  )
+  expect_equal(
+    nrow(hazard),
+    nrow(result@time_period) * nrow(result@strata)
+  )
+  expect_false(any(
+    hazard$age == "youth" &
+      hazard$health_occupation == "yes"
+  ))
+  expect_identical(
+    unique(hazard[, c("age", "health_occupation")]),
+    result@strata
+  )
+})
+
+test_that("zero population strata are filtered from fit inputs", {
+  line_list <- data.frame(
+    patient_id = 1L:5L,
+    time = 1L,
+    age = c("youth", "adult", "senior", "adult", "senior"),
+    health_occupation = c("no", "no", "no", "yes", "yes"),
+    detection = "Active",
+    outcome = "Asymptomatic"
+  )
+  population <- data.frame(
+    age = rep(c("youth", "adult", "senior"), times = 2L),
+    health_occupation = rep(c("no", "yes"), each = 3L),
+    value = c(10000L, 20000L, 5000L, 0L, 2000L, 250L)
+  )
+  strata_reference <- expand.grid(
+    age = c("youth", "adult", "senior"),
+    health_occupation = c("no", "yes"),
+    stringsAsFactors = FALSE
+  )
+
+  result <- filter_positive_population_strata(
+    line_list,
+    population,
+    c("age", "health_occupation"),
+    "value",
+    strata_reference
+  )
+
+  expect_equal(nrow(result$population), 5L)
+  expect_equal(nrow(result$strata_reference), 5L)
+  expect_false(any(
+    result$strata_reference$age == "youth" &
+      result$strata_reference$health_occupation == "yes"
+  ))
+  expect_true(all(result$population$value > 0L))
+})
+
+test_that("`fit()` errors when observations use zero population strata", {
+  line_list <- data.frame(
+    patient_id = 1L,
+    time = 1L,
+    age = "youth",
+    health_occupation = "yes",
+    detection = "Active",
+    outcome = "Asymptomatic"
+  )
+  population <- data.frame(
+    age = c("youth", "adult"),
+    health_occupation = c("yes", "yes"),
+    value = c(0L, 100L)
+  )
+  model <- SeverityEstimateModel(line_list, population) |>
+    set_strata("age") |>
+    set_strata("health_occupation") |>
+    set_timesteps("time") |>
+    set_detection("detection", map = c("Active" = "active")) |>
+    set_outcome("outcome", map = c("Asymptomatic" = "asymptomatic"))
+
+  expect_error(
+    fit(model),
+    regexp = paste0(
+      "The line list contains observations in strata groups with zero or ",
+      "missing population: age=youth, health_occupation=yes."
+    ),
+    fixed = TRUE
+  )
+})
+
+test_that("`fit()` errors when every strata has zero population", {
+  line_list <- data.frame(
+    patient_id = integer(),
+    time = integer(),
+    age = character(),
+    detection = character(),
+    outcome = character()
+  )
+  population <- data.frame(age = c("youth", "adult"), value = c(0L, 0L))
+  model <- SeverityEstimateModel(line_list, population) |>
+    set_strata("age") |>
+    set_timesteps("time") |>
+    set_detection("detection", map = c("Active" = "active")) |>
+    set_outcome("outcome", map = c("Asymptomatic" = "asymptomatic"))
+
+  expect_error(
+    fit(model),
+    regexp = "At least one strata group must have a positive population.",
+    fixed = TRUE
+  )
+})
+
 test_that("`fit()` supports a smoothed ordered strata dimension", {
   skip_on_cran()
   line_list <- data.frame(
