@@ -21,6 +21,7 @@ calculate_hazard(x, ...)
   x,
   time_period,
   strata,
+  population = NULL,
   mean_estimate = TRUE,
   median_estimate = TRUE,
   alpha = 0.05,
@@ -53,6 +54,10 @@ underlying hazard.}
 
 \item{strata}{A \code{data.frame} describing the strata dimension of the
 underlying hazard.}
+
+\item{population}{Optional numeric vector describing the population for each
+strata row. If provided, strata with zero population are excluded from the
+returned hazard summary.}
 }
 \value{
 \code{calculate_hazard.SeverityEstimateFit} returns a \code{data.frame} describing

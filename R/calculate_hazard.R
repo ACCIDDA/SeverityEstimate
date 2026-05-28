@@ -12,6 +12,9 @@
 #' underlying hazard.
 #' @param strata A `data.frame` describing the strata dimension of the
 #' underlying hazard.
+#' @param population Optional numeric vector describing the population for each
+#' strata row. If provided, strata with zero population are excluded from the
+#' returned hazard summary.
 #' @param mean_estimate A single logical indicating if the mean estimate for the
 #' hazard should be included in the `mean_estimate` column of the returned
 #' `data.frame`.
@@ -49,13 +52,17 @@ calculate_hazard.SeverityEstimateFit <- function(
     x = rstan::extract(x@model_fit, "logit_hzd"),
     time_period = x@time_period,
     strata = x@strata,
+    population = x@population,
     mean_estimate = mean_estimate,
     median_estimate = median_estimate,
     alpha = alpha,
     ...
   )
   attr(hazard, "time_period_reference") <- x@time_period
-  attr(hazard, "strata_reference") <- x@strata
+  attr(hazard, "strata_reference") <- positive_population_strata(
+    x@strata,
+    x@population
+  )
   hazard
 }
 
@@ -68,6 +75,7 @@ calculate_hazard.list <- function(
   x,
   time_period,
   strata,
+  population = NULL,
   mean_estimate = TRUE,
   median_estimate = TRUE,
   alpha = 0.05,
@@ -109,6 +117,25 @@ calculate_hazard.list <- function(
       "The rows of `strata` must match the third dimension of ",
       "`x$logit_hzd`."
     )
+  }
+  if (!is.null(population)) {
+    checkmate::assert_numeric(
+      population,
+      any.missing = FALSE,
+      lower = 0.0,
+      len = nrow(strata)
+    )
+    population <- as.numeric(population)
+    positive_population <- population > 0.0
+    if (!any(positive_population)) {
+      stop(
+        "At least one strata group must have a positive population.",
+        call. = FALSE
+      )
+    }
+    logit_hzd <- logit_hzd[,, positive_population, drop = FALSE]
+    strata <- strata[positive_population, , drop = FALSE]
+    hazard_dim <- dim(logit_hzd)
   }
 
   if (length(alpha) > 0L) {
@@ -176,4 +203,12 @@ calculate_hazard.default <- function(x, ...) {
     toString(class(x)),
     "."
   )
+}
+
+positive_population_strata <- function(strata, population) {
+  population <- as.numeric(population)
+  if (length(population) != nrow(strata)) {
+    return(strata)
+  }
+  strata[population > 0.0, , drop = FALSE]
 }

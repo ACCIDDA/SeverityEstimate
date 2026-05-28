@@ -74,6 +74,25 @@ test_that("Input validation when given a list for `x`", {
       "`x\\$logit_hzd`\\."
     )
   )
+  expect_error(
+    calculate_hazard(
+      valid_x,
+      time_period,
+      strata,
+      population = c(10L, 0L)
+    ),
+    regexp = "Must have length 3, but has length 2"
+  )
+  expect_error(
+    calculate_hazard(
+      valid_x,
+      time_period,
+      strata,
+      population = c(0L, 0L, 0L)
+    ),
+    regexp = "At least one strata group must have a positive population.",
+    fixed = TRUE
+  )
 })
 
 test_that("Output validation when given a list for `x`", {
@@ -153,6 +172,59 @@ test_that("Output validation when given a list for `x`", {
     )
   )
   expect_identical(hazard, expected_hazard)
+})
+
+test_that("Output validation excludes zero population strata", {
+  hazard_probs <- array(
+    data = c(
+      0.10,
+      0.20,
+      0.30,
+      0.40,
+      0.50,
+      0.60,
+      0.70,
+      0.80,
+      0.90,
+      0.15,
+      0.25,
+      0.35
+    ),
+    dim = c(2L, 2L, 3L),
+    dimnames = list("iterations" = NULL)
+  )
+  x <- list("logit_hzd" = qlogis(hazard_probs))
+  time_period <- data.frame(week = c(1L, 2L))
+  strata <- data.frame(age_group = c("Children", "Adults", "Seniors"))
+  population <- c(100L, 0L, 200L)
+
+  hazard <- calculate_hazard(
+    x,
+    time_period,
+    strata,
+    population = population,
+    mean_estimate = FALSE,
+    alpha = numeric()
+  )
+
+  expected_hazard <- data.frame(
+    week = c(1L, 1L, 2L, 2L),
+    age_group = c("Children", "Seniors", "Children", "Seniors"),
+    median_estimate = c(
+      median(hazard_probs[, 1L, 1L]),
+      median(hazard_probs[, 1L, 3L]),
+      median(hazard_probs[, 2L, 1L]),
+      median(hazard_probs[, 2L, 3L])
+    )
+  )
+  expect_identical(
+    hazard[, c("week", "age_group")],
+    expected_hazard[, c(
+      "week",
+      "age_group"
+    )]
+  )
+  expect_equal(hazard$median_estimate, expected_hazard$median_estimate)
 })
 
 test_that("Output validation when there are no strata columns", {
