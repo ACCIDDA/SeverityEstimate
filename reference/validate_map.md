@@ -5,7 +5,7 @@ Validate A Mapping Of Values From A Line List
 ## Usage
 
 ``` r
-validate_map(model, name, map, valid_types)
+validate_map(model, name, map, valid_types, required_types = character())
 ```
 
 ## Arguments
@@ -27,6 +27,10 @@ validate_map(model, name, map, valid_types)
 - valid_types:
 
   A character vector of valid types that map values must be.
+
+- required_types:
+
+  A character vector of valid types that map values must include.
 
 ## Value
 

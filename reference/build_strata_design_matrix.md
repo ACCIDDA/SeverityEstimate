@@ -66,13 +66,13 @@ strata_df <- expand.grid(
 # jarl-ignore internal_function: example
 SeverityEstimate:::build_strata_design_matrix(strata_spec, strata_df)
 #> $X_strata
-#>               age_1   region_1
-#> Youth  -1.00000e+00  0.7071068
-#> Adult  -3.32076e-17  0.7071068
-#> Senior  1.00000e+00  0.7071068
-#> Youth  -1.00000e+00 -0.7071068
-#> Adult  -3.32076e-17 -0.7071068
-#> Senior  1.00000e+00 -0.7071068
+#>                age_1   region_1
+#> Youth  -1.000000e+00  0.7071068
+#> Adult  -2.168241e-17  0.7071068
+#> Senior  1.000000e+00  0.7071068
+#> Youth  -1.000000e+00 -0.7071068
+#> Adult  -2.168241e-17 -0.7071068
+#> Senior  1.000000e+00 -0.7071068
 #> 
 #> $n_strata_basis_cols
 #> [1] 2
@@ -102,8 +102,8 @@ SeverityEstimate:::build_strata_level_basis(
 #> Senior   0.3872983 -0.8660254
 #> Elderly  1.1618950  0.8660254
 #> attr(,"scaled:center")
-#>            1            2 
-#> 0.000000e+00 5.551115e-17 
+#> 1 2 
+#> 0 0 
 #> attr(,"scaled:scale")
 #>         1         2 
 #> 0.5773503 0.5773503 

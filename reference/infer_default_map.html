@@ -7,7 +7,9 @@ lookup table, and returns a named character vector from the original raw
 values to the canonical model labels.
 infer_default_detection_map() specializes this for the detection column,
 accepting case-insensitive forms of active/passive and the abbreviations
-a/p.
+a/p. If only one detection type has been observed, the returned map is
+completed with the corresponding unobserved active/passive level so sparse
+early-outbreak data can still create both surveillance dimensions.
 infer_default_outcome_map() specializes this for the outcome column,
 accepting case-insensitive forms of asymptomatic/symptomatic/death and
 the abbreviations a/s/d.
@@ -21,7 +23,9 @@ lookup table, and returns a named character vector from the original raw
 values to the canonical model labels.
 infer_default_detection_map() specializes this for the detection column,
 accepting case-insensitive forms of active/passive and the abbreviations
-a/p.
+a/p. If only one detection type has been observed, the returned map is
+completed with the corresponding unobserved active/passive level so sparse
+early-outbreak data can still create both surveillance dimensions.
 infer_default_outcome_map() specializes this for the outcome column,
 accepting case-insensitive forms of asymptomatic/symptomatic/death and
 the abbreviations a/s/d.
@@ -80,7 +84,9 @@ lookup table, and returns a named character vector from the original raw
 values to the canonical model labels.</p>
 <p><code>infer_default_detection_map()</code> specializes this for the <code>detection</code> column,
 accepting case-insensitive forms of <code>active</code>/<code>passive</code> and the abbreviations
-<code>a</code>/<code>p</code>.</p>
+<code>a</code>/<code>p</code>. If only one detection type has been observed, the returned map is
+completed with the corresponding unobserved active/passive level so sparse
+early-outbreak data can still create both surveillance dimensions.</p>
 <p><code>infer_default_outcome_map()</code> specializes this for the <code>outcome</code> column,
 accepting case-insensitive forms of <code>asymptomatic</code>/<code>symptomatic</code>/<code>death</code> and
 the abbreviations <code>a</code>/<code>s</code>/<code>d</code>.</p>
@@ -95,7 +101,13 @@ workflow.</p>
 <span></span>
 <span><span class="fu">infer_default_detection_map</span><span class="op">(</span><span class="va">values</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">infer_default_outcome_map</span><span class="op">(</span><span class="va">values</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">infer_default_outcome_map</span><span class="op">(</span><span class="va">values</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">complete_default_detection_map</span><span class="op">(</span><span class="va">map</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">default_detection_level</span><span class="op">(</span><span class="va">type</span>, <span class="va">existing_levels</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">match_detection_case</span><span class="op">(</span><span class="va">value</span>, <span class="va">template</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -120,11 +132,41 @@ canonical model values.</p></dd>
 <dd><p>Canonical values that must be represented in the
 inferred map.</p></dd>
 
+
+<dt id="arg-map">map<a class="anchor" aria-label="anchor" href="#arg-map"></a></dt>
+<dd><p>A named character vector mapping raw detection values to canonical
+<code>active</code>/<code>passive</code> labels.</p></dd>
+
+
+<dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
+<dd><p>A canonical detection type to create an unobserved raw label for.</p></dd>
+
+
+<dt id="arg-existing-levels">existing_levels<a class="anchor" aria-label="anchor" href="#arg-existing-levels"></a></dt>
+<dd><p>Existing raw detection levels whose style should be
+used when creating the missing level.</p></dd>
+
+
+<dt id="arg-value">value<a class="anchor" aria-label="anchor" href="#arg-value"></a></dt>
+<dd><p>A detection label whose case should be adjusted.</p></dd>
+
+
+<dt id="arg-template">template<a class="anchor" aria-label="anchor" href="#arg-template"></a></dt>
+<dd><p>A detection label that provides the desired case style.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A named character vector mapping raw values to canonical model values.</p>
-    </div>
+
+<ul><li><p><code>infer_default_map()</code>, <code>infer_default_detection_map()</code>,
+<code>infer_default_outcome_map()</code>, and <code>complete_default_detection_map()</code>
+return a named character vector mapping raw values to canonical model
+values.</p></li>
+<li><p><code>default_detection_level()</code> returns a length-one character vector
+containing the inferred raw label for an unobserved detection type.</p></li>
+<li><p><code>match_detection_case()</code> returns <code>value</code> converted to match the case style
+of <code>template</code>.</p></li>
+</ul></div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
