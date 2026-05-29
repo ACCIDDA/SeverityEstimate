@@ -1,0 +1,195 @@
+---
+title: "MERS Korea 2015"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{MERS Korea 2015}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Overview
+
+This vignette shows how a public outbreak line list can be reshaped for
+`SeverityEstimate`. The example uses the MERS-CoV outbreak in South Korea in
+2015 from the `outbreaks` package:
+<https://www.reconverse.org/outbreaks/reference/mers_korea_2015.html>.
+
+The data is not a perfect match for this package's assumptions. In particular,
+the line list does not contain a explicit active/passive surveillance labels and
+the denominator for the outbreak was not the full population of South Korea.
+Here we use the case-contact data as a transparent surveillance proxy and use
+national age-specific population denominators as a simple first pass.
+
+```{r setup}
+options(mc.cores = 1L)
+library(SeverityEstimate)
+```
+
+## Line List
+
+The `mers_korea_2015` object contains a case line list and a table of probable
+case-to-case transmission links.
+
+```{r load data}
+mers <- outbreaks::mers_korea_2015
+linelist_raw <- mers$linelist
+contacts <- mers$contacts
+
+str(linelist_raw)
+head(contacts)
+```
+
+We use reporting week as the model time step because it is complete for all
+cases.
+
+The `outbreaks` line list reports final outcome as `Alive` or `Dead`. For this
+model we collapse those to the package's outcome labels:
+
+- `Alive` becomes `Symptomatic`
+- `Dead` becomes `Death`
+
+This means the model is estimating fatality among observed symptomatic MERS
+infections rather than an asymptomatic infection rate.
+
+```{r format line list}
+linelist <- data.frame(
+  time = linelist_raw$week_report,
+  age_class = as.character(linelist_raw$age_class),
+  detection = ifelse(
+    linelist_raw$id %in% contacts$to,
+    "Active",
+    "Passive"
+  ),
+  outcome = ifelse(linelist_raw$outcome == "Dead", "Death", "Symptomatic")
+)
+
+head(linelist)
+table(linelist$detection, linelist$outcome)
+```
+
+The detection variable is a proxy. Cases appearing as `contacts$to` are treated
+as `Active` because they are linked to a probable source case in the outbreak
+investigation data. Cases without a recorded source are treated as `Passive`
+because they are closer to unlinked or index presentations. This is not the same
+as a validated surveillance field, so fitted estimates should be interpreted as
+an exploratory analysis.
+
+## Population
+
+The MERS data already provide age classes, which makes age stratification
+straightforward. As a simple denominator, we use Republic of Korea 2015
+population estimates from page 58 of the United Nations Demographic Yearbook
+2015, Table 7: <https://unstats.un.org/unsd/demographic-social/products/dyb/documents/dyb2015/table07.pdf>.
+
+The UN table reports standard five-year age groups. The population table below
+aggregates those into the age classes used by the line list. The youngest line
+list stratum is labelled `10-20`; here it is approximated by `10-14 + 15-19`.
+
+```{r population}
+population <- data.frame(
+  age_class = c(
+    "10-20", "20-29", "30-39", "40-49",
+    "50-59", "60-69", "70-79", "80-89"
+  ),
+  population = c(
+    2475819L + 3175320L,  # 10-14 + 15-19
+    3525734L + 3279000L,  # 20-24 + 25-29
+    3807021L + 3846466L,  # 30-34 + 35-39
+    4239971L + 4225823L,  # 40-44 + 45-49
+    4255812L + 3857441L,  # 50-54 + 55-59
+    2740743L + 2121186L,  # 60-64 + 65-69
+    1721079L + 1371183L,  # 70-74 + 75-79
+     859318L +  387911L     # 80-84 + 85-89
+  )
+)
+
+population
+```
+
+These denominators are intentionally broad. A more specific analysis would use
+the population at risk in exposed hospitals, health care workers, visitors,
+patients, or monitored contacts rather than the national resident population.
+
+## Model
+
+We build the model explicitly so that age is treated as an ordered, smoothed
+strata. With eight age classes, `degrees_of_freedom = 2L` uses a two-column
+polynomial basis for the age effect. Otherwise pretty broad priors are used for
+the detection probabilities.
+
+```{r build model}
+age_levels <- population$age_class
+
+model <- SeverityEstimateModel(linelist, population) |>
+  set_active_prior(alpha = 1.0, beta = 1.0) |>
+  set_passive_asymptomatic_prior(alpha = 1.0, beta = 3.0) |>
+  set_passive_symptomatic_prior(alpha = 3.0, beta = 1.0) |>
+  set_timesteps("time") |>
+  set_strata(
+    "age_class",
+    levels = age_levels,
+    degrees_of_freedom = 2L
+  ) |>
+  set_detection(
+    "detection",
+    map = c("Active" = "active", "Passive" = "passive")
+  ) |>
+  set_outcome(
+    "outcome",
+    map = c("Symptomatic" = "symptomatic", "Death" = "severe")
+  )
+```
+
+The sampler settings below are intentionally modest so that the vignette remains
+reasonable to render. They are enough to exercise the workflow, but they should
+be increased and checked with the usual Stan diagnostics before interpreting the
+results.
+
+```{r fit model}
+estimate <- fit(
+  model,
+  chains = 2L,
+  iter = 1000L,
+  seed = 123L,
+  cores = 2L,
+  refresh = 0L
+)
+
+summary(estimate)
+```
+
+After fitting, the usual extractors can be used to inspect surveillance
+parameters and age-stratified severity estimates:
+
+```{r summarize fit}
+calculate_parameter_estimates(estimate, alpha = 0.05)
+
+calculate_fatality_ratio(
+  estimate,
+  median_estimate = FALSE,
+  naive_estimate = TRUE
+)
+```
+
+## Interpretation
+
+This example is useful as a real-world formatting workflow, but the assumptions
+are stronger than in an ideal `SeverityEstimate` analysis:
+
+- `Active` means contact-linked in the public outbreak data, not a confirmed
+  active surveillance process.
+- `Passive` means unlinked or index-like in the public outbreak data, not
+  necessarily passively detected in the field.
+- `Alive` cases are treated as symptomatic non-fatal cases, so the model is not
+  learning asymptomatic infection risk from this data set.
+- The national age-specific population is used as a pragmatic denominator even
+  though the outbreak risk was concentrated in health care settings.
+
+Those limitations should be kept with any estimates produced from this example.
