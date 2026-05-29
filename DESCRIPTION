@@ -38,6 +38,7 @@ Suggests:
     ggplot2,
     knitr,
     lobstr,
+    outbreaks,
     pkgdown,
     posterior,
     rmarkdown,
