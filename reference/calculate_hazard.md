@@ -22,6 +22,7 @@ calculate_hazard(
   x,
   time_period,
   strata,
+  population = NULL,
   mean_estimate = TRUE,
   median_estimate = TRUE,
   alpha = 0.05,
@@ -71,6 +72,12 @@ calculate_hazard(x, ...)
 
   A `data.frame` describing the strata dimension of the underlying
   hazard.
+
+- population:
+
+  Optional numeric vector describing the population for each strata row.
+  If provided, strata with zero population are excluded from the
+  returned hazard summary.
 
 ## Value
 

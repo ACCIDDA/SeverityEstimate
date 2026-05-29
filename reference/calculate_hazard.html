@@ -68,6 +68,7 @@ by time period and strata.</p>
 <span>  <span class="va">x</span>,</span>
 <span>  <span class="va">time_period</span>,</span>
 <span>  <span class="va">strata</span>,</span>
+<span>  population <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  mean_estimate <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  median_estimate <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  alpha <span class="op">=</span> <span class="fl">0.05</span>,</span>
@@ -118,6 +119,12 @@ underlying hazard.</p></dd>
 <dt id="arg-strata">strata<a class="anchor" aria-label="anchor" href="#arg-strata"></a></dt>
 <dd><p>A <code>data.frame</code> describing the strata dimension of the
 underlying hazard.</p></dd>
+
+
+<dt id="arg-population">population<a class="anchor" aria-label="anchor" href="#arg-population"></a></dt>
+<dd><p>Optional numeric vector describing the population for each
+strata row. If provided, strata with zero population are excluded from the
+returned hazard summary.</p></dd>
 
 </dl></div>
     <div class="section level2">

@@ -380,7 +380,7 @@ risk.</p>
 <span>        health_occupation <span class="op">=</span> <span class="st">"yes"</span>,</span>
 <span>        ifr <span class="op">=</span> <span class="fl">0.25</span>,</span>
 <span>        sir <span class="op">=</span> <span class="fl">0.50</span>,</span>
-<span>        population <span class="op">=</span> <span class="fl">500L</span></span>
+<span>        population <span class="op">=</span> <span class="fl">0L</span></span>
 <span>      <span class="op">)</span>,</span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>        age <span class="op">=</span> <span class="st">"adult"</span>,</span>
@@ -474,9 +474,9 @@ stratum.</p>
 <span><span class="co">#&gt; 2 passive_asymptomatic_detection mildly/asymptomatic passive detection rate</span></span>
 <span><span class="co">#&gt; 3  passive_symptomatic_detection     severe symptoms passive detection rate</span></span>
 <span><span class="co">#&gt;   mean_estimate median_estimate   lower_05   upper_05</span></span>
-<span><span class="co">#&gt; 1    0.16429132       0.1645077 0.14279436 0.18519107</span></span>
-<span><span class="co">#&gt; 2    0.07024651       0.0709294 0.04860734 0.09187422</span></span>
-<span><span class="co">#&gt; 3    0.95238435       0.9636443 0.84710890 0.99835436</span></span>
+<span><span class="co">#&gt; 1    0.16855577      0.16852061 0.14415790 0.19173526</span></span>
+<span><span class="co">#&gt; 2    0.06160089      0.06066584 0.04187331 0.08682612</span></span>
+<span><span class="co">#&gt; 3    0.93367191      0.94876350 0.78580276 0.99976938</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/calculate_fatality_ratio.html">calculate_fatality_ratio</a></span><span class="op">(</span></span>
 <span>  <span class="va">estimate</span>,</span>
@@ -485,19 +485,17 @@ stratum.</p>
 <span>  naive_estimate <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt;      age health_occupation ifr_median_estimate ifr_lower_05 ifr_upper_05</span></span>
-<span><span class="co">#&gt; 1  youth                no           0.2869454    0.2492251    0.3342272</span></span>
-<span><span class="co">#&gt; 2  youth               yes           0.2323607    0.1788415    0.3000969</span></span>
-<span><span class="co">#&gt; 3  adult                no           0.3342020    0.3062570    0.3646334</span></span>
-<span><span class="co">#&gt; 4  adult               yes           0.2760754    0.2115991    0.3461296</span></span>
-<span><span class="co">#&gt; 5 senior                no           0.3807844    0.3357321    0.4480892</span></span>
-<span><span class="co">#&gt; 6 senior               yes           0.3229806    0.2471775    0.4199844</span></span>
+<span><span class="co">#&gt; 1  youth                no           0.2433681    0.2076605    0.2882321</span></span>
+<span><span class="co">#&gt; 2  adult                no           0.2980740    0.2753510    0.3290826</span></span>
+<span><span class="co">#&gt; 3  adult               yes           0.3067657    0.2469669    0.3662032</span></span>
+<span><span class="co">#&gt; 4 senior                no           0.3607254    0.3124203    0.4029461</span></span>
+<span><span class="co">#&gt; 5 senior               yes           0.3700131    0.2967118    0.4532138</span></span>
 <span><span class="co">#&gt;   sir_median_estimate sir_lower_05 sir_upper_05 naive_ifr naive_sir</span></span>
-<span><span class="co">#&gt; 1           0.4674317    0.4112720    0.5211716 0.4069401 0.8170347</span></span>
-<span><span class="co">#&gt; 2           0.4664176    0.3284257    0.5926703 0.3500000 0.8750000</span></span>
-<span><span class="co">#&gt; 3           0.6266265    0.5863260    0.6657964 0.4224806 0.8863049</span></span>
-<span><span class="co">#&gt; 4           0.6161694    0.5203892    0.7385855 0.3231707 0.8597561</span></span>
-<span><span class="co">#&gt; 5           0.7625821    0.6948667    0.8191488 0.4330709 0.9488189</span></span>
-<span><span class="co">#&gt; 6           0.7485675    0.6654328    0.8550410 0.5555556 1.0000000</span></span></code></pre></div>
+<span><span class="co">#&gt; 1           0.3808350    0.3123373    0.4404289 0.3890675 0.7749196</span></span>
+<span><span class="co">#&gt; 2           0.5444398    0.5014853    0.5975940 0.3928571 0.8418367</span></span>
+<span><span class="co">#&gt; 3           0.7163066    0.5862772    0.8051473 0.3926702 0.9214660</span></span>
+<span><span class="co">#&gt; 4           0.7022471    0.6459089    0.7778427 0.4576271 0.9406780</span></span>
+<span><span class="co">#&gt; 5           0.8338584    0.7252161    0.8999805 0.2692308 0.9615385</span></span></code></pre></div>
 <p>For model-diagnostics work, <code><a href="../reference/calculate_hazard.html">calculate_hazard()</a></code> exposes
 the latent infection hazard on the probability scale for each
 time-period and strata cell. This is the direct summary of
@@ -514,14 +512,14 @@ exposure process is behaving sensibly.</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">hazard_summary</span>, <span class="fl">8L</span><span class="op">)</span></span>
 <span><span class="co">#&gt;         time    age health_occupation median_estimate     lower_05     upper_05</span></span>
-<span><span class="co">#&gt; 1 2024-01-01  youth                no    4.913680e-03 3.371418e-03 6.843413e-03</span></span>
-<span><span class="co">#&gt; 2 2024-01-01  youth               yes    1.295648e-02 4.545543e-03 2.808367e-02</span></span>
-<span><span class="co">#&gt; 3 2024-01-01  adult                no    4.582673e-03 3.423004e-03 5.729635e-03</span></span>
-<span><span class="co">#&gt; 4 2024-01-01  adult               yes    4.344508e-03 1.829145e-03 8.135667e-03</span></span>
-<span><span class="co">#&gt; 5 2024-01-01 senior                no    4.996386e-03 3.036154e-03 7.382542e-03</span></span>
-<span><span class="co">#&gt; 6 2024-01-01 senior               yes    3.511225e-14 5.527985e-17 3.025205e-12</span></span>
-<span><span class="co">#&gt; 7 2024-01-08  youth                no    4.281359e-03 2.768152e-03 6.419357e-03</span></span>
-<span><span class="co">#&gt; 8 2024-01-08  youth               yes    1.247252e-02 5.153847e-03 2.909167e-02</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 2024-01-01  youth                no    4.397768e-03 2.995876e-03 6.845800e-03</span></span>
+<span><span class="co">#&gt; 2 2024-01-01  adult                no    5.177858e-03 4.027286e-03 6.760096e-03</span></span>
+<span><span class="co">#&gt; 3 2024-01-01  adult               yes    1.223843e-02 7.412754e-03 1.868032e-02</span></span>
+<span><span class="co">#&gt; 4 2024-01-01 senior                no    6.943112e-03 5.033608e-03 1.025725e-02</span></span>
+<span><span class="co">#&gt; 5 2024-01-01 senior               yes    3.355682e-14 2.112869e-16 8.676132e-12</span></span>
+<span><span class="co">#&gt; 6 2024-01-08  youth                no    5.799071e-03 3.638674e-03 8.191569e-03</span></span>
+<span><span class="co">#&gt; 7 2024-01-08  adult                no    4.794799e-03 3.876673e-03 6.364966e-03</span></span>
+<span><span class="co">#&gt; 8 2024-01-08  adult               yes    8.997502e-03 5.405247e-03 1.422111e-02</span></span></code></pre></div>
 <p>The returned <code>data.frame</code> is long-form, with one row per
 <code>time_period</code> and <code>strata</code> combination. In
 practice, this is the easiest way to identify cells where the fitted
