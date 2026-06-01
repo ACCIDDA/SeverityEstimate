@@ -277,20 +277,20 @@ diagnostics before interpreting the results.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Detection Rates:</span></span>
 <span><span class="co">#&gt;                      Estimate</span></span>
-<span><span class="co">#&gt; passive_asymptomatic   0.2346</span></span>
-<span><span class="co">#&gt; passive_symptomatic    0.9011</span></span>
-<span><span class="co">#&gt; active                 0.5583</span></span>
+<span><span class="co">#&gt; passive_asymptomatic   0.2389</span></span>
+<span><span class="co">#&gt; passive_symptomatic    0.9018</span></span>
+<span><span class="co">#&gt; active                 0.5576</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Severity Estimates:</span></span>
 <span><span class="co">#&gt;  age_class IFR Estimate SIR Estimate</span></span>
-<span><span class="co">#&gt;      10-20     0.007748       0.8845</span></span>
-<span><span class="co">#&gt;      20-29     0.010752       0.9729</span></span>
-<span><span class="co">#&gt;      30-39     0.020669       0.9885</span></span>
-<span><span class="co">#&gt;      40-49     0.045705       0.9917</span></span>
-<span><span class="co">#&gt;      50-59     0.094727       0.9930</span></span>
-<span><span class="co">#&gt;      60-69     0.163211       0.9933</span></span>
-<span><span class="co">#&gt;      70-79     0.234197       0.9906</span></span>
-<span><span class="co">#&gt;      80-89     0.295406       0.9698</span></span></code></pre></div>
+<span><span class="co">#&gt;      10-20     0.008608       0.8793</span></span>
+<span><span class="co">#&gt;      20-29     0.010872       0.9718</span></span>
+<span><span class="co">#&gt;      30-39     0.020272       0.9878</span></span>
+<span><span class="co">#&gt;      40-49     0.044542       0.9914</span></span>
+<span><span class="co">#&gt;      50-59     0.092906       0.9931</span></span>
+<span><span class="co">#&gt;      60-69     0.161750       0.9938</span></span>
+<span><span class="co">#&gt;      70-79     0.233655       0.9916</span></span>
+<span><span class="co">#&gt;      80-89     0.295652       0.9698</span></span></code></pre></div>
 <p>After fitting, the usual extractors can be used to inspect
 surveillance parameters and age-stratified severity estimates:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -300,9 +300,9 @@ surveillance parameters and age-stratified severity estimates:</p>
 <span><span class="co">#&gt; 2 passive_asymptomatic_detection mildly/asymptomatic passive detection rate</span></span>
 <span><span class="co">#&gt; 3  passive_symptomatic_detection     severe symptoms passive detection rate</span></span>
 <span><span class="co">#&gt;   mean_estimate median_estimate    lower_05  upper_05</span></span>
-<span><span class="co">#&gt; 1     0.5582765       0.5598149 0.465412204 0.6415194</span></span>
-<span><span class="co">#&gt; 2     0.2346081       0.1870499 0.008860131 0.6766375</span></span>
-<span><span class="co">#&gt; 3     0.9010614       0.9250565 0.673850923 0.9969872</span></span>
+<span><span class="co">#&gt; 1     0.5575758       0.5593180 0.463300782 0.6386171</span></span>
+<span><span class="co">#&gt; 2     0.2389194       0.1940360 0.009461287 0.6888964</span></span>
+<span><span class="co">#&gt; 3     0.9018130       0.9247272 0.666193445 0.9969771</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/calculate_fatality_ratio.html">calculate_fatality_ratio</a></span><span class="op">(</span></span>
 <span>  <span class="va">estimate</span>,</span>
@@ -310,23 +310,23 @@ surveillance parameters and age-stratified severity estimates:</p>
 <span>  naive_estimate <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt;   age_class ifr_mean_estimate ifr_lower_05 ifr_upper_05 sir_mean_estimate</span></span>
-<span><span class="co">#&gt; 1     10-20       0.007747704 1.372843e-05   0.05997375         0.8845131</span></span>
-<span><span class="co">#&gt; 2     20-29       0.010752327 2.635771e-04   0.05593323         0.9729050</span></span>
-<span><span class="co">#&gt; 3     30-39       0.020669317 3.003394e-03   0.06298139         0.9885056</span></span>
-<span><span class="co">#&gt; 4     40-49       0.045705264 1.682651e-02   0.08987740         0.9917488</span></span>
-<span><span class="co">#&gt; 5     50-59       0.094726747 4.650687e-02   0.16342751         0.9930229</span></span>
-<span><span class="co">#&gt; 6     60-69       0.163211063 8.864539e-02   0.25624388         0.9933379</span></span>
-<span><span class="co">#&gt; 7     70-79       0.234196674 1.342318e-01   0.34840719         0.9905648</span></span>
-<span><span class="co">#&gt; 8     80-89       0.295406188 1.089353e-01   0.53477424         0.9697985</span></span>
+<span><span class="co">#&gt; 1     10-20        0.00860840 6.084248e-06   0.06546689         0.8793125</span></span>
+<span><span class="co">#&gt; 2     20-29        0.01087160 1.620682e-04   0.05448464         0.9717686</span></span>
+<span><span class="co">#&gt; 3     30-39        0.02027186 2.312906e-03   0.06361522         0.9878425</span></span>
+<span><span class="co">#&gt; 4     40-49        0.04454246 1.515555e-02   0.09594343         0.9913831</span></span>
+<span><span class="co">#&gt; 5     50-59        0.09290600 4.663159e-02   0.15896195         0.9930823</span></span>
+<span><span class="co">#&gt; 6     60-69        0.16174954 9.565683e-02   0.24825861         0.9938460</span></span>
+<span><span class="co">#&gt; 7     70-79        0.23365456 1.374168e-01   0.34316453         0.9915631</span></span>
+<span><span class="co">#&gt; 8     80-89        0.29565237 1.012433e-01   0.54555186         0.9697680</span></span>
 <span><span class="co">#&gt;   sir_lower_05 sir_upper_05  naive_ifr naive_sir</span></span>
-<span><span class="co">#&gt; 1    0.3635717    0.9999636 0.00000000         1</span></span>
-<span><span class="co">#&gt; 2    0.8660749    0.9997734 0.00000000         1</span></span>
-<span><span class="co">#&gt; 3    0.9539145    0.9996010 0.00000000         1</span></span>
-<span><span class="co">#&gt; 4    0.9615614    0.9997546 0.03333333         1</span></span>
-<span><span class="co">#&gt; 5    0.9691428    0.9998138 0.08823529         1</span></span>
-<span><span class="co">#&gt; 6    0.9719160    0.9997657 0.18181818         1</span></span>
-<span><span class="co">#&gt; 7    0.9575030    0.9998513 0.28000000         1</span></span>
-<span><span class="co">#&gt; 8    0.8046863    0.9999727 0.22222222         1</span></span></code></pre></div>
+<span><span class="co">#&gt; 1    0.3227795    0.9999190 0.00000000         1</span></span>
+<span><span class="co">#&gt; 2    0.8658067    0.9997115 0.00000000         1</span></span>
+<span><span class="co">#&gt; 3    0.9469344    0.9997192 0.00000000         1</span></span>
+<span><span class="co">#&gt; 4    0.9599605    0.9998622 0.03333333         1</span></span>
+<span><span class="co">#&gt; 5    0.9706036    0.9998953 0.08823529         1</span></span>
+<span><span class="co">#&gt; 6    0.9727306    0.9998416 0.18181818         1</span></span>
+<span><span class="co">#&gt; 7    0.9624115    0.9998865 0.28000000         1</span></span>
+<span><span class="co">#&gt; 8    0.7942806    0.9999810 0.22222222         1</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="interpretation">Interpretation<a class="anchor" aria-label="anchor" href="#interpretation"></a>
