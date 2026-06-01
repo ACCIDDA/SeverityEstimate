@@ -138,9 +138,11 @@ fit_result
 - Added a `getting-started` vignette demonstrating the default model,
   from synthetic data generation through model fitting and result
   extraction as well as a `model-explainer` vignette to do a deep dive
-  into the model.
+  into the model. Also added a `mers-korea-2015` vignette to highlight
+  how to use this package on a “real world” data set.
   [\#78](https://github.com/ACCIDDA/SeverityEstimate/issues/78),
-  [\#107](https://github.com/ACCIDDA/SeverityEstimate/issues/107).
+  [\#107](https://github.com/ACCIDDA/SeverityEstimate/issues/107),
+  [\#115](https://github.com/ACCIDDA/SeverityEstimate/issues/115).
 - Setup `pkgdown` site hosted on GitHub pages at
   [accidda.github.io/SeverityEstimate/](https://accidda.github.io/SeverityEstimate/).
   [\#28](https://github.com/ACCIDDA/SeverityEstimate/issues/28).
