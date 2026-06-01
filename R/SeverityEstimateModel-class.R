@@ -85,22 +85,157 @@ SeverityEstimateModel <- function(line_list, population) {
 
 
 #' @title
+#' Summary Method for `SeverityEstimateModel` Objects
+#'
+#' @description
+#' Summarises a user-defined severity estimate model by reporting input data
+#' dimensions, detection probability priors, timestep bounds, mapped detection
+#' and outcome counts, and strata specifications.
+#'
+#' @param object An object of class \linkS4class{SeverityEstimateModel}.
+#' @param ... Unused.
+#'
+#' @return
+#' `summary.SeverityEstimateModel` returns an object of class
+#' `SummaryEstimateModel`.
+#'
+#' @export
+summary.SeverityEstimateModel <- function(object, ...) {
+  new_summary_estimate_model(
+    data = format_summary_model_data(object),
+    priors = format_summary_model_priors(object),
+    timesteps = format_summary_model_timesteps(object),
+    detection = format_summary_model_detection(object),
+    outcome = format_summary_model_outcome(object),
+    strata = format_summary_model_strata(object)
+  )
+}
+
+
+#' @title
 #' Print Method for `SeverityEstimateModel` Objects
 #'
 #' @description
-#' Prints a \linkS4class{SeverityEstimateModel} object in a structured format.
-#' Currently just a thin wrapper around [utils::str()].
+#' Prints a compact summary of a \linkS4class{SeverityEstimateModel} object.
 #'
 #' @param x An object of class \linkS4class{SeverityEstimateModel}.
-#' @param ... Further arguments passed to the [utils::str()] function.
+#' @param object An object of class \linkS4class{SeverityEstimateModel}.
+#' @param ... Further arguments passed to [print.SummaryEstimateModel()].
 #'
 #' @return
 #' `x` invisibly.
 #'
-#' @importFrom utils str
 #' @export
 print.SeverityEstimateModel <- function(x, ...) {
-  # For now just fallback to stan's print method
-  utils::str(x, ...)
+  print(summary(x), ...)
+  invisible(x)
+}
+
+
+#' @rdname print.SeverityEstimateModel
+#' @return
+#' `object` invisibly.
+#'
+#' @importFrom methods setMethod
+#' @importFrom methods signature
+#' @export
+methods::setMethod(
+  "show",
+  methods::signature(object = "SeverityEstimateModel"),
+  function(object) {
+    print(summary(object))
+    invisible(object)
+  }
+)
+
+
+#' @title
+#' Print Method for `SummaryEstimateModel` Objects
+#'
+#' @description
+#' Prints a `SummaryEstimateModel` object in a structured format.
+#'
+#' @param x An object of class `SummaryEstimateModel`.
+#' @param digits The number of significant digits to print for prior
+#' parameters.
+#' @param ... Unused.
+#'
+#' @return
+#' `x` invisibly.
+#'
+#' @export
+print.SummaryEstimateModel <- function(
+  x,
+  digits = max(3L, getOption("digits") - 3L),
+  ...
+) {
+  cat("Severity Estimate Model:\n")
+
+  cat("\nData:\n")
+  print(x$data, row.names = FALSE, ...)
+
+  cat("\nDetection Probability Priors:\n")
+  for (idx in seq_len(nrow(x$priors))) {
+    prior <- x$priors[idx, , drop = FALSE]
+    default_text <- if (prior$default) " (default)" else ""
+    cat(
+      "  ",
+      prior$parameter,
+      " prior: beta(",
+      format_summary_model_number(prior$alpha, digits = digits),
+      ", ",
+      format_summary_model_number(prior$beta, digits = digits),
+      ")",
+      default_text,
+      "\n",
+      sep = ""
+    )
+  }
+
+  cat("\nTimesteps:\n")
+  if (nrow(x$timesteps)) {
+    cat(
+      "  ",
+      x$timesteps$column,
+      ": ",
+      x$timesteps$start,
+      " to ",
+      x$timesteps$end,
+      " (",
+      x$timesteps$timesteps,
+      " timesteps)\n",
+      sep = ""
+    )
+  } else {
+    cat("  not set\n")
+  }
+
+  cat("\nDetection:\n")
+  print_summary_model_map(x$detection)
+
+  cat("\nOutcome:\n")
+  print_summary_model_map(x$outcome)
+
+  cat("\nStrata:\n")
+  if (nrow(x$strata)) {
+    for (idx in seq_len(nrow(x$strata))) {
+      strata <- x$strata[idx, , drop = FALSE]
+      cat(
+        "  ",
+        strata$column,
+        ": ",
+        strata$n_levels,
+        " levels, df = ",
+        strata$degrees_of_freedom,
+        " (",
+        strata$levels,
+        ")\n",
+        sep = ""
+      )
+    }
+  } else {
+    cat("  none\n")
+  }
+
   invisible(x)
 }

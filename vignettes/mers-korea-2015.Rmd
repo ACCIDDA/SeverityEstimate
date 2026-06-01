@@ -145,6 +145,8 @@ model <- SeverityEstimateModel(linelist, population) |>
     "outcome",
     map = c("Symptomatic" = "symptomatic", "Death" = "severe")
   )
+
+model
 ```
 
 The sampler settings below are intentionally modest so that the vignette remains

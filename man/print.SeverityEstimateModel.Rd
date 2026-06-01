@@ -2,19 +2,25 @@
 % Please edit documentation in R/SeverityEstimateModel-class.R
 \name{print.SeverityEstimateModel}
 \alias{print.SeverityEstimateModel}
+\alias{show,SeverityEstimateModel-method}
 \title{Print Method for \code{SeverityEstimateModel} Objects}
 \usage{
 \method{print}{SeverityEstimateModel}(x, ...)
+
+\S4method{show}{SeverityEstimateModel}(object)
 }
 \arguments{
 \item{x}{An object of class \linkS4class{SeverityEstimateModel}.}
 
-\item{...}{Further arguments passed to the \code{\link[utils:str]{utils::str()}} function.}
+\item{...}{Further arguments passed to \code{\link[=print.SummaryEstimateModel]{print.SummaryEstimateModel()}}.}
+
+\item{object}{An object of class \linkS4class{SeverityEstimateModel}.}
 }
 \value{
 \code{x} invisibly.
+
+\code{object} invisibly.
 }
 \description{
-Prints a \linkS4class{SeverityEstimateModel} object in a structured format.
-Currently just a thin wrapper around \code{\link[utils:str]{utils::str()}}.
+Prints a compact summary of a \linkS4class{SeverityEstimateModel} object.
 }
