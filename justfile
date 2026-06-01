@@ -127,13 +127,14 @@ renv-update:
 	renv::update()
 
 [group('renv')]
-[doc('Install, update, and snapshot new updates using renv')]
+[doc('Install, update, snapshot, and refresh renv activation metadata')]
 renv-snapshot:
 	#!/usr/bin/env Rscript
 	library(renv)
 	renv::install(dependencies='most')
 	renv::update()
 	renv::snapshot()
+	renv::activate()
 
 [group('install')]
 [doc('Install development version of SeverityEstimate')]
