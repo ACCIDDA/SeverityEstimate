@@ -267,6 +267,7 @@ model <- SeverityEstimateModel(linelist, population) |>
       "Death" = "severe"
     )
   )
+model
 
 estimate <- fit(
   model,

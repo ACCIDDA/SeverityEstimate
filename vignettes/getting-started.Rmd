@@ -101,6 +101,7 @@ linelist_model_data <- linelist[, c("time", "age", "detection", "outcome")]
 population <- strata[, c("age", "population")]
 
 model <- default_model(linelist_model_data, population)
+model
 
 estimate <- fit(
   model,
