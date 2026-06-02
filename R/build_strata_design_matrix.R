@@ -20,27 +20,6 @@
 #' `build_strata_level_basis()` returns a numeric matrix with one row per level
 #' and one column per basis term.
 #'
-#' @examples
-#' strata_spec <- list(
-#'   list(
-#'     name = "age",
-#'     levels = c("Youth", "Adult", "Senior"),
-#'     degrees_of_freedom = 1L
-#'   ),
-#'   list(
-#'     name = "region",
-#'     levels = c("North", "South"),
-#'     degrees_of_freedom = 0L
-#'   )
-#' )
-#' strata_df <- expand.grid(
-#'   age = c("Youth", "Adult", "Senior"),
-#'   region = c("North", "South"),
-#'   stringsAsFactors = FALSE
-#' )
-#' # jarl-ignore internal_function: example
-#' SeverityEstimate:::build_strata_design_matrix(strata_spec, strata_df)
-#'
 #' @importFrom checkmate assert_data_frame
 #' @importFrom checkmate assert_list
 #' @keywords internal
@@ -94,18 +73,6 @@ build_strata_design_matrix <- function(strata, strata_df) {
 }
 
 #' @rdname build_strata_design_matrix
-#' @examples
-#' # jarl-ignore internal_function: example
-#' SeverityEstimate:::build_strata_level_basis(
-#'   c("Youth", "Adult", "Senior"),
-#'   degrees_of_freedom = 0L
-#' )
-#' # jarl-ignore internal_function: example
-#' SeverityEstimate:::build_strata_level_basis(
-#'   c("Youth", "Adult", "Senior", "Elderly"),
-#'   degrees_of_freedom = 2L
-#' )
-#'
 #' @importFrom checkmate assert_integerish
 #' @importFrom stats contr.sum
 #' @importFrom stats poly

@@ -69,4 +69,16 @@ posterior hazard estimates by time period and strata.
 Calculate a \code{data.frame} of posterior infection-hazard estimates broken down
 by time period and strata.
 }
-\keyword{internal}
+\examples{
+logit_hzd <- array(
+  qlogis(seq(0.01, 0.08, length.out = 8L)),
+  dim = c(2L, 2L, 2L)
+)
+calculate_hazard(
+  list(logit_hzd = logit_hzd),
+  time_period = data.frame(week = 1L:2L),
+  strata = data.frame(age = c("Adult", "Senior")),
+  alpha = numeric()
+)
+
+}

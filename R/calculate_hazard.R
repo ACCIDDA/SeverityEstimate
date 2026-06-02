@@ -32,6 +32,18 @@
 #'
 #' `calculate_hazard.default` signals an error.
 #'
+#' @examples
+#' logit_hzd <- array(
+#'   qlogis(seq(0.01, 0.08, length.out = 8L)),
+#'   dim = c(2L, 2L, 2L)
+#' )
+#' calculate_hazard(
+#'   list(logit_hzd = logit_hzd),
+#'   time_period = data.frame(week = 1L:2L),
+#'   strata = data.frame(age = c("Adult", "Senior")),
+#'   alpha = numeric()
+#' )
+#'
 #' @export
 calculate_hazard <- function(x, ...) {
   UseMethod("calculate_hazard")
@@ -69,7 +81,6 @@ calculate_hazard.SeverityEstimateFit <- function(
 
 #' @rdname calculate_hazard
 #' @importFrom stats quantile
-#' @keywords internal
 #' @export
 calculate_hazard.list <- function(
   x,

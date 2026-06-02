@@ -24,10 +24,23 @@
 #'
 #' @return
 #' `calculate_fatality_ratio.SeverityEstimateFit` returns a `data.frame`
-#' describing fatality ratios by strata or if now strata were provided to when
+#' describing fatality ratios by strata or, if no strata were provided when
 #' fitting a single row `data.frame`.
 #'
 #' `calculate_fatality_ratio.default` signals an error.
+#'
+#' @examples
+#' draws <- list(
+#'   C = matrix(1, nrow = 4L, ncol = 2L),
+#'   mortality = matrix(c(0.01, 0.02, 0.03, 0.04, 0.02, 0.03, 0.04, 0.05),
+#'     nrow = 4L
+#'   ),
+#'   xi = matrix(c(0.08, 0.10, 0.12, 0.14, 0.18, 0.20, 0.22, 0.24),
+#'     nrow = 4L
+#'   )
+#' )
+#' strata <- data.frame(age = c("Adult", "Senior"))
+#' calculate_fatality_ratio(draws, strata = strata, alpha = numeric())
 #'
 #' @export
 calculate_fatality_ratio <- function(x, ...) {
@@ -63,9 +76,8 @@ calculate_fatality_ratio.SeverityEstimateFit <- function(
 }
 
 
-#' @inheritParams calculate_fatality_ratio
+#' @rdname calculate_fatality_ratio
 #' @importFrom stats quantile
-#' @keywords internal
 #' @export
 calculate_fatality_ratio.list <- function(
   x,

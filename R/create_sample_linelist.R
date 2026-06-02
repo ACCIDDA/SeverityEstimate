@@ -28,6 +28,22 @@
 #' A data.frame with the columns 'patient', 'time', 'detection', 'outcome'
 #' along with the strata columns provided in `strata`.
 #'
+#' @examples
+#' strata <- data.frame(
+#'   age = c("Adult", "Senior"),
+#'   population = c(1000L, 800L),
+#'   sir = c(0.10, 0.20),
+#'   ifr = c(0.01, 0.05)
+#' )
+#' create_sample_linelist(
+#'   strata = strata,
+#'   times = 1L:2L,
+#'   active_detection = 0.8,
+#'   passive_asymptomatic_detection = 0.2,
+#'   passive_symptomatic_detection = 0.6,
+#'   force_of_infection = matrix(0.01, nrow = 2L, ncol = 2L)
+#' )
+#'
 #' @importFrom checkmate assert
 #' @importFrom checkmate check_date
 #' @importFrom checkmate check_matrix

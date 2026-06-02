@@ -4,20 +4,50 @@
 \name{SeverityEstimateModel-class}
 \alias{SeverityEstimateModel-class}
 \alias{SeverityEstimateModel}
+\alias{summary.SeverityEstimateModel}
+\alias{print.SeverityEstimateModel}
+\alias{show,SeverityEstimateModel-method}
+\alias{print.SummaryEstimateModel}
 \title{Severity Estimate Model}
 \usage{
 SeverityEstimateModel(line_list, population)
+
+\method{summary}{SeverityEstimateModel}(object, ...)
+
+\method{print}{SeverityEstimateModel}(x, ...)
+
+\S4method{show}{SeverityEstimateModel}(object)
+
+\method{print}{SummaryEstimateModel}(x, digits = max(3L, getOption("digits") - 3L), ...)
 }
 \arguments{
 \item{line_list}{A line list of cases to model the severity of.}
 
 \item{population}{A dataset containing information on the population broken
-down by strataification. Can also be a single integer in the case that the
-model is not stratafied.}
+down by stratification. Can also be a single integer in the case that the
+model is not stratified.}
+
+\item{object}{An object of class \linkS4class{SeverityEstimateModel}.}
+
+\item{...}{For \code{summary.SeverityEstimateModel()} and
+\code{print.SummaryEstimateModel()}, unused. For \code{print.SeverityEstimateModel()},
+further arguments passed to \code{\link[=print.SummaryEstimateModel]{print.SummaryEstimateModel()}}.}
+
+\item{x}{An object of class \linkS4class{SeverityEstimateModel} or
+\code{SummaryEstimateModel}.}
+
+\item{digits}{The number of significant digits to print for prior
+parameters.}
 }
 \value{
-A \linkS4class{SeverityEstimateModel} S4 object instance representing a model
-and its associated metadata.
+A function-dependent value:
+\itemize{
+\item \code{SeverityEstimateModel()} returns a \linkS4class{SeverityEstimateModel}
+object.
+\item \code{summary.SeverityEstimateModel()} returns a \code{SummaryEstimateModel}.
+\item \code{print.SeverityEstimateModel()}, \code{show()}, and
+\code{print.SummaryEstimateModel()} invisibly return their input object.
+}
 }
 \description{
 A representation of a severity estimate model and its metadata.
@@ -28,7 +58,7 @@ A representation of a severity estimate model and its metadata.
 \item{\code{line_list}}{A line list of cases to model the severity of.}
 
 \item{\code{population}}{A dataset containing information on the population broken
-down by strataification.}
+down by stratification.}
 
 \item{\code{strata}}{A list of model stratification specifications.}
 
@@ -48,3 +78,36 @@ for the passive asymptomatic detection rate.}
 for the passive symptomatic detection rate.}
 }}
 
+\section{Functions and methods}{
+
+\itemize{
+\item \code{SeverityEstimateModel(line_list, population)} creates a
+\linkS4class{SeverityEstimateModel} object.
+\item \code{summary(object)} summarises a user-defined severity estimate model by
+reporting input data dimensions, detection probability priors, timestep
+bounds, mapped detection and outcome counts, and strata specifications.
+\item \code{print.SeverityEstimateModel(x)} prints a compact summary of a
+\linkS4class{SeverityEstimateModel} object.
+\item \code{show(object)} shows a compact summary of a
+\linkS4class{SeverityEstimateModel} object.
+\item \code{print.SummaryEstimateModel(x, digits)} prints a \code{SummaryEstimateModel}
+object in a structured format.
+}
+}
+
+\examples{
+line_list <- data.frame(
+  patient = 1L:3L,
+  week = c(1L, 1L, 2L),
+  age = c("Youth", "Adult", "Senior"),
+  detection = c("Active", "Passive", "Active"),
+  outcome = c("Asymptomatic", "Death", "Symptomatic")
+)
+population <- data.frame(
+  age = c("Youth", "Adult", "Senior"),
+  amount = rep(987L, 3L)
+)
+model <- SeverityEstimateModel(line_list, population)
+summary(model)
+
+}

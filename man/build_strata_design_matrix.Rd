@@ -33,37 +33,4 @@ per-dimension basis matrix for one strata variable, while
 \code{build_strata_design_matrix()} expands those terms across the full strata-cell
 grid used by the model.
 }
-\examples{
-strata_spec <- list(
-  list(
-    name = "age",
-    levels = c("Youth", "Adult", "Senior"),
-    degrees_of_freedom = 1L
-  ),
-  list(
-    name = "region",
-    levels = c("North", "South"),
-    degrees_of_freedom = 0L
-  )
-)
-strata_df <- expand.grid(
-  age = c("Youth", "Adult", "Senior"),
-  region = c("North", "South"),
-  stringsAsFactors = FALSE
-)
-# jarl-ignore internal_function: example
-SeverityEstimate:::build_strata_design_matrix(strata_spec, strata_df)
-
-# jarl-ignore internal_function: example
-SeverityEstimate:::build_strata_level_basis(
-  c("Youth", "Adult", "Senior"),
-  degrees_of_freedom = 0L
-)
-# jarl-ignore internal_function: example
-SeverityEstimate:::build_strata_level_basis(
-  c("Youth", "Adult", "Senior", "Elderly"),
-  degrees_of_freedom = 2L
-)
-
-}
 \keyword{internal}

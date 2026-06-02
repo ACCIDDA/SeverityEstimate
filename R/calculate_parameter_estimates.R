@@ -33,7 +33,15 @@
 #' with the column 'parameter'. Other columns are determined by other
 #' parameters, see above for details.
 #'
-#' `calculate_fatality_ratio.default` signals an error.
+#' `calculate_parameter_estimates.default` signals an error.
+#'
+#' @examples
+#' draws <- list(
+#'   active_detection = c(0.85, 0.90, 0.92),
+#'   passive_asymptomatic_detection = c(0.15, 0.20, 0.18),
+#'   passive_symptomatic_detection = c(0.55, 0.60, 0.58)
+#' )
+#' calculate_parameter_estimates(draws, alpha = numeric())
 #'
 #' @export
 calculate_parameter_estimates <- function(x, ...) {
@@ -62,9 +70,8 @@ calculate_parameter_estimates.SeverityEstimateFit <- function(
 }
 
 
-#' @inheritParams calculate_parameter_estimates
+#' @rdname calculate_parameter_estimates
 #' @importFrom stats quantile
-#' @keywords internal
 #' @export
 calculate_parameter_estimates.list <- function(
   x,

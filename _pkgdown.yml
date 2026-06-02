@@ -2,3 +2,27 @@ template:
   bootstrap: 5
   light-switch: true
 url: https://accidda.github.io/SeverityEstimate/
+reference:
+- title: Synthetic Data
+  desc: Helpers for generating and transforming example data used to explore the model.
+  contents:
+  - calculate_observed_ifr_sir
+  - create_sample_linelist
+- title: Model Specification
+  desc: Constructors and accessors for defining a severity estimate model.
+  contents:
+  - SeverityEstimateModel-class
+  - default_model
+  - detection
+  - outcome
+  - strata
+  - timesteps
+  - active_prior
+- title: Results
+  desc: Fit a model and summarize posterior estimates.
+  contents:
+  - SeverityEstimateFit-class
+  - fit
+  - calculate_fatality_ratio
+  - calculate_hazard
+  - calculate_parameter_estimates
