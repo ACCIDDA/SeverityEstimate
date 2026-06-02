@@ -59,35 +59,32 @@ population <- data.frame(
 )
 model <- default_model(line_list, population)
 model
-#> Formal class 'SeverityEstimateModel' [package "SeverityEstimate"] with 9 slots
-#>   ..@ line_list                 :'data.frame':   3 obs. of  4 variables:
-#>   .. ..$ time     : int [1:3] 1 1 2
-#>   .. ..$ age      : chr [1:3] "Youth" "Adult" "Senior"
-#>   .. ..$ detection: chr [1:3] "Active" "Passive" "Active"
-#>   .. ..$ outcome  : chr [1:3] "Asymptomatic" "Death" "Symptomatic"
-#>   ..@ population                :'data.frame':   3 obs. of  2 variables:
-#>   .. ..$ age  : chr [1:3] "Youth" "Adult" "Senior"
-#>   .. ..$ value: int [1:3] 1000 1200 900
-#>   ..@ strata                    :List of 1
-#>   .. ..$ :List of 3
-#>   .. .. ..$ name              : chr "age"
-#>   .. .. ..$ levels            : chr [1:3] "Adult" "Senior" "Youth"
-#>   .. .. ..$ degrees_of_freedom: int 0
-#>   ..@ timesteps                 :List of 2
-#>   .. ..$ name  : chr "time"
-#>   .. ..$ levels: int [1:2] 1 2
-#>   ..@ detection                 :List of 2
-#>   .. ..$ name: chr "detection"
-#>   .. ..$ map : Named chr [1:2] "active" "passive"
-#>   .. .. ..- attr(*, "names")= chr [1:2] "Active" "Passive"
-#>   ..@ outcome                   :List of 2
-#>   .. ..$ name: chr "outcome"
-#>   .. ..$ map : Named chr [1:3] "asymptomatic" "severe" "symptomatic"
-#>   .. .. ..- attr(*, "names")= chr [1:3] "Asymptomatic" "Death" "Symptomatic"
-#>   ..@ active_prior              : Named num [1:2] 1 1
-#>   .. ..- attr(*, "names")= chr [1:2] "alpha" "beta"
-#>   ..@ passive_asymptomatic_prior: Named num [1:2] 1 3
-#>   .. ..- attr(*, "names")= chr [1:2] "alpha" "beta"
-#>   ..@ passive_symptomatic_prior : Named num [1:2] 3 1
-#>   .. ..- attr(*, "names")= chr [1:2] "alpha" "beta"
+#> Severity Estimate Model:
+#> 
+#> Data:
+#>     dataset rows columns
+#>   line_list    3       4
+#>  population    3       2
+#> 
+#> Detection Probability Priors:
+#>   active prior: beta(1.0, 1.0)
+#>   passive_asymptomatic prior: beta(1.0, 3.0)
+#>   passive_symptomatic prior: beta(3.0, 1.0)
+#> 
+#> Timesteps:
+#>   time: 1 to 2 (2 timesteps)
+#> 
+#> Detection:
+#>   column: detection
+#>     active: 2 cases (values: Active)
+#>     passive: 1 cases (values: Passive)
+#> 
+#> Outcome:
+#>   column: outcome
+#>     asymptomatic: 1 cases (values: Asymptomatic)
+#>     symptomatic: 1 cases (values: Symptomatic)
+#>     severe: 1 cases (values: Death)
+#> 
+#> Strata:
+#>   age: 3 levels, df = 0 (Adult, Senior, Youth)
 ```

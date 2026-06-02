@@ -152,6 +152,35 @@ linelist_model_data <- linelist[, c("time", "age", "detection", "outcome")]
 population <- strata[, c("age", "population")]
 
 model <- default_model(linelist_model_data, population)
+model
+#> Severity Estimate Model:
+#> 
+#> Data:
+#>     dataset rows columns
+#>   line_list 1502       4
+#>  population    3       2
+#> 
+#> Detection Probability Priors:
+#>   active prior: beta(1.0, 1.0)
+#>   passive_asymptomatic prior: beta(1.0, 3.0)
+#>   passive_symptomatic prior: beta(3.0, 1.0)
+#> 
+#> Timesteps:
+#>   time: 2024-01-01 to 2024-03-25 (13 timesteps)
+#> 
+#> Detection:
+#>   column: detection
+#>     active: 350 cases (values: Active)
+#>     passive: 1152 cases (values: Passive)
+#> 
+#> Outcome:
+#>   column: outcome
+#>     asymptomatic: 154 cases (values: Asymptomatic)
+#>     symptomatic: 790 cases (values: Symptomatic)
+#>     severe: 558 cases (values: Death)
+#> 
+#> Strata:
+#>   age: 3 levels, df = 0 (adult, senior, youth)
 
 estimate <- fit(
   model,

@@ -1,15 +1,17 @@
 # Print Method for `SeverityEstimateModel` Objects
 
-Prints a
+Prints a compact summary of a
 [SeverityEstimateModel](https://accidda.github.io/SeverityEstimate/reference/SeverityEstimateModel.md)
-object in a structured format. Currently just a thin wrapper around
-[`utils::str()`](https://rdrr.io/r/utils/str.html).
+object.
 
 ## Usage
 
 ``` r
 # S3 method for class 'SeverityEstimateModel'
 print(x, ...)
+
+# S4 method for class 'SeverityEstimateModel'
+show(object)
 ```
 
 ## Arguments
@@ -21,9 +23,16 @@ print(x, ...)
 
 - ...:
 
-  Further arguments passed to the
-  [`utils::str()`](https://rdrr.io/r/utils/str.html) function.
+  Further arguments passed to
+  [`print.SummaryEstimateModel()`](https://accidda.github.io/SeverityEstimate/reference/print.SummaryEstimateModel.md).
+
+- object:
+
+  An object of class
+  [SeverityEstimateModel](https://accidda.github.io/SeverityEstimate/reference/SeverityEstimateModel.md).
 
 ## Value
 
 `x` invisibly.
+
+`object` invisibly.

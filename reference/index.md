@@ -58,6 +58,7 @@
   Print Method for `SeverityEstimateFit` Objects
 
 - [`print(`*`<SeverityEstimateModel>`*`)`](https://accidda.github.io/SeverityEstimate/reference/print.SeverityEstimateModel.md)
+  [`show(`*`<SeverityEstimateModel>`*`)`](https://accidda.github.io/SeverityEstimate/reference/print.SeverityEstimateModel.md)
   :
 
   Print Method for `SeverityEstimateModel` Objects
@@ -66,6 +67,11 @@
   :
 
   Print Method for `SummaryEstimateFit` Objects
+
+- [`print(`*`<SummaryEstimateModel>`*`)`](https://accidda.github.io/SeverityEstimate/reference/print.SummaryEstimateModel.md)
+  :
+
+  Print Method for `SummaryEstimateModel` Objects
 
 - [`strata()`](https://accidda.github.io/SeverityEstimate/reference/strata.md)
   [`` `strata<-`() ``](https://accidda.github.io/SeverityEstimate/reference/strata.md)
@@ -76,6 +82,11 @@
   :
 
   Summary Method for `SeverityEstimateFit` Objects
+
+- [`summary(`*`<SeverityEstimateModel>`*`)`](https://accidda.github.io/SeverityEstimate/reference/summary.SeverityEstimateModel.md)
+  :
+
+  Summary Method for `SeverityEstimateModel` Objects
 
 - [`timesteps()`](https://accidda.github.io/SeverityEstimate/reference/timesteps.md)
   [`` `timesteps<-`() ``](https://accidda.github.io/SeverityEstimate/reference/timesteps.md)

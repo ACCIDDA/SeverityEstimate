@@ -139,26 +139,31 @@ specification.</p>
 <span class="r-in"><span>    map <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Active"</span> <span class="op">=</span> <span class="st">"active"</span>, <span class="st">"Passive"</span> <span class="op">=</span> <span class="st">"passive"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">model</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Formal class 'SeverityEstimateModel' [package "SeverityEstimate"] with 9 slots</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..@ line_list                 :'data.frame':	3 obs. of  5 variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ patient  : int [1:3] 1 2 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ week     : int [1:3] 1 1 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ age      : chr [1:3] "Youth" "Adult" "Senior"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ detection: chr [1:3] "Active" "Passive" "Active"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ outcome  : chr [1:3] "Asymptomatic" "Death" "Symptomatic"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..@ population                :'data.frame':	3 obs. of  2 variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ age   : chr [1:3] "Youth" "Adult" "Senior"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ amount: int [1:3] 987 987 987</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..@ strata                    : list()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..@ timesteps                 : list()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..@ detection                 :List of 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ name: chr "detection"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ map : Named chr [1:2] "active" "passive"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   .. .. ..- attr(*, "names")= chr [1:2] "Active" "Passive"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..@ outcome                   : list()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..@ active_prior              : num(0) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..@ passive_asymptomatic_prior: num(0) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..@ passive_symptomatic_prior : num(0) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Severity Estimate Model:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Data:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     dataset rows columns</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   line_list    3       5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  population    3       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Detection Probability Priors:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   active prior: beta(1.0, 1.0) (default)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   passive_asymptomatic prior: beta(1.0, 1.0) (default)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   passive_symptomatic prior: beta(1.0, 1.0) (default)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Timesteps:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   not set</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Detection:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   column: detection</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     active: 2 cases (values: Active)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     passive: 1 cases (values: Passive)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Outcome:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   not set</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Strata:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   none</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

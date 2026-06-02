@@ -120,24 +120,27 @@ model <- SeverityEstimateModel(line_list, population) |>
   set_passive_asymptomatic_prior(alpha = 1.0, beta = 1.0) |>
   set_passive_symptomatic_prior(mean = 0.1, var = 0.0064)
 model
-#> Formal class 'SeverityEstimateModel' [package "SeverityEstimate"] with 9 slots
-#>   ..@ line_list                 :'data.frame':   3 obs. of  5 variables:
-#>   .. ..$ patient  : int [1:3] 1 2 3
-#>   .. ..$ week     : int [1:3] 1 1 2
-#>   .. ..$ age      : chr [1:3] "Youth" "Adult" "Senior"
-#>   .. ..$ detection: chr [1:3] "Active" "Passive" "Active"
-#>   .. ..$ outcome  : chr [1:3] "Asymptomatic" "Death" "Symptomatic"
-#>   ..@ population                :'data.frame':   3 obs. of  2 variables:
-#>   .. ..$ age   : chr [1:3] "Youth" "Adult" "Senior"
-#>   .. ..$ amount: int [1:3] 987 987 987
-#>   ..@ strata                    : list()
-#>   ..@ timesteps                 : list()
-#>   ..@ detection                 : list()
-#>   ..@ outcome                   : list()
-#>   ..@ active_prior              : Named num [1:2] 11.25 1.25
-#>   .. ..- attr(*, "names")= chr [1:2] "alpha" "beta"
-#>   ..@ passive_asymptomatic_prior: Named num [1:2] 1 1
-#>   .. ..- attr(*, "names")= chr [1:2] "alpha" "beta"
-#>   ..@ passive_symptomatic_prior : Named num [1:2] 1.31 11.76
-#>   .. ..- attr(*, "names")= chr [1:2] "alpha" "beta"
+#> Severity Estimate Model:
+#> 
+#> Data:
+#>     dataset rows columns
+#>   line_list    3       5
+#>  population    3       2
+#> 
+#> Detection Probability Priors:
+#>   active prior: beta(11.25, 1.25)
+#>   passive_asymptomatic prior: beta(1.0, 1.0)
+#>   passive_symptomatic prior: beta(1.306, 11.76)
+#> 
+#> Timesteps:
+#>   not set
+#> 
+#> Detection:
+#>   not set
+#> 
+#> Outcome:
+#>   not set
+#> 
+#> Strata:
+#>   none
 ```

@@ -41,6 +41,7 @@
 <url><loc>https://accidda.github.io/SeverityEstimate/reference/print.SeverityEstimateFit.html</loc></url>
 <url><loc>https://accidda.github.io/SeverityEstimate/reference/print.SeverityEstimateModel.html</loc></url>
 <url><loc>https://accidda.github.io/SeverityEstimate/reference/print.SummaryEstimateFit.html</loc></url>
+<url><loc>https://accidda.github.io/SeverityEstimate/reference/print.SummaryEstimateModel.html</loc></url>
 <url><loc>https://accidda.github.io/SeverityEstimate/reference/prior-internal.html</loc></url>
 <url><loc>https://accidda.github.io/SeverityEstimate/reference/process_reference.html</loc></url>
 <url><loc>https://accidda.github.io/SeverityEstimate/reference/process_significance_levels.html</loc></url>
@@ -48,7 +49,9 @@
 <url><loc>https://accidda.github.io/SeverityEstimate/reference/stan_model.html</loc></url>
 <url><loc>https://accidda.github.io/SeverityEstimate/reference/strata.html</loc></url>
 <url><loc>https://accidda.github.io/SeverityEstimate/reference/summary.SeverityEstimateFit.html</loc></url>
+<url><loc>https://accidda.github.io/SeverityEstimate/reference/summary.SeverityEstimateModel.html</loc></url>
 <url><loc>https://accidda.github.io/SeverityEstimate/reference/summary_estimate_fit_helpers.html</loc></url>
+<url><loc>https://accidda.github.io/SeverityEstimate/reference/summary_estimate_model_helpers.html</loc></url>
 <url><loc>https://accidda.github.io/SeverityEstimate/reference/timesteps.html</loc></url>
 <url><loc>https://accidda.github.io/SeverityEstimate/reference/validate_map.html</loc></url>
 </urlset>

@@ -63,7 +63,7 @@
 <span>  <span class="fu"><a href="../reference/active_prior.html">set_active_prior</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">1.0</span>, beta <span class="op">=</span> <span class="fl">1.0</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/active_prior.html">set_passive_asymptomatic_prior</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">1.0</span>, beta <span class="op">=</span> <span class="fl">3.0</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/active_prior.html">set_passive_symptomatic_prior</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">3.0</span>, beta <span class="op">=</span> <span class="fl">1.0</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/strata.html">set_strata</a></span><span class="op">(</span><span class="st">"sex"</span>, degrees_of_freedom <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/strata.html">set_strata</a></span><span class="op">(</span><span class="st">"sex"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/timesteps.html">set_timesteps</a></span><span class="op">(</span><span class="st">"week"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/detection.html">set_detection</a></span><span class="op">(</span></span>
 <span>    <span class="st">"detection"</span>,</span>
@@ -78,71 +78,34 @@
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="va">model</span></span>
-<span><span class="co"># An object of class "SeverityEstimateModel"</span></span>
-<span><span class="co"># Slot "line_list":</span></span>
-<span><span class="co">#   id week sex      outcome detection</span></span>
-<span><span class="co"># 1  1    1   M Asymptomatic    Active</span></span>
-<span><span class="co"># 2  2    1   F  Symptomatic    Active</span></span>
-<span><span class="co"># 3  3    2   M        Death   Passive</span></span>
-<span></span>
-<span><span class="co"># Slot "population":</span></span>
-<span><span class="co">#   sex amount</span></span>
-<span><span class="co"># 1   M    123</span></span>
-<span><span class="co"># 2   F    456</span></span>
-<span></span>
-<span><span class="co"># Slot "strata":</span></span>
-<span><span class="co"># [[1]]</span></span>
-<span><span class="co"># [[1]]$name</span></span>
-<span><span class="co"># [1] "sex"</span></span>
-<span></span>
-<span><span class="co"># [[1]]$levels</span></span>
-<span><span class="co"># [1] "F" "M"</span></span>
-<span></span>
-<span><span class="co"># [[1]]$ordered</span></span>
-<span><span class="co"># [1] FALSE</span></span>
-<span></span>
-<span><span class="co"># [[1]]$degrees_of_freedom</span></span>
-<span><span class="co"># [1] 1</span></span>
-<span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Slot "timesteps":</span></span>
-<span><span class="co"># $name</span></span>
-<span><span class="co"># [1] "week"</span></span>
-<span></span>
-<span><span class="co"># $levels</span></span>
-<span><span class="co"># [1] 1 2</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Slot "detection":</span></span>
-<span><span class="co"># $name</span></span>
-<span><span class="co"># [1] "detection"</span></span>
-<span></span>
-<span><span class="co"># $map</span></span>
-<span><span class="co">#    Active   Passive</span></span>
-<span><span class="co">#  "active" "passive"</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Slot "outcome":</span></span>
-<span><span class="co"># $name</span></span>
-<span><span class="co"># [1] "outcome"</span></span>
-<span></span>
-<span><span class="co"># $map</span></span>
-<span><span class="co">#   Asymptomatic    Symptomatic          Death</span></span>
-<span><span class="co"># "asymptomatic"  "symptomatic"       "severe"</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Slot "active_prior":</span></span>
-<span><span class="co"># alpha  beta</span></span>
-<span><span class="co">#     1     1</span></span>
-<span></span>
-<span><span class="co"># Slot "passive_asymptomatic_prior":</span></span>
-<span><span class="co"># alpha  beta</span></span>
-<span><span class="co">#     1     3</span></span>
-<span></span>
-<span><span class="co"># Slot "passive_symptomatic_prior":</span></span>
-<span><span class="co"># alpha  beta</span></span>
-<span><span class="co">#     3     1</span></span></code></pre></div>
+<span><span class="co"># Severity Estimate Model:</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># Data:</span></span>
+<span><span class="co">#     dataset rows columns</span></span>
+<span><span class="co">#   line_list    3       5</span></span>
+<span><span class="co">#  population    2       2</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># Detection Probability Priors:</span></span>
+<span><span class="co">#   active prior: beta(1.0, 1.0)</span></span>
+<span><span class="co">#   passive_asymptomatic prior: beta(1.0, 3.0)</span></span>
+<span><span class="co">#   passive_symptomatic prior: beta(3.0, 1.0)</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># Timesteps:</span></span>
+<span><span class="co">#   week: 1 to 2 (2 timesteps)</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># Detection:</span></span>
+<span><span class="co">#   column: detection</span></span>
+<span><span class="co">#     active: 2 cases (values: Active)</span></span>
+<span><span class="co">#     passive: 1 cases (values: Passive)</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># Outcome:</span></span>
+<span><span class="co">#   column: outcome</span></span>
+<span><span class="co">#     asymptomatic: 1 cases (values: Asymptomatic)</span></span>
+<span><span class="co">#     symptomatic: 1 cases (values: Symptomatic)</span></span>
+<span><span class="co">#     severe: 1 cases (values: Death)</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># Strata:</span></span>
+<span><span class="co">#   sex: 2 levels, df = 0 (F, M)</span></span></code></pre></div>
 <ul><li>Added <code>default_model</code> to quickly construct a model from well formated population and line list <code>data.frame</code>s as a quick way to get started with the package. <a href="https://github.com/ACCIDDA/SeverityEstimate/issues/114" class="external-link">#114</a>.</li>
 <li>Implemented <code><a href="../reference/fit.html">fit()</a></code> for <code>SeverityEstimateModel</code>, completing the S4 pipeline API. The model now supports an arbitrary number of ordered/unordered strata dimensions via additive fixed effects on the logit scale. Continuing from the example above:</li>
 </ul><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
