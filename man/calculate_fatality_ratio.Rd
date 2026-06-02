@@ -3,6 +3,7 @@
 \name{calculate_fatality_ratio}
 \alias{calculate_fatality_ratio}
 \alias{calculate_fatality_ratio.SeverityEstimateFit}
+\alias{calculate_fatality_ratio.list}
 \alias{calculate_fatality_ratio.default}
 \title{Calculate Fatality Ratio Statistics}
 \usage{
@@ -14,6 +15,18 @@ calculate_fatality_ratio(x, ...)
   median_estimate = TRUE,
   naive_estimate = FALSE,
   alpha = 0.05,
+  ...
+)
+
+\method{calculate_fatality_ratio}{list}(
+  x,
+  strata,
+  mean_estimate = TRUE,
+  median_estimate = TRUE,
+  naive_estimate = FALSE,
+  alpha = 0.05,
+  incidence = NULL,
+  outcome = NULL,
   ...
 )
 
@@ -44,7 +57,7 @@ for \code{alpha=0.05}).}
 }
 \value{
 \code{calculate_fatality_ratio.SeverityEstimateFit} returns a \code{data.frame}
-describing fatality ratios by strata or if now strata were provided to when
+describing fatality ratios by strata or, if no strata were provided when
 fitting a single row \code{data.frame}.
 
 \code{calculate_fatality_ratio.default} signals an error.
@@ -52,4 +65,18 @@ fitting a single row \code{data.frame}.
 \description{
 Calculate a \code{data.frame} of fatality ratios broken down by strata, as well
 as other optional model metrics.
+}
+\examples{
+draws <- list(
+  C = matrix(1, nrow = 4L, ncol = 2L),
+  mortality = matrix(c(0.01, 0.02, 0.03, 0.04, 0.02, 0.03, 0.04, 0.05),
+    nrow = 4L
+  ),
+  xi = matrix(c(0.08, 0.10, 0.12, 0.14, 0.18, 0.20, 0.22, 0.24),
+    nrow = 4L
+  )
+)
+strata <- data.frame(age = c("Adult", "Senior"))
+calculate_fatality_ratio(draws, strata = strata, alpha = numeric())
+
 }

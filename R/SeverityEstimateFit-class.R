@@ -4,6 +4,15 @@
 #' @description
 #' This class contains the output from a severity estimate model fitting.
 #'
+#' @section Functions and methods:
+#' - `summary(object)` summarises a fitted severity estimate model by reporting
+#'   mean detection rate estimates and mean IFR/SIR estimates by strata.
+#' - `print.SeverityEstimateFit(x)` prints a \linkS4class{SeverityEstimateFit}
+#'   object in a structured format. Currently this prints the `model_fit` slot
+#'   using the `print` method for a `stanfit` object.
+#' - `print.SummaryEstimateFit(x, digits)` prints a `SummaryEstimateFit` object
+#'   in a structured format.
+#'
 #' @slot model_fit A stanfit object returned from fitting a severity estimate
 #' model.
 #' @slot population The population data used in model fitting in array form with
@@ -19,6 +28,20 @@
 #' 'surveillance' dimension of `incidence`.
 #' @slot outcome A data.frame with the variables describing the 'outcome'
 #' dimension of `incidence`.
+#'
+#' @return
+#' A function-dependent value:
+#' - `summary.SeverityEstimateFit()` returns a `SummaryEstimateFit` with
+#'   elements `detection_rates` and `severity_estimates`.
+#' - `print.SeverityEstimateFit()` and `print.SummaryEstimateFit()` invisibly
+#'   return their input object.
+#'
+#' @examples
+#' \dontrun{
+#' model <- default_model(line_list, population)
+#' fitted_model <- fit(model, chains = 1L, iter = 100L)
+#' summary(fitted_model)
+#' }
 #'
 #' @importFrom methods setClass
 #' @export
@@ -37,43 +60,25 @@ setClass(
 )
 
 
-#' @title
-#' Print Method for `SeverityEstimateFit` Objects
-#'
-#' @description
-#' Prints a `SeverityEstimateFit` object in a structured format. Currently just
-#' prints the `model_fit` slot using the `print` method for a `stanfit` object.
-#'
-#' @param x An object of class `SeverityEstimateFit`.
-#' @param ... Further arguments passed to the `print` method for a `stanfit`
-#' object.
-#'
-#' @return
-#' `x` invisibly.
+#' @param x An object of class \linkS4class{SeverityEstimateFit} or
+#' `SummaryEstimateFit`.
+#' @param ... For `summary.SeverityEstimateFit()`, unused. For
+#' `print.SeverityEstimateFit()`, further arguments passed to the `print`
+#' method for a `stanfit` object. For `print.SummaryEstimateFit()`, further
+#' arguments passed to [print.data.frame()].
 #'
 #' @export
+#' @rdname SeverityEstimateFit
 print.SeverityEstimateFit <- function(x, ...) {
   # For now just fallback to stan's print method
   print(x@model_fit, ...)
 }
 
 
-#' @title
-#' Summary Method for `SeverityEstimateFit` Objects
-#'
-#' @description
-#' Summarises a fitted severity estimate model by reporting mean detection rate
-#' estimates and mean IFR/SIR estimates by strata.
-#'
-#' @param object An object of class `SeverityEstimateFit`.
-#' @param ... Unused.
-#'
-#' @return
-#' `summary.SeverityEstimateFit` returns an object of class
-#' `SummaryEstimateFit` with elements `detection_rates` and
-#' `severity_estimates`.
+#' @param object An object of class \linkS4class{SeverityEstimateFit}.
 #'
 #' @export
+#' @rdname SeverityEstimateFit
 summary.SeverityEstimateFit <- function(object, ...) {
   detection_rates <- calculate_parameter_estimates(
     object,
@@ -96,20 +101,10 @@ summary.SeverityEstimateFit <- function(object, ...) {
 }
 
 
-#' @title
-#' Print Method for `SummaryEstimateFit` Objects
-#'
-#' @description
-#' Prints a `SummaryEstimateFit` object in a structured format.
-#'
-#' @param x An object of class `SummaryEstimateFit`.
 #' @param digits The number of significant digits to print.
-#' @param ... Further arguments passed to [print.data.frame()].
-#'
-#' @return
-#' `x` invisibly.
 #'
 #' @export
+#' @rdname SeverityEstimateFit
 print.SummaryEstimateFit <- function(
   x,
   digits = max(3L, getOption("digits") - 3L),

@@ -4,9 +4,22 @@
 #' @description
 #' A representation of a severity estimate model and its metadata.
 #'
+#' @section Functions and methods:
+#' - `SeverityEstimateModel(line_list, population)` creates a
+#'   \linkS4class{SeverityEstimateModel} object.
+#' - `summary(object)` summarises a user-defined severity estimate model by
+#'   reporting input data dimensions, detection probability priors, timestep
+#'   bounds, mapped detection and outcome counts, and strata specifications.
+#' - `print.SeverityEstimateModel(x)` prints a compact summary of a
+#'   \linkS4class{SeverityEstimateModel} object.
+#' - `show(object)` shows a compact summary of a
+#'   \linkS4class{SeverityEstimateModel} object.
+#' - `print.SummaryEstimateModel(x, digits)` prints a `SummaryEstimateModel`
+#'   object in a structured format.
+#'
 #' @slot line_list A line list of cases to model the severity of.
 #' @slot population A dataset containing information on the population broken
-#' down by strataification.
+#' down by stratification.
 #' @slot strata A list of model stratification specifications.
 #' @slot timesteps A list specifying the timestep column of the linelist.
 #' @slot detection A list specifying the detection type mapping.
@@ -17,6 +30,29 @@
 #' for the passive asymptomatic detection rate.
 #' @slot passive_symptomatic_prior Parameters for the beta distribution prior
 #' for the passive symptomatic detection rate.
+#'
+#' @return
+#' A function-dependent value:
+#' - `SeverityEstimateModel()` returns a \linkS4class{SeverityEstimateModel}
+#'   object.
+#' - `summary.SeverityEstimateModel()` returns a `SummaryEstimateModel`.
+#' - `print.SeverityEstimateModel()`, `show()`, and
+#'   `print.SummaryEstimateModel()` invisibly return their input object.
+#'
+#' @examples
+#' line_list <- data.frame(
+#'   patient = 1L:3L,
+#'   week = c(1L, 1L, 2L),
+#'   age = c("Youth", "Adult", "Senior"),
+#'   detection = c("Active", "Passive", "Active"),
+#'   outcome = c("Asymptomatic", "Death", "Symptomatic")
+#' )
+#' population <- data.frame(
+#'   age = c("Youth", "Adult", "Senior"),
+#'   amount = rep(987L, 3L)
+#' )
+#' model <- SeverityEstimateModel(line_list, population)
+#' summary(model)
 #'
 #' @importFrom methods setClass
 #' @export
@@ -48,21 +84,15 @@ setClass(
 )
 
 
-#' @title
-#' Create A Severity Model Instance
-#'
 #' @param line_list A line list of cases to model the severity of.
 #' @param population A dataset containing information on the population broken
-#' down by strataification. Can also be a single integer in the case that the
-#' model is not stratafied.
-#'
-#' @return
-#' A \linkS4class{SeverityEstimateModel} S4 object instance representing a model
-#' and its associated metadata.
+#' down by stratification. Can also be a single integer in the case that the
+#' model is not stratified.
 #'
 #' @importFrom checkmate test_integerish
 #' @importFrom methods new
 #' @export
+#' @rdname SeverityEstimateModel
 SeverityEstimateModel <- function(line_list, population) {
   line_list <- is_data_frame(line_list)
   if (
@@ -84,22 +114,13 @@ SeverityEstimateModel <- function(line_list, population) {
 }
 
 
-#' @title
-#' Summary Method for `SeverityEstimateModel` Objects
-#'
-#' @description
-#' Summarises a user-defined severity estimate model by reporting input data
-#' dimensions, detection probability priors, timestep bounds, mapped detection
-#' and outcome counts, and strata specifications.
-#'
 #' @param object An object of class \linkS4class{SeverityEstimateModel}.
-#' @param ... Unused.
-#'
-#' @return
-#' `summary.SeverityEstimateModel` returns an object of class
-#' `SummaryEstimateModel`.
+#' @param ... For `summary.SeverityEstimateModel()` and
+#' `print.SummaryEstimateModel()`, unused. For `print.SeverityEstimateModel()`,
+#' further arguments passed to [print.SummaryEstimateModel()].
 #'
 #' @export
+#' @rdname SeverityEstimateModel
 summary.SeverityEstimateModel <- function(object, ...) {
   new_summary_estimate_model(
     data = format_summary_model_data(object),
@@ -112,33 +133,21 @@ summary.SeverityEstimateModel <- function(object, ...) {
 }
 
 
-#' @title
-#' Print Method for `SeverityEstimateModel` Objects
-#'
-#' @description
-#' Prints a compact summary of a \linkS4class{SeverityEstimateModel} object.
-#'
-#' @param x An object of class \linkS4class{SeverityEstimateModel}.
-#' @param object An object of class \linkS4class{SeverityEstimateModel}.
-#' @param ... Further arguments passed to [print.SummaryEstimateModel()].
-#'
-#' @return
-#' `x` invisibly.
+#' @param x An object of class \linkS4class{SeverityEstimateModel} or
+#' `SummaryEstimateModel`.
 #'
 #' @export
+#' @rdname SeverityEstimateModel
 print.SeverityEstimateModel <- function(x, ...) {
   print(summary(x), ...)
   invisible(x)
 }
 
 
-#' @rdname print.SeverityEstimateModel
-#' @return
-#' `object` invisibly.
-#'
 #' @importFrom methods setMethod
 #' @importFrom methods signature
 #' @export
+#' @rdname SeverityEstimateModel
 methods::setMethod(
   "show",
   methods::signature(object = "SeverityEstimateModel"),
@@ -149,21 +158,11 @@ methods::setMethod(
 )
 
 
-#' @title
-#' Print Method for `SummaryEstimateModel` Objects
-#'
-#' @description
-#' Prints a `SummaryEstimateModel` object in a structured format.
-#'
-#' @param x An object of class `SummaryEstimateModel`.
 #' @param digits The number of significant digits to print for prior
 #' parameters.
-#' @param ... Unused.
-#'
-#' @return
-#' `x` invisibly.
 #'
 #' @export
+#' @rdname SeverityEstimateModel
 print.SummaryEstimateModel <- function(
   x,
   digits = max(3L, getOption("digits") - 3L),

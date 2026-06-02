@@ -3,12 +3,22 @@
 \name{calculate_parameter_estimates}
 \alias{calculate_parameter_estimates}
 \alias{calculate_parameter_estimates.SeverityEstimateFit}
+\alias{calculate_parameter_estimates.list}
 \alias{calculate_parameter_estimates.default}
 \title{Calculate Key Parameter Estimates}
 \usage{
 calculate_parameter_estimates(x, ...)
 
 \method{calculate_parameter_estimates}{SeverityEstimateFit}(
+  x,
+  mean_estimate = TRUE,
+  median_estimate = TRUE,
+  alpha = 0.05,
+  include_description = TRUE,
+  ...
+)
+
+\method{calculate_parameter_estimates}{list}(
   x,
   mean_estimate = TRUE,
   median_estimate = TRUE,
@@ -49,7 +59,7 @@ the returned \code{data.frame}.}
 with the column 'parameter'. Other columns are determined by other
 parameters, see above for details.
 
-\code{calculate_fatality_ratio.default} signals an error.
+\code{calculate_parameter_estimates.default} signals an error.
 }
 \description{
 Calculate a summary \code{data.frame} describing the key parameters fitted
@@ -59,4 +69,13 @@ including:
 \item The severe symptoms passive detection rate, and
 \item The active detection rate.
 }
+}
+\examples{
+draws <- list(
+  active_detection = c(0.85, 0.90, 0.92),
+  passive_asymptomatic_detection = c(0.15, 0.20, 0.18),
+  passive_symptomatic_detection = c(0.55, 0.60, 0.58)
+)
+calculate_parameter_estimates(draws, alpha = numeric())
+
 }

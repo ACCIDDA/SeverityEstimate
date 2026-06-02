@@ -18,3 +18,9 @@ A \linkS4class{SeverityEstimateFit} S4 object.
 \description{
 Fit a severity estimate model instance.
 }
+\examples{
+\dontrun{
+fit(default_model(line_list, population), chains = 1L, iter = 100L)
+}
+
+}

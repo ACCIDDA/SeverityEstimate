@@ -29,3 +29,16 @@ The given \code{strata} data.frame with the additional columns 'theta',
 \description{
 Calculate Active/Passive IFR/SIR From True IFR/SIR And Detection Rates
 }
+\examples{
+strata <- data.frame(
+  population = 1000L,
+  sir = 0.15,
+  ifr = 0.02
+)
+calculate_observed_ifr_sir(
+  strata,
+  passive_asymptomatic_detection = 0.2,
+  passive_symptomatic_detection = 0.6
+)
+
+}

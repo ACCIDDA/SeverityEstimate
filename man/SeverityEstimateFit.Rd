@@ -3,7 +3,39 @@
 \docType{class}
 \name{SeverityEstimateFit-class}
 \alias{SeverityEstimateFit-class}
+\alias{print.SeverityEstimateFit}
+\alias{summary.SeverityEstimateFit}
+\alias{print.SummaryEstimateFit}
 \title{Severity Estimate Fit Class}
+\usage{
+\method{print}{SeverityEstimateFit}(x, ...)
+
+\method{summary}{SeverityEstimateFit}(object, ...)
+
+\method{print}{SummaryEstimateFit}(x, digits = max(3L, getOption("digits") - 3L), ...)
+}
+\arguments{
+\item{x}{An object of class \linkS4class{SeverityEstimateFit} or
+\code{SummaryEstimateFit}.}
+
+\item{...}{For \code{summary.SeverityEstimateFit()}, unused. For
+\code{print.SeverityEstimateFit()}, further arguments passed to the \code{print}
+method for a \code{stanfit} object. For \code{print.SummaryEstimateFit()}, further
+arguments passed to \code{\link[=print.data.frame]{print.data.frame()}}.}
+
+\item{object}{An object of class \linkS4class{SeverityEstimateFit}.}
+
+\item{digits}{The number of significant digits to print.}
+}
+\value{
+A function-dependent value:
+\itemize{
+\item \code{summary.SeverityEstimateFit()} returns a \code{SummaryEstimateFit} with
+elements \code{detection_rates} and \code{severity_estimates}.
+\item \code{print.SeverityEstimateFit()} and \code{print.SummaryEstimateFit()} invisibly
+return their input object.
+}
+}
 \description{
 This class contains the output from a severity estimate model fitting.
 }
@@ -33,3 +65,24 @@ dimensions of \code{population} and \code{incidence}.}
 dimension of \code{incidence}.}
 }}
 
+\section{Functions and methods}{
+
+\itemize{
+\item \code{summary(object)} summarises a fitted severity estimate model by reporting
+mean detection rate estimates and mean IFR/SIR estimates by strata.
+\item \code{print.SeverityEstimateFit(x)} prints a \linkS4class{SeverityEstimateFit}
+object in a structured format. Currently this prints the \code{model_fit} slot
+using the \code{print} method for a \code{stanfit} object.
+\item \code{print.SummaryEstimateFit(x, digits)} prints a \code{SummaryEstimateFit} object
+in a structured format.
+}
+}
+
+\examples{
+\dontrun{
+model <- default_model(line_list, population)
+fitted_model <- fit(model, chains = 1L, iter = 100L)
+summary(fitted_model)
+}
+
+}

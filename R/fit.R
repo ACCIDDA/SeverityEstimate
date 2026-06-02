@@ -8,6 +8,11 @@
 #' @returns
 #' A \linkS4class{SeverityEstimateFit} S4 object.
 #'
+#' @examples
+#' \dontrun{
+#' fit(default_model(line_list, population), chains = 1L, iter = 100L)
+#' }
+#'
 #' @importFrom methods new
 #' @importFrom utils tail
 #' @export

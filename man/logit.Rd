@@ -14,6 +14,10 @@ inv_logit(x)
 
 \item{x}{A real value to convert to probability.}
 }
+\value{
+\code{logit()} returns the log odds for \code{p}; \code{inv_logit()} returns the
+probability corresponding to \code{x}.
+}
 \description{
 Math utilities for converting between a probability and real valued numbers.
 }

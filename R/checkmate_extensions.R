@@ -13,6 +13,13 @@
 #' @inheritParams checkmate::check_false
 #' @inheritParams checkmate::check_true
 #'
+#' @return
+#' `check_probability()` returns `"TRUE"` on success or a checkmate error
+#' message string on failure.
+#'
+#' `assert_probability()` and `assert_bool()` return `x` invisibly on success
+#' and signal an error on failure.
+#'
 #' @importFrom checkmate assert
 #' @importFrom checkmate check_false
 #' @importFrom checkmate check_number

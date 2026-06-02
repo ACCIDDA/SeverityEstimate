@@ -36,6 +36,13 @@ the heuristic implemented in \code{\link[checkmate]{vname}}.}
 \item{add}{[\code{AssertCollection}]\cr
 Collection to store assertion messages. See \code{\link[checkmate]{AssertCollection}}.}
 }
+\value{
+\code{check_probability()} returns \code{"TRUE"} on success or a checkmate error
+message string on failure.
+
+\code{assert_probability()} and \code{assert_bool()} return \code{x} invisibly on success
+and signal an error on failure.
+}
 \description{
 Convenience wrappers around checkmate for specific internal use cases.
 Namely:

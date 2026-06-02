@@ -10,6 +10,10 @@
 #' @details
 #' These functions are named to mimic their stan equivalents.
 #'
+#' @return
+#' `logit()` returns the log odds for `p`; `inv_logit()` returns the
+#' probability corresponding to `x`.
+#'
 #' @keywords internal
 logit <- function(p) {
   log(p / (1.0 - p))
