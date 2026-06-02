@@ -54,6 +54,17 @@ confidence intervals for. The columns will be in
 '\verb{*_}\{lower\verb{/}upper\}\verb{_}\{alpha\}' format
 (i.e. '\verb{*_}lower\verb{_}05' and '\verb{*_}upper\verb{_}05'
 for \code{alpha=0.05}).}
+
+\item{strata}{A \code{data.frame} describing the strata rows to report. For the
+list method, these rows are used as the reference strata for the returned
+estimates.}
+
+\item{incidence}{An optional incidence array used to calculate naive fatality
+ratio estimates. This is required when \code{naive_estimate = TRUE}.}
+
+\item{outcome}{An optional outcome \code{data.frame} used to map the incidence
+array columns when calculating naive fatality ratio estimates. This is
+required when \code{naive_estimate = TRUE}.}
 }
 \value{
 \code{calculate_fatality_ratio.SeverityEstimateFit} returns a \code{data.frame}

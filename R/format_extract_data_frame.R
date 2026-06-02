@@ -22,7 +22,7 @@
 #' * 'Asymptomatic', 'Death', and 'Symptomatic' levels for
 #' `format_outcome_data_frame`.
 #'
-#' @keywords internal
+#' @noRd
 format_extract_data_frame <- function(
   df,
   name,
@@ -99,7 +99,7 @@ format_extract_data_frame <- function(
 
 
 #' @rdname format_extract_data_frame
-#' @keywords internal
+#' @noRd
 format_surveillance_data_frame <- function(df) {
   format_extract_data_frame(
     df,
@@ -114,7 +114,7 @@ format_surveillance_data_frame <- function(df) {
 
 
 #' @rdname format_extract_data_frame
-#' @keywords internal
+#' @noRd
 format_outcome_data_frame <- function(df) {
   format_extract_data_frame(
     df,

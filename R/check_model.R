@@ -23,7 +23,7 @@
 #' @importFrom checkmate assert_string
 #' @importFrom methods slot
 #' @importFrom methods slotNames
-#' @keywords internal
+#' @noRd
 check_model <- function(
   model,
   attribute = NULL,

@@ -13,7 +13,7 @@
 #' `length(alpha)` columns, with dimnames of `alpha` formatted as a two digit
 #' number like '05' or '10' for `0.05` or `0.1`.
 #'
-#' @keywords internal
+#' @noRd
 process_significance_levels <- function(alpha) {
   # Input validation/processing
   stopifnot(

@@ -49,7 +49,7 @@
 #' * `match_detection_case()` returns `value` converted to match the case style
 #'   of `template`.
 #'
-#' @keywords internal
+#' @noRd
 infer_default_map <- function(
   values,
   valid_map,
@@ -93,7 +93,7 @@ infer_default_map <- function(
   map
 }
 
-#' @rdname infer_default_map
+#' @noRd
 infer_default_detection_map <- function(values) {
   map <- infer_default_map(
     values = values,
@@ -109,7 +109,7 @@ infer_default_detection_map <- function(values) {
   complete_default_detection_map(map)
 }
 
-#' @rdname infer_default_map
+#' @noRd
 infer_default_outcome_map <- function(values) {
   infer_default_map(
     values = values,
@@ -125,7 +125,7 @@ infer_default_outcome_map <- function(values) {
   )
 }
 
-#' @rdname infer_default_map
+#' @noRd
 complete_default_detection_map <- function(map) {
   missing_types <- setdiff(c("active", "passive"), unique(map))
   for (type in missing_types) {
@@ -134,7 +134,7 @@ complete_default_detection_map <- function(map) {
   map
 }
 
-#' @rdname infer_default_map
+#' @noRd
 default_detection_level <- function(type, existing_levels) {
   other_type <- if (identical(type, "active")) "passive" else "active"
   other_abbreviation <- substr(other_type, 1L, 1L)
@@ -157,7 +157,7 @@ default_detection_level <- function(type, existing_levels) {
   if (identical(type, "active")) "Active" else "Passive"
 }
 
-#' @rdname infer_default_map
+#' @noRd
 match_detection_case <- function(value, template) {
   if (identical(template, toupper(template))) {
     return(toupper(value))

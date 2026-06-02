@@ -18,7 +18,7 @@
 #' @importFrom checkmate assert_list
 #' @importFrom methods slot<-
 #' @rdname prior-internal
-#' @keywords internal
+#' @noRd
 prior <- function(model, parameter, ...) {
   # Check the prior parameter name
   checkmate::assert_choice(
@@ -61,7 +61,7 @@ prior <- function(model, parameter, ...) {
 #' @importFrom checkmate assert_choice
 #' @importFrom methods slot
 #' @rdname prior-internal
-#' @keywords internal
+#' @noRd
 get_prior <- function(model, parameter) {
   checkmate::assert_choice(
     parameter,

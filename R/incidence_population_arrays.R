@@ -46,7 +46,7 @@
 #' The strata dimensions of `incidence` and `population` will be the same.
 #'
 #' @importFrom utils tail
-#' @keywords internal
+#' @noRd
 incidence_population_arrays <- function(
   linelist,
   population,

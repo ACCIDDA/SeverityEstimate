@@ -19,11 +19,11 @@
 #' `format_summary_severity_estimates` returns a `data.frame` of mean IFR/SIR
 #' estimates with strata columns first and renamed estimate columns.
 #'
-#' @keywords internal
+#' @noRd
 NULL
 
 
-#' @rdname summary_estimate_fit_helpers
+#' @noRd
 new_summary_estimate_fit <- function(detection_rates, severity_estimates) {
   structure(
     list(
@@ -35,7 +35,7 @@ new_summary_estimate_fit <- function(detection_rates, severity_estimates) {
 }
 
 
-#' @rdname summary_estimate_fit_helpers
+#' @noRd
 format_summary_detection_rates <- function(detection_rates) {
   detection_order <- c(
     "passive_asymptomatic_detection",
@@ -56,7 +56,7 @@ format_summary_detection_rates <- function(detection_rates) {
 }
 
 
-#' @rdname summary_estimate_fit_helpers
+#' @noRd
 format_summary_severity_estimates <- function(severity_estimates) {
   strata_reference <- attr(
     severity_estimates,

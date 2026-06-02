@@ -22,11 +22,11 @@
 #' `new_summary_estimate_model` returns an object of class
 #' `SummaryEstimateModel`.
 #'
-#' @keywords internal
+#' @noRd
 NULL
 
 
-#' @rdname summary_estimate_model_helpers
+#' @noRd
 new_summary_estimate_model <- function(
   data,
   priors,
@@ -49,7 +49,7 @@ new_summary_estimate_model <- function(
 }
 
 
-#' @rdname summary_estimate_model_helpers
+#' @noRd
 format_summary_model_data <- function(model) {
   data.frame(
     dataset = c("line_list", "population"),
@@ -60,7 +60,7 @@ format_summary_model_data <- function(model) {
 }
 
 
-#' @rdname summary_estimate_model_helpers
+#' @noRd
 format_summary_model_priors <- function(model) {
   prior_parameters <- c(
     "active",
@@ -91,7 +91,7 @@ format_summary_model_priors <- function(model) {
 }
 
 
-#' @rdname summary_estimate_model_helpers
+#' @noRd
 format_summary_model_timesteps <- function(model) {
   if (!has_timesteps(model)) {
     return(data.frame())
@@ -111,7 +111,7 @@ format_summary_model_timesteps <- function(model) {
 }
 
 
-#' @rdname summary_estimate_model_helpers
+#' @noRd
 format_summary_model_detection <- function(model) {
   format_summary_model_map(
     model = model,
@@ -121,7 +121,7 @@ format_summary_model_detection <- function(model) {
 }
 
 
-#' @rdname summary_estimate_model_helpers
+#' @noRd
 format_summary_model_outcome <- function(model) {
   format_summary_model_map(
     model = model,
@@ -131,7 +131,7 @@ format_summary_model_outcome <- function(model) {
 }
 
 
-#' @rdname summary_estimate_model_helpers
+#' @noRd
 format_summary_model_map <- function(model, specification, valid_types) {
   if (!length(specification)) {
     return(data.frame())
@@ -160,7 +160,7 @@ format_summary_model_map <- function(model, specification, valid_types) {
 }
 
 
-#' @rdname summary_estimate_model_helpers
+#' @noRd
 format_summary_model_strata <- function(model) {
   if (!length(model@strata)) {
     return(data.frame())
@@ -181,7 +181,7 @@ format_summary_model_strata <- function(model) {
 }
 
 
-#' @rdname summary_estimate_model_helpers
+#' @noRd
 format_summary_model_number <- function(x, digits = 3L) {
   formatted <- format(signif(x, digits), trim = TRUE, scientific = FALSE)
   has_decimal <- grepl(".", formatted, fixed = TRUE)
@@ -190,7 +190,7 @@ format_summary_model_number <- function(x, digits = 3L) {
 }
 
 
-#' @rdname summary_estimate_model_helpers
+#' @noRd
 print_summary_model_map <- function(x) {
   if (!nrow(x)) {
     cat("  not set\n")

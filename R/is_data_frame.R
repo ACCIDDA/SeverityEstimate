@@ -14,7 +14,7 @@
 #' 'data.frame'.
 #'
 #' @importFrom checkmate vname
-#' @keywords internal
+#' @noRd
 is_data_frame <- function(x, has_string_columns = character()) {
   if (!is.data.frame(x)) {
     stop("`", checkmate::vname(x), "` is not 'data.frame' like.")

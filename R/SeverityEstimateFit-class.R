@@ -37,9 +37,29 @@
 #'   return their input object.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
+#' set.seed(1)
+#' line_list <- data.frame(
+#'   patient = 1L:3L,
+#'   week = c(1L, 1L, 2L),
+#'   age = c("Youth", "Adult", "Senior"),
+#'   detection = c("Active", "Passive", "Active"),
+#'   outcome = c("Asymptomatic", "Death", "Symptomatic")
+#' )
+#' population <- data.frame(
+#'   age = c("Youth", "Adult", "Senior"),
+#'   amount = rep(987L, 3L)
+#' )
 #' model <- default_model(line_list, population)
-#' fitted_model <- fit(model, chains = 1L, iter = 100L)
+#' fitted_model <- fit(
+#'   model,
+#'   chains = 1L,
+#'   cores = 1L,
+#'   iter = 10L,
+#'   warmup = 5L,
+#'   seed = 1,
+#'   refresh = 0
+#' )
 #' summary(fitted_model)
 #' }
 #'

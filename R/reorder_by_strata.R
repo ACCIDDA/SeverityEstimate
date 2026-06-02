@@ -12,7 +12,7 @@
 #' @return
 #' A reordered `data.frame` with row names reset.
 #'
-#' @keywords internal
+#' @noRd
 reorder_by_strata <- function(x, strata) {
   stopifnot(is.data.frame(x), is.data.frame(strata))
   if (!setequal(class(x), "data.frame")) {

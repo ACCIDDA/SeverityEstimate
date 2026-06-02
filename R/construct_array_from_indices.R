@@ -37,7 +37,7 @@
 #'
 #' @importFrom stats as.formula
 #' @importFrom stats xtabs
-#' @keywords internal
+#' @noRd
 construct_array_from_indices <- function(
   ...,
   target = 1L,
