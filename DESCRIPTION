@@ -6,24 +6,24 @@ Authors@R: c(
       given="Timothy",
       family="Willard",
       email="twillard@unc.edu",
-      role=c("aut", "cre")
+      role=c("aut", "cph", "cre")
     ),
     person(
       given="Justin",
       family="Lessler",
       email="jlessler@unc.edu",
-      role="aut"
+      role=c("aut", "cph")
     ),
     person(
       given="ACCIDDA",
-      role=c("cph", "fnd")
+      role="fnd"
     )
   )
-Author: Timothy Willard [aut, cre], Justin Lessler [aut], ACCIDDA [cph, fnd]
+Author: Timothy Willard [aut, cph, cre], Justin Lessler [aut, cph], ACCIDDA [fnd]
 Maintainer: Timothy Willard <twillard@unc.edu>
 Description: Bayesian models for severity estimation analysis with the ability
   to perform analysis by strata as well as incorporating information obtained
-  through active and passive surveillance. Work based on
+  through active and passive surveillance. Work based on Lessler et al. (2016)
   <doi:10.1093/aje/kwv452>.
 License: MIT + file LICENSE
 Encoding: UTF-8

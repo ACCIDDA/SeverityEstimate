@@ -8,7 +8,7 @@
 #' The output of [rstan::sampling()] called with the given further arguments.
 #'
 #' @importFrom rstan sampling
-#' @keywords internal
+#' @noRd
 stan_model <- function(model_name, ...) {
   model <- stanmodels[[model_name]]
   if (is.null(model)) {

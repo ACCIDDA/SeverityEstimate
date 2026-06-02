@@ -40,7 +40,7 @@
 #' @param population_value A single string naming the population count column in
 #' `population`.
 #' @param strata_reference A `data.frame` containing the ordered strata cells
-#' that should be available to [incidence_population_arrays()]. For configured
+#' that should be available to `incidence_population_arrays()`. For configured
 #' strata this is usually the full cross-product of user-specified strata
 #' levels; for the no-strata case it contains the synthetic `.strata` cell.
 #' @param x A `data.frame` containing strata columns.
@@ -58,7 +58,7 @@
 #' `format_strata_values()` returns a single diagnostic string describing the
 #' strata values in `x`.
 #'
-#' @keywords internal
+#' @noRd
 filter_positive_population_strata <- function(
   linelist,
   population,
@@ -123,8 +123,7 @@ filter_positive_population_strata <- function(
   )
 }
 
-#' @rdname filter_positive_population_strata
-#' @keywords internal
+#' @noRd
 strata_key <- function(x, strata_cols) {
   do.call(
     paste,
@@ -132,8 +131,7 @@ strata_key <- function(x, strata_cols) {
   )
 }
 
-#' @rdname filter_positive_population_strata
-#' @keywords internal
+#' @noRd
 format_strata_values <- function(x) {
   values <- apply(
     x,

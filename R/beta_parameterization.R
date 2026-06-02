@@ -12,7 +12,7 @@
 #'
 #' @importFrom checkmate assert_number
 #' @importFrom checkmate assert_numeric
-#' @keywords internal
+#' @noRd
 beta_parameterization <- function(params) {
   checkmate::assert_numeric(
     params,

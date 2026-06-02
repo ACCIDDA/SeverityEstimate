@@ -17,7 +17,7 @@
 #' @importFrom checkmate assert_choice
 #' @importFrom checkmate assert_string
 #' @importFrom checkmate assert_subset
-#' @keywords internal
+#' @noRd
 validate_map <- function(
   model,
   name,

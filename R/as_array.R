@@ -11,19 +11,19 @@
 #' @return
 #' A one-dimensional array with length equal to `length(x)`.
 #'
-#' @keywords internal
+#' @noRd
 as_array <- function(x, converter = \(x) x) {
   array(converter(x), dim = length(x))
 }
 
 #' @rdname as_array
-#' @keywords internal
+#' @noRd
 as_integer_array <- function(x) {
   as_array(x, converter = as.integer)
 }
 
 #' @rdname as_array
-#' @keywords internal
+#' @noRd
 as_numeric_array <- function(x) {
   as_array(x, converter = as.numeric)
 }

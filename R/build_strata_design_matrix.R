@@ -9,7 +9,7 @@
 #'
 #' @param strata A list of strata specifications from `strata(model)`.
 #' @param strata_df The expanded strata-cell data frame returned by
-#' [incidence_population_arrays()].
+#' `incidence_population_arrays()`.
 #' @param levels The ordered levels for the dimension.
 #' @param degrees_of_freedom The requested degrees of freedom.
 #'
@@ -22,7 +22,7 @@
 #'
 #' @importFrom checkmate assert_data_frame
 #' @importFrom checkmate assert_list
-#' @keywords internal
+#' @noRd
 build_strata_design_matrix <- function(strata, strata_df) {
   checkmate::assert_list(strata)
   checkmate::assert_data_frame(strata_df, min.rows = 1L)
@@ -72,10 +72,10 @@ build_strata_design_matrix <- function(strata, strata_df) {
   )
 }
 
-#' @rdname build_strata_design_matrix
 #' @importFrom checkmate assert_integerish
 #' @importFrom stats contr.sum
 #' @importFrom stats poly
+#' @noRd
 build_strata_level_basis <- function(levels, degrees_of_freedom) {
   checkmate::assert_integerish(degrees_of_freedom, len = 1L, lower = 0L)
   degrees_of_freedom <- as.integer(degrees_of_freedom)

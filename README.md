@@ -11,7 +11,15 @@ A useful comparison point is [`cfr`](https://epiverse-trace.github.io/cfr/). `cf
 
 ## Installation
 
-At the moment `SeverityEstimate` is distributed as source. You can download the package bundle with `pak::pkg_download()`:
+To install `SeverityEstimate` from CRAN you can run the following:
+
+```r
+install.packages("SeverityEstimate")
+```
+
+### Installing From Source
+
+The simpliest way to install `SeverityEstimate` from source is via `pak::pkg_download()`:
 
 ```r
 if (!requireNamespace("pak", quietly = TRUE)) {
@@ -24,8 +32,6 @@ pak::pkg_download(
   platforms = "source"
 )
 ```
-
-Because the package depends on `rstan`, installation requires a working source package toolchain and `GNU make`. After downloading the source bundle, install it using your usual local-package workflow.
 
 ## Minimal example
 

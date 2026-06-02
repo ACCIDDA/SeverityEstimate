@@ -25,8 +25,7 @@
 #' @importFrom checkmate check_number
 #' @importFrom checkmate check_true
 #' @importFrom checkmate makeAssertionFunction
-#' @keywords internal
-#' @rdname checkmate_extensions
+#' @noRd
 check_probability <- function(x, na.ok = FALSE, null.ok = FALSE) {
   checkmate::check_number(
     x,
@@ -38,10 +37,10 @@ check_probability <- function(x, na.ok = FALSE, null.ok = FALSE) {
   )
 }
 
-#' @rdname checkmate_extensions
+#' @noRd
 assert_probability <- checkmate::makeAssertionFunction(check_probability)
 
-#' @rdname checkmate_extensions
+#' @noRd
 assert_bool <- function(x, na.ok = FALSE, .var.name = checkmate::vname(x)) {
   checkmate::assert(
     checkmate::check_true(x, na.ok = na.ok),

@@ -14,12 +14,12 @@
 #' `logit()` returns the log odds for `p`; `inv_logit()` returns the
 #' probability corresponding to `x`.
 #'
-#' @keywords internal
+#' @noRd
 logit <- function(p) {
   log(p / (1.0 - p))
 }
 
-#' @rdname logit
+#' @noRd
 inv_logit <- function(x) {
   1.0 / (1.0 + exp(-x))
 }

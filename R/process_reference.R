@@ -13,7 +13,7 @@
 #' If `values` is `NULL` then `NULL` otherwise a `data.frame` with the columns
 #' specified by `columns`.
 #'
-#' @keywords internal
+#' @noRd
 process_reference <- function(values, columns) {
   if (is.null(values)) {
     return(NULL)

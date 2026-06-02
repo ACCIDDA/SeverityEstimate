@@ -6,7 +6,7 @@
 \alias{SeverityEstimate-package}
 \title{SeverityEstimate: Bayesian Severity Estimation}
 \description{
-Bayesian models for severity estimation analysis with the ability to perform analysis by strata as well as incorporating information obtained through active and passive surveillance. Work based on \doi{10.1093/aje/kwv452}.
+Bayesian models for severity estimation analysis with the ability to perform analysis by strata as well as incorporating information obtained through active and passive surveillance. Work based on Lessler et al. (2016) \doi{10.1093/aje/kwv452}.
 }
 \seealso{
 Useful links:
@@ -16,17 +16,17 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Timothy Willard \email{twillard@unc.edu}
+\strong{Maintainer}: Timothy Willard \email{twillard@unc.edu} [copyright holder]
 
 Authors:
 \itemize{
-  \item Timothy Willard \email{twillard@unc.edu}
-  \item Justin Lessler \email{jlessler@unc.edu}
+  \item Timothy Willard \email{twillard@unc.edu} [copyright holder]
+  \item Justin Lessler \email{jlessler@unc.edu} [copyright holder]
 }
 
 Other contributors:
 \itemize{
-  \item ACCIDDA [copyright holder, funder]
+  \item ACCIDDA [funder]
 }
 
 }

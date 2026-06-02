@@ -8,6 +8,9 @@
 #' @param x A object to calculate fatality ratio statistics from, typically a
 #' \linkS4class{SeverityEstimateFit} S4 object.
 #' @param ... Further arguments passed to other methods.
+#' @param strata A `data.frame` describing the strata rows to report. For the
+#' list method, these rows are used as the reference strata for the returned
+#' estimates.
 #' @param mean_estimate A single logical indicating if the mean estimate for the
 #' ratios should be included in the '\verb{*_}mean\verb{_}estimate' columns of
 #' the returned `data.frame`.
@@ -21,6 +24,11 @@
 #' '\verb{*_}\{lower\verb{/}upper\}\verb{_}\{alpha\}' format
 #' (i.e. '\verb{*_}lower\verb{_}05' and '\verb{*_}upper\verb{_}05'
 #' for `alpha=0.05`).
+#' @param incidence An optional incidence array used to calculate naive fatality
+#' ratio estimates. This is required when `naive_estimate = TRUE`.
+#' @param outcome An optional outcome `data.frame` used to map the incidence
+#' array columns when calculating naive fatality ratio estimates. This is
+#' required when `naive_estimate = TRUE`.
 #'
 #' @return
 #' `calculate_fatality_ratio.SeverityEstimateFit` returns a `data.frame`

@@ -13,3 +13,4 @@
 ^docs$
 ^pkgdown$
 ^inst/notebooks/rendered($|/)
+^cran-comments\.md$

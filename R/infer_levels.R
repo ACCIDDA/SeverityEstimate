@@ -22,7 +22,7 @@
 #' @importFrom checkmate assert_choice
 #' @importFrom checkmate assert_string
 #' @importFrom checkmate assert_subset
-#' @keywords internal
+#' @noRd
 infer_levels <- function(model, name, name_in, levels = NULL) {
   # Validations
   checkmate::assert_string(name)

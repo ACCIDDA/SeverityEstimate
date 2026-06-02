@@ -17,7 +17,7 @@
 #' A list with two named elements, the first is 'df' is the data.frame of the
 #' extracted subset and 'ind' is the match index of `x` in 'df'.
 #'
-#' @keywords internal
+#' @noRd
 extract_and_match_data_frame <- function(
   x,
   cols,
