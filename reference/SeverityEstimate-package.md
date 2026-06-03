@@ -2,8 +2,8 @@
 
 Bayesian models for severity estimation analysis with the ability to
 perform analysis by strata as well as incorporating information obtained
-through active and passive surveillance. Work based on
-[doi:10.1093/aje/kwv452](https://doi.org/10.1093/aje/kwv452) .
+through active and passive surveillance. Work based on Lessler et al.
+(2016) [doi:10.1093/aje/kwv452](https://doi.org/10.1093/aje/kwv452) .
 
 ## See also
 
@@ -13,14 +13,14 @@ Useful links:
 
 ## Author
 
-**Maintainer**: Timothy Willard <twillard@unc.edu>
+**Maintainer**: Timothy Willard <twillard@unc.edu> \[copyright holder\]
 
 Authors:
 
-- Timothy Willard <twillard@unc.edu>
+- Timothy Willard <twillard@unc.edu> \[copyright holder\]
 
-- Justin Lessler <jlessler@unc.edu>
+- Justin Lessler <jlessler@unc.edu> \[copyright holder\]
 
 Other contributors:
 
-- ACCIDDA \[copyright holder, funder\]
+- ACCIDDA \[funder\]

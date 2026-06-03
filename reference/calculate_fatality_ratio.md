@@ -70,6 +70,23 @@ calculate_fatality_ratio(x, ...)
   intervals for. The columns will be in '`*_`{lower`/`upper}`_`{alpha}'
   format (i.e. '`*_`lower`_`05' and '`*_`upper`_`05' for `alpha=0.05`).
 
+- strata:
+
+  A `data.frame` describing the strata rows to report. For the list
+  method, these rows are used as the reference strata for the returned
+  estimates.
+
+- incidence:
+
+  An optional incidence array used to calculate naive fatality ratio
+  estimates. This is required when `naive_estimate = TRUE`.
+
+- outcome:
+
+  An optional outcome `data.frame` used to map the incidence array
+  columns when calculating naive fatality ratio estimates. This is
+  required when `naive_estimate = TRUE`.
+
 ## Value
 
 `calculate_fatality_ratio.SeverityEstimateFit` returns a `data.frame`

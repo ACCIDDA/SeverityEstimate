@@ -29,8 +29,16 @@ outcome, `SeverityEstimate` is the more natural model.
 
 ## Installation
 
-At the moment `SeverityEstimate` is distributed as source. You can
-download the package bundle with
+To install `SeverityEstimate` from CRAN you can run the following:
+
+``` r
+
+install.packages("SeverityEstimate")
+```
+
+### Installing From Source
+
+The simpliest way to install `SeverityEstimate` from source is via
 [`pak::pkg_download()`](https://pak.r-lib.org/reference/pkg_download.html):
 
 ``` r
@@ -45,10 +53,6 @@ pak::pkg_download(
   platforms = "source"
 )
 ```
-
-Because the package depends on `rstan`, installation requires a working
-source package toolchain and `GNU make`. After downloading the source
-bundle, install it using your usual local-package workflow.
 
 ## Minimal example
 

@@ -2,11 +2,11 @@
 
 ## Authors
 
-- **Timothy Willard**. Author, maintainer.
+- **Timothy Willard**. Author, copyright holder, maintainer.
 
-- **Justin Lessler**. Author.
+- **Justin Lessler**. Author, copyright holder.
 
-- **ACCIDDA**. Copyright holder, funder.
+- **ACCIDDA**. Funder.
 
 ## Citation
 

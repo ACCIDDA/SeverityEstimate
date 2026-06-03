@@ -1,4 +1,4 @@
 # License
 
-    YEAR: 2025
-    COPYRIGHT HOLDER: ACCIDDA
+    YEAR: 2026
+    COPYRIGHT HOLDER: Justin Lessler, Timothy Willard
