@@ -10,6 +10,9 @@
 
 ## Citation
 
+Source:
+[`DESCRIPTION`](https://github.com/ACCIDDA/SeverityEstimate/blob/main/DESCRIPTION)
+
 Willard T, Lessler J (2026). *SeverityEstimate: Bayesian Severity
 Estimation*. R package version 0.1.0,
 <https://accidda.github.io/SeverityEstimate/>.

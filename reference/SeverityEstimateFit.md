@@ -103,8 +103,7 @@ A function-dependent value:
 # \donttest{
 set.seed(1)
 line_list <- data.frame(
-  patient = 1L:3L,
-  week = c(1L, 1L, 2L),
+  time = c(1L, 1L, 2L),
   age = c("Youth", "Adult", "Senior"),
   detection = c("Active", "Passive", "Active"),
   outcome = c("Asymptomatic", "Death", "Symptomatic")
@@ -114,8 +113,7 @@ population <- data.frame(
   amount = rep(987L, 3L)
 )
 model <- default_model(line_list, population)
-#> Error: `line_list` is missing required columns: time.
-fitted_model <- fit(
+fitted_model <- suppressWarnings(fit(
   model,
   chains = 1L,
   cores = 1L,
@@ -123,9 +121,18 @@ fitted_model <- fit(
   warmup = 5L,
   seed = 1,
   refresh = 0
-)
-#> Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'timesteps': object 'model' not found
+))
 summary(fitted_model)
-#> Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'summary': object 'fitted_model' not found
+#> Detection Rates:
+#>                      Estimate
+#> passive_asymptomatic   0.2670
+#> passive_symptomatic    0.8934
+#> active                 0.5253
+#> 
+#> Severity Estimates:
+#>     age IFR Estimate SIR Estimate
+#>   Adult       0.7987       0.8570
+#>  Senior       0.2675       0.9178
+#>   Youth       0.2517       0.2178
 # }
 ```

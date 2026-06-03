@@ -25,6 +25,7 @@
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/ACCIDDA/SeverityEstimate/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch"><li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
@@ -40,7 +41,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Severity Estimate Fit Class</h1>
-
+      <small class="dont-index">Source: <a href="https://github.com/ACCIDDA/SeverityEstimate/blob/main/R/SeverityEstimateFit-class.R" class="external-link"><code>R/SeverityEstimateFit-class.R</code></a></small>
       <div class="d-none name"><code>SeverityEstimateFit.Rd</code></div>
     </div>
 
@@ -150,8 +151,7 @@ in a structured format.</p></li>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">line_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  patient <span class="op">=</span> <span class="fl">1L</span><span class="op">:</span><span class="fl">3L</span>,</span></span>
-<span class="r-in"><span>  week <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1L</span>, <span class="fl">1L</span>, <span class="fl">2L</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1L</span>, <span class="fl">1L</span>, <span class="fl">2L</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Youth"</span>, <span class="st">"Adult"</span>, <span class="st">"Senior"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  detection <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Active"</span>, <span class="st">"Passive"</span>, <span class="st">"Active"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  outcome <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Asymptomatic"</span>, <span class="st">"Death"</span>, <span class="st">"Symptomatic"</span><span class="op">)</span></span></span>
@@ -161,8 +161,7 @@ in a structured format.</p></li>
 <span class="r-in"><span>  amount <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">987L</span>, <span class="fl">3L</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="default_model.html">default_model</a></span><span class="op">(</span><span class="va">line_list</span>, <span class="va">population</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> `line_list` is missing required columns: time.</span>
-<span class="r-in"><span><span class="va">fitted_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="fit.html">fit</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">fitted_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span><span class="fu"><a href="fit.html">fit</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">model</span>,</span></span>
 <span class="r-in"><span>  chains <span class="op">=</span> <span class="fl">1L</span>,</span></span>
 <span class="r-in"><span>  cores <span class="op">=</span> <span class="fl">1L</span>,</span></span>
@@ -170,10 +169,19 @@ in a structured format.</p></li>
 <span class="r-in"><span>  warmup <span class="op">=</span> <span class="fl">5L</span>,</span></span>
 <span class="r-in"><span>  seed <span class="op">=</span> <span class="fl">1</span>,</span></span>
 <span class="r-in"><span>  refresh <span class="op">=</span> <span class="fl">0</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in h(simpleError(msg, call)):</span> error in evaluating the argument 'x' in selecting a method for function 'timesteps': object 'model' not found</span>
+<span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fitted_model</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in h(simpleError(msg, call)):</span> error in evaluating the argument 'object' in selecting a method for function 'summary': object 'fitted_model' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Detection Rates:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                      Estimate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> passive_asymptomatic   0.2670</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> passive_symptomatic    0.8934</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> active                 0.5253</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Severity Estimates:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     age IFR Estimate SIR Estimate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Adult       0.7987       0.8570</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Senior       0.2675       0.9178</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Youth       0.2517       0.2178</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

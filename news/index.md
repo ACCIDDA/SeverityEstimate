@@ -136,4 +136,4 @@ fit_result
 
 - Initial version of the package with the main entry point being
   `SeverityEstimate::estimate_severity` that implements the basics of
-  the model from <https://doi.org/10.1093/aje/kwv452>.
+  the model from <doi:10.1093/aje/kwv452>.

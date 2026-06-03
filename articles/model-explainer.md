@@ -5,9 +5,9 @@
 `SeverityEstimate` fits a Bayesian model for the symptomatic infection
 rate (SIR) and infection fatality ratio (IFR) using case line list data
 observed through active and passive surveillance. The package is based
-on [Lessler et al. (2016)](https://doi.org/10.1093/aje/kwv452), and the
-supplementary material distributed with that paper gives the core
-likelihood derivations.
+on Lessler et al. (2016) <doi:10.1093/aje/kwv452>, and the supplementary
+material distributed with that paper gives the core likelihood
+derivations.
 
 This vignette is about the model itself rather than the workflow. It has
 two goals:

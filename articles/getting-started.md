@@ -6,8 +6,8 @@
 fatality ratio (IFR) and symptomatic infection rate (SIR) from case line
 list data, accounting for the fact that active and passive surveillance
 systems detect cases at different rates and with different symptom
-profiles. The model is based on [Lessler et
-al. (2016)](https://doi.org/10.1093/aje/kwv452).
+profiles. The model is based on Lessler et al. (2016)
+<doi:10.1093/aje/kwv452>.
 
 The lightest workflow is to format your data with `time`, `detection`,
 and `outcome` columns, plus any strata columns you want to model, then

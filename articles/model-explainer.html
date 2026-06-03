@@ -44,6 +44,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/ACCIDDA/SeverityEstimate/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
@@ -68,7 +69,7 @@
       <h1>Model Explainer</h1>
             
       
-
+      <small class="dont-index">Source: <a href="https://github.com/ACCIDDA/SeverityEstimate/blob/main/vignettes/model-explainer.Rmd" class="external-link"><code>vignettes/model-explainer.Rmd</code></a></small>
       <div class="d-none name"><code>model-explainer.Rmd</code></div>
     </div>
 
@@ -80,9 +81,9 @@
 <p><code>SeverityEstimate</code> fits a Bayesian model for the
 symptomatic infection rate (SIR) and infection fatality ratio (IFR)
 using case line list data observed through active and passive
-surveillance. The package is based on <a href="https://doi.org/10.1093/aje/kwv452" class="external-link">Lessler et al. (2016)</a>, and
-the supplementary material distributed with that paper gives the core
-likelihood derivations.</p>
+surveillance. The package is based on Lessler et al. (2016) <a href="doi:10.1093/aje/kwv452" class="uri">doi:10.1093/aje/kwv452</a>,
+and the supplementary material distributed with that paper gives the
+core likelihood derivations.</p>
 <p>This vignette is about the model itself rather than the workflow. It
 has two goals:</p>
 <ol style="list-style-type: decimal">
