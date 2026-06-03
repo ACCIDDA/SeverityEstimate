@@ -1,4 +1,4 @@
-# SeverityEstimate 0.1.0 (in development)
+# SeverityEstimate 0.1.0
 
 - Added `SeverityEstimateModel` S4 class to represent a model and contain the metadata for building a model. This forms the foundation for the tidymodels-esque API, like so:
 ```R
