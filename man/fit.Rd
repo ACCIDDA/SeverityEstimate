@@ -22,8 +22,7 @@ Fit a severity estimate model instance.
 \donttest{
 set.seed(1)
 line_list <- data.frame(
-  patient = 1L:3L,
-  week = c(1L, 1L, 2L),
+  time = c(1L, 1L, 2L),
   age = c("Youth", "Adult", "Senior"),
   detection = c("Active", "Passive", "Active"),
   outcome = c("Asymptomatic", "Death", "Symptomatic")
@@ -32,7 +31,7 @@ population <- data.frame(
   age = c("Youth", "Adult", "Senior"),
   amount = rep(987L, 3L)
 )
-fitted_model <- fit(
+fitted_model <- suppressWarnings(fit(
   default_model(line_list, population),
   chains = 1L,
   cores = 1L,
@@ -40,7 +39,7 @@ fitted_model <- fit(
   warmup = 5L,
   seed = 1,
   refresh = 0
-)
+))
 }
 
 }

@@ -1,7 +1,6 @@
 # `SeverityEstimate`
 
-`SeverityEstimate` is an R package for Bayesian estimation of infection severity from case line-list data. It is designed for settings where the same outbreak is observed through both active and passive surveillance, opposed to severity estimates based only on observed cases that can be biased toward
-symptomatic and severe infections. The package is based on [Lessler et al. (2016)](https://doi.org/10.1093/aje/kwv452).
+`SeverityEstimate` is an R package for Bayesian estimation of infection severity from case line-list data. It is designed for settings where the same outbreak is observed through both active and passive surveillance, opposed to severity estimates based only on observed cases that can be biased toward symptomatic and severe infections. The package is based on Lessler et al. (2016) <doi:10.1093/aje/kwv452>.
 
 ## Why use `SeverityEstimate`?
 

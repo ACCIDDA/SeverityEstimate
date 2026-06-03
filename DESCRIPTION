@@ -23,8 +23,8 @@ Author: Timothy Willard [aut, cph, cre], Justin Lessler [aut, cph], ACCIDDA [fnd
 Maintainer: Timothy Willard <twillard@unc.edu>
 Description: Bayesian models for severity estimation analysis with the ability
   to perform analysis by strata as well as incorporating information obtained
-  through active and passive surveillance. Work based on Lessler et al. (2016)
-  <doi:10.1093/aje/kwv452>.
+  through active and passive surveillance. Work based on work by
+  Lessler et al. (2016) <doi:10.1093/aje/kwv452>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -46,10 +46,9 @@ Suggests:
     testthat (>= 3.0.0),
     withr
 Config/testthat/edition: 3
-StagedInstall: no
 VignetteBuilder: knitr
 Config/roxygen2/version: 8.0.0
-URL: https://accidda.github.io/SeverityEstimate/
+URL: https://accidda.github.io/SeverityEstimate/, https://github.com/ACCIDDA/SeverityEstimate
 Biarch: true
 Imports: 
     Rcpp (>= 0.12.0),
@@ -63,3 +62,4 @@ LinkingTo:
     rstan (>= 2.18.1),
     StanHeaders (>= 2.18.0)
 SystemRequirements: GNU make
+BugReports: https://github.com/ACCIDDA/SeverityEstimate/issues

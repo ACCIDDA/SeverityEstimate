@@ -14,3 +14,6 @@
 ^pkgdown$
 ^inst/notebooks/rendered($|/)
 ^cran-comments\.md$
+^CONTRIBUTING\.md$
+^jarl\.toml$
+^\.claude($|/)

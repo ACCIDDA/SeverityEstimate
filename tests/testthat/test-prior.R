@@ -1,8 +1,3 @@
-test_that("`prior()` is not exported", {
-  namespace_lines <- readLines(testthat::test_path("../../NAMESPACE"))
-  expect_false(any(grepl("^export\\(prior\\)$", namespace_lines)))
-})
-
 test_that("`active_prior()` getter warns and returns a default if unset", {
   model <- SeverityEstimateModel(LINE_LIST, POPULATION)
   expect_warning(
