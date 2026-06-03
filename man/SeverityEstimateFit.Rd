@@ -82,8 +82,7 @@ in a structured format.
 \donttest{
 set.seed(1)
 line_list <- data.frame(
-  patient = 1L:3L,
-  week = c(1L, 1L, 2L),
+  time = c(1L, 1L, 2L),
   age = c("Youth", "Adult", "Senior"),
   detection = c("Active", "Passive", "Active"),
   outcome = c("Asymptomatic", "Death", "Symptomatic")
@@ -93,7 +92,7 @@ population <- data.frame(
   amount = rep(987L, 3L)
 )
 model <- default_model(line_list, population)
-fitted_model <- fit(
+fitted_model <- suppressWarnings(fit(
   model,
   chains = 1L,
   cores = 1L,
@@ -101,7 +100,7 @@ fitted_model <- fit(
   warmup = 5L,
   seed = 1,
   refresh = 0
-)
+))
 summary(fitted_model)
 }
 
