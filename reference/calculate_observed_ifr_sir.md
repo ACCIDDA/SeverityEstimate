@@ -35,3 +35,20 @@ calculate_observed_ifr_sir(
 
 The given `strata` data.frame with the additional columns 'theta',
 'active_sir', 'passive_sir', 'active_ifr', and 'passive_ifr'.
+
+## Examples
+
+``` r
+strata <- data.frame(
+  population = 1000L,
+  sir = 0.15,
+  ifr = 0.02
+)
+calculate_observed_ifr_sir(
+  strata,
+  passive_asymptomatic_detection = 0.2,
+  passive_symptomatic_detection = 0.6
+)
+#>   population  sir  ifr theta active_sir passive_sir active_ifr passive_ifr
+#> 1       1000 0.15 0.02  0.26       0.15   0.3937409       0.02   0.0727802
+```

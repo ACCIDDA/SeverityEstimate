@@ -2,6 +2,51 @@
 
 This class contains the output from a severity estimate model fitting.
 
+## Usage
+
+``` r
+# S3 method for class 'SeverityEstimateFit'
+print(x, ...)
+
+# S3 method for class 'SeverityEstimateFit'
+summary(object, ...)
+
+# S3 method for class 'SummaryEstimateFit'
+print(x, digits = max(3L, getOption("digits") - 3L), ...)
+```
+
+## Arguments
+
+- x:
+
+  An object of class SeverityEstimateFit or `SummaryEstimateFit`.
+
+- ...:
+
+  For `summary.SeverityEstimateFit()`, unused. For
+  `print.SeverityEstimateFit()`, further arguments passed to the `print`
+  method for a `stanfit` object. For `print.SummaryEstimateFit()`,
+  further arguments passed to
+  [`print.data.frame()`](https://rdrr.io/r/base/print.dataframe.html).
+
+- object:
+
+  An object of class SeverityEstimateFit.
+
+- digits:
+
+  The number of significant digits to print.
+
+## Value
+
+A function-dependent value:
+
+- `summary.SeverityEstimateFit()` returns a `SummaryEstimateFit` with
+  elements `detection_rates` and `severity_estimates`.
+
+- `print.SeverityEstimateFit()` and `print.SummaryEstimateFit()`
+  invisibly return their input object.
+
 ## Slots
 
 - `model_fit`:
@@ -38,3 +83,26 @@ This class contains the output from a severity estimate model fitting.
 
   A data.frame with the variables describing the 'outcome' dimension of
   `incidence`.
+
+## Functions and methods
+
+- `summary(object)` summarises a fitted severity estimate model by
+  reporting mean detection rate estimates and mean IFR/SIR estimates by
+  strata.
+
+- `print.SeverityEstimateFit(x)` prints a SeverityEstimateFit object in
+  a structured format. Currently this prints the `model_fit` slot using
+  the `print` method for a `stanfit` object.
+
+- `print.SummaryEstimateFit(x, digits)` prints a `SummaryEstimateFit`
+  object in a structured format.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+model <- default_model(line_list, population)
+fitted_model <- fit(model, chains = 1L, iter = 100L)
+summary(fitted_model)
+} # }
+```

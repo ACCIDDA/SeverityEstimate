@@ -85,3 +85,23 @@ calculate_hazard(x, ...)
 posterior hazard estimates by time period and strata.
 
 `calculate_hazard.default` signals an error.
+
+## Examples
+
+``` r
+logit_hzd <- array(
+  qlogis(seq(0.01, 0.08, length.out = 8L)),
+  dim = c(2L, 2L, 2L)
+)
+calculate_hazard(
+  list(logit_hzd = logit_hzd),
+  time_period = data.frame(week = 1L:2L),
+  strata = data.frame(age = c("Adult", "Senior")),
+  alpha = numeric()
+)
+#>   week    age mean_estimate median_estimate
+#> 1    1  Adult         0.015           0.015
+#> 2    1 Senior         0.055           0.055
+#> 3    2  Adult         0.035           0.035
+#> 4    2 Senior         0.075           0.075
+```

@@ -50,7 +50,19 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">SeverityEstimateModel</span><span class="op">(</span><span class="va">line_list</span>, <span class="va">population</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">SeverityEstimateModel</span><span class="op">(</span><span class="va">line_list</span>, <span class="va">population</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'SeverityEstimateModel'</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'SeverityEstimateModel'</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S4 method for class 'SeverityEstimateModel'</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/methods/show.html" class="external-link">show</a></span><span class="op">(</span><span class="va">object</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'SummaryEstimateModel'</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, digits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fl">3L</span>, <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"digits"</span><span class="op">)</span> <span class="op">-</span> <span class="fl">3L</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -63,15 +75,38 @@
 
 <dt id="arg-population">population<a class="anchor" aria-label="anchor" href="#arg-population"></a></dt>
 <dd><p>A dataset containing information on the population broken
-down by strataification. Can also be a single integer in the case that the
-model is not stratafied.</p></dd>
+down by stratification. Can also be a single integer in the case that the
+model is not stratified.</p></dd>
+
+
+<dt id="arg-object">object<a class="anchor" aria-label="anchor" href="#arg-object"></a></dt>
+<dd><p>An object of class SeverityEstimateModel.</p></dd>
+
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>For <code>summary.SeverityEstimateModel()</code> and
+<code>print.SummaryEstimateModel()</code>, unused. For <code>print.SeverityEstimateModel()</code>,
+further arguments passed to <code>print.SummaryEstimateModel()</code>.</p></dd>
+
+
+<dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
+<dd><p>An object of class SeverityEstimateModel or
+<code>SummaryEstimateModel</code>.</p></dd>
+
+
+<dt id="arg-digits">digits<a class="anchor" aria-label="anchor" href="#arg-digits"></a></dt>
+<dd><p>The number of significant digits to print for prior
+parameters.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A SeverityEstimateModel S4 object instance representing a model
-and its associated metadata.</p>
-    </div>
+    <p>A function-dependent value:</p><ul><li><p><code>SeverityEstimateModel()</code> returns a SeverityEstimateModel
+object.</p></li>
+<li><p><code>summary.SeverityEstimateModel()</code> returns a <code>SummaryEstimateModel</code>.</p></li>
+<li><p><code>print.SeverityEstimateModel()</code>, <code><a href="https://rdrr.io/r/methods/show.html" class="external-link">show()</a></code>, and
+<code>print.SummaryEstimateModel()</code> invisibly return their input object.</p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="slots">Slots<a class="anchor" aria-label="anchor" href="#slots"></a></h2>
 
@@ -82,7 +117,7 @@ and its associated metadata.</p>
 
 <dt><code>population</code></dt>
 <dd><p>A dataset containing information on the population broken
-down by strataification.</p></dd>
+down by stratification.</p></dd>
 
 
 <dt><code>strata</code></dt>
@@ -117,7 +152,64 @@ for the passive symptomatic detection rate.</p></dd>
 
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="functions-and-methods">Functions and methods<a class="anchor" aria-label="anchor" href="#functions-and-methods"></a></h2>
 
+
+<ul><li><p><code>SeverityEstimateModel(line_list, population)</code> creates a
+SeverityEstimateModel object.</p></li>
+<li><p><code>summary(object)</code> summarises a user-defined severity estimate model by
+reporting input data dimensions, detection probability priors, timestep
+bounds, mapped detection and outcome counts, and strata specifications.</p></li>
+<li><p><code>print.SeverityEstimateModel(x)</code> prints a compact summary of a
+SeverityEstimateModel object.</p></li>
+<li><p><code>show(object)</code> shows a compact summary of a
+SeverityEstimateModel object.</p></li>
+<li><p><code>print.SummaryEstimateModel(x, digits)</code> prints a <code>SummaryEstimateModel</code>
+object in a structured format.</p></li>
+</ul></div>
+
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">line_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  patient <span class="op">=</span> <span class="fl">1L</span><span class="op">:</span><span class="fl">3L</span>,</span></span>
+<span class="r-in"><span>  week <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1L</span>, <span class="fl">1L</span>, <span class="fl">2L</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Youth"</span>, <span class="st">"Adult"</span>, <span class="st">"Senior"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  detection <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Active"</span>, <span class="st">"Passive"</span>, <span class="st">"Active"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  outcome <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Asymptomatic"</span>, <span class="st">"Death"</span>, <span class="st">"Symptomatic"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">population</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Youth"</span>, <span class="st">"Adult"</span>, <span class="st">"Senior"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  amount <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">987L</span>, <span class="fl">3L</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu">SeverityEstimateModel</span><span class="op">(</span><span class="va">line_list</span>, <span class="va">population</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Severity Estimate Model:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Data:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     dataset rows columns</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   line_list    3       5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  population    3       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Detection Probability Priors:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   active prior: beta(1.0, 1.0) (default)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   passive_asymptomatic prior: beta(1.0, 1.0) (default)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   passive_symptomatic prior: beta(1.0, 1.0) (default)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Timesteps:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   not set</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Detection:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   not set</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Outcome:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   not set</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Strata:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   none</span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

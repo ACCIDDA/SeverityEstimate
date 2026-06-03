@@ -18,6 +18,19 @@ calculate_fatality_ratio(
   ...
 )
 
+# S3 method for class 'list'
+calculate_fatality_ratio(
+  x,
+  strata,
+  mean_estimate = TRUE,
+  median_estimate = TRUE,
+  naive_estimate = FALSE,
+  alpha = 0.05,
+  incidence = NULL,
+  outcome = NULL,
+  ...
+)
+
 # Default S3 method
 calculate_fatality_ratio(x, ...)
 ```
@@ -60,7 +73,29 @@ calculate_fatality_ratio(x, ...)
 ## Value
 
 `calculate_fatality_ratio.SeverityEstimateFit` returns a `data.frame`
-describing fatality ratios by strata or if now strata were provided to
-when fitting a single row `data.frame`.
+describing fatality ratios by strata or, if no strata were provided when
+fitting a single row `data.frame`.
 
 `calculate_fatality_ratio.default` signals an error.
+
+## Examples
+
+``` r
+draws <- list(
+  C = matrix(1, nrow = 4L, ncol = 2L),
+  mortality = matrix(c(0.01, 0.02, 0.03, 0.04, 0.02, 0.03, 0.04, 0.05),
+    nrow = 4L
+  ),
+  xi = matrix(c(0.08, 0.10, 0.12, 0.14, 0.18, 0.20, 0.22, 0.24),
+    nrow = 4L
+  )
+)
+strata <- data.frame(age = c("Adult", "Senior"))
+calculate_fatality_ratio(draws, strata = strata, alpha = numeric())
+#>      age ifr_mean_estimate ifr_median_estimate sir_mean_estimate
+#> 1  Adult             0.025               0.025              0.11
+#> 2 Senior             0.035               0.035              0.21
+#>   sir_median_estimate
+#> 1                0.11
+#> 2                0.21
+```

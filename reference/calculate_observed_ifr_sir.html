@@ -84,6 +84,23 @@ presenting symptomatically through passive surveillance.</p></dd>
 'active_sir', 'passive_sir', 'active_ifr', and 'passive_ifr'.</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">strata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  population <span class="op">=</span> <span class="fl">1000L</span>,</span></span>
+<span class="r-in"><span>  sir <span class="op">=</span> <span class="fl">0.15</span>,</span></span>
+<span class="r-in"><span>  ifr <span class="op">=</span> <span class="fl">0.02</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">calculate_observed_ifr_sir</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">strata</span>,</span></span>
+<span class="r-in"><span>  passive_asymptomatic_detection <span class="op">=</span> <span class="fl">0.2</span>,</span></span>
+<span class="r-in"><span>  passive_symptomatic_detection <span class="op">=</span> <span class="fl">0.6</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   population  sir  ifr theta active_sir passive_sir active_ifr passive_ifr</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       1000 0.15 0.02  0.26       0.15   0.3937409       0.02   0.0727802</span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

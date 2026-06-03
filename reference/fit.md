@@ -27,3 +27,11 @@ fit(model, ...)
 A
 [SeverityEstimateFit](https://accidda.github.io/SeverityEstimate/reference/SeverityEstimateFit.md)
 S4 object.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+fit(default_model(line_list, population), chains = 1L, iter = 100L)
+} # }
+```

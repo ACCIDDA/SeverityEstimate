@@ -43,9 +43,9 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="synthetic-data">Synthetic Data<a class="anchor" aria-label="anchor" href="#synthetic-data"></a></h2>
 
-
+      <div class="section-desc"><p>Helpers for generating and transforming example data used to explore the model.</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -54,34 +54,6 @@
 
       <dl><dt>
 
-          <code><a href="SeverityEstimateFit.html">SeverityEstimateFit-class</a></code>
-
-        </dt>
-        <dd>Severity Estimate Fit Class</dd>
-
-        <dt>
-
-          <code><a href="SeverityEstimateModel.html">SeverityEstimateModel()</a></code>
-
-        </dt>
-        <dd>Severity Estimate Model</dd>
-
-        <dt>
-
-          <code><a href="active_prior.html">active_prior()</a></code> <code><a href="active_prior.html">`active_prior&lt;-`()</a></code> <code><a href="active_prior.html">set_active_prior()</a></code> <code><a href="active_prior.html">passive_asymptomatic_prior()</a></code> <code><a href="active_prior.html">`passive_asymptomatic_prior&lt;-`()</a></code> <code><a href="active_prior.html">set_passive_asymptomatic_prior()</a></code> <code><a href="active_prior.html">passive_symptomatic_prior()</a></code> <code><a href="active_prior.html">`passive_symptomatic_prior&lt;-`()</a></code> <code><a href="active_prior.html">set_passive_symptomatic_prior()</a></code>
-
-        </dt>
-        <dd>Get Or Set Model Prior Parameterizations</dd>
-
-        <dt>
-
-          <code><a href="calculate_fatality_ratio.html">calculate_fatality_ratio()</a></code>
-
-        </dt>
-        <dd>Calculate Fatality Ratio Statistics</dd>
-
-        <dt>
-
           <code><a href="calculate_observed_ifr_sir.html">calculate_observed_ifr_sir()</a></code>
 
         </dt>
@@ -89,17 +61,26 @@
 
         <dt>
 
-          <code><a href="calculate_parameter_estimates.html">calculate_parameter_estimates()</a></code>
-
-        </dt>
-        <dd>Calculate Key Parameter Estimates</dd>
-
-        <dt>
-
           <code><a href="create_sample_linelist.html">create_sample_linelist()</a></code>
 
         </dt>
         <dd>Create A Sample Line List</dd>
+      </dl></div><div class="section level2">
+      <h2 id="model-specification">Model Specification<a class="anchor" aria-label="anchor" href="#model-specification"></a></h2>
+
+      <div class="section-desc"><p>Constructors and accessors for defining a severity estimate model.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="SeverityEstimateModel.html">SeverityEstimateModel()</a></code> <code><a href="SeverityEstimateModel.html">summary(<i>&lt;SeverityEstimateModel&gt;</i>)</a></code> <code><a href="SeverityEstimateModel.html">print(<i>&lt;SeverityEstimateModel&gt;</i>)</a></code> <code><a href="SeverityEstimateModel.html">show(<i>&lt;SeverityEstimateModel&gt;</i>)</a></code> <code><a href="SeverityEstimateModel.html">print(<i>&lt;SummaryEstimateModel&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Severity Estimate Model</dd>
 
         <dt>
 
@@ -117,45 +98,10 @@
 
         <dt>
 
-          <code><a href="fit.html">fit()</a></code>
-
-        </dt>
-        <dd>Fit a severity estimate model instance.</dd>
-
-        <dt>
-
           <code><a href="outcome.html">outcome()</a></code> <code><a href="outcome.html">`outcome&lt;-`()</a></code> <code><a href="outcome.html">has_outcome()</a></code> <code><a href="outcome.html">require_outcome()</a></code> <code><a href="outcome.html">set_outcome()</a></code>
 
         </dt>
         <dd>Get Or Set Model Outcome Mapping</dd>
-
-        <dt>
-
-          <code><a href="print.SeverityEstimateFit.html">print(<i>&lt;SeverityEstimateFit&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Print Method for <code>SeverityEstimateFit</code> Objects</dd>
-
-        <dt>
-
-          <code><a href="print.SeverityEstimateModel.html">print(<i>&lt;SeverityEstimateModel&gt;</i>)</a></code> <code><a href="print.SeverityEstimateModel.html">show(<i>&lt;SeverityEstimateModel&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Print Method for <code>SeverityEstimateModel</code> Objects</dd>
-
-        <dt>
-
-          <code><a href="print.SummaryEstimateFit.html">print(<i>&lt;SummaryEstimateFit&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Print Method for <code>SummaryEstimateFit</code> Objects</dd>
-
-        <dt>
-
-          <code><a href="print.SummaryEstimateModel.html">print(<i>&lt;SummaryEstimateModel&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Print Method for <code>SummaryEstimateModel</code> Objects</dd>
 
         <dt>
 
@@ -166,26 +112,64 @@
 
         <dt>
 
-          <code><a href="summary.SeverityEstimateFit.html">summary(<i>&lt;SeverityEstimateFit&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Summary Method for <code>SeverityEstimateFit</code> Objects</dd>
-
-        <dt>
-
-          <code><a href="summary.SeverityEstimateModel.html">summary(<i>&lt;SeverityEstimateModel&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Summary Method for <code>SeverityEstimateModel</code> Objects</dd>
-
-        <dt>
-
           <code><a href="timesteps.html">timesteps()</a></code> <code><a href="timesteps.html">`timesteps&lt;-`()</a></code> <code><a href="timesteps.html">has_timesteps()</a></code> <code><a href="timesteps.html">require_timesteps()</a></code> <code><a href="timesteps.html">set_timesteps()</a></code>
 
         </dt>
         <dd>Get Or Set Model Timesteps</dd>
+
+        <dt>
+
+          <code><a href="active_prior.html">active_prior()</a></code> <code><a href="active_prior.html">`active_prior&lt;-`()</a></code> <code><a href="active_prior.html">set_active_prior()</a></code> <code><a href="active_prior.html">passive_asymptomatic_prior()</a></code> <code><a href="active_prior.html">`passive_asymptomatic_prior&lt;-`()</a></code> <code><a href="active_prior.html">set_passive_asymptomatic_prior()</a></code> <code><a href="active_prior.html">passive_symptomatic_prior()</a></code> <code><a href="active_prior.html">`passive_symptomatic_prior&lt;-`()</a></code> <code><a href="active_prior.html">set_passive_symptomatic_prior()</a></code>
+
+        </dt>
+        <dd>Get Or Set Model Prior Parameterizations</dd>
+      </dl></div><div class="section level2">
+      <h2 id="results">Results<a class="anchor" aria-label="anchor" href="#results"></a></h2>
+
+      <div class="section-desc"><p>Fit a model and summarize posterior estimates.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="SeverityEstimateFit.html">print(<i>&lt;SeverityEstimateFit&gt;</i>)</a></code> <code><a href="SeverityEstimateFit.html">summary(<i>&lt;SeverityEstimateFit&gt;</i>)</a></code> <code><a href="SeverityEstimateFit.html">print(<i>&lt;SummaryEstimateFit&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Severity Estimate Fit Class</dd>
+
+        <dt>
+
+          <code><a href="fit.html">fit()</a></code>
+
+        </dt>
+        <dd>Fit a severity estimate model instance.</dd>
+
+        <dt>
+
+          <code><a href="calculate_fatality_ratio.html">calculate_fatality_ratio()</a></code>
+
+        </dt>
+        <dd>Calculate Fatality Ratio Statistics</dd>
+
+        <dt>
+
+          <code><a href="calculate_hazard.html">calculate_hazard()</a></code>
+
+        </dt>
+        <dd>Calculate Hazard Statistics</dd>
+
+        <dt>
+
+          <code><a href="calculate_parameter_estimates.html">calculate_parameter_estimates()</a></code>
+
+        </dt>
+        <dd>Calculate Key Parameter Estimates</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

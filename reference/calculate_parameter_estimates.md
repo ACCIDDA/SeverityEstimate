@@ -24,6 +24,16 @@ calculate_parameter_estimates(
   ...
 )
 
+# S3 method for class 'list'
+calculate_parameter_estimates(
+  x,
+  mean_estimate = TRUE,
+  median_estimate = TRUE,
+  alpha = 0.05,
+  include_description = TRUE,
+  ...
+)
+
 # Default S3 method
 calculate_parameter_estimates(x, ...)
 ```
@@ -72,4 +82,23 @@ calculate_parameter_estimates(x, ...)
 `data.frame` with the column 'parameter'. Other columns are determined
 by other parameters, see above for details.
 
-`calculate_fatality_ratio.default` signals an error.
+`calculate_parameter_estimates.default` signals an error.
+
+## Examples
+
+``` r
+draws <- list(
+  active_detection = c(0.85, 0.90, 0.92),
+  passive_asymptomatic_detection = c(0.15, 0.20, 0.18),
+  passive_symptomatic_detection = c(0.55, 0.60, 0.58)
+)
+calculate_parameter_estimates(draws, alpha = numeric())
+#>                        parameter                      parameter_description
+#> 1               active_detection                      active detection rate
+#> 2 passive_asymptomatic_detection mildly/asymptomatic passive detection rate
+#> 3  passive_symptomatic_detection     severe symptoms passive detection rate
+#>   mean_estimate median_estimate
+#> 1     0.8900000            0.90
+#> 2     0.1766667            0.18
+#> 3     0.5766667            0.58
+```

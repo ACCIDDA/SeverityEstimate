@@ -21,6 +21,11 @@ inv_logit(x)
 
   A real value to convert to probability.
 
+## Value
+
+`logit()` returns the log odds for `p`; `inv_logit()` returns the
+probability corresponding to `x`.
+
 ## Details
 
 These functions are named to mimic their stan equivalents.

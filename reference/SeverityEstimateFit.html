@@ -48,7 +48,49 @@
     <p>This class contains the output from a severity estimate model fitting.</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for class 'SeverityEstimateFit'</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'SeverityEstimateFit'</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'SummaryEstimateFit'</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, digits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fl">3L</span>, <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"digits"</span><span class="op">)</span> <span class="op">-</span> <span class="fl">3L</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    </div>
 
+    <div class="section level2">
+    <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+
+
+<dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
+<dd><p>An object of class SeverityEstimateFit or
+<code>SummaryEstimateFit</code>.</p></dd>
+
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>For <code>summary.SeverityEstimateFit()</code>, unused. For
+<code>print.SeverityEstimateFit()</code>, further arguments passed to the <code>print</code>
+method for a <code>stanfit</code> object. For <code>print.SummaryEstimateFit()</code>, further
+arguments passed to <code><a href="https://rdrr.io/r/base/print.dataframe.html" class="external-link">print.data.frame()</a></code>.</p></dd>
+
+
+<dt id="arg-object">object<a class="anchor" aria-label="anchor" href="#arg-object"></a></dt>
+<dd><p>An object of class SeverityEstimateFit.</p></dd>
+
+
+<dt id="arg-digits">digits<a class="anchor" aria-label="anchor" href="#arg-digits"></a></dt>
+<dd><p>The number of significant digits to print.</p></dd>
+
+</dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>A function-dependent value:</p><ul><li><p><code>summary.SeverityEstimateFit()</code> returns a <code>SummaryEstimateFit</code> with
+elements <code>detection_rates</code> and <code>severity_estimates</code>.</p></li>
+<li><p><code>print.SeverityEstimateFit()</code> and <code>print.SummaryEstimateFit()</code> invisibly
+return their input object.</p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="slots">Slots<a class="anchor" aria-label="anchor" href="#slots"></a></h2>
 
@@ -90,8 +132,31 @@ dimension of <code>incidence</code>.</p></dd>
 
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="functions-and-methods">Functions and methods<a class="anchor" aria-label="anchor" href="#functions-and-methods"></a></h2>
 
-  </main></div>
+
+<ul><li><p><code>summary(object)</code> summarises a fitted severity estimate model by reporting
+mean detection rate estimates and mean IFR/SIR estimates by strata.</p></li>
+<li><p><code>print.SeverityEstimateFit(x)</code> prints a SeverityEstimateFit
+object in a structured format. Currently this prints the <code>model_fit</code> slot
+using the <code>print</code> method for a <code>stanfit</code> object.</p></li>
+<li><p><code>print.SummaryEstimateFit(x, digits)</code> prints a <code>SummaryEstimateFit</code> object
+in a structured format.</p></li>
+</ul></div>
+
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="default_model.html">default_model</a></span><span class="op">(</span><span class="va">line_list</span>, <span class="va">population</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fitted_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="fit.html">fit</a></span><span class="op">(</span><span class="va">model</span>, chains <span class="op">=</span> <span class="fl">1L</span>, iter <span class="op">=</span> <span class="fl">100L</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fitted_model</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

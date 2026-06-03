@@ -59,3 +59,11 @@ assert_bool(x, na.ok = FALSE, .var.name = checkmate::vname(x))
   \[`AssertCollection`\]  
   Collection to store assertion messages. See
   [`AssertCollection`](https://mllg.github.io/checkmate/reference/AssertCollection.html).
+
+## Value
+
+`check_probability()` returns `"TRUE"` on success or a checkmate error
+message string on failure.
+
+`assert_probability()` and `assert_bool()` return `x` invisibly on
+success and signal an error on failure.
