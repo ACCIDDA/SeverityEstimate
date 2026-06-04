@@ -17,3 +17,4 @@
 ^CONTRIBUTING\.md$
 ^jarl\.toml$
 ^\.claude($|/)
+^CRAN-SUBMISSION$
