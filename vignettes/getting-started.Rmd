@@ -29,7 +29,8 @@ still build a `SeverityEstimateModel` manually and configure it with the
 individual `set_*()` helpers.
 
 ```{r setup}
-options(mc.cores = 1L)
+old <- options(mc.cores = 1L)
+on.exit(options(old))
 library(SeverityEstimate)
 ```
 
