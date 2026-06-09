@@ -16,7 +16,8 @@ denominators as a simple first pass.
 
 ``` r
 
-options(mc.cores = 1L)
+old <- options(mc.cores = 1L)
+on.exit(options(old))
 library(SeverityEstimate)
 #> Loading required package: checkmate
 #> Loading required package: rstan
