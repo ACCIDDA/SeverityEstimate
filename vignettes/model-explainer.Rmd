@@ -26,7 +26,8 @@ This vignette is about the model itself rather than the workflow. It has two goa
 For a package walkthrough, see `vignette("getting-started")`.
 
 ```{r setup}
-options(mc.cores = 1L)
+old <- options(mc.cores = 1L)
+on.exit(options(old))
 library(SeverityEstimate)
 ```
 

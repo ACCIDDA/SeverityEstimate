@@ -28,7 +28,8 @@ Here we use the case-contact data as a transparent surveillance proxy and use
 national age-specific population denominators as a simple first pass.
 
 ```{r setup}
-options(mc.cores = 1L)
+old <- options(mc.cores = 1L)
+on.exit(options(old))
 library(SeverityEstimate)
 ```
 
