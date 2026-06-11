@@ -28,4 +28,4 @@ Authors:
 
 Other contributors:
 
-- ACCIDDA \[funder\]
+- CDC \[funder\]

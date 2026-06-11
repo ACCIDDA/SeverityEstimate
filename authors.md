@@ -6,7 +6,7 @@
 
 - **Justin Lessler**. Author, copyright holder.
 
-- **ACCIDDA**. Funder.
+- **CDC**. Funder.
 
 ## Citation
 
