@@ -94,3 +94,7 @@ This example intentionally uses small sampler settings to stay lightweight. For 
 ## Funding Acknowledgement
 
 This project was made possible by cooperative agreement CDC-RFA-FT-23-0069 from the CDC's Center for Forecasting and Outbreak Analytics. Its contents are solely the responsibility of the authors and do not necessarily represent the official views of the Centers for Disease Control and Prevention.
+
+J.L. was supported in part by the RAPIDD program of the Science & Technology Directorate, Department of Homeland Security, and the Fogarty International Center, National Institutes of Health. D.A.T.C. acknowledges funding from the US National Institute of General Medical Sciences (grant 5U54GM088491, Computational Models of Infectious Disease Threats). N.M.F. and S.C. acknowledge funding from the Medical Research Council, the National Institute of Health Research for Health Protection Research Unit programme, Labex IBEID, the European Union Seventh Framework Programme (FP7/2007–2013) under grant agreement number 278433-PREDEMICS, the NIGMS MIDAS initiative, the Bill and Melinda Gates Foundation, and the AXA Research Fund.
+
+The members of the MERS-CoV Scenario Modeling Working Group are Homud Algarni, Khalid AlHarbi, Hannah Clapham, Caitlin Collins, Anne Cori, Christl Donnelly, Christophe Fraser, Tini Garske, M. Kate Grabowski, Harriet Mills, Sean M. Moore, Pierre Nouvellet, Steven Riley, Shaun Truelove, and Abdulhafiz Turkistani.

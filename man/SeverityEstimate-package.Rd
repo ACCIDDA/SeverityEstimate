@@ -28,7 +28,7 @@ Authors:
 
 Other contributors:
 \itemize{
-  \item ACCIDDA [funder]
+  \item CDC [funder]
 }
 
 }
