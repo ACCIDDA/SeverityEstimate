@@ -12,7 +12,7 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
       - name: 'checkout repository'
-        uses: 'actions/checkout@v6.0.2'
+        uses: 'actions/checkout@v6.0.3'
       - name: 'setup R'
         uses: './.github/actions/setup-r'
       - name: 'check generated Stan artifacts'
@@ -22,7 +22,7 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
       - name: 'checkout repository'
-        uses: 'actions/checkout@v6.0.2'
+        uses: 'actions/checkout@v6.0.3'
       - name: 'setup R'
         uses: './.github/actions/setup-r'
         with:
@@ -40,7 +40,7 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
       - name: 'checkout repository'
-        uses: 'actions/checkout@v6.0.2'
+        uses: 'actions/checkout@v6.0.3'
       - name: 'setup R'
         uses: './.github/actions/setup-r'
         with:
@@ -58,7 +58,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'checkout repository'
-        uses: 'actions/checkout@v6.0.2'
+        uses: 'actions/checkout@v6.0.3'
       - name: 'setup R'
         uses: './.github/actions/setup-r'
         with:
@@ -71,7 +71,7 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
       - name: 'checkout repository'
-        uses: 'actions/checkout@v6.0.2'
+        uses: 'actions/checkout@v6.0.3'
       - name: 'setup R'
         uses: './.github/actions/setup-r'
         with:
@@ -85,7 +85,7 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
       - name: 'checkout repository'
-        uses: 'actions/checkout@v6.0.2'
+        uses: 'actions/checkout@v6.0.3'
         with:
           fetch-depth: 0
       - name: 'check news updated'
