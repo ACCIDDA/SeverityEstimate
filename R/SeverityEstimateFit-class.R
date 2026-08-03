@@ -9,12 +9,12 @@
 #'   mean detection rate estimates and mean IFR/SIR estimates by strata.
 #' - `print.SeverityEstimateFit(x)` prints a \linkS4class{SeverityEstimateFit}
 #'   object in a structured format. Currently this prints the `model_fit` slot
-#'   using the `print` method for a `stanfit` object.
+#'   using the fit object's `print` method.
 #' - `print.SummaryEstimateFit(x, digits)` prints a `SummaryEstimateFit` object
 #'   in a structured format.
 #'
-#' @slot model_fit A stanfit object returned from fitting a severity estimate
-#' model.
+#' @slot model_fit A backend-native fit object returned from fitting a severity
+#' estimate model.
 #' @slot population The population data used in model fitting in array form with
 #' dimensions corresponding to 'time_period' and 'strata'.
 #' @slot incidence The line list data used in model fitting in array form
@@ -68,7 +68,7 @@
 setClass(
   Class = "SeverityEstimateFit",
   slots = c(
-    "model_fit" = "stanfit",
+    "model_fit" = "ANY",
     "population" = "array",
     "incidence" = "array",
     "time_period" = "data.frame",
@@ -83,13 +83,14 @@ setClass(
 #' `SummaryEstimateFit`.
 #' @param ... For `summary.SeverityEstimateFit()`, unused. For
 #' `print.SeverityEstimateFit()`, further arguments passed to the `print`
-#' method for a `stanfit` object. For `print.SummaryEstimateFit()`, further
+#' method for the backend-native fit object. For
+#' `print.SummaryEstimateFit()`, further
 #' arguments passed to [print.data.frame()].
 #'
 #' @export
 #' @rdname SeverityEstimateFit
 print.SeverityEstimateFit <- function(x, ...) {
-  # For now just fallback to stan's print method
+  # Fall back to the backend-native print method.
   print(x@model_fit, ...)
 }
 

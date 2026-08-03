@@ -57,7 +57,6 @@ calculate_fatality_ratio <- function(x, ...) {
 
 
 #' @rdname calculate_fatality_ratio
-#' @importFrom rstan extract
 #' @export
 calculate_fatality_ratio.SeverityEstimateFit <- function(
   x,
@@ -68,7 +67,7 @@ calculate_fatality_ratio.SeverityEstimateFit <- function(
   ...
 ) {
   fatality_ratios <- calculate_fatality_ratio(
-    x = rstan::extract(x@model_fit, c("C", "mortality", "xi")),
+    x = backend_extract(x@model_fit, c("C", "mortality", "xi")),
     strata = x@strata,
     mean_estimate = mean_estimate,
     median_estimate = median_estimate,

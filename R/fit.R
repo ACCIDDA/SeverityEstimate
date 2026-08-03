@@ -2,8 +2,11 @@
 #' Fit a severity estimate model instance.
 #'
 #' @param model A \linkS4class{SeverityEstimateModel} to fit.
-#' @param ... Further optional args that are eventually given to
-#' [rstan::sampling()] related to fitting.
+#' @param stan_opts An optional list created by [stan_options()]. When `NULL`,
+#'   the arguments in `...` are passed to [stan_options()] for backward
+#'   compatibility.
+#' @param ... Sampler arguments passed to [stan_options()] when `stan_opts` is
+#'   `NULL`. Do not supply `...` together with `stan_opts`.
 #'
 #' @returns
 #' A \linkS4class{SeverityEstimateFit} S4 object.
@@ -35,7 +38,15 @@
 #' @importFrom methods new
 #' @importFrom utils tail
 #' @export
-fit <- function(model, ...) {
+fit <- function(model, stan_opts = NULL, ...) {
+  sampler_args <- list(...)
+  if (!is.null(stan_opts) && length(sampler_args) > 0L) {
+    stop(
+      "Supply sampler arguments through either `stan_opts` or `...`, not both.",
+      call. = FALSE
+    )
+  }
+
   # Validate required slots via pipeable require_* API
   ts <- model |>
     require_timesteps() |>
@@ -221,11 +232,17 @@ fit <- function(model, ...) {
     passive_symptomatic_beta = passive_sym[["beta"]]
   )
 
-  # Fit via precompiled Stan model
-  model_fit <- stan_model(
+  if (is.null(stan_opts)) {
+    stan_opts <- do.call(stan_options, sampler_args)
+  }
+
+  # Fit via the selected Stan backend
+  model_fit <- fit_model(
     "estimate_severity",
-    data = data,
-    ...
+    dat_stan = data,
+    init = NULL,
+    stan_opts = stan_opts,
+    package = "SeverityEstimate"
   )
 
   # Return SeverityEstimateFit

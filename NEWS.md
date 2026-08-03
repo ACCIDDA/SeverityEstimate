@@ -1,5 +1,9 @@
 # SeverityEstimate 0.1.0
 
+- Added a draft integration with `flexstanr`, allowing `fit()` to accept
+  backend-portable `stan_options()` and routing fitting and posterior extraction
+  through the selected Stan backend. [#147](https://github.com/ACCIDDA/SeverityEstimate/issues/147).
+
 - Added `SeverityEstimateModel` S4 class to represent a model and contain the metadata for building a model. This forms the foundation for the tidymodels-esque API, like so:
 ```R
 library(SeverityEstimate)

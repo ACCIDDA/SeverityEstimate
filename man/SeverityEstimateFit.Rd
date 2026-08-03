@@ -20,7 +20,8 @@
 
 \item{...}{For \code{summary.SeverityEstimateFit()}, unused. For
 \code{print.SeverityEstimateFit()}, further arguments passed to the \code{print}
-method for a \code{stanfit} object. For \code{print.SummaryEstimateFit()}, further
+method for the backend-native fit object. For
+\code{print.SummaryEstimateFit()}, further
 arguments passed to \code{\link[=print.data.frame]{print.data.frame()}}.}
 
 \item{object}{An object of class \linkS4class{SeverityEstimateFit}.}
@@ -42,8 +43,8 @@ This class contains the output from a severity estimate model fitting.
 \section{Slots}{
 
 \describe{
-\item{\code{model_fit}}{A stanfit object returned from fitting a severity estimate
-model.}
+\item{\code{model_fit}}{A backend-native fit object returned from fitting a severity
+estimate model.}
 
 \item{\code{population}}{The population data used in model fitting in array form with
 dimensions corresponding to 'time_period' and 'strata'.}
@@ -72,7 +73,7 @@ dimension of \code{incidence}.}
 mean detection rate estimates and mean IFR/SIR estimates by strata.
 \item \code{print.SeverityEstimateFit(x)} prints a \linkS4class{SeverityEstimateFit}
 object in a structured format. Currently this prints the \code{model_fit} slot
-using the \code{print} method for a \code{stanfit} object.
+using the fit object's \code{print} method.
 \item \code{print.SummaryEstimateFit(x, digits)} prints a \code{SummaryEstimateFit} object
 in a structured format.
 }

@@ -33,6 +33,19 @@ test_that("`fit()` errors when outcome not set", {
   )
 })
 
+test_that("`fit()` rejects sampler arguments alongside `stan_opts`", {
+  model <- MAKE_FIT_TEST_MODEL()
+  opts <- stan_options(chains = 1L, iter = 100L)
+
+  expect_error(
+    fit(model, stan_opts = opts, refresh = 0L),
+    regexp = paste0(
+      "Supply sampler arguments through either `stan_opts` or `...`, not both."
+    ),
+    fixed = TRUE
+  )
+})
+
 
 # Stan compilation --------------------------------------------------------
 
@@ -55,8 +68,9 @@ test_that("Generic severity Stan model compiles", {
 test_that("`fit()` returns a SeverityEstimateFit with correct structure (no strata)", {
   skip_on_cran()
   model <- MAKE_FIT_TEST_MODEL(strata_col = NULL)
+  opts <- do.call(stan_options, FIT_TEST_STAN_ARGS)
   result <- suppressWarnings(
-    do.call(fit, c(list(model = model), FIT_TEST_STAN_ARGS))
+    fit(model, stan_opts = opts)
   )
   expect_s4_class(result, "SeverityEstimateFit")
   expect_equal(
