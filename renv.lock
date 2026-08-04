@@ -603,6 +603,11 @@
       "Package": "flexstanr",
       "Version": "0.1.0.9000",
       "Source": "GitHub",
+      "Requirements": [
+        "methods",
+        "parallelly",
+        "tools"
+      ],
       "Title": "Portable Backend Layer for 'Stan' Models",
       "Authors@R": "c(person(\"Carl\", \"Pearson\", email = \"carl.ab.pearson@gmail.com\", role = c(\"aut\", \"cre\"), comment = c(ORCID = \"0000-0003-0701-7860\")), person(\"Weston\", \"Voglesonger\", email = \"westonvogle@gmail.com\", role = \"aut\"))",
       "Description": "Gives a 'Stan'-based R package one interface for fitting its models through either 'rstan' or 'cmdstanr', neither of which is required to install this package (install whichever you use). Collects and validates sampler options, guarding against mixing one backend's argument vocabulary into the other, dispatches the fit to the chosen backend, and exposes backend-agnostic accessors for reading posterior draws, extracting parameters, and running generated quantities. The host package supplies its own compiled models; flexstanr resolves them from the calling package at run time, so the same code works whichever backend is installed.",

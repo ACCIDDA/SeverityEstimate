@@ -39,6 +39,7 @@ runs:
       if: ${{ inputs.setup-r == 'true' }}
       uses: 'r-lib/actions/setup-renv@v2'
       env:
+        GITHUB_PAT: '${{ github.token }}'
         RENV_CONFIG_PAK_ENABLED: 'false'
     - name: 'install development dependencies'
       if: ${{ inputs.setup-r == 'true' && inputs.install-dev-dependencies == 'true' }}
