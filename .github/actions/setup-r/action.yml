@@ -38,6 +38,8 @@ runs:
     - name: 'setup renv'
       if: ${{ inputs.setup-r == 'true' }}
       uses: 'r-lib/actions/setup-renv@v2'
+      env:
+        RENV_CONFIG_PAK_ENABLED: 'false'
     - name: 'install development dependencies'
       if: ${{ inputs.setup-r == 'true' && inputs.install-dev-dependencies == 'true' }}
       run: 'just renv-install'
