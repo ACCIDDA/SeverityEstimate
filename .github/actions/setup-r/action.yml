@@ -35,23 +35,9 @@ runs:
       with:
         r-version: '${{ inputs.r-version }}'
         use-public-rspm: true
-    - name: 'install FlexStanR runtime dependencies'
-      if: ${{ inputs.setup-r == 'true' }}
-      run: |
-        install.packages("parallelly")
-        install.packages(
-          "https://github.com/ACCIDDA/flexstanr/archive/98e1f4501efd26b7d998584de064fc07dfeb960b.tar.gz",
-          repos = NULL,
-          type = "source",
-          dependencies = FALSE
-        )
-      shell: 'Rscript {0}'
     - name: 'setup renv'
       if: ${{ inputs.setup-r == 'true' }}
       uses: 'r-lib/actions/setup-renv@v2'
-      env:
-        GITHUB_PAT: '${{ github.token }}'
-        RENV_CONFIG_PAK_ENABLED: 'false'
     - name: 'install development dependencies'
       if: ${{ inputs.setup-r == 'true' && inputs.install-dev-dependencies == 'true' }}
       run: 'just renv-install'
