@@ -47,6 +47,14 @@ fit <- function(model, stan_opts = NULL, ...) {
     )
   }
 
+  # Build the sampler options up front. stan_options() validates its arguments
+  # (rejecting an unknown backend, the other backend's vocabulary, and the
+  # reserved fitting inputs), so doing it here fails a bad `...` immediately
+  # rather than after the data assembly below.
+  if (is.null(stan_opts)) {
+    stan_opts <- do.call(stan_options, sampler_args)
+  }
+
   # Validate required slots via pipeable require_* API
   ts <- model |>
     require_timesteps() |>
@@ -231,10 +239,6 @@ fit <- function(model, stan_opts = NULL, ...) {
     passive_symptomatic_alpha = passive_sym[["alpha"]],
     passive_symptomatic_beta = passive_sym[["beta"]]
   )
-
-  if (is.null(stan_opts)) {
-    stan_opts <- do.call(stan_options, sampler_args)
-  }
 
   # Fit via the selected Stan backend
   model_fit <- fit_model(
