@@ -51,6 +51,7 @@ Config/roxygen2/version: 8.1.0
 URL: https://accidda.github.io/SeverityEstimate/, https://github.com/ACCIDDA/SeverityEstimate
 Biarch: true
 Imports: 
+    flexstanr (>= 0.1.0.9000),
     Rcpp (>= 0.12.0),
     RcppParallel (>= 5.0.1),
     rstantools (>= 2.6.0)
@@ -63,3 +64,5 @@ LinkingTo:
     StanHeaders (>= 2.18.0)
 SystemRequirements: GNU make
 BugReports: https://github.com/ACCIDDA/SeverityEstimate/issues
+Remotes:
+    ACCIDDA/flexstanr

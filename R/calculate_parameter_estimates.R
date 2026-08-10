@@ -50,7 +50,6 @@ calculate_parameter_estimates <- function(x, ...) {
 
 
 #' @rdname calculate_parameter_estimates
-#' @importFrom rstan extract
 #' @export
 calculate_parameter_estimates.SeverityEstimateFit <- function(
   x,
@@ -61,7 +60,7 @@ calculate_parameter_estimates.SeverityEstimateFit <- function(
   ...
 ) {
   calculate_parameter_estimates(
-    x = rstan::extract(x@model_fit),
+    x = backend_extract(x@model_fit, pars = NULL),
     mean_estimate = mean_estimate,
     median_estimate = median_estimate,
     alpha = alpha,

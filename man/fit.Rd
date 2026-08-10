@@ -4,13 +4,17 @@
 \alias{fit}
 \title{Fit a severity estimate model instance.}
 \usage{
-fit(model, ...)
+fit(model, stan_opts = NULL, ...)
 }
 \arguments{
 \item{model}{A \linkS4class{SeverityEstimateModel} to fit.}
 
-\item{...}{Further optional args that are eventually given to
-\code{\link[rstan:sampling]{rstan::sampling()}} related to fitting.}
+\item{stan_opts}{An optional list created by \code{\link[=stan_options]{stan_options()}}. When \code{NULL},
+the arguments in \code{...} are passed to \code{\link[=stan_options]{stan_options()}} for backward
+compatibility.}
+
+\item{...}{Sampler arguments passed to \code{\link[=stan_options]{stan_options()}} when \code{stan_opts} is
+\code{NULL}. Do not supply \code{...} together with \code{stan_opts}.}
 }
 \value{
 A \linkS4class{SeverityEstimateFit} S4 object.

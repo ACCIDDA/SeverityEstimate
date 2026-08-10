@@ -51,7 +51,6 @@ calculate_hazard <- function(x, ...) {
 
 
 #' @rdname calculate_hazard
-#' @importFrom rstan extract
 #' @export
 calculate_hazard.SeverityEstimateFit <- function(
   x,
@@ -61,7 +60,7 @@ calculate_hazard.SeverityEstimateFit <- function(
   ...
 ) {
   hazard <- calculate_hazard(
-    x = rstan::extract(x@model_fit, "logit_hzd"),
+    x = backend_extract(x@model_fit, "logit_hzd"),
     time_period = x@time_period,
     strata = x@strata,
     population = x@population,

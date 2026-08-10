@@ -48,6 +48,7 @@ export(set_passive_asymptomatic_prior)
 export(set_passive_symptomatic_prior)
 export(set_strata)
 export(set_timesteps)
+export(stan_options)
 export(strata)
 export(timesteps)
 exportClasses(SeverityEstimateFit)
@@ -97,6 +98,14 @@ importFrom(checkmate,
   test_integerish,
   vname
 )
+importFrom(flexstanr,
+  backend_draws_array,
+  backend_extract,
+  backend_generate_quantities,
+  backend_has_draws,
+  fit_model,
+  stan_options
+)
 importFrom(methods,
   "slot<-",
   new,
@@ -107,10 +116,7 @@ importFrom(methods,
   slot,
   slotNames
 )
-importFrom(rstan,
-  extract,
-  sampling
-)
+importFrom(rstan,sampling)
 importFrom(rstantools,rstan_config)
 importFrom(stats,
   as.formula,
