@@ -26,7 +26,7 @@ At minimum:
 Useful for local development:
 
 - `just` to run the common project tasks in `justfile`.
-- `renv` to install project dependencies.
+- `pak` to install project dependencies (`just deps`).
 - `air` and `jarl` if you want to run the same formatting and lint
   checks as CI.
 

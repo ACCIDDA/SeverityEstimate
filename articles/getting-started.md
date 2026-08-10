@@ -103,19 +103,19 @@ or `Passive`), and outcome (`Asymptomatic`, `Symptomatic`, or `Death`).
 ``` r
 
 summary(linelist)
-#>    patient               time                age             detection        
-#>  Length:1502        Min.   :2024-01-01   Length:1502        Length:1502       
-#>  Class :character   1st Qu.:2024-01-22   Class :character   Class :character  
-#>  Mode  :character   Median :2024-02-12   Mode  :character   Mode  :character  
-#>                     Mean   :2024-02-12                                        
-#>                     3rd Qu.:2024-03-04                                        
-#>                     Max.   :2024-03-25                                        
-#>    outcome         
-#>  Length:1502       
-#>  Class :character  
-#>  Mode  :character  
-#>                    
-#>                    
+#>       patient          time                   age           detection   
+#>  Length   :1502   Min.   :2024-01-01   Length   :1502   Length   :1502  
+#>  N.unique :1502   1st Qu.:2024-01-22   N.unique :   3   N.unique :   2  
+#>  N.blank  :   0   Median :2024-02-12   N.blank  :   0   N.blank  :   0  
+#>  Min.nchar:   4   Mean   :2024-02-12   Min.nchar:   5   Min.nchar:   6  
+#>  Max.nchar:   7   3rd Qu.:2024-03-04   Max.nchar:   6   Max.nchar:   7  
+#>                   Max.   :2024-03-25                                    
+#>       outcome    
+#>  Length   :1502  
+#>  N.unique :   3  
+#>  N.blank  :   0  
+#>  Min.nchar:   5  
+#>  Max.nchar:  12  
 #> 
 ```
 
