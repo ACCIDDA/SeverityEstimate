@@ -2,9 +2,16 @@ name: 'ci'
 
 'on':
   workflow_dispatch:
+  push:
+    branches:
+      - 'main'
   pull_request:
     branches:
       - 'main'
+
+env:
+  GITHUB_PAT: '${{ secrets.GITHUB_TOKEN }}'
+  R_KEEP_PKG_SOURCE: 'yes'
 
 jobs:
   stan:
@@ -25,8 +32,6 @@ jobs:
         uses: 'actions/checkout@v6.0.2'
       - name: 'setup R'
         uses: './.github/actions/setup-r'
-        with:
-          install-dev-dependencies: 'true'
       - name: 'build roxygen documentation'
         run: 'just docs'
       - name: 'check for non-committed documentation'
@@ -62,7 +67,6 @@ jobs:
       - name: 'setup R'
         uses: './.github/actions/setup-r'
         with:
-          install-dev-dependencies: 'true'
           install-package: 'true'
       - name: 'run tests'
         run: 'just test-fast'
@@ -75,7 +79,6 @@ jobs:
       - name: 'setup R'
         uses: './.github/actions/setup-r'
         with:
-          install-dev-dependencies: 'true'
           install-pandoc: 'true'
       - name: 'run check'
         run: 'just check'
