@@ -74,51 +74,59 @@ exportMethods(timesteps)
 import(Rcpp)
 import(methods)
 importFrom(RcppParallel,RcppParallelLibs)
-importFrom(checkmate,assert)
-importFrom(checkmate,assert_atomic)
-importFrom(checkmate,assert_character)
-importFrom(checkmate,assert_choice)
-importFrom(checkmate,assert_class)
-importFrom(checkmate,assert_data_frame)
-importFrom(checkmate,assert_integerish)
-importFrom(checkmate,assert_list)
-importFrom(checkmate,assert_number)
-importFrom(checkmate,assert_numeric)
-importFrom(checkmate,assert_string)
-importFrom(checkmate,assert_subset)
-importFrom(checkmate,check_date)
-importFrom(checkmate,check_false)
-importFrom(checkmate,check_matrix)
-importFrom(checkmate,check_null)
-importFrom(checkmate,check_number)
-importFrom(checkmate,check_true)
-importFrom(checkmate,check_vector)
-importFrom(checkmate,makeAssertionFunction)
-importFrom(checkmate,test_integerish)
-importFrom(checkmate,vname)
-importFrom(flexstanr,backend_draws_array)
-importFrom(flexstanr,backend_extract)
-importFrom(flexstanr,backend_generate_quantities)
-importFrom(flexstanr,backend_has_draws)
-importFrom(flexstanr,fit_model)
-importFrom(flexstanr,stan_options)
-importFrom(methods,"slot<-")
-importFrom(methods,new)
-importFrom(methods,setClass)
-importFrom(methods,setGeneric)
-importFrom(methods,setMethod)
-importFrom(methods,signature)
-importFrom(methods,slot)
-importFrom(methods,slotNames)
+importFrom(checkmate,
+  assert,
+  assert_atomic,
+  assert_character,
+  assert_choice,
+  assert_class,
+  assert_data_frame,
+  assert_integerish,
+  assert_list,
+  assert_number,
+  assert_numeric,
+  assert_string,
+  assert_subset,
+  check_date,
+  check_false,
+  check_matrix,
+  check_null,
+  check_number,
+  check_true,
+  check_vector,
+  makeAssertionFunction,
+  test_integerish,
+  vname
+)
+importFrom(flexstanr,
+  backend_draws_array,
+  backend_extract,
+  backend_generate_quantities,
+  backend_has_draws,
+  fit_model,
+  stan_options
+)
+importFrom(methods,
+  "slot<-",
+  new,
+  setClass,
+  setGeneric,
+  setMethod,
+  signature,
+  slot,
+  slotNames
+)
 importFrom(rstan,sampling)
 importFrom(rstantools,rstan_config)
-importFrom(stats,as.formula)
-importFrom(stats,contr.sum)
-importFrom(stats,poly)
-importFrom(stats,quantile)
-importFrom(stats,rmultinom)
-importFrom(stats,rnorm)
-importFrom(stats,rpois)
-importFrom(stats,xtabs)
+importFrom(stats,
+  as.formula,
+  contr.sum,
+  poly,
+  quantile,
+  rmultinom,
+  rnorm,
+  rpois,
+  xtabs
+)
 importFrom(utils,tail)
 useDynLib(SeverityEstimate, .registration = TRUE)

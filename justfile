@@ -111,34 +111,16 @@ build:
 check: build
 	R CMD check {{ TARBALL }} --no-manual --no-tests
 
-[group('renv')]
-[doc('Install package dependencies using renv')]
-renv-install:
+[group('deps')]
+[doc('Install package dependencies, including Suggests, using pak')]
+deps:
 	#!/usr/bin/env Rscript
-	library(renv)
-	renv::install(dependencies='most')
-
-[group('renv')]
-[doc('Install and update dependencies using renv')]
-renv-update:
-	#!/usr/bin/env Rscript
-	library(renv)
-	renv::install(dependencies='most')
-	renv::update()
-
-[group('renv')]
-[doc('Install, update, snapshot, and refresh renv activation metadata')]
-renv-snapshot:
-	#!/usr/bin/env Rscript
-	library(renv)
-	renv::install(dependencies='most')
-	renv::update()
-	renv::snapshot()
-	renv::activate()
+	if (!requireNamespace("pak", quietly = TRUE)) install.packages("pak")
+	pak::local_install_deps(dependencies = TRUE)
 
 [group('install')]
 [doc('Install development version of SeverityEstimate')]
-install: renv-install
+install: deps
 	R CMD INSTALL .
 
 [group('install')]

@@ -47,7 +47,7 @@ Suggests:
     withr
 Config/testthat/edition: 3
 VignetteBuilder: knitr
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0
 URL: https://accidda.github.io/SeverityEstimate/, https://github.com/ACCIDDA/SeverityEstimate
 Biarch: true
 Imports: 

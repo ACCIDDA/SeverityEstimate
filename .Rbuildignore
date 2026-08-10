@@ -1,5 +1,3 @@
-^renv$
-^renv\.lock$
 ^SeverityEstimate\.Rproj$
 ^\.Rproj\.user$
 ^\.github

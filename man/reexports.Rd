@@ -11,6 +11,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{flexstanr}{\code{\link[flexstanr]{stan_options}}}
+  \item{flexstanr}{\code{\link[flexstanr:stan_options]{stan_options()}}}
 }}
 

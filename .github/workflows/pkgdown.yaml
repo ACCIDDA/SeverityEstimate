@@ -32,7 +32,6 @@ jobs:
       - name: 'setup R'
         uses: './.github/actions/setup-r'
         with:
-          install-dev-dependencies: 'true'
           install-pandoc: 'true'
           install-package: 'true'
       - name: 'build pkgdown site'
