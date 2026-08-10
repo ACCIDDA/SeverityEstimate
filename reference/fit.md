@@ -5,7 +5,7 @@ Fit a severity estimate model instance.
 ## Usage
 
 ``` r
-fit(model, ...)
+fit(model, stan_opts = NULL, ...)
 ```
 
 ## Arguments
@@ -16,11 +16,16 @@ fit(model, ...)
   [SeverityEstimateModel](https://accidda.github.io/SeverityEstimate/reference/SeverityEstimateModel.md)
   to fit.
 
+- stan_opts:
+
+  An optional list created by `stan_options()`. When `NULL`, the
+  arguments in `...` are passed to `stan_options()` for backward
+  compatibility.
+
 - ...:
 
-  Further optional args that are eventually given to
-  [`rstan::sampling()`](https://mc-stan.org/rstan/reference/stanmodel-method-sampling.html)
-  related to fitting.
+  Sampler arguments passed to `stan_options()` when `stan_opts` is
+  `NULL`. Do not supply `...` together with `stan_opts`.
 
 ## Value
 

@@ -25,8 +25,8 @@ print(x, digits = max(3L, getOption("digits") - 3L), ...)
 
   For `summary.SeverityEstimateFit()`, unused. For
   `print.SeverityEstimateFit()`, further arguments passed to the `print`
-  method for a `stanfit` object. For `print.SummaryEstimateFit()`,
-  further arguments passed to
+  method for the backend-native fit object. For
+  `print.SummaryEstimateFit()`, further arguments passed to
   [`print.data.frame()`](https://rdrr.io/r/base/print.dataframe.html).
 
 - object:
@@ -51,7 +51,8 @@ A function-dependent value:
 
 - `model_fit`:
 
-  A stanfit object returned from fitting a severity estimate model.
+  A backend-native fit object returned from fitting a severity estimate
+  model.
 
 - `population`:
 
@@ -92,7 +93,7 @@ A function-dependent value:
 
 - `print.SeverityEstimateFit(x)` prints a SeverityEstimateFit object in
   a structured format. Currently this prints the `model_fit` slot using
-  the `print` method for a `stanfit` object.
+  the fit object's `print` method.
 
 - `print.SummaryEstimateFit(x, digits)` prints a `SummaryEstimateFit`
   object in a structured format.

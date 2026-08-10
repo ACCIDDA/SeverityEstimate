@@ -73,7 +73,8 @@
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>For <code>summary.SeverityEstimateFit()</code>, unused. For
 <code>print.SeverityEstimateFit()</code>, further arguments passed to the <code>print</code>
-method for a <code>stanfit</code> object. For <code>print.SummaryEstimateFit()</code>, further
+method for the backend-native fit object. For
+<code>print.SummaryEstimateFit()</code>, further
 arguments passed to <code><a href="https://rdrr.io/r/base/print.dataframe.html" class="external-link">print.data.frame()</a></code>.</p></dd>
 
 
@@ -97,8 +98,8 @@ return their input object.</p></li>
 
 
 <dl><dt><code>model_fit</code></dt>
-<dd><p>A stanfit object returned from fitting a severity estimate
-model.</p></dd>
+<dd><p>A backend-native fit object returned from fitting a severity
+estimate model.</p></dd>
 
 
 <dt><code>population</code></dt>
@@ -141,7 +142,7 @@ dimension of <code>incidence</code>.</p></dd>
 mean detection rate estimates and mean IFR/SIR estimates by strata.</p></li>
 <li><p><code>print.SeverityEstimateFit(x)</code> prints a SeverityEstimateFit
 object in a structured format. Currently this prints the <code>model_fit</code> slot
-using the <code>print</code> method for a <code>stanfit</code> object.</p></li>
+using the fit object's <code>print</code> method.</p></li>
 <li><p><code>print.SummaryEstimateFit(x, digits)</code> prints a <code>SummaryEstimateFit</code> object
 in a structured format.</p></li>
 </ul></div>

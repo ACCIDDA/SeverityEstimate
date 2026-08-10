@@ -46,7 +46,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="severityestimate-010">SeverityEstimate 0.1.0<a class="anchor" aria-label="anchor" href="#severityestimate-010"></a></h2>
-<ul><li>Added <code>SeverityEstimateModel</code> S4 class to represent a model and contain the metadata for building a model. This forms the foundation for the tidymodels-esque API, like so:</li>
+<ul><li><p>Added a draft integration with <code>flexstanr</code>, allowing <code><a href="../reference/fit.html">fit()</a></code> to accept backend-portable <code>stan_options()</code> and routing fitting and posterior extraction through the selected Stan backend. <a href="https://github.com/ACCIDDA/SeverityEstimate/issues/147" class="external-link">#147</a>.</p></li>
+<li><p>Added <code>SeverityEstimateModel</code> S4 class to represent a model and contain the metadata for building a model. This forms the foundation for the tidymodels-esque API, like so:</p></li>
 </ul><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://accidda.github.io/SeverityEstimate/">SeverityEstimate</a></span><span class="op">)</span></span>
 <span><span class="va">line_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
