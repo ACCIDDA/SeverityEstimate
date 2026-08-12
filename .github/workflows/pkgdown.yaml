@@ -28,7 +28,7 @@ jobs:
       contents: 'write'
     steps:
       - name: 'checkout repository'
-        uses: 'actions/checkout@v6.0.2'
+        uses: 'actions/checkout@v7.0.1'
       - name: 'setup R'
         uses: './.github/actions/setup-r'
         with:
